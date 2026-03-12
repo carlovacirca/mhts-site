@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin } from "lucide-react";
+import { Phone, MapPin } from "lucide-react";
 
 const HomeHeader = () => (
   <div className="bg-foreground text-background text-sm py-3 px-4">
