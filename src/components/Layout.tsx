@@ -9,13 +9,14 @@ const Layout = () => {
   const isHome = location.pathname === "/";
   const isGB = location.pathname.startsWith("/georges-barbers");
   const isMHTS = location.pathname.startsWith("/mens-hair-to-stay");
+  const isContact = location.pathname === "/contact";
 
   return (
     <div className="min-h-screen flex flex-col">
       {isHome && <HomeHeader />}
       {isGB && <BrandHeader brand="gb" />}
       {isMHTS && <BrandHeader brand="mhts" />}
-      {!isHome && !isGB && !isMHTS && <BrandHeader brand="gb" />}
+      {isContact && <HomeHeader />}
       <main className="flex-1">
         <Outlet />
       </main>
