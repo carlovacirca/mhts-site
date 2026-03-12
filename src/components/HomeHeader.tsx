@@ -7,7 +7,7 @@ const HomeHeader = () => (
         <a href="tel:01494432131" className="flex items-center gap-1.5 hover:text-gb-gold transition-colors">
           <Phone className="w-3.5 h-3.5" /> <span className="font-semibold">Georges:</span> 01494 432131
         </a>
-        <a href="tel:07947878087" className="flex items-center gap-1.5 hover:text-mhts-light transition-colors">
+        <a href="tel:07947878087" className="flex items-center gap-1.5 hover:text-gb-gold transition-colors">
           <Phone className="w-3.5 h-3.5" /> <span className="font-semibold">MHTS:</span> 07947 878087
         </a>
       </div>
