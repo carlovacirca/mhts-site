@@ -50,7 +50,7 @@ const HomePage = () => (
               <div className="relative p-6 w-full">
                 <h2 className="text-2xl font-light tracking-wide text-mhts-white mb-1">Men's Hair To Stay</h2>
                 <p className="text-background/80 text-sm mb-3">Hair Replacement & SMP</p>
-                <span className="inline-flex items-center gap-1 text-mhts-white text-sm group-hover:gap-2 transition-all">
+                <span className="inline-flex items-center gap-1 text-gb-gold text-sm group-hover:gap-2 transition-all">
                   Explore <ArrowRight className="w-4 h-4" />
                 </span>
               </div>
