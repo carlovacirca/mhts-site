@@ -50,7 +50,7 @@ const HomePage = () => (
               <div className="relative p-6 w-full">
                 <h2 className="text-2xl font-light tracking-wide text-mhts-white mb-1">Men's Hair To Stay</h2>
                 <p className="text-background/80 text-sm mb-3">Hair Replacement & SMP</p>
-                <span className="inline-flex items-center gap-1 text-mhts-white text-sm group-hover:gap-2 transition-all">
+                <span className="inline-flex items-center gap-1 text-gb-gold text-sm group-hover:gap-2 transition-all">
                   Explore <ArrowRight className="w-4 h-4" />
                 </span>
               </div>
@@ -91,7 +91,7 @@ const HomePage = () => (
       <div className="container mx-auto px-4 text-center">
         <h2 className="text-2xl font-bold mb-2">Find Us in Amersham</h2>
         <p className="text-muted-foreground mb-8">11 Chesham Road, Amersham HP6 5HN</p>
-        <Link to="/contact" className="inline-flex items-center gap-2 bg-foreground text-background px-6 py-3 rounded-lg hover:opacity-90 transition-opacity">
+        <Link to="/contact" className="inline-flex items-center gap-2 bg-foreground text-background px-6 py-3 rounded-lg hover:bg-gb-gold hover:text-foreground transition-colors">
           Get Directions <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
