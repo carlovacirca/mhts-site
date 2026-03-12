@@ -58,7 +58,8 @@ const Footer = () => (
           <h3 className="text-xl font-semibold mb-4">Visit Us</h3>
           <div className="space-y-2 text-sm opacity-80">
             <p className="flex items-center gap-2"><MapPin className="w-4 h-4 shrink-0" /> 11 Chesham Road, Amersham HP6 5HN</p>
-            <p className="flex items-center gap-2"><Phone className="w-4 h-4 shrink-0" /> 01234 567 890</p>
+            <p className="flex items-center gap-2"><Phone className="w-4 h-4 shrink-0" /> Georges: 01494 432131</p>
+            <p className="flex items-center gap-2"><Phone className="w-4 h-4 shrink-0" /> MHTS: 07947 878087</p>
             <p className="flex items-center gap-2"><Mail className="w-4 h-4 shrink-0" /> info@georgesbarbers.co.uk</p>
           </div>
           <div className="mt-4 flex gap-4">
