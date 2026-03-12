@@ -64,8 +64,8 @@ const Footer = () => (
           </div>
           <div className="mt-4 flex gap-4">
             <Link to="/georges-barbers" className="text-xs uppercase tracking-wider hover:text-gb-gold transition-colors">Georges</Link>
-            <Link to="/mens-hair-to-stay" className="text-xs uppercase tracking-wider hover:text-mhts-light transition-colors">MHTS</Link>
-            <Link to="/contact" className="text-xs uppercase tracking-wider hover:opacity-70 transition-colors">Contact</Link>
+            <Link to="/mens-hair-to-stay" className="text-xs uppercase tracking-wider hover:text-gb-gold transition-colors">MHTS</Link>
+            <Link to="/contact" className="text-xs uppercase tracking-wider hover:text-gb-gold transition-colors">Contact</Link>
           </div>
         </div>
       </div>
