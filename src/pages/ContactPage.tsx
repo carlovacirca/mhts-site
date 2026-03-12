@@ -18,7 +18,10 @@ const ContactPage = () => (
           <div className="bg-card rounded-lg p-6 text-center border border-border">
             <Phone className="w-6 h-6 mx-auto mb-3 text-gb-green" />
             <h3 className="font-semibold mb-1">Phone</h3>
-            <a href="tel:01234567890" className="text-muted-foreground text-sm hover:text-foreground transition-colors">01234 567 890</a>
+            <div className="space-y-1">
+              <a href="tel:01494432131" className="text-muted-foreground text-sm hover:text-foreground transition-colors block">Georges: 01494 432131</a>
+              <a href="tel:07947878087" className="text-muted-foreground text-sm hover:text-foreground transition-colors block">MHTS: 07947 878087</a>
+            </div>
           </div>
           <div className="bg-card rounded-lg p-6 text-center border border-border">
             <Mail className="w-6 h-6 mx-auto mb-3 text-gb-green" />
