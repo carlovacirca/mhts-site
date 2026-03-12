@@ -1,25 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone, Mail, Home } from "lucide-react";
 import gbLogo from "@/assets/gb-logo.png";
 import mhtsLogo from "@/assets/mhts-logo.png";
 
 const gbLinks = [
-  { to: "/georges-barbers", label: "About" },
-  { to: "/georges-barbers/services", label: "Services" },
-  { to: "/georges-barbers/pricing", label: "Pricing" },
-  { to: "/georges-barbers/gallery", label: "Gallery" },
-  { to: "/georges-barbers/book", label: "Book" },
-  { to: "/contact", label: "Contact" },
+  { to: "#gb-services", label: "Services" },
+  { to: "#gb-gallery", label: "Gallery" },
+  { to: "#gb-book", label: "Book" },
+  { to: "#gb-contact", label: "Contact" },
 ];
 
 const mhtsLinks = [
-  { to: "/mens-hair-to-stay", label: "About" },
-  { to: "/mens-hair-to-stay/services", label: "Services" },
-  { to: "/mens-hair-to-stay/pricing", label: "Pricing" },
-  { to: "/mens-hair-to-stay/gallery", label: "Gallery" },
-  { to: "/mens-hair-to-stay/book", label: "Book" },
-  { to: "/contact", label: "Contact" },
+  { to: "#mhts-services", label: "Services" },
+  { to: "#mhts-how-it-works", label: "How It Works" },
+  { to: "#mhts-gallery", label: "Gallery" },
+  { to: "#mhts-book", label: "Book" },
+  { to: "#mhts-contact", label: "Contact" },
 ];
 
 interface BrandHeaderProps {
@@ -28,6 +25,7 @@ interface BrandHeaderProps {
 
 const BrandHeader = ({ brand }: BrandHeaderProps) => {
   const [open, setOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
   const location = useLocation();
   const isGB = brand === "gb";
   const links = isGB ? gbLinks : mhtsLinks;
@@ -41,6 +39,36 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
     ? "text-muted-foreground hover:text-gb-green"
     : "text-muted-foreground hover:text-mhts-charcoal";
   const brandColor = isGB ? "text-gb-green" : "text-mhts-charcoal";
+
+  // Track active section via IntersectionObserver
+  useEffect(() => {
+    const ids = links.map((l) => l.to.replace("#", ""));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActiveSection("#" + entry.target.id);
+          }
+        }
+      },
+      { rootMargin: "-20% 0px -60% 0px" }
+    );
+
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [links]);
+
+  const handleAnchorClick = (hash: string) => {
+    setOpen(false);
+    const el = document.querySelector(hash);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
     <>
@@ -66,26 +94,29 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
               <Link to="/" className="p-2 rounded-md hover:bg-muted transition-colors" aria-label="Back to home">
                 <Home className="w-5 h-5 text-muted-foreground" />
               </Link>
-              <Link to={links[0].to} className="flex items-center gap-2">
+              <button
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                className="flex items-center gap-2"
+              >
                 <img src={logo} alt={brandName} className="h-10 w-10 object-contain" />
                 <span className={`font-semibold ${brandColor} ${isGB ? "font-display" : "font-light tracking-wide"}`}>
                   {brandName}
                 </span>
-              </Link>
+              </button>
             </div>
 
             {/* Desktop nav */}
             <nav className="hidden md:flex items-center gap-1">
               {links.map((l) => (
-                <Link
+                <button
                   key={l.to}
-                  to={l.to}
+                  onClick={() => handleAnchorClick(l.to)}
                   className={`px-3 py-1.5 text-sm transition-colors rounded-md ${
-                    location.pathname === l.to ? activeClass : hoverClass
+                    activeSection === l.to ? activeClass : hoverClass
                   }`}
                 >
                   {l.label}
-                </Link>
+                </button>
               ))}
             </nav>
 
@@ -106,12 +137,11 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
             <div className="container mx-auto px-4 py-4">
               <div className="grid grid-cols-3 gap-1">
                 {links.map((l) => (
-                  <Link
+                  <button
                     key={l.to}
-                    to={l.to}
-                    onClick={() => setOpen(false)}
+                    onClick={() => handleAnchorClick(l.to)}
                     className={`px-3 py-2 text-sm rounded-md text-center transition-colors ${
-                      location.pathname === l.to
+                      activeSection === l.to
                         ? activeClass
                         : isGB
                         ? "text-muted-foreground hover:bg-gb-cream"
@@ -119,7 +149,7 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
                     }`}
                   >
                     {l.label}
-                  </Link>
+                  </button>
                 ))}
               </div>
             </div>
