@@ -153,7 +153,6 @@ const MHTSLanding = () => (
               )}
               <h3 className="text-lg text-mhts-charcoal mb-2 tracking-wide">{s.name}</h3>
               <p className="text-muted-foreground text-sm font-body mb-4 leading-relaxed">{s.desc}</p>
-              <span className="text-mhts-charcoal font-semibold text-xl font-body">{s.price}</span>
             </motion.div>
           ))}
         </div>
