@@ -9,7 +9,7 @@ const services = [
     icon: Scissors,
     name: "Gents Haircut",
     desc: "Classic cuts, fades, scissor work — tailored to your style.",
-    price: "£15",
+    price: "£20",
   },
   {
     icon: Scissors,
