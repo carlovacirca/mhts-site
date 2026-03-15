@@ -12,7 +12,6 @@ const services = [
   {
     name: "Scalp Micropigmentation (SMP)",
     desc: "Advanced pigmentation technique that replicates natural hair follicles for a fuller, natural look. Multiple sessions for best results.",
-    tag: null,
   },
   {
     name: "Hair System Maintenance",
