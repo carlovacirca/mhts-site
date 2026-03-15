@@ -8,25 +8,16 @@ const services = [
   {
     name: "Non-Surgical Hair System",
     desc: "Custom-fitted hair systems matched perfectly to your hair colour, texture and style. Undetectable, natural-looking results.",
-    price: "From £350",
     tag: "Most Popular",
   },
   {
     name: "Scalp Micropigmentation (SMP)",
     desc: "Advanced pigmentation technique that replicates natural hair follicles for a fuller, natural look. Multiple sessions for best results.",
-    price: "From £250/session",
-    tag: null,
-  },
-  {
-    name: "Hair Thickening Treatment",
-    desc: "Professional hair thickening and volumising treatments for thinning hair. Non-invasive with immediate results.",
-    price: "From £120",
     tag: null,
   },
   {
     name: "Hair System Maintenance",
     desc: "Regular maintenance appointments to keep your hair system looking fresh, natural and long-lasting.",
-    price: "From £80",
     tag: "Ongoing",
   },
 ];
