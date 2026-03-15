@@ -39,13 +39,13 @@ const services = [
     icon: Scissors,
     name: "Hair & Beard Combo",
     desc: "Full grooming session — haircut plus beard trim.",
-    price: "£20",
+    price: "£25",
   },
   {
     icon: Scissors,
     name: "Skin Fade",
     desc: "Sharp, clean skin fades with precision.",
-    price: "£18",
+    price: "£22",
   },
   {
     icon: CircleDot,

@@ -1,13 +1,13 @@
 import SectionHeading from "@/components/SectionHeading";
 
 const prices = [
-  { service: "Gents Haircut", price: "£15" },
+  { service: "Gents Haircut", price: "£20" },
   { service: "Kids Haircut (under 12)", price: "£12" },
   { service: "OAP Haircut", price: "£12" },
   { service: "Hot Towel Shave", price: "£18" },
   { service: "Beard Trim", price: "£8" },
-  { service: "Hair & Beard Combo", price: "£20" },
-  { service: "Skin Fade", price: "£18" },
+  { service: "Hair & Beard Combo", price: "£25" },
+  { service: "Skin Fade", price: "£22" },
   { service: "Body Piercing", price: "From £25" },
 ];
 

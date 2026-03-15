@@ -39,7 +39,7 @@ const Footer = () => (
             <img src={mhtsLogo} alt="Men's Hair To Stay" className="h-10 w-10 brightness-200" />
             <h3 className="text-xl font-light tracking-wide">Men's Hair To Stay</h3>
           </div>
-          <p className="text-sm opacity-70 mb-4">Premium hair replacement, SMP & hair systems in Amersham.</p>
+          <p className="text-sm opacity-70 mb-4">Premium hair replacement & SMP in Amersham.</p>
           <div className="flex gap-3">
             <a href="https://www.instagram.com/menshairtostay?igsh=d2dmaXJzb210OWZ0" target="_blank" rel="noopener noreferrer" className="hover:text-mhts-light transition-colors" aria-label="MHTS Instagram">
               <Instagram className="w-5 h-5" />

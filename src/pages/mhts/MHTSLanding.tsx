@@ -157,7 +157,7 @@ const MHTSLanding = () => (
           ))}
         </div>
         <p className="text-center text-muted-foreground text-sm mt-10 font-body">
-          All treatments begin with a free consultation. Prices may vary based on individual needs.
+          All treatments begin with a free consultation. Contact us to discuss your needs.
         </p>
       </div>
     </section>
