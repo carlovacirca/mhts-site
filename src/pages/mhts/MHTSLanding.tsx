@@ -141,10 +141,10 @@ const MHTSLanding = () => (
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="bg-card rounded-sm p-7 border border-border hover:border-mhts-slate/30 transition-colors relative"
+              className="bg-card rounded-sm p-7 border border-border hover:border-mhts-slate/30 transition-colors relative flex flex-col h-full"
             >
               <h3 className="text-lg text-mhts-charcoal mb-2 tracking-wide">{s.name}</h3>
-              <p className="text-muted-foreground text-sm font-body mb-4 leading-relaxed">{s.desc}</p>
+              <p className="text-muted-foreground text-sm font-body leading-relaxed flex-1">{s.desc}</p>
             </motion.div>
           ))}
         </div>
