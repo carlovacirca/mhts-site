@@ -4,7 +4,7 @@ import SectionHeading from "@/components/SectionHeading";
 const services = [
   { name: "Scalp Micropigmentation (SMP)", desc: "Advanced pigmentation technique that replicates natural hair follicles for a fuller, natural look." },
   { name: "Non-Surgical Hair System", desc: "Custom-fitted hair systems matched perfectly to your hair colour, texture and style." },
-  { name: "Hair Thickening Treatment", desc: "Professional hair thickening and volumising treatments for thinning hair." },
+  { name: "Hair System Maintenance", desc: "Regular maintenance appointments to keep your hair system looking its best." },
   { name: "Hair System Maintenance", desc: "Regular maintenance appointments to keep your hair system looking its best." },
   { name: "Free Consultation", desc: "Confidential, no-obligation consultation to discuss the best solution for you." },
 ];

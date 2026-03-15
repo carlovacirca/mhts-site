@@ -27,7 +27,7 @@ const MHTSAbout = () => (
         <SectionHeading title="Confidence Restored" subtitle="Specialist solutions for hair loss" brand="mhts" />
         <div className="space-y-4 text-foreground/80">
           <p>
-            Men's Hair To Stay offers discreet, professional hair replacement solutions. Whether you're exploring scalp micropigmentation (SMP), non-surgical hair systems, or hair thickening treatments, our specialists deliver natural-looking results.
+            Men's Hair To Stay offers discreet, professional hair replacement solutions. Whether you're exploring scalp micropigmentation (SMP) or non-surgical hair systems, our specialists deliver natural-looking results.
           </p>
           <p>
             Every consultation is private and personalised. We understand the impact hair loss can have on confidence — and we're here to help.
