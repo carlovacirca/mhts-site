@@ -6,11 +6,11 @@ import mhtsHero from "@/assets/mhts-hero.jpg";
 
 const services = [
   {
-    name: "Non-Surgical Hair System",
+    name: "Hair Systems",
     desc: "Custom-fitted hair systems matched perfectly to your hair colour, texture and style. Undetectable, natural-looking results.",
   },
   {
-    name: "Scalp Micropigmentation (SMP)",
+    name: "Scalp Micropigmentation",
     desc: "Advanced pigmentation technique that replicates natural hair follicles for a fuller, natural look. Multiple sessions for best results.",
   },
   {
@@ -143,7 +143,7 @@ const MHTSLanding = () => (
               transition={{ delay: i * 0.1 }}
               className="bg-card rounded-sm p-7 border border-border hover:border-mhts-slate/30 transition-colors relative flex flex-col h-full"
             >
-              <h3 className="text-lg text-mhts-charcoal mb-2 tracking-wide">{s.name}</h3>
+              <h3 className="text-lg font-medium text-mhts-charcoal mb-3 tracking-wide whitespace-nowrap">{s.name}</h3>
               <p className="text-muted-foreground text-sm font-body leading-relaxed flex-1">{s.desc}</p>
             </motion.div>
           ))}
