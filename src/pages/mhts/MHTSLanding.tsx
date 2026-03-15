@@ -16,7 +16,6 @@ const services = [
   {
     name: "Hair System Maintenance",
     desc: "Regular maintenance appointments to keep your hair system looking fresh, natural and long-lasting.",
-    tag: "Ongoing",
   },
 ];
 
