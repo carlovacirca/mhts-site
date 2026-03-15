@@ -90,7 +90,7 @@ const MHTSLanding = () => (
             <span className="font-normal">Restored.</span>
           </h1>
           <p className="text-mhts-white/70 text-lg max-w-md mb-10 font-body">
-            Premium hair systems, scalp micropigmentation & hair thickening — delivered with discretion in Amersham.
+            Premium hair systems & scalp micropigmentation — delivered with discretion in Amersham.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <a
