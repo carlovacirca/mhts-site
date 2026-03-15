@@ -143,11 +143,6 @@ const MHTSLanding = () => (
               transition={{ delay: i * 0.1 }}
               className="bg-card rounded-sm p-7 border border-border hover:border-mhts-slate/30 transition-colors relative"
             >
-              {s.tag && (
-                <span className="absolute top-4 right-4 text-[10px] uppercase tracking-wider bg-mhts-charcoal text-mhts-white px-2 py-0.5 rounded-sm font-body">
-                  {s.tag}
-                </span>
-              )}
               <h3 className="text-lg text-mhts-charcoal mb-2 tracking-wide">{s.name}</h3>
               <p className="text-muted-foreground text-sm font-body mb-4 leading-relaxed">{s.desc}</p>
             </motion.div>
