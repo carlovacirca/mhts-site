@@ -1,11 +1,10 @@
 import SectionHeading from "@/components/SectionHeading";
 
-const prices = [
-  { service: "Free Consultation", price: "Free" },
-  { service: "Scalp Micropigmentation (per session)", price: "From £250" },
-  { service: "Hair System (supply & fit)", price: "From £350" },
-  { service: "Hair System Maintenance", price: "From £80" },
-  { service: "Hair Thickening Treatment", price: "From £120" },
+const services = [
+  { service: "Free Consultation" },
+  { service: "Scalp Micropigmentation (SMP)" },
+  { service: "Non-Surgical Hair System" },
+  { service: "Hair System Maintenance" },
 ];
 
 const MHTSPricing = () => (
