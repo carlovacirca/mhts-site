@@ -6,7 +6,7 @@ import mhtsHero from "@/assets/mhts-hero.jpg";
 
 const services = [
   {
-    name: "Non-Surgical Hair System",
+    name: "Hair Systems",
     desc: "Custom-fitted hair systems matched perfectly to your hair colour, texture and style. Undetectable, natural-looking results.",
   },
   {
