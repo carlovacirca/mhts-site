@@ -10,7 +10,7 @@ const services = [
     desc: "Custom-fitted hair systems matched perfectly to your hair colour, texture and style. Undetectable, natural-looking results.",
   },
   {
-    name: "Scalp Micropigmentation (SMP)",
+    name: "Scalp Micropigmentation",
     desc: "Advanced pigmentation technique that replicates natural hair follicles for a fuller, natural look. Multiple sessions for best results.",
   },
   {
