@@ -8,7 +8,6 @@ const services = [
   {
     name: "Non-Surgical Hair System",
     desc: "Custom-fitted hair systems matched perfectly to your hair colour, texture and style. Undetectable, natural-looking results.",
-    tag: "Most Popular",
   },
   {
     name: "Scalp Micropigmentation (SMP)",
