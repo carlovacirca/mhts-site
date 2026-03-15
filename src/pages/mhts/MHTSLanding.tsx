@@ -8,25 +8,16 @@ const services = [
   {
     name: "Non-Surgical Hair System",
     desc: "Custom-fitted hair systems matched perfectly to your hair colour, texture and style. Undetectable, natural-looking results.",
-    price: "From £350",
     tag: "Most Popular",
   },
   {
     name: "Scalp Micropigmentation (SMP)",
     desc: "Advanced pigmentation technique that replicates natural hair follicles for a fuller, natural look. Multiple sessions for best results.",
-    price: "From £250/session",
-    tag: null,
-  },
-  {
-    name: "Hair Thickening Treatment",
-    desc: "Professional hair thickening and volumising treatments for thinning hair. Non-invasive with immediate results.",
-    price: "From £120",
     tag: null,
   },
   {
     name: "Hair System Maintenance",
     desc: "Regular maintenance appointments to keep your hair system looking fresh, natural and long-lasting.",
-    price: "From £80",
     tag: "Ongoing",
   },
 ];
@@ -99,7 +90,7 @@ const MHTSLanding = () => (
             <span className="font-normal">Restored.</span>
           </h1>
           <p className="text-mhts-white/70 text-lg max-w-md mb-10 font-body">
-            Premium hair systems, scalp micropigmentation & hair thickening — delivered with discretion in Amersham.
+            Premium hair systems & scalp micropigmentation — delivered with discretion in Amersham.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <a
@@ -142,7 +133,7 @@ const MHTSLanding = () => (
       <div className="container mx-auto px-4">
         <div className="text-center mb-14">
           <p className="text-mhts-slate uppercase tracking-[0.2em] text-xs mb-3 font-body">What We Offer</p>
-          <h2 className="text-3xl md:text-4xl text-mhts-charcoal font-light tracking-wide">Services & Pricing</h2>
+          <h2 className="text-3xl md:text-4xl text-mhts-charcoal font-light tracking-wide">Our Services</h2>
           <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-5" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
@@ -162,12 +153,11 @@ const MHTSLanding = () => (
               )}
               <h3 className="text-lg text-mhts-charcoal mb-2 tracking-wide">{s.name}</h3>
               <p className="text-muted-foreground text-sm font-body mb-4 leading-relaxed">{s.desc}</p>
-              <span className="text-mhts-charcoal font-semibold text-xl font-body">{s.price}</span>
             </motion.div>
           ))}
         </div>
         <p className="text-center text-muted-foreground text-sm mt-10 font-body">
-          All treatments begin with a free consultation. Prices may vary based on individual needs.
+          All treatments begin with a free consultation. Contact us to discuss your needs.
         </p>
       </div>
     </section>

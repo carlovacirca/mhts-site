@@ -21,10 +21,10 @@ const Footer = () => (
           </div>
           <p className="text-sm opacity-70 mb-4">Traditional gents barbershop & body piercing studio in Amersham.</p>
           <div className="flex gap-3">
-            <a href="https://instagram.com/georgesbarbers" target="_blank" rel="noopener noreferrer" className="hover:text-gb-gold transition-colors" aria-label="Georges Barbers Instagram">
+            <a href="https://www.instagram.com/menshairtostay?igsh=d2dmaXJzb210OWZ0" target="_blank" rel="noopener noreferrer" className="hover:text-gb-gold transition-colors" aria-label="Georges Barbers Instagram">
               <Instagram className="w-5 h-5" />
             </a>
-            <a href="https://facebook.com/georgesbarbers" target="_blank" rel="noopener noreferrer" className="hover:text-gb-gold transition-colors" aria-label="Georges Barbers Facebook">
+            <a href="https://www.facebook.com/share/14XfkPCSNsP/" target="_blank" rel="noopener noreferrer" className="hover:text-gb-gold transition-colors" aria-label="Georges Barbers Facebook">
               <Facebook className="w-5 h-5" />
             </a>
             <a href="https://tiktok.com/@georgesbarbers" target="_blank" rel="noopener noreferrer" className="hover:text-gb-gold transition-colors" aria-label="Georges Barbers TikTok">
@@ -39,12 +39,12 @@ const Footer = () => (
             <img src={mhtsLogo} alt="Men's Hair To Stay" className="h-10 w-10 brightness-200" />
             <h3 className="text-xl font-light tracking-wide">Men's Hair To Stay</h3>
           </div>
-          <p className="text-sm opacity-70 mb-4">Premium hair replacement, SMP & hair systems in Amersham.</p>
+          <p className="text-sm opacity-70 mb-4">Premium hair replacement & SMP in Amersham.</p>
           <div className="flex gap-3">
-            <a href="https://instagram.com/menshairtostay" target="_blank" rel="noopener noreferrer" className="hover:text-mhts-light transition-colors" aria-label="MHTS Instagram">
+            <a href="https://www.instagram.com/menshairtostay?igsh=d2dmaXJzb210OWZ0" target="_blank" rel="noopener noreferrer" className="hover:text-mhts-light transition-colors" aria-label="MHTS Instagram">
               <Instagram className="w-5 h-5" />
             </a>
-            <a href="https://facebook.com/menshairtostay" target="_blank" rel="noopener noreferrer" className="hover:text-mhts-light transition-colors" aria-label="MHTS Facebook">
+            <a href="https://www.facebook.com/share/14XfkPCSNsP/" target="_blank" rel="noopener noreferrer" className="hover:text-mhts-light transition-colors" aria-label="MHTS Facebook">
               <Facebook className="w-5 h-5" />
             </a>
             <a href="https://tiktok.com/@menshairtostay" target="_blank" rel="noopener noreferrer" className="hover:text-mhts-light transition-colors" aria-label="MHTS TikTok">
