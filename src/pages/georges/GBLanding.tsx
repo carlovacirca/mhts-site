@@ -160,10 +160,10 @@ const GBLanding = () => (
              <img src={gbGallery1} alt="Gents haircut at Georges Barbers" className="w-full h-full object-cover object-top" />
            </div>
            <div className="aspect-square rounded-lg overflow-hidden border border-gb-gold/20">
-             <img src={gbGallery2} alt="Gents haircut at Georges Barbers" className="w-full h-full object-cover object-top" />
+             <img src={gbGallery6} alt="Gents haircut at Georges Barbers" className="w-full h-full object-cover object-top" />
            </div>
            <div className="aspect-square rounded-lg overflow-hidden border border-gb-gold/20">
-             <img src={gbGallery6} alt="Gents haircut at Georges Barbers" className="w-full h-full object-cover object-top" />
+             <img src={gbGallery2} alt="Gents haircut at Georges Barbers" className="w-full h-full object-cover object-top" />
            </div>
            <div className="aspect-square rounded-lg overflow-hidden border border-gb-gold/20">
              <img src={gbGallery3} alt="Ear piercing at Georges Barbers" className="w-full h-full object-cover object-center" />
