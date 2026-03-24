@@ -13,7 +13,7 @@ const Footer = () => (
   <footer>
     <div className="grid grid-cols-1 md:grid-cols-3">
       {/* Georges Barbers - dark background */}
-      <div className="bg-foreground text-background p-8">
+      <div className="bg-gb-black text-background p-8">
         <div className="mb-4">
           <img src={gbLogoFull} alt="Georges Barbers" className="h-16 object-contain" />
         </div>
