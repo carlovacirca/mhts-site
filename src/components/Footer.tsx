@@ -15,7 +15,7 @@ const Footer = () => (
       {/* Georges Barbers - dark background */}
       <div className="bg-gb-black text-background p-8">
         <div className="mb-4">
-          <img src={gbLogoFull} alt="Georges Barbers" className="h-16 object-contain" />
+          <img src={gbLogoFull} alt="Georges Barbers" className="h-20 md:h-24 object-contain" />
         </div>
         <p className="text-sm opacity-70 mb-4">Traditional gents barbershop & body piercing studio in Amersham.</p>
         <div className="flex gap-3">
