@@ -63,18 +63,18 @@ const services = [
 
 const reviews = [
   {
-    name: "James T.",
-    text: "Best barbershop in Amersham. George and the team always deliver a quality cut. Walk-in friendly and never a long wait.",
+    name: "Paolo",
+    text: "Parking is easy nearby, prices are good and I never wait long either.",
     rating: 5,
   },
   {
-    name: "Mark P.",
-    text: "Been coming here for years. Proper old-school barbershop with great banter. Wouldn't go anywhere else.",
+    name: "Peter",
+    text: "People working there are lovely, very good hairdressers, one of a kind!",
     rating: 5,
   },
   {
-    name: "Ryan K.",
-    text: "Took my son for his first haircut — they were brilliant with him. Patient, friendly and he loved it.",
+    name: "Lesley",
+    text: "Great haircut, friendly staff",
     rating: 5,
   },
 ];
