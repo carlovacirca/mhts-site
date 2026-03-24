@@ -58,18 +58,13 @@ const maintenanceTips = [
 
 const reviews = [
   {
-    name: "David L.",
-    text: "Life-changing. I'd been losing confidence for years. The team made the whole process easy and the results are incredible — nobody can tell.",
+    name: "Leigh",
+    text: "They are truly the gold standard in the industry.",
     rating: 5,
   },
   {
-    name: "Chris M.",
-    text: "The SMP treatment was painless and looks completely natural. Wish I'd done it sooner. Professional, discreet and highly skilled.",
-    rating: 5,
-  },
-  {
-    name: "Andrew B.",
-    text: "From consultation to fitting, the experience was first class. My hair system is undetectable and I feel like myself again.",
+    name: "Jordan",
+    text: "I'm so happy to how it looks now, well worth the money and service.",
     rating: 5,
   },
 ];
@@ -289,7 +284,7 @@ const MHTSLanding = () => (
         {/* Reviews */}
         <div className="max-w-4xl mx-auto">
           <h3 className="text-center text-mhts-slate uppercase tracking-[0.2em] text-xs mb-8 font-body">Client Testimonials</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
             {reviews.map((r, i) => (
               <motion.div
                 key={r.name}
