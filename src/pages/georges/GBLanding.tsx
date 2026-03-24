@@ -5,6 +5,9 @@ import OpeningHours from "@/components/OpeningHours";
 import gbHero from "@/assets/gb-hero.jpg";
 import gbGallery1 from "@/assets/gb-gallery-1.jpg";
 import gbGallery2 from "@/assets/gb-gallery-2.jpg";
+import gbGallery3 from "@/assets/gb-gallery-3.jpg";
+import gbGallery4 from "@/assets/gb-gallery-4.jpg";
+import gbGallery5 from "@/assets/gb-gallery-5.jpg";
 
 const services = [
   {
