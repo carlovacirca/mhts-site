@@ -106,7 +106,7 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 className="flex items-center gap-2"
               >
-                <img src={logo} alt={brandName} className="h-12 object-contain" />
+                <img src={logo} alt={brandName} className="h-14 md:h-20 object-contain" />
               </button>
             </div>
 

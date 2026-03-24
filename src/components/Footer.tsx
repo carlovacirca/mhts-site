@@ -34,7 +34,7 @@ const Footer = () => (
       {/* Men's Hair To Stay - white background */}
       <div className="bg-background text-foreground p-8">
         <div className="mb-4">
-          <img src={mhtsLogoFull} alt="Men's Hair To Stay" className="h-16 object-contain" />
+          <img src={mhtsLogoFull} alt="Men's Hair To Stay" className="h-20 md:h-24 object-contain" />
         </div>
         <p className="text-sm opacity-70 mb-4">Premium hair replacement & SMP in Amersham.</p>
         <div className="flex gap-3">
