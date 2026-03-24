@@ -4,6 +4,7 @@ import SectionHeading from "@/components/SectionHeading";
 import OpeningHours from "@/components/OpeningHours";
 import gbHero from "@/assets/gb-hero.jpg";
 import gbGallery1 from "@/assets/gb-gallery-1.jpg";
+import gbGallery2 from "@/assets/gb-gallery-2.jpg";
 
 const services = [
   {
