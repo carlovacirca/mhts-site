@@ -8,6 +8,7 @@ import gbGallery2 from "@/assets/gb-gallery-2.jpg";
 import gbGallery3 from "@/assets/gb-gallery-3.jpg";
 import gbGallery4 from "@/assets/gb-gallery-4.jpg";
 import gbGallery5 from "@/assets/gb-gallery-5.jpg";
+import gbGallery6 from "@/assets/gb-gallery-6.jpg";
 
 const services = [
   {
@@ -161,8 +162,8 @@ const GBLanding = () => (
            <div className="aspect-square rounded-lg overflow-hidden border border-gb-gold/20">
              <img src={gbGallery2} alt="Gents haircut at Georges Barbers" className="w-full h-full object-cover object-top" />
            </div>
-           <div className="aspect-square bg-card rounded-lg flex items-center justify-center border border-gb-gold/20">
-             <span className="text-muted-foreground text-sm font-body">Photo coming soon</span>
+           <div className="aspect-square rounded-lg overflow-hidden border border-gb-gold/20">
+             <img src={gbGallery6} alt="Gents haircut at Georges Barbers" className="w-full h-full object-cover object-top" />
            </div>
            <div className="aspect-square rounded-lg overflow-hidden border border-gb-gold/20">
              <img src={gbGallery3} alt="Ear piercing at Georges Barbers" className="w-full h-full object-cover object-center" />
