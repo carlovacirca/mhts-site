@@ -52,6 +52,7 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
         gb: {
+          black: "hsl(var(--gb-black))",
           green: "hsl(var(--gb-green))",
           "green-light": "hsl(var(--gb-green-light))",
           gold: "hsl(var(--gb-gold))",
