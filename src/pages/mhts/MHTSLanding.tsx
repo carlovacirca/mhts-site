@@ -5,6 +5,8 @@ import OpeningHours from "@/components/OpeningHours";
 import mhtsHero from "@/assets/mhts-hero.jpg";
 import mhtsBefore1 from "@/assets/mhts-before-1.jpg";
 import mhtsAfter1 from "@/assets/mhts-after-1.jpg";
+import mhtsBefore2 from "@/assets/mhts-before-2.jpg";
+import mhtsAfter2 from "@/assets/mhts-after-2.jpg";
 
 const services = [
   {
@@ -243,6 +245,20 @@ const MHTSLanding = () => (
               </div>
               <div className="aspect-square overflow-hidden border-l border-border">
                 <img src={mhtsAfter1} alt="After hair system" className="w-full h-full object-cover object-top" />
+              </div>
+            </div>
+            <div className="p-3 text-center grid grid-cols-2">
+              <span className="text-mhts-slate text-xs font-body uppercase tracking-wider">Before</span>
+              <span className="text-mhts-slate text-xs font-body uppercase tracking-wider">After</span>
+            </div>
+          </div>
+          <div className="bg-mhts-light rounded-sm overflow-hidden border border-border max-w-sm mx-auto">
+            <div className="grid grid-cols-2">
+              <div className="aspect-square overflow-hidden">
+                <img src={mhtsBefore2} alt="Before hair system" className="w-full h-full object-cover object-top" />
+              </div>
+              <div className="aspect-square overflow-hidden border-l border-border">
+                <img src={mhtsAfter2} alt="After hair system" className="w-full h-full object-cover object-top" />
               </div>
             </div>
             <div className="p-3 text-center grid grid-cols-2">
