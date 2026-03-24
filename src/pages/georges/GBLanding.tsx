@@ -8,6 +8,7 @@ import gbGallery2 from "@/assets/gb-gallery-2.jpg";
 import gbGallery3 from "@/assets/gb-gallery-3.jpg";
 import gbGallery4 from "@/assets/gb-gallery-4.jpg";
 import gbGallery5 from "@/assets/gb-gallery-5.jpg";
+import gbGallery6 from "@/assets/gb-gallery-6.jpg";
 
 const services = [
   {
