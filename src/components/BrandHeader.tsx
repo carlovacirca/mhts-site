@@ -138,7 +138,7 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
 
         {/* Mobile menu */}
         {open && (
-          <div className={`md:hidden border-t animate-fade-in ${isGB ? "bg-foreground border-background/10" : "bg-card border-border"}`}>
+          <div className={`md:hidden border-t animate-fade-in ${isGB ? "bg-gb-black border-background/10" : "bg-card border-border"}`}>
             <div className="container mx-auto px-4 py-4">
               <div className="grid grid-cols-3 gap-1">
                 {links.map((l) => (
