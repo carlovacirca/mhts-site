@@ -41,7 +41,7 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
 
   // GB nav bar: black bg with white/gold text
   const navBg = isGB
-    ? "bg-foreground border-b border-foreground"
+    ? "bg-gb-black border-b border-gb-black"
     : "bg-card/95 backdrop-blur-md border-b border-border shadow-sm";
 
   // Track active section via IntersectionObserver
