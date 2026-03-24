@@ -152,7 +152,7 @@ const GBLanding = () => (
         <SectionHeading title="Gallery" subtitle="Cuts, fades & piercings from the chair" brand="gb" />
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-16">
           <div className="aspect-square rounded-lg overflow-hidden border border-gb-gold/20">
-            <img src={gbGallery1} alt="Gents haircut at Georges Barbers" className="w-full h-full object-cover" style={{ objectPosition: 'center 80%' }} />
+            <img src={gbGallery1} alt="Gents haircut at Georges Barbers" className="w-full h-full object-cover object-top" />
           </div>
           {Array.from({ length: 5 }, (_, i) => (
             <div
