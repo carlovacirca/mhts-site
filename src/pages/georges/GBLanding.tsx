@@ -161,14 +161,15 @@ const GBLanding = () => (
            <div className="aspect-square rounded-lg overflow-hidden border border-gb-gold/20">
              <img src={gbGallery2} alt="Gents haircut at Georges Barbers" className="w-full h-full object-cover object-top" />
            </div>
-           {Array.from({ length: 4 }, (_, i) => (
-            <div
-              key={i}
-              className="aspect-square bg-card rounded-lg flex items-center justify-center border border-gb-gold/20"
-            >
-              <span className="text-muted-foreground text-sm font-body">Photo coming soon</span>
-            </div>
-          ))}
+           <div className="aspect-square rounded-lg overflow-hidden border border-gb-gold/20">
+             <img src={gbGallery3} alt="Ear piercing at Georges Barbers" className="w-full h-full object-cover object-center" />
+           </div>
+           <div className="aspect-square rounded-lg overflow-hidden border border-gb-gold/20">
+             <img src={gbGallery4} alt="Ear piercing at Georges Barbers" className="w-full h-full object-cover object-center" />
+           </div>
+           <div className="aspect-square rounded-lg overflow-hidden border border-gb-gold/20">
+             <img src={gbGallery5} alt="Piercing jewellery at Georges Barbers" className="w-full h-full object-cover object-center" />
+           </div>
         </div>
         <p className="text-center text-muted-foreground text-sm mb-12 font-body">
           Follow us on Instagram for our latest work
