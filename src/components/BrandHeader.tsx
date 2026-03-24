@@ -92,7 +92,7 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
       {/* Main nav */}
       <header className={`sticky top-0 z-50 ${navBg}`}>
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-20 md:h-24">
             {/* Logo + Home link */}
             <div className="flex items-center gap-3">
               <Link
@@ -106,7 +106,7 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 className="flex items-center gap-2"
               >
-                <img src={logo} alt={brandName} className="h-12 object-contain" />
+                <img src={logo} alt={brandName} className="h-14 md:h-20 object-contain" />
               </button>
             </div>
 
