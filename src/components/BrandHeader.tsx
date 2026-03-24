@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone, Mail, Home } from "lucide-react";
-import gbLogo from "@/assets/gb-logo.png";
-import mhtsLogo from "@/assets/mhts-logo.png";
+import gbLogoFull from "@/assets/gb-logo-full.jpeg";
+import mhtsLogoFull from "@/assets/mhts-logo-full.jpeg";
 
 const gbLinks = [
   { to: "#gb-services", label: "Services" },
@@ -29,16 +29,20 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
   const location = useLocation();
   const isGB = brand === "gb";
   const links = isGB ? gbLinks : mhtsLinks;
-  const logo = isGB ? gbLogo : mhtsLogo;
+  const logo = isGB ? gbLogoFull : mhtsLogoFull;
   const brandName = isGB ? "Georges Barbers" : "Men's Hair To Stay";
 
   const activeClass = isGB
-    ? "bg-gb-green text-gb-gold font-semibold"
+    ? "bg-gb-gold/20 text-gb-gold font-semibold"
     : "bg-mhts-charcoal text-mhts-white font-semibold";
   const hoverClass = isGB
-    ? "text-muted-foreground hover:text-gb-green"
+    ? "text-background/80 hover:text-gb-gold"
     : "text-muted-foreground hover:text-mhts-charcoal";
-  const brandColor = isGB ? "text-gb-green" : "text-mhts-charcoal";
+
+  // GB nav bar: black bg with white/gold text
+  const navBg = isGB
+    ? "bg-foreground border-b border-foreground"
+    : "bg-card/95 backdrop-blur-md border-b border-border shadow-sm";
 
   // Track active section via IntersectionObserver
   useEffect(() => {
@@ -86,22 +90,23 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
       </div>
 
       {/* Main nav */}
-      <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border shadow-sm">
+      <header className={`sticky top-0 z-50 ${navBg}`}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Logo + Home link */}
             <div className="flex items-center gap-3">
-              <Link to="/" className="p-2 rounded-md hover:bg-muted transition-colors" aria-label="Back to home">
-                <Home className="w-5 h-5 text-muted-foreground" />
+              <Link
+                to="/"
+                className={`p-2 rounded-md transition-colors ${isGB ? "hover:bg-background/10 text-background/70" : "hover:bg-muted text-muted-foreground"}`}
+                aria-label="Back to home"
+              >
+                <Home className="w-5 h-5" />
               </Link>
               <button
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 className="flex items-center gap-2"
               >
-                <img src={logo} alt={brandName} className="h-10 w-10 object-contain" />
-                <span className={`font-semibold ${brandColor} ${isGB ? "font-display" : "font-light tracking-wide"}`}>
-                  {brandName}
-                </span>
+                <img src={logo} alt={brandName} className="h-12 object-contain" />
               </button>
             </div>
 
@@ -123,7 +128,7 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
             {/* Hamburger */}
             <button
               onClick={() => setOpen(!open)}
-              className="md:hidden p-2 rounded-md hover:bg-muted transition-colors"
+              className={`md:hidden p-2 rounded-md transition-colors ${isGB ? "hover:bg-background/10 text-background" : "hover:bg-muted"}`}
               aria-label="Toggle menu"
             >
               {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -133,7 +138,7 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
 
         {/* Mobile menu */}
         {open && (
-          <div className="md:hidden bg-card border-t border-border animate-fade-in">
+          <div className={`md:hidden border-t animate-fade-in ${isGB ? "bg-foreground border-background/10" : "bg-card border-border"}`}>
             <div className="container mx-auto px-4 py-4">
               <div className="grid grid-cols-3 gap-1">
                 {links.map((l) => (
@@ -144,7 +149,7 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
                       activeSection === l.to
                         ? activeClass
                         : isGB
-                        ? "text-muted-foreground hover:bg-gb-cream"
+                        ? "text-background/70 hover:bg-background/10"
                         : "text-muted-foreground hover:bg-mhts-light"
                     }`}
                   >
