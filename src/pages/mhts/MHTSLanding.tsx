@@ -269,14 +269,14 @@ const MHTSLanding = () => (
               <span className="text-mhts-slate text-xs font-body uppercase tracking-wider">After</span>
             </div>
           </div>
-          {/* Previously middle - now right */}
+          {/* Right */}
           <div className="bg-mhts-light rounded-sm overflow-hidden border border-border">
             <div className="grid grid-cols-2">
               <div className="aspect-square overflow-hidden">
-                <img src={mhtsBefore2} alt="Before hair system" className="w-full h-full object-cover object-top" />
+                <img src={mhtsBefore3} alt="Before hair system" className="w-full h-full object-cover object-top" />
               </div>
               <div className="aspect-square overflow-hidden border-l border-border">
-                <img src={mhtsAfter2} alt="After hair system" className="w-full h-full object-cover object-top" />
+                <img src={mhtsAfter3} alt="After hair system" className="w-full h-full object-cover object-top" />
               </div>
             </div>
             <div className="p-3 text-center grid grid-cols-2">
