@@ -3,6 +3,8 @@ import { Shield, Award, Clock, Phone, Mail, MapPin, Star, Quote, AlertCircle, Ca
 import SectionHeading from "@/components/SectionHeading";
 import OpeningHours from "@/components/OpeningHours";
 import mhtsHero from "@/assets/mhts-hero.jpg";
+import mhtsBefore1 from "@/assets/mhts-before-1.jpg";
+import mhtsAfter1 from "@/assets/mhts-after-1.jpg";
 
 const services = [
   {
