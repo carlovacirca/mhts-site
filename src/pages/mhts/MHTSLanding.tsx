@@ -5,6 +5,8 @@ import OpeningHours from "@/components/OpeningHours";
 import mhtsHero from "@/assets/mhts-hero.jpg";
 import mhtsBefore1 from "@/assets/mhts-before-1.jpg";
 import mhtsAfter1 from "@/assets/mhts-after-1.jpg";
+import mhtsBefore2 from "@/assets/mhts-before-2.jpg";
+import mhtsAfter2 from "@/assets/mhts-after-2.jpg";
 
 const services = [
   {
