@@ -235,21 +235,21 @@ const MHTSLanding = () => (
 
         {/* Before/After grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-4xl mx-auto mb-16">
-          {Array.from({ length: 3 }, (_, i) => (
-            <div key={i} className="bg-mhts-light rounded-sm overflow-hidden border border-border">
-              <div className="grid grid-cols-2">
-                <div className="aspect-square bg-mhts-light flex items-center justify-center">
-                  <span className="text-muted-foreground text-xs font-body">Before</span>
-                </div>
-                <div className="aspect-square bg-card flex items-center justify-center border-l border-border">
-                  <span className="text-muted-foreground text-xs font-body">After</span>
-                </div>
+          {/* Before/After - real transformation */}
+          <div className="bg-mhts-light rounded-sm overflow-hidden border border-border max-w-sm mx-auto">
+            <div className="grid grid-cols-2">
+              <div className="aspect-square overflow-hidden">
+                <img src={mhtsBefore1} alt="Before hair system" className="w-full h-full object-cover object-top" />
               </div>
-              <div className="p-3 text-center">
-                <span className="text-muted-foreground text-xs font-body">Transformation coming soon</span>
+              <div className="aspect-square overflow-hidden border-l border-border">
+                <img src={mhtsAfter1} alt="After hair system" className="w-full h-full object-cover object-top" />
               </div>
             </div>
-          ))}
+            <div className="p-3 text-center grid grid-cols-2">
+              <span className="text-mhts-slate text-xs font-body uppercase tracking-wider">Before</span>
+              <span className="text-mhts-slate text-xs font-body uppercase tracking-wider">After</span>
+            </div>
+          </div>
         </div>
 
         {/* Reviews */}
