@@ -20,7 +20,7 @@ const HomePage = () => (
             Two Services. <span className="text-gb-gold">One Address.</span>
           </h1>
           <p className="text-background/70 text-lg md:text-xl mb-10 font-body">
-            Traditional barbering, body piercing & premium hair replacement — all under one roof in Amersham.
+            Traditional barbering, ear piercing & premium hair replacement — all under one roof in Amersham.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
