@@ -1,14 +1,22 @@
 import SectionHeading from "@/components/SectionHeading";
 
 const prices = [
-  { service: "Gents Haircut", price: "£20" },
-  { service: "Kids Haircut (under 12)", price: "£12" },
-  { service: "OAP Haircut", price: "£12" },
-  { service: "Hot Towel Shave", price: "£18" },
-  { service: "Beard Trim", price: "£8" },
-  { service: "Hair & Beard Combo", price: "£25" },
-  { service: "Skin Fade", price: "£22" },
-  { service: "Body Piercing", price: "From £25" },
+  { service: "Men's Dry Cut", price: "£20" },
+  { service: "Seniors 65+ (Mon–Fri)", price: "£15" },
+  { service: "Seniors 65+ (Wednesday)", price: "£14.50" },
+  { service: "Students 15–25 years old", price: "£18" },
+  { service: "Boys 12–14 years old", price: "£16.50" },
+  { service: "Boys 5–11 years old", price: "£15" },
+  { service: "Boys up to 4 years old", price: "£12" },
+  { service: "1 Grade All Over", price: "£14.50" },
+  { service: "Saturday & Sunday All Dry Cuts", price: "£22" },
+  { service: "Hair Wash", price: "£8.50" },
+  { service: "Flat Tops", price: "£25.50" },
+  { service: "Beard Trim", price: "£8.50" },
+  { service: "Beard Reshape", price: "£10.50" },
+  { service: "Ladies Dry Cuts", price: "From £23.50" },
+  { service: "Girls", price: "Ask for a price" },
+  { service: "Skin Fades", price: "+£5" },
 ];
 
 const GBPricing = () => (
