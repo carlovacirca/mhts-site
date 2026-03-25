@@ -28,7 +28,7 @@ const GBAbout = () => (
           <SectionHeading title="Welcome to Georges" subtitle="Where tradition meets community" brand="gb" />
           <div className="prose prose-lg mx-auto text-center font-body text-foreground/80 space-y-4">
             <p>
-              Georges Barbers has been a cornerstone of the Amersham community, offering classic cuts, hot towel shaves, and professional body piercing in a warm, welcoming atmosphere.
+              Georges Barbers has been a cornerstone of the Amersham community, offering classic cuts, hot towel shaves, and professional ear piercing in a warm, welcoming atmosphere.
             </p>
             <p>
               Our experienced barbers take pride in delivering quality grooming services for men and boys of all ages. Walk-ins are always welcome — no appointment needed.

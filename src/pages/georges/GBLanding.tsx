@@ -118,7 +118,7 @@ const GBLanding = () => (
           <h2 className="text-3xl font-display text-gb-green mb-4">Welcome to Georges</h2>
           <div className="w-16 h-0.5 bg-gb-gold mx-auto mb-6" />
           <p className="text-foreground/80 font-body text-lg leading-relaxed">
-            Georges Barbers has been a cornerstone of the Amersham community, offering classic cuts, hot towel shaves, and professional body piercing in a warm, welcoming atmosphere. Walk-ins are always welcome — no appointment needed.
+            Georges Barbers has been a cornerstone of the Amersham community, offering classic cuts, hot towel shaves, and professional ear piercing in a warm, welcoming atmosphere. Walk-ins are always welcome — no appointment needed.
           </p>
         </motion.div>
       </div>
