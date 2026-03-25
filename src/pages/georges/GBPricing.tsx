@@ -17,6 +17,7 @@ const prices = [
   { service: "Ladies Dry Cuts", price: "From £23.50" },
   { service: "Girls", price: "Ask for a price" },
   { service: "Skin Fades", price: "+£5" },
+  { service: "Ear Piercing", price: "£30" },
 ];
 
 const GBPricing = () => (
