@@ -67,6 +67,11 @@ const reviews = [
     text: "I'm so happy to how it looks now, well worth the money and service.",
     rating: 5,
   },
+  {
+    name: "Sam",
+    text: "The salon is friendly and welcoming. Lexie and Carly are incredibly talented, they know how to bring the best out of my hair and make me feel comfortable throughout every visit. Highly recommend.",
+    rating: 5,
+  },
 ];
 
 const MHTSLanding = () => (
