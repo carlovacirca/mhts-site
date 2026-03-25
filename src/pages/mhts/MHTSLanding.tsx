@@ -59,7 +59,7 @@ const maintenanceTips = [
 const reviews = [
   {
     name: "Leigh",
-    text: "They are truly the gold standard in the industry.",
+    text: "Their expertise in fitting hair replacement systems is unmatched. My new hair replacement system looks incredibly natural and has completely transformed my appearance. They are truly the gold standard in the industry.",
     rating: 5,
   },
   {
