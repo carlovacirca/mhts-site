@@ -67,6 +67,11 @@ const reviews = [
     text: "I'm so happy to how it looks now, well worth the money and service.",
     rating: 5,
   },
+  {
+    name: "Sam",
+    text: "The salon is friendly and welcoming. Lexie and Carly are incredibly talented, they know how to bring the best out of my hair and make me feel comfortable throughout every visit. Highly recommend.",
+    rating: 5,
+  },
 ];
 
 const MHTSLanding = () => (
@@ -284,7 +289,7 @@ const MHTSLanding = () => (
         {/* Reviews */}
         <div className="max-w-4xl mx-auto">
           <h3 className="text-center text-mhts-slate uppercase tracking-[0.2em] text-xs mb-8 font-body">Client Testimonials</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {reviews.map((r, i) => (
               <motion.div
                 key={r.name}
