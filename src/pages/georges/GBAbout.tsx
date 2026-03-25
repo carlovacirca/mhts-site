@@ -15,7 +15,7 @@ const GBAbout = () => (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
           <h1 className="text-4xl md:text-5xl font-display text-gb-gold mb-4">Georges Barbers</h1>
           <p className="text-background/90 text-lg max-w-xl mx-auto font-body">
-            Traditional gents barbershop & body piercing studio — proudly serving the Amersham community.
+            Traditional gents barbershop & ear piercing studio — proudly serving the Amersham community.
           </p>
         </motion.div>
       </div>
@@ -28,7 +28,7 @@ const GBAbout = () => (
           <SectionHeading title="Welcome to Georges" subtitle="Where tradition meets community" brand="gb" />
           <div className="prose prose-lg mx-auto text-center font-body text-foreground/80 space-y-4">
             <p>
-              Georges Barbers has been a cornerstone of the Amersham community, offering classic cuts, hot towel shaves, and professional body piercing in a warm, welcoming atmosphere.
+              Georges Barbers has been a cornerstone of the Amersham community, offering classic cuts, hot towel shaves, and professional ear piercing in a warm, welcoming atmosphere.
             </p>
             <p>
               Our experienced barbers take pride in delivering quality grooming services for men and boys of all ages. Walk-ins are always welcome — no appointment needed.

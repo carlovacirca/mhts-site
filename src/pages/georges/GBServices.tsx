@@ -7,7 +7,7 @@ const services = [
   { name: "Hot Towel Shave", desc: "Traditional straight razor shave with hot towels." },
   { name: "Beard Trim & Shape", desc: "Expert beard grooming and sculpting." },
   { name: "Hair & Beard Combo", desc: "Full grooming session — haircut plus beard trim." },
-  { name: "Body Piercing", desc: "Professional body piercing in a clean, sterile environment." },
+  { name: "Ear Piercing", desc: "Professional ear piercing in a clean, sterile environment." },
 ];
 
 const GBServices = () => (

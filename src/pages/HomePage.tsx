@@ -20,7 +20,7 @@ const HomePage = () => (
             Two Services. <span className="text-gb-gold">One Address.</span>
           </h1>
           <p className="text-background/70 text-lg md:text-xl mb-10 font-body">
-            Traditional barbering, body piercing & premium hair replacement — all under one roof in Amersham.
+            Traditional barbering, ear piercing & premium hair replacement — all under one roof in Amersham.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
@@ -33,7 +33,7 @@ const HomePage = () => (
               <div className="absolute inset-0 bg-gradient-to-t from-gb-green/90 via-gb-green/40 to-transparent" />
               <div className="relative p-6 w-full">
                 <h2 className="text-2xl font-display text-gb-gold mb-1">Georges Barbers</h2>
-                <p className="text-background/80 text-sm mb-3">Barbershop & Body Piercing</p>
+                <p className="text-background/80 text-sm mb-3">Barbershop & Ear Piercing</p>
                 <span className="inline-flex items-center gap-1 text-gb-gold text-sm group-hover:gap-2 transition-all">
                   Explore <ArrowRight className="w-4 h-4" />
                 </span>
