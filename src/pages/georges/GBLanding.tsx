@@ -59,6 +59,12 @@ const services = [
     desc: "Sharp, clean skin fades — add-on to any cut.",
     price: "+£5",
   },
+  {
+    icon: CircleDot,
+    name: "Ear Piercing",
+    desc: "Professional ear piercing in a clean, sterile environment.",
+    price: "£30",
+  },
 ];
 
 const reviews = [
