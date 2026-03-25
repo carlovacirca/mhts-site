@@ -91,7 +91,7 @@ const GBLanding = () => (
             Georges Barbers
           </h1>
           <p className="text-background/90 text-lg md:text-xl max-w-lg mx-auto font-body mb-8">
-            Traditional gents barbershop & body piercing studio — proudly serving the Amersham community.
+            Traditional gents barbershop & ear piercing studio — proudly serving the Amersham community.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
