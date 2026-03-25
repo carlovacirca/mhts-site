@@ -15,7 +15,7 @@ const GBAbout = () => (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
           <h1 className="text-4xl md:text-5xl font-display text-gb-gold mb-4">Georges Barbers</h1>
           <p className="text-background/90 text-lg max-w-xl mx-auto font-body">
-            Traditional gents barbershop & body piercing studio — proudly serving the Amersham community.
+            Traditional gents barbershop & ear piercing studio — proudly serving the Amersham community.
           </p>
         </motion.div>
       </div>
