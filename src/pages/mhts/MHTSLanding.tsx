@@ -63,8 +63,8 @@ const reviews = [
     rating: 5,
   },
   {
-    name: "Jordan",
-    text: "I'm so happy to how it looks now, well worth the money and service.",
+    name: "Fayaz",
+    text: "I had thinning hair and got a hair system and it looks amazing. The team are so nice, supportive and understanding. Having bad hair made me feel ugly and stressed out. I can guarantee you, you'll feel so much better. Lads, do it here!",
     rating: 5,
   },
   {
