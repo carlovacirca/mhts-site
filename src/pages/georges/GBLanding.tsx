@@ -228,14 +228,6 @@ const GBLanding = () => (
             <p className="text-foreground/80 font-body mb-8 max-w-md mx-auto">
               No appointment? No problem. Georges Barbers operates on a walk-in basis — just pop in and take a seat. For busier times, you can book ahead below.
             </p>
-            <a
-              href="https://carlo56fm.setmore.com/george"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block bg-gb-gold text-gb-green font-semibold px-8 py-3 rounded-md hover:bg-gb-gold-light transition-colors font-body mb-6"
-            >
-              Book Now
-            </a>
             <div className="rounded-lg overflow-hidden border border-gb-gold/20">
               <iframe
                 src="https://carlo56fm.setmore.com/george"
