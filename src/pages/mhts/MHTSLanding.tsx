@@ -20,6 +20,10 @@ const services = [
     desc: "Advanced pigmentation technique that replicates natural hair follicles for a fuller, natural look. Multiple sessions for best results.",
   },
   {
+    name: "Hair Density",
+    desc: "Effective solutions for thinning hair and improving hair density.",
+  },
+  {
     name: "Hair System Maintenance",
     desc: "Regular maintenance appointments to keep your hair system looking fresh, natural and long-lasting.",
   },
