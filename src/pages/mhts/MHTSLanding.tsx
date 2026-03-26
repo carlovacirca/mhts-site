@@ -322,23 +322,8 @@ const MHTSLanding = () => (
           <div className="w-12 h-px bg-mhts-white/30 mx-auto mt-5" />
         </div>
         <div className="max-w-lg mx-auto">
-          {/* Deposit notice */}
-          <div className="bg-mhts-navy border border-mhts-slate/30 rounded-sm p-5 mb-8 flex gap-4">
-            <AlertCircle className="w-5 h-5 text-mhts-white/50 shrink-0 mt-0.5" />
-            <div className="text-sm text-mhts-white/80 font-body">
-              <p className="font-semibold mb-1 text-mhts-white/90">Deposit Required</p>
-              <p className="leading-relaxed">A deposit is required to secure your specialist appointment. This is deducted from your treatment cost and ensures dedicated time with our specialist.</p>
-            </div>
-          </div>
 
-          <a
-            href="https://carlo56fm.setmore.com/lexie"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-mhts-white text-mhts-charcoal font-semibold px-8 py-3 rounded-sm hover:bg-mhts-white/90 transition-colors font-body mb-6"
-          >
-            Book Now
-          </a>
+
           <div className="rounded-sm overflow-hidden border border-mhts-slate/30">
             <iframe
               src="https://carlo56fm.setmore.com/lexie"
