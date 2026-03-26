@@ -232,9 +232,8 @@ const GBLanding = () => (
               <iframe
                 src="https://carlo56fm.setmore.com/george"
                 width="100%"
-                height="1200"
-                scrolling="no"
-                style={{ border: 0, overflow: 'hidden' }}
+                height="500"
+                style={{ border: 0 }}
                 title="Georges Barbers Booking"
                 loading="lazy"
               />
