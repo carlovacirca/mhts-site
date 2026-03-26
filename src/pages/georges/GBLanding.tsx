@@ -62,7 +62,7 @@ const services = [
   {
     icon: CircleDot,
     name: "Ear Piercing",
-    desc: "Professional ear piercing in a clean, sterile environment.",
+    desc: "Professional piercing in a clean, sterile environment.",
     price: "£30",
   },
 ];
@@ -134,7 +134,7 @@ const GBLanding = () => (
     <section id="gb-services" className="py-20 scroll-mt-20">
       <div className="container mx-auto px-4">
         <SectionHeading title="Services & Pricing" subtitle="Honest pricing, no hidden extras" brand="gb" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto">
           {services.map((s, i) => (
             <motion.div
               key={s.name}
