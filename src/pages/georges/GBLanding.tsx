@@ -62,7 +62,7 @@ const services = [
   {
     icon: CircleDot,
     name: "Ear Piercing",
-    desc: "Professional ear piercing in a clean, sterile environment.",
+    desc: "Professional piercing in a clean, sterile environment.",
     price: "£30",
   },
 ];
