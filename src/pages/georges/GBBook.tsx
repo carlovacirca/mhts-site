@@ -17,12 +17,23 @@ const GBBook = () => (
           <p className="text-foreground/80 font-body mb-6">
             No appointment? No problem. Georges Barbers operates on a walk-in basis — just pop in and take a seat. For busier times, you can book ahead below.
           </p>
-          {/* Booking embed placeholder */}
-          <div className="bg-card rounded-lg border border-gb-gold/20 p-8 text-center">
-            <p className="text-muted-foreground text-sm font-body mb-2">Booking widget</p>
-            <p className="text-xs text-muted-foreground font-body">
-              Google Appointment Setter or HubSpot Meeting link will be embedded here.
-            </p>
+          <a
+            href="https://carlo56fm.setmore.com/george"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-gb-gold text-gb-green font-semibold px-8 py-3 rounded-md hover:bg-gb-gold-light transition-colors font-body mb-6"
+          >
+            Book Now
+          </a>
+          <div className="rounded-lg overflow-hidden border border-gb-gold/20">
+            <iframe
+              src="https://carlo56fm.setmore.com/george"
+              width="100%"
+              height="500"
+              style={{ border: 0 }}
+              title="Georges Barbers Booking"
+              loading="lazy"
+            />
           </div>
         </div>
 

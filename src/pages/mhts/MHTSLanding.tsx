@@ -331,13 +331,23 @@ const MHTSLanding = () => (
             </div>
           </div>
 
-          {/* Booking embed */}
-          <div className="bg-mhts-navy border border-mhts-slate/30 rounded-sm p-10 text-center">
-            <CalendarCheck className="w-8 h-8 text-mhts-white/40 mx-auto mb-4" />
-            <p className="text-mhts-white/60 text-sm font-body mb-2">Booking widget</p>
-            <p className="text-xs text-mhts-white/40 font-body">
-              Picktime or YouCanBook.me widget with deposit payment will be embedded here.
-            </p>
+          <a
+            href="https://carlo56fm.setmore.com/lexie"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-mhts-white text-mhts-charcoal font-semibold px-8 py-3 rounded-sm hover:bg-mhts-white/90 transition-colors font-body mb-6"
+          >
+            Book Now
+          </a>
+          <div className="rounded-sm overflow-hidden border border-mhts-slate/30">
+            <iframe
+              src="https://carlo56fm.setmore.com/lexie"
+              width="100%"
+              height="500"
+              style={{ border: 0 }}
+              title="MHTS Booking"
+              loading="lazy"
+            />
           </div>
         </div>
       </div>
