@@ -4,10 +4,9 @@ import SectionHeading from "@/components/SectionHeading";
 const services = [
   { name: "Gents Haircut", desc: "Classic cuts, fades, scissor work — tailored to your style." },
   { name: "Kids Haircut", desc: "Friendly, patient service for younger gents." },
-  { name: "Hot Towel Shave", desc: "Traditional straight razor shave with hot towels." },
   { name: "Beard Trim & Shape", desc: "Expert beard grooming and sculpting." },
   { name: "Hair & Beard Combo", desc: "Full grooming session — haircut plus beard trim." },
-  { name: "Ear Piercing", desc: "Professional ear piercing in a clean, sterile environment." },
+  { name: "Ear Piercing", desc: "Professional ear piercing in a clean, sterile environment. Appointment required — walk-ins not accepted for piercings." },
 ];
 
 const GBServices = () => (
