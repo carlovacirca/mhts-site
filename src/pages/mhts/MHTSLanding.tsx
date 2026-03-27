@@ -343,20 +343,15 @@ const MHTSLanding = () => {
           <h2 className="text-3xl md:text-4xl text-mhts-white font-light tracking-wide">Book a Consultation</h2>
           <div className="w-12 h-px bg-mhts-white/30 mx-auto mt-5" />
         </div>
-        <div className="max-w-lg mx-auto">
-
-
-          <div className="rounded-sm overflow-hidden border border-mhts-slate/30">
-            <iframe
-              ref={iframeRef}
-              src="https://booking.appointy.com/Mhts?isgadget=1&autoheight=1"
-              scrolling="no"
-              width="100%"
-              frameBorder="0"
-              style={{ border: 0 }}
-              title="MHTS Booking"
-            />
-          </div>
+        <div className="max-w-lg mx-auto flex justify-center">
+          <a
+            href="https://booking.appointy.com/Mhts"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center px-10 py-4 rounded-md bg-mhts-charcoal text-white font-semibold text-lg hover:bg-mhts-charcoal/90 transition-colors"
+          >
+            Book a Consultation
+          </a>
         </div>
       </div>
     </section>
