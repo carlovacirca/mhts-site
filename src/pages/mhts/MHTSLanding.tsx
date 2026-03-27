@@ -332,6 +332,10 @@ const MHTSLanding = () => {
     {/* ─── BOOK ─── */}
     <section id="mhts-book" className="py-20 bg-mhts-light scroll-mt-20">
       <div className="w-full">
+        <div className="text-center mb-10 px-4">
+          <h2 className="font-display text-3xl md:text-4xl text-mhts-charcoal tracking-wide mb-3">Book a Consultation</h2>
+          <p className="text-mhts-slate font-body text-base md:text-lg max-w-xl mx-auto">Select a date and time below to book your free consultation with our specialist team.</p>
+        </div>
         <div
           className="embedded-booking w-full"
           data-url="https://menshairtostay.trafft.com"
