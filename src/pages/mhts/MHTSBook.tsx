@@ -28,7 +28,7 @@ const MHTSBook = () => {
             data-autoresize="0"
             data-showsidebar="1"
             data-showservices="0"
-            style={{ minWidth: "320px", height: "768px" }}
+            style={{ minWidth: "320px", height: "900px" }}
           />
 
           {/* Hours */}
