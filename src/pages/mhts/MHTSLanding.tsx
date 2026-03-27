@@ -97,6 +97,7 @@ const MHTSLanding = () => {
   }, []);
 
   return (
+    <div className="mhts-theme">
     {/* ─── HERO ─── */}
     <section className="relative min-h-[70vh] flex items-center overflow-hidden">
       <img src={mhtsHero} alt="Men's Hair To Stay studio" className="absolute inset-0 w-full h-full object-cover" />
