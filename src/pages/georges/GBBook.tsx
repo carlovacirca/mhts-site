@@ -22,6 +22,13 @@ const GBBook = () => (
           <OpeningHours brand="gb" />
         </div>
 
+        {/* Info notice */}
+        <div className="bg-gb-green/10 border border-gb-gold/30 rounded-md px-5 py-3 max-w-md mx-auto text-center">
+          <p className="text-gb-green font-body text-sm font-medium">
+            Please note: Saturday and Sunday are walk-in only. Online booking is available Monday to Friday.
+          </p>
+        </div>
+
         {/* Full-width embedded booking widget */}
         <div className="rounded-xl overflow-hidden border border-gb-gold/20 bg-white">
           <iframe
