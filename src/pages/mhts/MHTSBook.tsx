@@ -36,10 +36,13 @@ const MHTSBook = () => {
             <div className="rounded-lg overflow-hidden border border-border">
               <iframe
                 ref={iframeRef}
-                src="https://booking.appointy.com/Mhts?isgadget=1&autoheight=1"
+                src="https://booking.appointy.com/Mhts"
                 scrolling="no"
                 width="100%"
+                height="700"
                 frameBorder="0"
+                allow="payment"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
                 style={{ border: 0 }}
                 title="MHTS Booking"
               />
