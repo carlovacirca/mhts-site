@@ -330,20 +330,18 @@ const MHTSLanding = () => {
     </section>
 
     {/* ─── BOOK ─── */}
-    <section id="mhts-book" className="py-20 bg-mhts-charcoal scroll-mt-20">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-center">
-          <div
-            className="embedded-booking"
-            data-url="https://menshairtostay.trafft.com"
-            data-query="&t=s&uuid=848c1e33-c5d4-4dc8-a7de-94102b7c344b"
-            data-lang="en"
-            data-autoresize="0"
-            data-showsidebar="1"
-            data-showservices="0"
-            style={{ minWidth: "320px", height: "900px" }}
-          />
-        </div>
+    <section id="mhts-book" className="py-20 bg-mhts-light scroll-mt-20">
+      <div className="w-full">
+        <div
+          className="embedded-booking w-full"
+          data-url="https://menshairtostay.trafft.com"
+          data-query="&t=s&uuid=848c1e33-c5d4-4dc8-a7de-94102b7c344b"
+          data-lang="en"
+          data-autoresize="0"
+          data-showsidebar="1"
+          data-showservices="0"
+          style={{ minWidth: "320px", minHeight: "1000px", width: "100%" }}
+        />
       </div>
     </section>
 
