@@ -80,21 +80,6 @@ const reviews = [
 ];
 
 const MHTSLanding = () => {
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-
-  useEffect(() => {
-    const handleMessage = (e: MessageEvent) => {
-      const d = e.data || {};
-      if (d.type === "height" && iframeRef.current) {
-        iframeRef.current.style.height = d.data + "px";
-      }
-      if (d.type === "scroll" && iframeRef.current) {
-        iframeRef.current.scrollIntoView();
-      }
-    };
-    window.addEventListener("message", handleMessage);
-    return () => window.removeEventListener("message", handleMessage);
-  }, []);
 
   return (
     <div className="mhts-theme">
