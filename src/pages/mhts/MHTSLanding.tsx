@@ -409,6 +409,7 @@ const MHTSLanding = () => {
       </div>
     </section>
   </div>
-);
+  );
+};
 
 export default MHTSLanding;
