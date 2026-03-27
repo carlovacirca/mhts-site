@@ -1,8 +1,18 @@
+import { useEffect } from "react";
 import SectionHeading from "@/components/SectionHeading";
 import OpeningHours from "@/components/OpeningHours";
-import { CalendarCheck } from "lucide-react";
 
 const MHTSBook = () => {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://menshairtostay.trafft.com/embed.js";
+    script.async = true;
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   return (
     <div className="mhts-theme py-16">
       <div className="container mx-auto px-4">
@@ -10,17 +20,16 @@ const MHTSBook = () => {
 
         <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Booking */}
-          <div className="bg-mhts-light rounded-xl p-8 flex flex-col items-center justify-center">
-            <CalendarCheck className="w-10 h-10 text-mhts-charcoal mb-4" />
-            <a
-              href="https://booking.appointy.com/Mhts"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-8 py-3 rounded-md bg-mhts-charcoal text-white font-semibold text-lg hover:bg-mhts-charcoal/90 transition-colors"
-            >
-              Book a Consultation
-            </a>
-          </div>
+          <div
+            className="embedded-booking"
+            data-url="https://menshairtostay.trafft.com"
+            data-query="&t=s&uuid=848c1e33-c5d4-4dc8-a7de-94102b7c344b"
+            data-lang="en"
+            data-autoresize="0"
+            data-showsidebar="1"
+            data-showservices="0"
+            style={{ minWidth: "320px", height: "768px" }}
+          />
 
           {/* Hours */}
           <OpeningHours brand="mhts" />
