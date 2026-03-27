@@ -153,7 +153,7 @@ const GBLanding = () => (
             </motion.div>
           ))}
         </div>
-        <p className="text-center text-muted-foreground text-sm mt-8 font-body">Walk-ins welcome • No appointment needed</p>
+        <p className="text-center text-muted-foreground text-sm mt-8 font-body">Haircuts: walk-ins welcome, no appointment needed • Piercings: appointment only</p>
       </div>
     </section>
 
