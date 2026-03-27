@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Shield, Award, Clock, Phone, Mail, MapPin, Star, Quote, AlertCircle, CalendarCheck, ChevronRight, CheckCircle2 } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
@@ -78,8 +79,25 @@ const reviews = [
   },
 ];
 
-const MHTSLanding = () => (
-  <div className="mhts-theme">
+const MHTSLanding = () => {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    const handleMessage = (e: MessageEvent) => {
+      const d = e.data || {};
+      if (d.type === "height" && iframeRef.current) {
+        iframeRef.current.style.height = d.data + "px";
+      }
+      if (d.type === "scroll" && iframeRef.current) {
+        iframeRef.current.scrollIntoView();
+      }
+    };
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, []);
+
+  return (
+    <div className="mhts-theme">
     {/* ─── HERO ─── */}
     <section className="relative min-h-[70vh] flex items-center overflow-hidden">
       <img src={mhtsHero} alt="Men's Hair To Stay studio" className="absolute inset-0 w-full h-full object-cover" />
@@ -330,12 +348,13 @@ const MHTSLanding = () => (
 
           <div className="rounded-sm overflow-hidden border border-mhts-slate/30">
             <iframe
-              src="https://carlo56fm.setmore.com/lexie"
+              ref={iframeRef}
+              src="https://booking.appointy.com/Mhts?isgadget=1&autoheight=1"
+              scrolling="no"
               width="100%"
-              height="500"
+              frameBorder="0"
               style={{ border: 0 }}
               title="MHTS Booking"
-              loading="lazy"
             />
           </div>
         </div>
@@ -391,6 +410,7 @@ const MHTSLanding = () => (
       </div>
     </section>
   </div>
-);
+  );
+};
 
 export default MHTSLanding;
