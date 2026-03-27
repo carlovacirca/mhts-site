@@ -228,6 +228,11 @@ const GBLanding = () => (
             <p className="text-foreground/80 font-body mb-8 max-w-md mx-auto">
               No appointment? No problem. Georges Barbers operates on a walk-in basis — just pop in and take a seat. For busier times, you can book ahead below.
             </p>
+            <div className="bg-gb-green/10 border border-gb-gold/30 rounded-md px-5 py-3 mb-6 max-w-md mx-auto">
+              <p className="text-gb-green font-body text-sm font-medium">
+                Please note: Saturday and Sunday are walk-in only. Online booking is available Monday to Friday.
+              </p>
+            </div>
             <div className="rounded-lg overflow-hidden border border-gb-gold/20">
               <iframe
                 src="https://carlo56fm.setmore.com/george"
