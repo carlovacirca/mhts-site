@@ -322,17 +322,12 @@ const MHTSLanding = () => {
     {/* ─── BOOK ─── */}
     <section id="mhts-book" className="py-20 bg-mhts-charcoal scroll-mt-20">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-14">
-          <p className="text-mhts-white/50 uppercase tracking-[0.2em] text-xs mb-3 font-body">Get Started</p>
-          <h2 className="text-3xl md:text-4xl text-mhts-white font-light tracking-wide">Book a Consultation</h2>
-          <div className="w-12 h-px bg-mhts-white/30 mx-auto mt-5" />
-        </div>
-        <div className="max-w-lg mx-auto flex justify-center">
+        <div className="flex justify-center">
           <a
             href="https://booking.appointy.com/Mhts"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center px-10 py-4 rounded-md bg-mhts-charcoal text-white font-semibold text-lg hover:bg-mhts-charcoal/90 transition-colors"
+            className="inline-flex items-center justify-center px-10 py-4 rounded-md bg-gb-gold text-mhts-charcoal font-semibold text-lg hover:bg-gb-gold/90 transition-colors"
           >
             Book a Consultation
           </a>
