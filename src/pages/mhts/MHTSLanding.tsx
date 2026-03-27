@@ -79,8 +79,24 @@ const reviews = [
   },
 ];
 
-const MHTSLanding = () => (
-  <div className="mhts-theme">
+const MHTSLanding = () => {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    const handleMessage = (e: MessageEvent) => {
+      const d = e.data || {};
+      if (d.type === "height" && iframeRef.current) {
+        iframeRef.current.style.height = d.data + "px";
+      }
+      if (d.type === "scroll" && iframeRef.current) {
+        iframeRef.current.scrollIntoView();
+      }
+    };
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, []);
+
+  return (
     {/* ─── HERO ─── */}
     <section className="relative min-h-[70vh] flex items-center overflow-hidden">
       <img src={mhtsHero} alt="Men's Hair To Stay studio" className="absolute inset-0 w-full h-full object-cover" />
