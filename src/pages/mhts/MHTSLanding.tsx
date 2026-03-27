@@ -348,12 +348,13 @@ const MHTSLanding = () => {
 
           <div className="rounded-sm overflow-hidden border border-mhts-slate/30">
             <iframe
-              src="https://carlo56fm.setmore.com/lexie"
+              ref={iframeRef}
+              src="https://booking.appointy.com/Mhts?isgadget=1&autoheight=1"
+              scrolling="no"
               width="100%"
-              height="500"
+              frameBorder="0"
               style={{ border: 0 }}
               title="MHTS Booking"
-              loading="lazy"
             />
           </div>
         </div>
