@@ -19,7 +19,7 @@ const Footer = () => (
         </div>
         <p className="text-sm opacity-70 mb-4">Traditional gents barbershop & ear piercing studio in Amersham.</p>
         <div className="flex gap-3">
-          <a href="https://www.instagram.com/menshairtostay?igsh=d2dmaXJzb210OWZ0" target="_blank" rel="noopener noreferrer" className="hover:text-gb-gold transition-colors" aria-label="Georges Barbers Instagram">
+          <a href="https://www.instagram.com/georgesbarbers1991/" target="_blank" rel="noopener noreferrer" className="hover:text-gb-gold transition-colors" aria-label="Georges Barbers Instagram">
             <Instagram className="w-5 h-5" />
           </a>
           <a href="https://www.facebook.com/share/14XfkPCSNsP/" target="_blank" rel="noopener noreferrer" className="hover:text-gb-gold transition-colors" aria-label="Georges Barbers Facebook">
