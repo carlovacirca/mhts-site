@@ -1,10 +1,16 @@
 import SectionHeading from "@/components/SectionHeading";
 import OpeningHours from "@/components/OpeningHours";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Phone, Mail, Home } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const ContactPage = () => (
   <div className="py-16">
     <div className="container mx-auto px-4">
+      <div className="flex justify-center mb-4">
+        <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm">
+          <Home className="w-4 h-4" /> Back to Home
+        </Link>
+      </div>
       <SectionHeading title="Contact Us" subtitle="11 Chesham Road, Amersham HP6 5HN" />
 
       <div className="max-w-5xl mx-auto">
