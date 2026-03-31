@@ -1,6 +1,7 @@
 import SectionHeading from "@/components/SectionHeading";
 import OpeningHours from "@/components/OpeningHours";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Phone, Mail, Home } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const ContactPage = () => (
   <div className="py-16">
