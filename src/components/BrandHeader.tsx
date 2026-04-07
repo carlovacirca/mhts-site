@@ -82,8 +82,8 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
           <a href={isGB ? "tel:01494432131" : "tel:07947878087"} className="flex items-center gap-1 hover:text-gb-gold transition-colors">
             <Phone className="w-3 h-3" /> {isGB ? "01494 432131" : "07947 878087"}
           </a>
-          <a href="mailto:info@georgesbarbers.co.uk" className="hidden sm:flex items-center gap-1 hover:text-gb-gold transition-colors">
-            <Mail className="w-3 h-3" /> info@georgesbarbers.co.uk
+          <a href="mailto:georgesbarbers1991@gmail.com" className="hidden sm:flex items-center gap-1 hover:text-gb-gold transition-colors">
+            <Mail className="w-3 h-3" /> georgesbarbers1991@gmail.com
           </a>
         </div>
         <span className="hidden sm:block">11 Chesham Road, Amersham HP6 5HN</span>

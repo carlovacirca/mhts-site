@@ -57,7 +57,7 @@ const Footer = () => (
           <p className="flex items-center gap-2"><MapPin className="w-4 h-4 shrink-0" /> 11 Chesham Road, Amersham HP6 5HN</p>
           <p className="flex items-center gap-2"><Phone className="w-4 h-4 shrink-0" /> Georges: 01494 432131</p>
           <p className="flex items-center gap-2"><Phone className="w-4 h-4 shrink-0" /> MHTS: 07947 878087</p>
-          <p className="flex items-center gap-2"><Mail className="w-4 h-4 shrink-0" /> info@georgesbarbers.co.uk</p>
+          <p className="flex items-center gap-2"><Mail className="w-4 h-4 shrink-0" /> georgesbarbers1991@gmail.com</p>
         </div>
         <div className="mt-4 flex gap-4">
           <Link to="/georges-barbers" className="text-xs uppercase tracking-wider hover:text-gb-gold transition-colors">Georges</Link>
