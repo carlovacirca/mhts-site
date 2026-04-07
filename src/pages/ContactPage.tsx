@@ -32,7 +32,7 @@ const ContactPage = () => (
           <div className="bg-card rounded-lg p-6 text-center border border-border">
             <Mail className="w-6 h-6 mx-auto mb-3 text-gb-green" />
             <h3 className="font-semibold mb-1">Email</h3>
-            <a href="mailto:info@georgesbarbers.co.uk" className="text-muted-foreground text-sm hover:text-foreground transition-colors">info@georgesbarbers.co.uk</a>
+            <a href="mailto:georgesbarbers1991@gmail.com" className="text-muted-foreground text-sm hover:text-foreground transition-colors">georgesbarbers1991@gmail.com</a>
           </div>
         </div>
 

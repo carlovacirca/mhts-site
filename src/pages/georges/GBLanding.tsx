@@ -261,9 +261,9 @@ const GBLanding = () => (
                   <Phone className="w-5 h-5" />
                   <span className="text-lg font-semibold">01494 432131</span>
                 </a>
-                <a href="mailto:info@georgesbarbers.co.uk" className="flex items-center gap-3 text-gb-green hover:text-gb-gold transition-colors font-body">
+                <a href="mailto:georgesbarbers1991@gmail.com" className="flex items-center gap-3 text-gb-green hover:text-gb-gold transition-colors font-body">
                   <Mail className="w-5 h-5" />
-                  <span>info@georgesbarbers.co.uk</span>
+                  <span>georgesbarbers1991@gmail.com</span>
                 </a>
                 <div className="flex items-start gap-3 text-foreground/80 font-body">
                   <MapPin className="w-5 h-5 shrink-0 text-gb-green" />

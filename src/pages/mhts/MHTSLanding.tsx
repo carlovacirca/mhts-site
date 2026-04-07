@@ -366,9 +366,9 @@ const MHTSLanding = () => {
                   <Phone className="w-5 h-5" />
                   <span className="text-lg tracking-wide">07947 878087</span>
                 </a>
-                <a href="mailto:info@georgesbarbers.co.uk" className="flex items-center gap-3 text-mhts-charcoal hover:text-mhts-slate transition-colors font-body">
+                <a href="mailto:georgesbarbers1991@gmail.com" className="flex items-center gap-3 text-mhts-charcoal hover:text-mhts-slate transition-colors font-body">
                   <Mail className="w-5 h-5" />
-                  <span className="font-body">info@georgesbarbers.co.uk</span>
+                  <span className="font-body">georgesbarbers1991@gmail.com</span>
                 </a>
                 <div className="flex items-start gap-3 text-foreground/80 font-body">
                   <MapPin className="w-5 h-5 shrink-0 text-mhts-charcoal" />
