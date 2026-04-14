@@ -82,6 +82,10 @@
 }
 
 /* MHTS themed sections */
+#lovable-badge {
+  display: none !important;
+}
+
 .mhts-theme h1, .mhts-theme h2, .mhts-theme h3, .mhts-theme h4 {
   font-family: 'DM Sans', sans-serif;
   font-weight: 300;
