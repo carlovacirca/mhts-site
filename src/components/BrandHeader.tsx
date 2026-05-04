@@ -115,17 +115,27 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
 
             {/* Desktop nav */}
             <nav className="hidden md:flex items-center gap-1">
-              {links.map((l) => (
-                <button
-                  key={l.to}
-                  onClick={() => handleAnchorClick(l.to)}
-                  className={`px-3 py-1.5 text-sm transition-colors rounded-md ${
-                    activeSection === l.to ? activeClass : hoverClass
-                  }`}
-                >
-                  {l.label}
-                </button>
-              ))}
+              {links.map((l) =>
+                l.to.startsWith("#") ? (
+                  <button
+                    key={l.to}
+                    onClick={() => handleAnchorClick(l.to)}
+                    className={`px-3 py-1.5 text-sm transition-colors rounded-md ${
+                      activeSection === l.to ? activeClass : hoverClass
+                    }`}
+                  >
+                    {l.label}
+                  </button>
+                ) : (
+                  <Link
+                    key={l.to}
+                    to={l.to}
+                    className={`px-3 py-1.5 text-sm transition-colors rounded-md ${hoverClass}`}
+                  >
+                    {l.label}
+                  </Link>
+                )
+              )}
             </nav>
 
             {/* Hamburger */}
