@@ -70,9 +70,17 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
     return () => observer.disconnect();
   }, [links]);
 
+  const brandPath = isGB ? "/georges-barbers" : "/mens-hair-to-stay";
+  const onBrandPage = location.pathname === brandPath;
+
   const handleAnchorClick = (hash: string) => {
     setOpen(false);
     if (!hash.startsWith("#")) return;
+    if (!onBrandPage) {
+      // Navigate to brand landing with the hash; landing page will handle scroll
+      window.location.href = `${brandPath}${hash}`;
+      return;
+    }
     const el = document.querySelector(hash);
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
