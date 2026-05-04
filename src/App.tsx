@@ -9,6 +9,7 @@ import HomePage from "@/pages/HomePage";
 import GBLanding from "@/pages/georges/GBLanding";
 import MHTSLanding from "@/pages/mhts/MHTSLanding";
 import ContactPage from "@/pages/ContactPage";
+import FAQPage from "@/pages/FAQPage";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/georges-barbers" element={<GBLanding />} />
             <Route path="/mens-hair-to-stay" element={<MHTSLanding />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/faq" element={<FAQPage />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
