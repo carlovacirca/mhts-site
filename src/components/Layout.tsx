@@ -10,6 +10,7 @@ const Layout = () => {
   const isGB = location.pathname.startsWith("/georges-barbers");
   const isMHTS = location.pathname.startsWith("/mens-hair-to-stay");
   const isContact = location.pathname === "/contact";
+  const isFAQ = location.pathname === "/faq";
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -17,6 +18,7 @@ const Layout = () => {
       {isGB && <BrandHeader brand="gb" />}
       {isMHTS && <BrandHeader brand="mhts" />}
       {isContact && <HomeHeader />}
+      {isFAQ && <HomeHeader />}
       <main className="flex-1">
         <Outlet />
       </main>
