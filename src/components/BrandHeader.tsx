@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, Phone, Mail, Home } from "lucide-react";
 import gbLogoFull from "@/assets/gb-logo-full.jpeg";
 import mhtsLogoFull from "@/assets/mhts-logo-full.jpeg";
