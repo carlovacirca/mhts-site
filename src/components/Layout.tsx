@@ -20,6 +20,7 @@ const Layout = () => {
       {isMHTS && <BrandHeader brand="mhts" />}
       {isContact && <HomeHeader />}
       {isFAQ && <HomeHeader />}
+      {isBlog && <HomeHeader />}
       <main className="flex-1">
         <Outlet />
       </main>
