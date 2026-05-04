@@ -79,7 +79,7 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
     if (!hash.startsWith("#")) return;
     if (!onBrandPage) {
       // Navigate to brand landing with the hash; landing page will handle scroll
-      window.location.href = `${brandPath}${hash}`;
+      navigate(`${brandPath}${hash}`);
       return;
     }
     const el = document.querySelector(hash);
