@@ -38,6 +38,8 @@ const App = () => (
             <Route path="/mens-hair-to-stay" element={<MHTSLanding />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/faq" element={<FAQPage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:slug" element={<BlogPostPage />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
