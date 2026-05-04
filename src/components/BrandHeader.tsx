@@ -8,6 +8,7 @@ const gbLinks = [
   { to: "#gb-services", label: "Services" },
   { to: "#gb-gallery", label: "Gallery" },
   { to: "#gb-book", label: "Book" },
+  { to: "/faq", label: "FAQ" },
   { to: "#gb-contact", label: "Contact" },
 ];
 
@@ -16,6 +17,7 @@ const mhtsLinks = [
   { to: "#mhts-how-it-works", label: "How It Works" },
   { to: "#mhts-gallery", label: "Gallery" },
   { to: "#mhts-book", label: "Book" },
+  { to: "/faq", label: "FAQ" },
   { to: "#mhts-contact", label: "Contact" },
 ];
 
@@ -68,6 +70,7 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
 
   const handleAnchorClick = (hash: string) => {
     setOpen(false);
+    if (!hash.startsWith("#")) return;
     const el = document.querySelector(hash);
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
@@ -112,17 +115,27 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
 
             {/* Desktop nav */}
             <nav className="hidden md:flex items-center gap-1">
-              {links.map((l) => (
-                <button
-                  key={l.to}
-                  onClick={() => handleAnchorClick(l.to)}
-                  className={`px-3 py-1.5 text-sm transition-colors rounded-md ${
-                    activeSection === l.to ? activeClass : hoverClass
-                  }`}
-                >
-                  {l.label}
-                </button>
-              ))}
+              {links.map((l) =>
+                l.to.startsWith("#") ? (
+                  <button
+                    key={l.to}
+                    onClick={() => handleAnchorClick(l.to)}
+                    className={`px-3 py-1.5 text-sm transition-colors rounded-md ${
+                      activeSection === l.to ? activeClass : hoverClass
+                    }`}
+                  >
+                    {l.label}
+                  </button>
+                ) : (
+                  <Link
+                    key={l.to}
+                    to={l.to}
+                    className={`px-3 py-1.5 text-sm transition-colors rounded-md ${hoverClass}`}
+                  >
+                    {l.label}
+                  </Link>
+                )
+              )}
             </nav>
 
             {/* Hamburger */}
@@ -141,21 +154,36 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
           <div className={`md:hidden border-t animate-fade-in ${isGB ? "bg-gb-black border-background/10" : "bg-card border-border"}`}>
             <div className="container mx-auto px-4 py-4">
               <div className="grid grid-cols-3 gap-1">
-                {links.map((l) => (
-                  <button
-                    key={l.to}
-                    onClick={() => handleAnchorClick(l.to)}
-                    className={`px-3 py-2 text-sm rounded-md text-center transition-colors ${
-                      activeSection === l.to
-                        ? activeClass
-                        : isGB
-                        ? "text-background/70 hover:bg-background/10"
-                        : "text-muted-foreground hover:bg-mhts-light"
-                    }`}
-                  >
-                    {l.label}
-                  </button>
-                ))}
+                {links.map((l) =>
+                  l.to.startsWith("#") ? (
+                    <button
+                      key={l.to}
+                      onClick={() => handleAnchorClick(l.to)}
+                      className={`px-3 py-2 text-sm rounded-md text-center transition-colors ${
+                        activeSection === l.to
+                          ? activeClass
+                          : isGB
+                          ? "text-background/70 hover:bg-background/10"
+                          : "text-muted-foreground hover:bg-mhts-light"
+                      }`}
+                    >
+                      {l.label}
+                    </button>
+                  ) : (
+                    <Link
+                      key={l.to}
+                      to={l.to}
+                      onClick={() => setOpen(false)}
+                      className={`px-3 py-2 text-sm rounded-md text-center transition-colors ${
+                        isGB
+                          ? "text-background/70 hover:bg-background/10"
+                          : "text-muted-foreground hover:bg-mhts-light"
+                      }`}
+                    >
+                      {l.label}
+                    </Link>
+                  )
+                )}
               </div>
             </div>
           </div>
