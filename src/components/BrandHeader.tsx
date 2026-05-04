@@ -70,6 +70,7 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
 
   const handleAnchorClick = (hash: string) => {
     setOpen(false);
+    if (!hash.startsWith("#")) return;
     const el = document.querySelector(hash);
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
