@@ -10,6 +10,8 @@ import GBLanding from "@/pages/georges/GBLanding";
 import MHTSLanding from "@/pages/mhts/MHTSLanding";
 import ContactPage from "@/pages/ContactPage";
 import FAQPage from "@/pages/FAQPage";
+import BlogPage from "@/pages/BlogPage";
+import BlogPostPage from "@/pages/BlogPostPage";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
