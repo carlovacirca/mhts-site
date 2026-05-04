@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, Phone, Mail, Home } from "lucide-react";
 import gbLogoFull from "@/assets/gb-logo-full.jpeg";
 import mhtsLogoFull from "@/assets/mhts-logo-full.jpeg";
@@ -31,6 +31,7 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const location = useLocation();
+  const navigate = useNavigate();
   const isGB = brand === "gb";
   const links = isGB ? gbLinks : mhtsLinks;
   const logo = isGB ? gbLogoFull : mhtsLogoFull;
@@ -70,9 +71,17 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
     return () => observer.disconnect();
   }, [links]);
 
+  const brandPath = isGB ? "/georges-barbers" : "/mens-hair-to-stay";
+  const onBrandPage = location.pathname === brandPath;
+
   const handleAnchorClick = (hash: string) => {
     setOpen(false);
     if (!hash.startsWith("#")) return;
+    if (!onBrandPage) {
+      // Navigate to brand landing with the hash; landing page will handle scroll
+      navigate(`${brandPath}${hash}`);
+      return;
+    }
     const el = document.querySelector(hash);
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
