@@ -19,8 +19,8 @@ const Layout = () => {
       {isGB && <BrandHeader brand="gb" />}
       {isMHTS && <BrandHeader brand="mhts" />}
       {isContact && <HomeHeader />}
-      {isFAQ && <HomeHeader />}
-      {isBlog && <HomeHeader />}
+      {isFAQ && <BrandHeader brand="mhts" />}
+      {isBlog && <BrandHeader brand="mhts" />}
       <main className="flex-1">
         <Outlet />
       </main>
