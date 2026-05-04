@@ -10,6 +10,8 @@ import GBLanding from "@/pages/georges/GBLanding";
 import MHTSLanding from "@/pages/mhts/MHTSLanding";
 import ContactPage from "@/pages/ContactPage";
 import FAQPage from "@/pages/FAQPage";
+import BlogPage from "@/pages/BlogPage";
+import BlogPostPage from "@/pages/BlogPostPage";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +38,8 @@ const App = () => (
             <Route path="/mens-hair-to-stay" element={<MHTSLanding />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/faq" element={<FAQPage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:slug" element={<BlogPostPage />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

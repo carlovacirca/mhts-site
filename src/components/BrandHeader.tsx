@@ -9,6 +9,7 @@ const gbLinks = [
   { to: "#gb-gallery", label: "Gallery" },
   { to: "#gb-book", label: "Book" },
   { to: "/faq", label: "FAQ" },
+  { to: "/blog", label: "Blog" },
   { to: "#gb-contact", label: "Contact" },
 ];
 
@@ -18,6 +19,7 @@ const mhtsLinks = [
   { to: "#mhts-gallery", label: "Gallery" },
   { to: "#mhts-book", label: "Book" },
   { to: "/faq", label: "FAQ" },
+  { to: "/blog", label: "Blog" },
   { to: "#mhts-contact", label: "Contact" },
 ];
 

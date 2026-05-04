@@ -1,0 +1,345 @@
+import { useEffect, useMemo, useState } from "react";
+import { Link, useParams, Navigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Calendar, Clock, ChevronRight, Share2, Facebook, Twitter, Linkedin, Mail, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { blogPosts } from "@/data/blogPosts";
+
+const formatDate = (iso: string) =>
+  new Date(iso).toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" });
+
+interface Block {
+  type: "h2" | "h3" | "p" | "ul" | "ol";
+  text?: string;
+  id?: string;
+  items?: string[];
+}
+
+const slugify = (s: string) =>
+  s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+const renderInline = (text: string) => {
+  const parts: (string | { bold: string })[] = [];
+  const re = /\*\*([^*]+)\*\*/g;
+  let last = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(text))) {
+    if (m.index > last) parts.push(text.slice(last, m.index));
+    parts.push({ bold: m[1] });
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) parts.push(text.slice(last));
+  return parts.map((p, i) =>
+    typeof p === "string" ? <span key={i}>{p}</span> : <strong key={i}>{p.bold}</strong>
+  );
+};
+
+const parseContent = (md: string): Block[] => {
+  const lines = md.split("\n");
+  const blocks: Block[] = [];
+  let listType: "ul" | "ol" | null = null;
+  let listItems: string[] = [];
+  const flushList = () => {
+    if (listType && listItems.length) {
+      blocks.push({ type: listType, items: listItems });
+    }
+    listType = null;
+    listItems = [];
+  };
+  for (const raw of lines) {
+    const line = raw.trim();
+    if (!line) {
+      flushList();
+      continue;
+    }
+    if (line.startsWith("## ")) {
+      flushList();
+      const text = line.slice(3);
+      blocks.push({ type: "h2", text, id: slugify(text) });
+    } else if (line.startsWith("### ")) {
+      flushList();
+      const text = line.slice(4);
+      blocks.push({ type: "h3", text, id: slugify(text) });
+    } else if (line.startsWith("- ")) {
+      if (listType !== "ul") flushList();
+      listType = "ul";
+      listItems.push(line.slice(2));
+    } else if (/^\d+\.\s/.test(line)) {
+      if (listType !== "ol") flushList();
+      listType = "ol";
+      listItems.push(line.replace(/^\d+\.\s/, ""));
+    } else {
+      flushList();
+      blocks.push({ type: "p", text: line });
+    }
+  }
+  flushList();
+  return blocks;
+};
+
+const BlogPostPage = () => {
+  const { slug } = useParams();
+  const post = blogPosts.find((p) => p.slug === slug);
+  const [progress, setProgress] = useState(0);
+  const [email, setEmail] = useState("");
+
+  const blocks = useMemo(() => (post ? parseContent(post.content) : []), [post]);
+  const toc = blocks.filter((b) => b.type === "h2") as Required<Pick<Block, "text" | "id">>[];
+
+  useEffect(() => {
+    if (!post) return;
+    document.title = `${post.title} | Men's Hair To Stay`;
+    const meta =
+      document.querySelector('meta[name="description"]') ||
+      Object.assign(document.createElement("meta"), { name: "description" });
+    meta.setAttribute("content", post.metaDescription);
+    if (!meta.parentNode) document.head.appendChild(meta);
+
+    // Open Graph
+    const setOg = (prop: string, content: string) => {
+      let el = document.querySelector(`meta[property="${prop}"]`) as HTMLMetaElement | null;
+      if (!el) {
+        el = document.createElement("meta");
+        el.setAttribute("property", prop);
+        document.head.appendChild(el);
+      }
+      el.content = content;
+    };
+    setOg("og:title", post.title);
+    setOg("og:description", post.metaDescription);
+    setOg("og:type", "article");
+    setOg("og:url", window.location.href);
+
+    // Article schema
+    const ld = document.createElement("script");
+    ld.type = "application/ld+json";
+    ld.id = "article-jsonld";
+    ld.text = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: post.title,
+      description: post.metaDescription,
+      author: { "@type": "Organization", name: post.author },
+      datePublished: post.date,
+      mainEntityOfPage: window.location.href,
+    });
+    document.getElementById("article-jsonld")?.remove();
+    document.head.appendChild(ld);
+    return () => document.getElementById("article-jsonld")?.remove();
+  }, [post]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const h = document.documentElement;
+      const total = h.scrollHeight - h.clientHeight;
+      setProgress(total > 0 ? Math.min(100, (h.scrollTop / total) * 100) : 0);
+    };
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  if (!post) return <Navigate to="/blog" replace />;
+
+  const related = blogPosts
+    .filter((p) => p.slug !== post.slug && p.category === post.category)
+    .slice(0, 3);
+  const fallbackRelated =
+    related.length < 3
+      ? [...related, ...blogPosts.filter((p) => p.slug !== post.slug && !related.includes(p))].slice(0, 3)
+      : related;
+
+  const shareUrl = typeof window !== "undefined" ? window.location.href : "";
+
+  return (
+    <div className="bg-background min-h-screen">
+      {/* Reading progress */}
+      <div className="fixed top-0 left-0 right-0 h-1 z-50 bg-transparent">
+        <div
+          className="h-full bg-mhts-charcoal transition-all"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+
+      {/* Hero */}
+      <section className="relative bg-gradient-to-br from-mhts-navy to-mhts-charcoal text-mhts-white py-20 px-4">
+        <div className="absolute inset-0 bg-black/30" />
+        <div className="container mx-auto max-w-4xl relative">
+          <Link to="/blog" className="inline-flex items-center gap-1 text-sm text-mhts-white/70 hover:text-mhts-white mb-6">
+            <ArrowLeft className="w-4 h-4" /> Back to blog
+          </Link>
+          <span className="inline-block px-3 py-1 bg-mhts-white/10 backdrop-blur text-mhts-white text-xs rounded-full mb-4">
+            {post.category}
+          </span>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-3xl md:text-5xl font-bold mb-6"
+          >
+            {post.title}
+          </motion.h1>
+          <div className="flex flex-wrap items-center gap-5 text-sm text-mhts-white/80">
+            <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {formatDate(post.date)}</span>
+            <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {post.readTime}</span>
+            <span>By {post.author}</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4 text-sm text-muted-foreground">
+        <Link to="/" className="hover:text-foreground">Home</Link>
+        <ChevronRight className="inline w-3 h-3 mx-1" />
+        <Link to="/blog" className="hover:text-foreground">Blog</Link>
+        <ChevronRight className="inline w-3 h-3 mx-1" />
+        <span className="text-foreground line-clamp-1 inline">{post.title}</span>
+      </div>
+
+      <div className="container mx-auto px-4 pb-20 grid lg:grid-cols-[200px_1fr_280px] gap-8">
+        {/* Share sidebar */}
+        <aside className="hidden lg:block">
+          <div className="sticky top-28 space-y-3">
+            <p className="text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-1">
+              <Share2 className="w-3 h-3" /> Share
+            </p>
+            <div className="flex flex-col gap-2">
+              <a target="_blank" rel="noopener" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`} className="p-2 rounded-md border border-border hover:bg-mhts-light transition-colors w-fit">
+                <Facebook className="w-4 h-4" />
+              </a>
+              <a target="_blank" rel="noopener" href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(post.title)}`} className="p-2 rounded-md border border-border hover:bg-mhts-light transition-colors w-fit">
+                <Twitter className="w-4 h-4" />
+              </a>
+              <a target="_blank" rel="noopener" href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`} className="p-2 rounded-md border border-border hover:bg-mhts-light transition-colors w-fit">
+                <Linkedin className="w-4 h-4" />
+              </a>
+              <a href={`mailto:?subject=${encodeURIComponent(post.title)}&body=${encodeURIComponent(shareUrl)}`} className="p-2 rounded-md border border-border hover:bg-mhts-light transition-colors w-fit">
+                <Mail className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
+        </aside>
+
+        {/* Article */}
+        <article className="prose prose-slate max-w-none">
+          {blocks.map((b, i) => {
+            if (b.type === "h2")
+              return (
+                <h2 id={b.id} key={i} className="text-2xl md:text-3xl font-bold mt-10 mb-4 text-mhts-charcoal scroll-mt-24">
+                  {b.text}
+                </h2>
+              );
+            if (b.type === "h3")
+              return (
+                <h3 id={b.id} key={i} className="text-xl font-semibold mt-6 mb-3 text-mhts-charcoal scroll-mt-24">
+                  {b.text}
+                </h3>
+              );
+            if (b.type === "ul")
+              return (
+                <ul key={i} className="list-disc pl-6 my-4 space-y-1.5 text-foreground/90">
+                  {b.items!.map((it, j) => <li key={j}>{renderInline(it)}</li>)}
+                </ul>
+              );
+            if (b.type === "ol")
+              return (
+                <ol key={i} className="list-decimal pl-6 my-4 space-y-1.5 text-foreground/90">
+                  {b.items!.map((it, j) => <li key={j}>{renderInline(it)}</li>)}
+                </ol>
+              );
+            return (
+              <p key={i} className="my-4 leading-relaxed text-foreground/90">
+                {renderInline(b.text!)}
+              </p>
+            );
+          })}
+
+          {/* Newsletter */}
+          <div className="mt-12 bg-mhts-light p-6 rounded-lg not-prose">
+            <h3 className="font-bold text-lg mb-2 text-mhts-charcoal">Get more expert insights</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Subscribe for hair restoration tips, guides and exclusive offers.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <Input
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="bg-background"
+              />
+              <Button
+                className="bg-mhts-charcoal hover:bg-mhts-charcoal/90 text-mhts-white"
+                onClick={() => {
+                  if (email)
+                    window.location.href = `mailto:georgesbarbers1991@gmail.com?subject=Newsletter%20signup&body=Please%20add%20${email}`;
+                }}
+              >
+                Subscribe
+              </Button>
+            </div>
+          </div>
+        </article>
+
+        {/* Right sidebar — TOC + CTA */}
+        <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start hidden lg:block">
+          {toc.length > 0 && (
+            <div>
+              <h4 className="font-bold mb-3 text-mhts-charcoal text-sm uppercase tracking-wider">
+                On this page
+              </h4>
+              <ul className="space-y-2 text-sm border-l border-border pl-3">
+                {toc.map((h) => (
+                  <li key={h.id}>
+                    <a
+                      href={`#${h.id}`}
+                      className="text-muted-foreground hover:text-mhts-charcoal transition-colors block"
+                    >
+                      {h.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <div className="bg-mhts-charcoal text-mhts-white p-5 rounded-lg">
+            <h4 className="font-bold mb-2">Book a free consultation</h4>
+            <p className="text-sm text-mhts-white/80 mb-4">
+              Discuss your hair restoration goals with our specialists.
+            </p>
+            <Link to="/mens-hair-to-stay#mhts-book">
+              <Button className="w-full bg-mhts-white text-mhts-charcoal hover:bg-mhts-white/90">
+                Book Consultation
+              </Button>
+            </Link>
+          </div>
+        </aside>
+      </div>
+
+      {/* Related */}
+      <section className="container mx-auto px-4 pb-20">
+        <h2 className="text-2xl md:text-3xl font-bold text-mhts-charcoal mb-6">Related articles</h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {fallbackRelated.map((p) => (
+            <Link key={p.slug} to={`/blog/${p.slug}`}>
+              <Card className="h-full hover:shadow-lg transition-shadow overflow-hidden">
+                <div className="aspect-[16/10] bg-gradient-to-br from-mhts-navy to-mhts-charcoal flex items-center justify-center">
+                  <span className="text-mhts-white/20 text-2xl font-bold">MHTS</span>
+                </div>
+                <CardContent className="p-5">
+                  <span className="inline-block px-2 py-0.5 bg-mhts-light text-mhts-charcoal text-xs rounded-full mb-2">
+                    {p.category}
+                  </span>
+                  <h3 className="font-semibold mb-2 line-clamp-2 text-mhts-charcoal">{p.title}</h3>
+                  <p className="text-sm text-muted-foreground line-clamp-2">{p.excerpt}</p>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default BlogPostPage;
