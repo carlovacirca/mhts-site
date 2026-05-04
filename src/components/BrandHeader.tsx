@@ -31,6 +31,7 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const location = useLocation();
+  const navigate = useNavigate();
   const isGB = brand === "gb";
   const links = isGB ? gbLinks : mhtsLinks;
   const logo = isGB ? gbLogoFull : mhtsLogoFull;
