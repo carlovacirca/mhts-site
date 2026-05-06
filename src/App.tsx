@@ -16,6 +16,7 @@ import ServiceCategoryPage from "@/pages/services/ServiceCategoryPage";
 import SubServicePage from "@/pages/services/SubServicePage";
 import HairSystemsPage from "@/pages/services/HairSystemsPage";
 import ScalpMicropigmentationPage from "@/pages/services/ScalpMicropigmentationPage";
+import HairDensityPage from "@/pages/services/HairDensityPage";
 import { serviceCategories } from "@/data/services";
 import NotFound from "@/pages/NotFound";
 
