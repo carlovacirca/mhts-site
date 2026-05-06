@@ -54,12 +54,10 @@ const App = () => (
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogPostPage />} />
-            {serviceCategories.map((c) => (
-              <Route key={c.slug}>
-                <Route path={`/${c.slug}`} element={<ServiceCategoryPage />} />
-                <Route path={`/${c.slug}/:sub`} element={<SubServicePage />} />
-              </Route>
-            ))}
+            {serviceCategories.flatMap((c) => [
+              <Route key={c.slug} path={`/${c.slug}`} element={<ServiceCategoryPage />} />,
+              <Route key={`${c.slug}-sub`} path={`/${c.slug}/:sub`} element={<SubServicePage />} />,
+            ])}
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
