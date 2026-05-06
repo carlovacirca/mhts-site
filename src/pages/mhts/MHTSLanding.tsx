@@ -14,18 +14,22 @@ import mhtsAfter3 from "@/assets/mhts-after-3.jpg";
 const services = [
   {
     name: "Hair Systems",
+    slug: "hair-systems",
     desc: "Custom-fitted hair systems matched perfectly to your hair colour, texture and style. Undetectable, natural-looking results.",
   },
   {
     name: "Scalp Micropigmentation",
+    slug: "scalp-micropigmentation",
     desc: "Advanced pigmentation technique that replicates natural hair follicles for a fuller, natural look. Multiple sessions for best results.",
   },
   {
     name: "Hair Density",
+    slug: "hair-density",
     desc: "Effective solutions for thinning hair and improving hair density.",
   },
   {
     name: "Hair System Maintenance",
+    slug: "hair-system-maintenance",
     desc: "Regular maintenance appointments to keep your hair system looking fresh, natural and long-lasting.",
   },
 ];
