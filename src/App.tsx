@@ -15,6 +15,7 @@ import BlogPostPage from "@/pages/BlogPostPage";
 import ServiceCategoryPage from "@/pages/services/ServiceCategoryPage";
 import SubServicePage from "@/pages/services/SubServicePage";
 import HairSystemsPage from "@/pages/services/HairSystemsPage";
+import ScalpMicropigmentationPage from "@/pages/services/ScalpMicropigmentationPage";
 import { serviceCategories } from "@/data/services";
 import NotFound from "@/pages/NotFound";
 
@@ -56,6 +57,7 @@ const App = () => (
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogPostPage />} />
             <Route path="/hair-systems" element={<HairSystemsPage />} />
+            <Route path="/scalp-micropigmentation" element={<ScalpMicropigmentationPage />} />
             {serviceCategories.flatMap((c) => [
               <Route key={c.slug} path={`/${c.slug}`} element={<ServiceCategoryPage />} />,
               <Route key={`${c.slug}-sub`} path={`/${c.slug}/:sub`} element={<SubServicePage />} />,
