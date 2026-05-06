@@ -8,9 +8,12 @@ export interface BlogPost {
   date: string;
   author: string;
   featuredImageAlt: string;
+  image?: string;
   content: string; // markdown-ish
   featured?: boolean;
 }
+
+import blogHairSystemsGuide from "@/assets/blog-hair-systems-guide.jpg";
 
 export const categories = [
   "All Posts",
@@ -37,6 +40,7 @@ export const blogPosts: BlogPost[] = [
     author: "Men's Hair To Stay Team",
     featuredImageAlt:
       "Professional hair system fitting consultation showing natural-looking hair replacement",
+    image: blogHairSystemsGuide,
     featured: true,
     content: `Hair loss affects millions of men and women worldwide, but modern hair replacement technology offers incredible solutions. If you're considering a hair system, this comprehensive guide covers everything you need to make an informed decision.
 

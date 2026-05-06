@@ -323,9 +323,13 @@ const BlogPostPage = () => {
           {fallbackRelated.map((p) => (
             <Link key={p.slug} to={`/blog/${p.slug}`}>
               <Card className="h-full hover:shadow-lg transition-shadow overflow-hidden">
-                <div className="aspect-[16/10] bg-gradient-to-br from-mhts-navy to-mhts-charcoal flex items-center justify-center">
-                  <span className="text-mhts-white/20 text-2xl font-bold">MHTS</span>
-                </div>
+                {p.image ? (
+                  <img src={p.image} alt={p.featuredImageAlt} className="aspect-[16/10] w-full object-cover" loading="lazy" />
+                ) : (
+                  <div className="aspect-[16/10] bg-gradient-to-br from-mhts-navy to-mhts-charcoal flex items-center justify-center">
+                    <span className="text-mhts-white/20 text-2xl font-bold">MHTS</span>
+                  </div>
+                )}
                 <CardContent className="p-5">
                   <span className="inline-block px-2 py-0.5 bg-mhts-light text-mhts-charcoal text-xs rounded-full mb-2">
                     {p.category}

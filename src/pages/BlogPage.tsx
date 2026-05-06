@@ -140,9 +140,18 @@ const BlogPage = () => {
               whileHover={{ y: -4 }}
               className="grid md:grid-cols-2 gap-8 bg-card rounded-2xl overflow-hidden border border-border shadow-sm"
             >
-              <div className="aspect-[16/10] md:aspect-auto bg-gradient-to-br from-mhts-navy to-mhts-charcoal flex items-center justify-center">
-                <span className="text-mhts-white/30 text-6xl font-bold">MHTS</span>
-              </div>
+              {featured.image ? (
+                <img
+                  src={featured.image}
+                  alt={featured.featuredImageAlt}
+                  className="aspect-[16/10] md:aspect-auto w-full h-full object-cover"
+                  loading="lazy"
+                />
+              ) : (
+                <div className="aspect-[16/10] md:aspect-auto bg-gradient-to-br from-mhts-navy to-mhts-charcoal flex items-center justify-center">
+                  <span className="text-mhts-white/30 text-6xl font-bold">MHTS</span>
+                </div>
+              )}
               <div className="p-8 flex flex-col justify-center">
                 <span className="inline-block px-3 py-1 bg-mhts-charcoal text-mhts-white text-xs rounded-full w-fit mb-3">
                   Featured · {featured.category}
@@ -180,9 +189,18 @@ const BlogPage = () => {
                 >
                   <Link to={`/blog/${post.slug}`}>
                     <Card className="overflow-hidden h-full hover:shadow-lg transition-shadow">
-                      <div className="aspect-[16/10] bg-gradient-to-br from-mhts-navy to-mhts-charcoal flex items-center justify-center">
-                        <span className="text-mhts-white/20 text-3xl font-bold">MHTS</span>
-                      </div>
+                      {post.image ? (
+                        <img
+                          src={post.image}
+                          alt={post.featuredImageAlt}
+                          className="aspect-[16/10] w-full object-cover"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div className="aspect-[16/10] bg-gradient-to-br from-mhts-navy to-mhts-charcoal flex items-center justify-center">
+                          <span className="text-mhts-white/20 text-3xl font-bold">MHTS</span>
+                        </div>
+                      )}
                       <CardContent className="p-5">
                         <span className="inline-block px-2 py-0.5 bg-mhts-light text-mhts-charcoal text-xs rounded-full mb-3">
                           {post.category}
