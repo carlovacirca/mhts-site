@@ -59,6 +59,7 @@ const App = () => (
             <Route path="/blog/:slug" element={<BlogPostPage />} />
             <Route path="/hair-systems" element={<HairSystemsPage />} />
             <Route path="/scalp-micropigmentation" element={<ScalpMicropigmentationPage />} />
+            <Route path="/hair-density" element={<HairDensityPage />} />
             {serviceCategories.flatMap((c) => [
               <Route key={c.slug} path={`/${c.slug}`} element={<ServiceCategoryPage />} />,
               <Route key={`${c.slug}-sub`} path={`/${c.slug}/:sub`} element={<SubServicePage />} />,
