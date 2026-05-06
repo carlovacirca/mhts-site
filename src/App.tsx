@@ -22,6 +22,7 @@ import NonSurgicalHairReplacementPage from "@/pages/services/NonSurgicalHairRepl
 import HairReplacementServicePage from "@/pages/services/HairReplacementServicePage";
 import InitialConsultationFittingPage from "@/pages/services/InitialConsultationFittingPage";
 import HairSystemColouringPage from "@/pages/services/HairSystemColouringPage";
+import HairSystemStylingPage from "@/pages/services/HairSystemStylingPage";
 import { serviceCategories } from "@/data/services";
 import NotFound from "@/pages/NotFound";
 
