@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Phone, Mail, Home } from "lucide-react";
+import { Menu, X, Phone, Mail, Home, ChevronDown } from "lucide-react";
+import { serviceCategories } from "@/data/services";
 import gbLogoFull from "@/assets/gb-logo-full.jpeg";
 import mhtsLogoFull from "@/assets/mhts-logo-full.jpeg";
 
@@ -126,8 +127,36 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
 
             {/* Desktop nav */}
             <nav className="hidden md:flex items-center gap-1">
-              {links.map((l) =>
-                l.to.startsWith("#") ? (
+              {links.map((l) => {
+                if (!isGB && l.label === "Services") {
+                  return (
+                    <div key={l.to} className="relative group">
+                      <button
+                        onClick={() => handleAnchorClick(l.to)}
+                        className={`px-3 py-1.5 text-sm transition-colors rounded-md inline-flex items-center gap-1 ${
+                          activeSection === l.to ? activeClass : hoverClass
+                        }`}
+                      >
+                        {l.label}
+                        <ChevronDown className="w-3.5 h-3.5" />
+                      </button>
+                      <div className="absolute left-0 top-full pt-2 hidden group-hover:block z-50">
+                        <div className="bg-card border border-border rounded-md shadow-lg py-2 min-w-[260px]">
+                          {serviceCategories.map((c) => (
+                            <Link
+                              key={c.slug}
+                              to={`/${c.slug}`}
+                              className="block px-4 py-2 text-sm font-body text-mhts-charcoal hover:bg-mhts-light transition-colors"
+                            >
+                              {c.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+                return l.to.startsWith("#") ? (
                   <button
                     key={l.to}
                     onClick={() => handleAnchorClick(l.to)}
@@ -145,8 +174,8 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
                   >
                     {l.label}
                   </Link>
-                )
-              )}
+                );
+              })}
             </nav>
 
             {/* Hamburger */}
@@ -196,6 +225,23 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
                   )
                 )}
               </div>
+              {!isGB && (
+                <div className="mt-4 pt-4 border-t border-border">
+                  <p className="text-xs uppercase tracking-[0.2em] text-mhts-slate font-body mb-2 px-1">Service Categories</p>
+                  <div className="grid grid-cols-2 gap-1">
+                    {serviceCategories.map((c) => (
+                      <Link
+                        key={c.slug}
+                        to={`/${c.slug}`}
+                        onClick={() => setOpen(false)}
+                        className="px-3 py-2 text-sm rounded-md text-center text-mhts-charcoal hover:bg-mhts-light transition-colors font-body"
+                      >
+                        {c.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}

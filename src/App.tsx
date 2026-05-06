@@ -12,6 +12,9 @@ import ContactPage from "@/pages/ContactPage";
 import FAQPage from "@/pages/FAQPage";
 import BlogPage from "@/pages/BlogPage";
 import BlogPostPage from "@/pages/BlogPostPage";
+import ServiceCategoryPage from "@/pages/services/ServiceCategoryPage";
+import SubServicePage from "@/pages/services/SubServicePage";
+import { serviceCategories } from "@/data/services";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -51,6 +54,10 @@ const App = () => (
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogPostPage />} />
+            {serviceCategories.flatMap((c) => [
+              <Route key={c.slug} path={`/${c.slug}`} element={<ServiceCategoryPage />} />,
+              <Route key={`${c.slug}-sub`} path={`/${c.slug}/:sub`} element={<SubServicePage />} />,
+            ])}
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
