@@ -18,6 +18,7 @@ import blogSmpProcedure from "@/assets/blog-smp-procedure.jpg";
 import blogBeforeAfter from "@/assets/blog-before-after.jpg";
 import blogAug25 from "@/assets/blog-aug25.jpg";
 import blogAug18 from "@/assets/blog-aug18.jpg";
+import blogAug11 from "@/assets/blog-aug11.jpg";
 
 export const categories = [
   "All Posts",
@@ -299,6 +300,7 @@ Book a consultation to start your own transformation.`,
     date: "2024-08-11",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Woman receiving hair restoration consultation",
+    image: blogAug11,
     content: `Women experience hair loss too — and excellent solutions exist.
 
 ## Common Causes
