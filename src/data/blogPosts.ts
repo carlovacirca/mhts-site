@@ -16,6 +16,7 @@ export interface BlogPost {
 import blogHairSystemsGuide from "@/assets/blog-hair-systems-guide.jpg";
 import blogSmpProcedure from "@/assets/blog-smp-procedure.jpg";
 import blogBeforeAfter from "@/assets/blog-before-after.jpg";
+import blogAug25 from "@/assets/blog-aug25.jpg";
 
 export const categories = [
   "All Posts",
@@ -216,6 +217,7 @@ Choose based on lifestyle, budget and aesthetic. Book a free consultation to dis
     date: "2024-08-25",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Hair system being cleaned and conditioned",
+    image: blogAug25,
     content: `Proper maintenance keeps your hair system looking natural and extends its life.
 
 ## Daily Care
