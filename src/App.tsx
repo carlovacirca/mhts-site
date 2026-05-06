@@ -24,6 +24,7 @@ import InitialConsultationFittingPage from "@/pages/services/InitialConsultation
 import HairSystemColouringPage from "@/pages/services/HairSystemColouringPage";
 import HairSystemStylingPage from "@/pages/services/HairSystemStylingPage";
 import SMPTouchUpPage from "@/pages/services/SMPTouchUpPage";
+import SMPConsultationPage from "@/pages/services/SMPConsultationPage";
 import { serviceCategories } from "@/data/services";
 import NotFound from "@/pages/NotFound";
 
