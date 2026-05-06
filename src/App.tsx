@@ -14,6 +14,7 @@ import BlogPage from "@/pages/BlogPage";
 import BlogPostPage from "@/pages/BlogPostPage";
 import ServiceCategoryPage from "@/pages/services/ServiceCategoryPage";
 import SubServicePage from "@/pages/services/SubServicePage";
+import HairSystemsPage from "@/pages/services/HairSystemsPage";
 import { serviceCategories } from "@/data/services";
 import NotFound from "@/pages/NotFound";
 
