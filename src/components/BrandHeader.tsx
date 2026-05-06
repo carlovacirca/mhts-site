@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, Phone, Mail, Home, ChevronDown } from "lucide-react";
 import { serviceCategories } from "@/data/services";
