@@ -54,6 +54,12 @@ const App = () => (
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogPostPage />} />
+            {serviceCategories.map((c) => (
+              <Route key={c.slug}>
+                <Route path={`/${c.slug}`} element={<ServiceCategoryPage />} />
+                <Route path={`/${c.slug}/:sub`} element={<SubServicePage />} />
+              </Route>
+            ))}
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
