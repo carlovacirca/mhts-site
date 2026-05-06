@@ -14,6 +14,7 @@ export interface BlogPost {
 }
 
 import blogHairSystemsGuide from "@/assets/blog-hair-systems-guide.jpg";
+import blogSmpProcedure from "@/assets/blog-smp-procedure.jpg";
 
 export const categories = [
   "All Posts",
@@ -110,6 +111,7 @@ Hair systems transform confidence with immediate, natural results. Book a free c
     author: "Men's Hair To Stay Team",
     featuredImageAlt:
       "Close-up of scalp micropigmentation treatment showing realistic hair follicle impressions",
+    image: blogSmpProcedure,
     content: `Scalp micropigmentation (SMP) has revolutionised hair restoration, offering a non-surgical solution that delivers immediate, natural-looking results.
 
 ## What Is Scalp Micropigmentation?
