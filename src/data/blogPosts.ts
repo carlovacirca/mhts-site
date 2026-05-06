@@ -20,6 +20,7 @@ import blogAug25 from "@/assets/blog-aug25.jpg";
 import blogAug18 from "@/assets/blog-aug18.jpg";
 import blogAug11 from "@/assets/blog-aug11.jpg";
 import blogAug04 from "@/assets/blog-aug04.jpg";
+import blogJul28 from "@/assets/blog-jul28.jpg";
 
 export const categories = [
   "All Posts",
@@ -374,6 +375,7 @@ Book a consultation for personalised pricing.`,
     date: "2024-07-28",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Expert dispelling hair restoration myths",
+    image: blogJul28,
     content: `Let's separate fact from fiction.
 
 ## Myth 1: Hair systems look fake
