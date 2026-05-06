@@ -225,6 +225,23 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
                   )
                 )}
               </div>
+              {!isGB && (
+                <div className="mt-4 pt-4 border-t border-border">
+                  <p className="text-xs uppercase tracking-[0.2em] text-mhts-slate font-body mb-2 px-1">Service Categories</p>
+                  <div className="grid grid-cols-2 gap-1">
+                    {serviceCategories.map((c) => (
+                      <Link
+                        key={c.slug}
+                        to={`/${c.slug}`}
+                        onClick={() => setOpen(false)}
+                        className="px-3 py-2 text-sm rounded-md text-center text-mhts-charcoal hover:bg-mhts-light transition-colors font-body"
+                      >
+                        {c.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}
