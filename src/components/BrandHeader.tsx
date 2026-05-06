@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Phone, Mail, Home } from "lucide-react";
+import { Menu, X, Phone, Mail, Home, ChevronDown } from "lucide-react";
+import { serviceCategories } from "@/data/services";
 import gbLogoFull from "@/assets/gb-logo-full.jpeg";
 import mhtsLogoFull from "@/assets/mhts-logo-full.jpeg";
 
