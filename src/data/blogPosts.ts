@@ -45,7 +45,7 @@ export const blogPosts: BlogPost[] = [
     metaDescription:
       "Discover everything about modern hair systems in 2026. From types and costs to maintenance tips, this comprehensive guide helps Amersham residents find the perfect non-surgical hair loss solution.",
     readTime: "15 min read",
-    date: "2024-09-15",
+    date: "2026-05-08",
     author: "Men's Hair To Stay Team",
     featuredImageAlt:
       "Professional hair system fitting consultation showing natural-looking hair replacement",
