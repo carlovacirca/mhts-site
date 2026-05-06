@@ -30,6 +30,7 @@ import ThinningHairTreatmentPage from "@/pages/services/ThinningHairTreatmentPag
 import CrownCoverageTreatmentPage from "@/pages/services/CrownCoverageTreatmentPage";
 import HairSystemReattachmentPage from "@/pages/services/HairSystemReattachmentPage";
 import HairSystemBaseCleanPage from "@/pages/services/HairSystemBaseCleanPage";
+import HairSystemFullMaintenancePage from "@/pages/services/HairSystemFullMaintenancePage";
 import { serviceCategories } from "@/data/services";
 import NotFound from "@/pages/NotFound";
 
