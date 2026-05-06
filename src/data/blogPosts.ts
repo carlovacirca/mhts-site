@@ -17,6 +17,7 @@ import blogHairSystemsGuide from "@/assets/blog-hair-systems-guide.jpg";
 import blogSmpProcedure from "@/assets/blog-smp-procedure.jpg";
 import blogBeforeAfter from "@/assets/blog-before-after.jpg";
 import blogAug25 from "@/assets/blog-aug25.jpg";
+import blogAug18 from "@/assets/blog-aug18.jpg";
 
 export const categories = [
   "All Posts",
@@ -263,6 +264,7 @@ Consistent care = natural look and longer lifespan. Book your next reset today.`
     date: "2024-08-18",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Before and after hair restoration transformation",
+    image: blogAug18,
     content: `Real client transformations show what's possible with modern hair restoration.
 
 ## Hair System Transformations
