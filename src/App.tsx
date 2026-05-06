@@ -20,6 +20,7 @@ import HairDensityPage from "@/pages/services/HairDensityPage";
 import HairSystemMaintenancePage from "@/pages/services/HairSystemMaintenancePage";
 import NonSurgicalHairReplacementPage from "@/pages/services/NonSurgicalHairReplacementPage";
 import HairReplacementServicePage from "@/pages/services/HairReplacementServicePage";
+import InitialConsultationFittingPage from "@/pages/services/InitialConsultationFittingPage";
 import { serviceCategories } from "@/data/services";
 import NotFound from "@/pages/NotFound";
 
