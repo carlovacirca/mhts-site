@@ -15,6 +15,7 @@ export interface BlogPost {
 
 import blogHairSystemsGuide from "@/assets/blog-hair-systems-guide.jpg";
 import blogSmpProcedure from "@/assets/blog-smp-procedure.jpg";
+import blogBeforeAfter from "@/assets/blog-before-after.jpg";
 
 export const categories = [
   "All Posts",
@@ -166,6 +167,7 @@ SMP is a revolutionary, low-maintenance solution. Book a free consultation today
     author: "Men's Hair To Stay Team",
     featuredImageAlt:
       "Side-by-side comparison of hair system results and scalp micropigmentation treatment",
+    image: blogBeforeAfter,
     content: `Choosing between hair systems and scalp micropigmentation can feel overwhelming. Here's how they compare.
 
 ## Quick Comparison
