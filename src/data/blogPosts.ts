@@ -19,6 +19,7 @@ import blogBeforeAfter from "@/assets/blog-before-after.jpg";
 import blogAug25 from "@/assets/blog-aug25.jpg";
 import blogAug18 from "@/assets/blog-aug18.jpg";
 import blogAug11 from "@/assets/blog-aug11.jpg";
+import blogAug04 from "@/assets/blog-aug04.jpg";
 
 export const categories = [
   "All Posts",
@@ -335,6 +336,7 @@ Book a private consultation to discuss your options.`,
     date: "2024-08-04",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Cost comparison chart for hair restoration options",
+    image: blogAug04,
     content: `Understand the true cost of every hair restoration option.
 
 ## Hair Systems
