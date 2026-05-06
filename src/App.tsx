@@ -19,8 +19,7 @@ import ScalpMicropigmentationPage from "@/pages/services/ScalpMicropigmentationP
 import HairDensityPage from "@/pages/services/HairDensityPage";
 import HairSystemMaintenancePage from "@/pages/services/HairSystemMaintenancePage";
 import { serviceCategories } from "@/data/services";
-
-const queryClient = new QueryClient();
+import NotFound from "@/pages/NotFound";
 
 const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
