@@ -30,6 +30,7 @@ import ThinningHairTreatmentPage from "@/pages/services/ThinningHairTreatmentPag
 import CrownCoverageTreatmentPage from "@/pages/services/CrownCoverageTreatmentPage";
 import HairSystemReattachmentPage from "@/pages/services/HairSystemReattachmentPage";
 import HairSystemBaseCleanPage from "@/pages/services/HairSystemBaseCleanPage";
+import HairSystemFullMaintenancePage from "@/pages/services/HairSystemFullMaintenancePage";
 import { serviceCategories } from "@/data/services";
 import NotFound from "@/pages/NotFound";
 
@@ -86,6 +87,7 @@ const App = () => (
             <Route path="/hair-density/crown-coverage-treatment" element={<CrownCoverageTreatmentPage />} />
             <Route path="/hair-system-maintenance/hair-system-reattachment-and-restyling" element={<HairSystemReattachmentPage />} />
             <Route path="/hair-system-maintenance/hair-system-base-clean-and-reattach" element={<HairSystemBaseCleanPage />} />
+            <Route path="/hair-system-maintenance/hair-system-full-maintenance-package" element={<HairSystemFullMaintenancePage />} />
             {serviceCategories.flatMap((c) => [
               <Route key={c.slug} path={`/${c.slug}`} element={<ServiceCategoryPage />} />,
               <Route key={`${c.slug}-sub`} path={`/${c.slug}/:sub`} element={<SubServicePage />} />,
