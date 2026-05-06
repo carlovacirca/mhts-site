@@ -127,8 +127,36 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
 
             {/* Desktop nav */}
             <nav className="hidden md:flex items-center gap-1">
-              {links.map((l) =>
-                l.to.startsWith("#") ? (
+              {links.map((l) => {
+                if (!isGB && l.label === "Services") {
+                  return (
+                    <div key={l.to} className="relative group">
+                      <button
+                        onClick={() => handleAnchorClick(l.to)}
+                        className={`px-3 py-1.5 text-sm transition-colors rounded-md inline-flex items-center gap-1 ${
+                          activeSection === l.to ? activeClass : hoverClass
+                        }`}
+                      >
+                        {l.label}
+                        <ChevronDown className="w-3.5 h-3.5" />
+                      </button>
+                      <div className="absolute left-0 top-full pt-2 hidden group-hover:block z-50">
+                        <div className="bg-card border border-border rounded-md shadow-lg py-2 min-w-[260px]">
+                          {serviceCategories.map((c) => (
+                            <Link
+                              key={c.slug}
+                              to={`/${c.slug}`}
+                              className="block px-4 py-2 text-sm font-body text-mhts-charcoal hover:bg-mhts-light transition-colors"
+                            >
+                              {c.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+                return l.to.startsWith("#") ? (
                   <button
                     key={l.to}
                     onClick={() => handleAnchorClick(l.to)}
@@ -146,8 +174,8 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
                   >
                     {l.label}
                   </Link>
-                )
-              )}
+                );
+              })}
             </nav>
 
             {/* Hamburger */}
