@@ -168,10 +168,17 @@ const MHTSLanding = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="bg-card rounded-sm p-7 border border-border hover:border-mhts-slate/30 transition-colors relative flex flex-col h-full"
             >
-              <h3 className="text-lg font-medium text-mhts-charcoal mb-3 tracking-wide whitespace-nowrap">{s.name}</h3>
-              <p className="text-muted-foreground text-sm font-body leading-relaxed flex-1">{s.desc}</p>
+              <Link
+                to={`/${s.slug}`}
+                className="group bg-card rounded-sm p-7 border border-border hover:border-mhts-slate/40 transition-colors relative flex flex-col h-full"
+              >
+                <h3 className="text-lg font-medium text-mhts-charcoal mb-3 tracking-wide whitespace-nowrap">{s.name}</h3>
+                <p className="text-muted-foreground text-sm font-body leading-relaxed flex-1">{s.desc}</p>
+                <span className="inline-flex items-center gap-1 text-mhts-charcoal text-sm font-body mt-5 group-hover:gap-2 transition-all">
+                  Learn more <ChevronRight className="w-4 h-4" />
+                </span>
+              </Link>
             </motion.div>
           ))}
         </div>
