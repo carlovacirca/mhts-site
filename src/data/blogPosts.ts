@@ -21,6 +21,7 @@ import blogAug18 from "@/assets/blog-aug18.jpg";
 import blogAug11 from "@/assets/blog-aug11.jpg";
 import blogAug04 from "@/assets/blog-aug04.jpg";
 import blogJul28 from "@/assets/blog-jul28.jpg";
+import blogJul21 from "@/assets/blog-jul21.jpg";
 
 export const categories = [
   "All Posts",
@@ -413,6 +414,7 @@ Knowledge empowers your decision. Get the facts from a trusted provider.`,
     date: "2024-07-21",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "SMP aftercare moisturiser and SPF products",
+    image: blogJul21,
     content: `Aftercare is essential for crisp, long-lasting SMP results.
 
 ## Days 1-4
