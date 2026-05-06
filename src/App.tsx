@@ -21,6 +21,8 @@ import HairSystemMaintenancePage from "@/pages/services/HairSystemMaintenancePag
 import { serviceCategories } from "@/data/services";
 import NotFound from "@/pages/NotFound";
 
+const queryClient = new QueryClient();
+
 const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
   useEffect(() => {
