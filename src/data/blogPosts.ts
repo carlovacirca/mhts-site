@@ -22,6 +22,7 @@ import blogAug11 from "@/assets/blog-aug11.jpg";
 import blogAug04 from "@/assets/blog-aug04.jpg";
 import blogJul28 from "@/assets/blog-jul28.jpg";
 import blogJul21 from "@/assets/blog-jul21.jpg";
+import blogJul14 from "@/assets/blog-jul14.jpg";
 
 export const categories = [
   "All Posts",
@@ -449,6 +450,7 @@ Follow aftercare strictly for the best long-term results.`,
     date: "2024-07-14",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Consultation between client and hair restoration specialist",
+    image: blogJul14,
     content: `Your provider matters more than the technique itself.
 
 ## Credentials to Verify
