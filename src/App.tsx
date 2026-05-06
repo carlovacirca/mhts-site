@@ -29,6 +29,7 @@ import DensityTreatmentConsultationPage from "@/pages/services/DensityTreatmentC
 import ThinningHairTreatmentPage from "@/pages/services/ThinningHairTreatmentPage";
 import CrownCoverageTreatmentPage from "@/pages/services/CrownCoverageTreatmentPage";
 import HairSystemReattachmentPage from "@/pages/services/HairSystemReattachmentPage";
+import HairSystemBaseCleanPage from "@/pages/services/HairSystemBaseCleanPage";
 import { serviceCategories } from "@/data/services";
 import NotFound from "@/pages/NotFound";
 
