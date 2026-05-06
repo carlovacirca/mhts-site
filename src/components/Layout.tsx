@@ -12,6 +12,15 @@ const Layout = () => {
   const isContact = location.pathname === "/contact";
   const isFAQ = location.pathname === "/faq";
   const isBlog = location.pathname.startsWith("/blog");
+  const serviceSlugs = [
+    "/hair-systems",
+    "/scalp-micropigmentation",
+    "/hair-density",
+    "/hair-system-maintenance",
+  ];
+  const isService = serviceSlugs.some(
+    (s) => location.pathname === s || location.pathname.startsWith(s + "/")
+  );
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -21,6 +30,7 @@ const Layout = () => {
       {isContact && <HomeHeader />}
       {isFAQ && <BrandHeader brand="mhts" />}
       {isBlog && <BrandHeader brand="mhts" />}
+      {isService && <BrandHeader brand="mhts" />}
       <main className="flex-1">
         <Outlet />
       </main>
