@@ -22,6 +22,7 @@ import NonSurgicalHairReplacementPage from "@/pages/services/NonSurgicalHairRepl
 import HairReplacementServicePage from "@/pages/services/HairReplacementServicePage";
 import InitialConsultationFittingPage from "@/pages/services/InitialConsultationFittingPage";
 import HairSystemColouringPage from "@/pages/services/HairSystemColouringPage";
+import HairSystemStylingPage from "@/pages/services/HairSystemStylingPage";
 import { serviceCategories } from "@/data/services";
 import NotFound from "@/pages/NotFound";
 
@@ -70,6 +71,7 @@ const App = () => (
             <Route path="/hair-systems/hair-replacement-service" element={<HairReplacementServicePage />} />
             <Route path="/hair-systems/initial-consultation-and-fitting" element={<InitialConsultationFittingPage />} />
             <Route path="/hair-systems/hair-system-colouring" element={<HairSystemColouringPage />} />
+            <Route path="/hair-systems/hair-system-styling" element={<HairSystemStylingPage />} />
             {serviceCategories.flatMap((c) => [
               <Route key={c.slug} path={`/${c.slug}`} element={<ServiceCategoryPage />} />,
               <Route key={`${c.slug}-sub`} path={`/${c.slug}/:sub`} element={<SubServicePage />} />,
