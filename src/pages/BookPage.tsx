@@ -74,46 +74,24 @@ const faqs = [
 ];
 
 const BookPage = () => {
-  useEffect(() => {
-    const prevTitle = document.title;
-    document.title =
-      "Book Hair Replacement Appointment | Free Consultation | Men's Hair To Stay";
-    const meta =
-      document.querySelector('meta[name="description"]') ||
-      (() => {
-        const m = document.createElement("meta");
-        m.setAttribute("name", "description");
-        document.head.appendChild(m);
-        return m;
-      })();
-    const prevDesc = meta.getAttribute("content");
-    meta.setAttribute(
-      "content",
-      "Schedule your free hair replacement consultation or maintenance appointment. Hair systems, SMP, thinning hair treatments. Flexible booking in Amersham."
-    );
+  useSeo({
+    title: "Book Hair Replacement Appointment | Free Consultation",
+    description:
+      "Schedule your free hair replacement consultation or maintenance appointment. Hair systems, SMP, thinning hair treatments. Flexible booking in Amersham.",
+    canonicalPath: "/book",
+    jsonLd: breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Book", path: "/book" },
+    ]),
+  });
 
+  useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://menshairtostay.trafft.com/embed.js";
     script.async = true;
     document.body.appendChild(script);
-
-    const ld = document.createElement("script");
-    ld.type = "application/ld+json";
-    ld.text = JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://menshairtostay.co.uk/" },
-        { "@type": "ListItem", position: 2, name: "Book", item: "https://menshairtostay.co.uk/book" },
-      ],
-    });
-    document.head.appendChild(ld);
-
     return () => {
-      document.title = prevTitle;
-      if (prevDesc) meta.setAttribute("content", prevDesc);
       if (script.parentNode) document.body.removeChild(script);
-      if (ld.parentNode) document.head.removeChild(ld);
     };
   }, []);
 
