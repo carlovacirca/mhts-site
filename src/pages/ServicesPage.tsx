@@ -22,7 +22,7 @@ const ServicesPage = () => {
                 className="group bg-card rounded-sm p-7 border border-border hover:border-mhts-slate/40 transition-colors flex flex-col"
               >
                 <h2 className="text-lg font-medium text-mhts-charcoal mb-3 tracking-wide">{c.name}</h2>
-                <p className="text-muted-foreground text-sm font-body leading-relaxed flex-1">{c.blurb}</p>
+                <p className="text-muted-foreground text-sm font-body leading-relaxed flex-1">{c.tagline}</p>
                 <span className="inline-flex items-center gap-1 text-mhts-charcoal text-sm font-body mt-5 group-hover:gap-2 transition-all">
                   Learn more <ChevronRight className="w-4 h-4" />
                 </span>
