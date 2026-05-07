@@ -42,7 +42,7 @@ export const blogPosts: BlogPost[] = [
     metaDescription:
       "Discover everything about modern hair systems in 2026. From types and costs to maintenance tips, this comprehensive guide helps Amersham residents find the perfect non-surgical hair loss solution.",
     readTime: "15 min read",
-    date: "2026-05-08",
+    date: "2026-05-07",
     author: "Men's Hair To Stay Team",
     featuredImageAlt:
       "Professional hair system fitting consultation showing natural-looking hair replacement",
@@ -231,7 +231,7 @@ Ready to explore your options? Book a free, private consultation today. No press
     metaDescription:
       "Discover how scalp micropigmentation (SMP) works in 2026. From the procedure to costs and results, this complete guide helps Amersham residents explore this revolutionary non-surgical hair loss solution.",
     readTime: "18 min read",
-    date: "2026-05-01",
+    date: "2026-04-30",
     author: "Men's Hair To Stay Team",
     featuredImageAlt:
       "Close-up of scalp micropigmentation treatment showing realistic hair follicle impressions",
@@ -537,7 +537,7 @@ For residents across Amersham, Chesham, Beaconsfield, High Wycombe, Watford, Ric
     metaDescription:
       "Comparing hair systems and scalp micropigmentation in Amersham? Discover the pros, cons, costs, and results of both non-surgical hair loss solutions to make the right choice for your lifestyle.",
     readTime: "22 min read",
-    date: "2026-05-06",
+    date: "2026-04-23",
     author: "Men's Hair To Stay Team",
     featuredImageAlt:
       "Side-by-side comparison of hair system results and scalp micropigmentation treatment",
@@ -1032,7 +1032,7 @@ Book a free, no-obligation consultation to discuss hair systems, scalp micropigm
     metaDescription:
       "Master hair system maintenance with our complete care guide. Learn daily routines, product recommendations, professional care schedules, and expert tips to extend your system's lifespan in Amersham and Buckinghamshire.",
     readTime: "25 min read",
-    date: "2026-05-08",
+    date: "2026-04-16",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Hair system being cleaned and conditioned",
     image: blogAug25,
@@ -1858,7 +1858,7 @@ Book a maintenance appointment or consultation to discuss your specific system c
     metaDescription:
       "Amazing before and after photos of hair systems and scalp micropigmentation. Real client transformations showing life-changing hair restoration results.",
     readTime: "6 min read",
-    date: "2024-08-18",
+    date: "2026-04-09",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Before and after hair restoration transformation",
     image: blogAug18,
@@ -1893,7 +1893,7 @@ Book a consultation to start your own transformation.`,
     metaDescription:
       "Discover comprehensive hair loss solutions designed for women in Amersham and Buckinghamshire. From hair systems to scalp micropigmentation, explore all your non-surgical restoration options.",
     readTime: "28 min read",
-    date: "2026-05-06",
+    date: "2026-04-02",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Woman exploring hair restoration options during consultation",
     image: blogAug11,
@@ -2745,7 +2745,7 @@ You deserve to feel like yourself again. Let's make that happen.`,
     metaDescription:
       "Complete 2026 pricing guide for hair restoration solutions in Amersham and Buckinghamshire. Compare costs of hair systems, SMP, transplants, medications, and combination approaches with transparent breakdowns.",
     readTime: "30 min read",
-    date: "2026-05-06",
+    date: "2026-03-26",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Cost comparison chart for hair restoration options",
     image: blogAug04,
