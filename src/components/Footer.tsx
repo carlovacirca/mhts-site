@@ -22,7 +22,7 @@ const Footer = () => (
           <a href="https://www.instagram.com/georgesbarbers1991/" target="_blank" rel="noopener noreferrer" className="hover:text-gb-gold transition-colors" aria-label="Georges Barbers Instagram">
             <Instagram className="w-5 h-5" />
           </a>
-          <a href="https://www.facebook.com/share/14XfkPCSNsP/" target="_blank" rel="noopener noreferrer" className="hover:text-gb-gold transition-colors" aria-label="Georges Barbers Facebook">
+          <a href="https://www.facebook.com/georgesbarbershopp" target="_blank" rel="noopener noreferrer" className="hover:text-gb-gold transition-colors" aria-label="Georges Barbers Facebook">
             <Facebook className="w-5 h-5" />
           </a>
           <a href="https://tiktok.com/@georgesbarbers" target="_blank" rel="noopener noreferrer" className="hover:text-gb-gold transition-colors" aria-label="Georges Barbers TikTok">
