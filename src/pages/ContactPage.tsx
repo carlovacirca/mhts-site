@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useSeo, breadcrumbSchema, localBusinessSchema } from "@/lib/seo";
 import { Link } from "react-router-dom";
 import { z } from "zod";
 import { MapPin, Phone, Mail, CalendarCheck, ShieldCheck, Award, Lock } from "lucide-react";
