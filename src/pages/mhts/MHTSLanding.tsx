@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Shield, Award, Clock, Phone, Mail, MapPin, Star, Quote, AlertCircle, CalendarCheck, ChevronRight, CheckCircle2 } from "lucide-react";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import SectionHeading from "@/components/SectionHeading";
 import OpeningHours from "@/components/OpeningHours";
 import mhtsHero from "@/assets/mhts-hero.jpg";
