@@ -16,6 +16,7 @@ const Layout = () => {
   const isGallery = location.pathname === "/gallery";
   const isBook = location.pathname === "/book";
   const isServices = location.pathname === "/services";
+  const isAreas = location.pathname === "/areas-serviced";
   const serviceSlugs = [
     "/hair-systems",
     "/scalp-micropigmentation",
