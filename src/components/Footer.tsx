@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Instagram, Facebook, MapPin, Phone, Mail, Clock } from "lucide-react";
+import { Instagram, Facebook, MapPin, Phone, Mail } from "lucide-react";
 import gbLogoFull from "@/assets/gb-logo-full.jpeg";
 import mhtsLogoFull from "@/assets/mhts-logo-full.jpeg";
 
