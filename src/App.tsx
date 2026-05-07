@@ -81,6 +81,7 @@ const App = () => (
             <Route path="/hair-systems/initial-consultation-and-fitting" element={<InitialConsultationFittingPage />} />
             <Route path="/hair-systems/hair-system-colouring" element={<HairSystemColouringPage />} />
             <Route path="/hair-systems/hair-system-styling" element={<HairSystemStylingPage />} />
+            <Route path="/scalp-micropigmentation/full-smp-treatment" element={<FullSMPTreatmentPage />} />
             <Route path="/scalp-micropigmentation/smp-touch-up-session" element={<SMPTouchUpPage />} />
             <Route path="/scalp-micropigmentation/smp-consultation" element={<SMPConsultationPage />} />
             <Route path="/hair-density/density-treatment-consultation" element={<DensityTreatmentConsultationPage />} />
