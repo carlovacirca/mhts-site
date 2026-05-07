@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Phone, CalendarCheck, Clock, PoundSterling } from "lucide-react";
+import { useSeo, breadcrumbSchema } from "@/lib/seo";
 import {
   Accordion,
   AccordionContent,
