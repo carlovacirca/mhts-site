@@ -19,37 +19,30 @@ const BlogPage = () => {
   const [page, setPage] = useState(1);
   const [email, setEmail] = useState("");
 
-  useEffect(() => {
-    document.title = "Hair Restoration Blog - Hair Systems & SMP Expert Advice | Men's Hair To Stay";
-    const meta =
-      document.querySelector('meta[name="description"]') ||
-      Object.assign(document.createElement("meta"), { name: "description" });
-    meta.setAttribute(
-      "content",
-      "Expert advice on hair systems, scalp micropigmentation, and hair loss solutions. Tips, guides, and insights from professional hair restoration specialists."
-    );
-    if (!meta.parentNode) document.head.appendChild(meta);
-
-    // Blog schema
-    const ld = document.createElement("script");
-    ld.type = "application/ld+json";
-    ld.id = "blog-jsonld";
-    ld.text = JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Blog",
-      name: "Men's Hair To Stay — Hair Restoration Blog",
-      blogPost: blogPosts.map((p) => ({
-        "@type": "BlogPosting",
-        headline: p.title,
-        datePublished: p.date,
-        author: { "@type": "Organization", name: p.author },
-        url: `${window.location.origin}/blog/${p.slug}`,
-      })),
-    });
-    document.getElementById("blog-jsonld")?.remove();
-    document.head.appendChild(ld);
-    return () => document.getElementById("blog-jsonld")?.remove();
-  }, []);
+  useSeo({
+    title: "Hair Replacement Blog | Expert Tips & Advice",
+    description:
+      "Expert articles on hair systems, scalp micropigmentation (SMP), maintenance, and transformation stories. Learn about non-surgical hair replacement solutions.",
+    canonicalPath: "/blog",
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        name: "Men's Hair To Stay — Hair Restoration Blog",
+        blogPost: blogPosts.map((p) => ({
+          "@type": "BlogPosting",
+          headline: p.title,
+          datePublished: p.date,
+          author: { "@type": "Organization", name: p.author },
+          url: `https://menshairtostay.co.uk/blog/${p.slug}`,
+        })),
+      },
+      breadcrumbSchema([
+        { name: "Home", path: "/" },
+        { name: "Blog", path: "/blog" },
+      ]),
+    ],
+  });
 
   const featured = blogPosts.find((p) => p.featured) ?? blogPosts[0];
 
