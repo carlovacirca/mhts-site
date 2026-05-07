@@ -31,7 +31,7 @@ const Layout = () => {
       {isHome && <HomeHeader />}
       {isGB && <BrandHeader brand="gb" />}
       {isMHTS && <BrandHeader brand="mhts" />}
-      {isContact && <HomeHeader />}
+      {isContact && <BrandHeader brand="mhts" />}
       {isFAQ && <BrandHeader brand="mhts" />}
       {isBlog && <BrandHeader brand="mhts" />}
       {isService && <BrandHeader brand="mhts" />}
