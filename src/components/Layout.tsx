@@ -13,6 +13,9 @@ const Layout = () => {
   const isFAQ = location.pathname === "/faq";
   const isBlog = location.pathname.startsWith("/blog");
   const isHowItWorks = location.pathname === "/how-it-works";
+  const isGallery = location.pathname === "/gallery";
+  const isBook = location.pathname === "/book";
+  const isServices = location.pathname === "/services";
   const serviceSlugs = [
     "/hair-systems",
     "/scalp-micropigmentation",
@@ -33,6 +36,9 @@ const Layout = () => {
       {isBlog && <BrandHeader brand="mhts" />}
       {isService && <BrandHeader brand="mhts" />}
       {isHowItWorks && <BrandHeader brand="mhts" />}
+      {isGallery && <BrandHeader brand="mhts" />}
+      {isBook && <BrandHeader brand="mhts" />}
+      {isServices && <BrandHeader brand="mhts" />}
       <main className="flex-1">
         <Outlet />
       </main>
