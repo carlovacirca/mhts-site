@@ -170,7 +170,9 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
                   <Link
                     key={l.to}
                     to={l.to}
-                    className={`px-3 py-1.5 text-sm transition-colors rounded-md ${hoverClass}`}
+                    className={`px-3 py-1.5 text-sm transition-colors rounded-md ${
+                      location.pathname === l.to ? activeClass : hoverClass
+                    }`}
                   >
                     {l.label}
                   </Link>
@@ -215,7 +217,9 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
                       to={l.to}
                       onClick={() => setOpen(false)}
                       className={`px-3 py-2 text-sm rounded-md text-center transition-colors ${
-                        isGB
+                        location.pathname === l.to
+                          ? activeClass
+                          : isGB
                           ? "text-background/70 hover:bg-background/10"
                           : "text-muted-foreground hover:bg-mhts-light"
                       }`}
