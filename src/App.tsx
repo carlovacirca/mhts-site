@@ -7,6 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Layout from "@/components/Layout";
 import HomePage from "@/pages/HomePage";
 import GBLanding from "@/pages/georges/GBLanding";
+import GBFaqPage from "@/pages/georges/GBFaqPage";
 import MHTSLanding from "@/pages/mhts/MHTSLanding";
 import ContactPage from "@/pages/ContactPage";
 import FAQPage from "@/pages/FAQPage";
@@ -72,6 +73,7 @@ const App = () => (
           <Route element={<Layout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/georges-barbers" element={<GBLanding />} />
+            <Route path="/georges-barbers/faq" element={<GBFaqPage />} />
             <Route path="/mens-hair-to-stay" element={<MHTSLanding />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/how-it-works" element={<HowItWorksPage />} />
