@@ -15,13 +15,13 @@ const gbLinks = [
 ];
 
 const mhtsLinks = [
-  { to: "#mhts-services", label: "Services" },
+  { to: "/services", label: "Services" },
   { to: "/how-it-works", label: "How It Works" },
-  { to: "#mhts-gallery", label: "Gallery" },
-  { to: "#mhts-book", label: "Book" },
+  { to: "/gallery", label: "Gallery" },
+  { to: "/book", label: "Book" },
   { to: "/faq", label: "FAQ" },
   { to: "/blog", label: "Blog" },
-  { to: "#mhts-contact", label: "Contact" },
+  { to: "/contact", label: "Contact" },
 ];
 
 interface BrandHeaderProps {
