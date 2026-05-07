@@ -33,6 +33,9 @@ import HairSystemReattachmentPage from "@/pages/services/HairSystemReattachmentP
 import HairSystemBaseCleanPage from "@/pages/services/HairSystemBaseCleanPage";
 import HairSystemFullMaintenancePage from "@/pages/services/HairSystemFullMaintenancePage";
 import HowItWorksPage from "@/pages/HowItWorksPage";
+import ServicesPage from "@/pages/ServicesPage";
+import GalleryPage from "@/pages/GalleryPage";
+import BookPage from "@/pages/BookPage";
 import { serviceCategories } from "@/data/services";
 import NotFound from "@/pages/NotFound";
 
@@ -71,6 +74,9 @@ const App = () => (
             <Route path="/mens-hair-to-stay" element={<MHTSLanding />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/how-it-works" element={<HowItWorksPage />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/book" element={<BookPage />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogPostPage />} />
