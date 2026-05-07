@@ -385,6 +385,73 @@ const MHTSLanding = () => {
       </div>
     </section>
 
+    {/* ─── BLOG PREVIEW ─── */}
+    <section className="py-20 bg-mhts-light scroll-mt-20">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <p className="text-mhts-slate uppercase tracking-[0.2em] text-xs mb-3 font-body">From The Blog</p>
+          <h2 className="text-3xl md:text-4xl text-mhts-charcoal font-light tracking-wide">Latest Articles &amp; Expert Advice on Hair Replacement</h2>
+          <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-5 mb-4" />
+          <p className="text-muted-foreground max-w-2xl mx-auto font-body">
+            Insights, guides, and expert advice on hair systems, scalp micropigmentation (SMP), maintenance, and non-surgical hair replacement.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          {[...blogPosts]
+            .sort((a, b) => b.date.localeCompare(a.date))
+            .slice(0, 3)
+            .map((post, i) => (
+              <motion.article
+                key={post.slug}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-card rounded-sm border border-border overflow-hidden flex flex-col hover:border-mhts-slate/40 transition-colors"
+              >
+                {post.image && (
+                  <Link to={`/blog/${post.slug}`} className="block aspect-[16/10] overflow-hidden">
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                    />
+                  </Link>
+                )}
+                <div className="p-6 flex flex-col flex-1">
+                  <time className="text-xs text-mhts-slate uppercase tracking-wider font-body mb-3">
+                    {new Date(post.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
+                  </time>
+                  <h3 className="text-lg font-medium text-mhts-charcoal mb-3 leading-snug">
+                    <Link to={`/blog/${post.slug}`} className="hover:text-mhts-slate transition-colors">
+                      {post.title}
+                    </Link>
+                  </h3>
+                  <p className="text-muted-foreground text-sm font-body leading-relaxed flex-1 line-clamp-3">
+                    {post.excerpt}
+                  </p>
+                  <Link
+                    to={`/blog/${post.slug}`}
+                    className="inline-flex items-center gap-1 text-mhts-charcoal text-sm font-body mt-5 hover:gap-2 transition-all"
+                  >
+                    Read More <ChevronRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </motion.article>
+            ))}
+        </div>
+        <div className="mt-12 text-center">
+          <Link
+            to="/blog"
+            className="inline-flex items-center gap-2 bg-mhts-charcoal text-mhts-white px-8 py-3 rounded-sm hover:bg-mhts-slate transition-colors font-body tracking-wide"
+          >
+            Visit Our Blog <ChevronRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </div>
+    </section>
+
     {/* ─── BOOK ─── */}
     <section id="mhts-book" className="py-20 bg-mhts-light scroll-mt-20">
       <div className="w-full">
