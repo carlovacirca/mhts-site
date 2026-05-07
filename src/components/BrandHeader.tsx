@@ -10,7 +10,7 @@ const gbLinks = [
   { to: "#gb-gallery", label: "Gallery" },
   { to: "#gb-book", label: "Book" },
   { to: "/georges-barbers/faq", label: "FAQ" },
-  { to: "/blog", label: "Blog" },
+  { to: "/georges-barbers/blog", label: "Blog" },
   { to: "#gb-contact", label: "Contact" },
 ];
 
