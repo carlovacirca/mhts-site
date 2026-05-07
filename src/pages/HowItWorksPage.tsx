@@ -78,27 +78,16 @@ const serviceGroups = [
 ];
 
 const HowItWorksPage = () => {
-  useEffect(() => {
-    const prevTitle = document.title;
-    document.title = "How Hair Replacement Works | Our 4-Step Process | Men's Hair to Stay";
-    const meta =
-      document.querySelector('meta[name="description"]') ||
-      (() => {
-        const m = document.createElement("meta");
-        m.setAttribute("name", "description");
-        document.head.appendChild(m);
-        return m;
-      })();
-    const prevDesc = meta.getAttribute("content");
-    meta.setAttribute(
-      "content",
-      "Discover how non-surgical hair replacement works at Men's Hair to Stay in Amersham. From free initial consultation to ongoing hair system maintenance, here's our 4-step process."
-    );
-    return () => {
-      document.title = prevTitle;
-      if (prevDesc) meta.setAttribute("content", prevDesc);
-    };
-  }, []);
+  useSeo({
+    title: "Hair Replacement Process | 4-Step Hair System & SMP",
+    description:
+      "Learn our 4-step process for hair systems and SMP. Free initial consultation to professional maintenance. Undetectable results from Amersham specialists.",
+    canonicalPath: "/how-it-works",
+    jsonLd: breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "How It Works", path: "/how-it-works" },
+    ]),
+  });
 
   return (
     <div className="mhts-theme">
