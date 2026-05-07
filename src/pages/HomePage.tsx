@@ -3,8 +3,17 @@ import { motion } from "framer-motion";
 import { Scissors, Star, Users, ArrowRight } from "lucide-react";
 import gbHero from "@/assets/gb-hero.jpg";
 import mhtsHero from "@/assets/mhts-hero.jpg";
+import { useSeo, localBusinessSchema } from "@/lib/seo";
 
-const HomePage = () => (
+const HomePage = () => {
+  useSeo({
+    title: "Hair Replacement Systems & SMP in Amersham | 8+ Years",
+    description:
+      "Professional non-surgical hair replacement systems and scalp micropigmentation (SMP) in Amersham. Free consultation. Specialist technicians. 100% confidential.",
+    canonicalPath: "/",
+    jsonLd: localBusinessSchema,
+  });
+  return (
   <div>
     {/* Hero */}
     <section className="relative min-h-[85vh] flex items-center">
