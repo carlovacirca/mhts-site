@@ -137,54 +137,27 @@ const FAQPage = () => {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   // SEO
-  useEffect(() => {
-    const prevTitle = document.title;
-    document.title =
-      "Hair Systems & Scalp Micropigmentation FAQ — Men's Hair To Stay";
-
-    const setMeta = (name: string, content: string) => {
-      let el = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null;
-      if (!el) {
-        el = document.createElement("meta");
-        el.setAttribute("name", name);
-        document.head.appendChild(el);
-      }
-      el.setAttribute("content", content);
-    };
-    setMeta(
-      "description",
-      "Get answers to common questions about hair systems, hair replacement, and scalp micropigmentation (SMP). Expert advice on non-surgical hair restoration solutions."
-    );
-
-    // Canonical
-    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    if (!canonical) {
-      canonical = document.createElement("link");
-      canonical.rel = "canonical";
-      document.head.appendChild(canonical);
-    }
-    canonical.href = window.location.origin + "/faq";
-
-    // FAQPage JSON-LD
-    const ld = document.createElement("script");
-    ld.type = "application/ld+json";
-    ld.id = "faq-jsonld";
-    ld.text = JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: faqs.map((f) => ({
-        "@type": "Question",
-        name: f.q,
-        acceptedAnswer: { "@type": "Answer", text: f.a },
-      })),
-    });
-    document.head.appendChild(ld);
-
-    return () => {
-      document.title = prevTitle;
-      document.getElementById("faq-jsonld")?.remove();
-    };
-  }, []);
+  useSeo({
+    title: "Hair Replacement FAQs | Hair Systems & SMP Questions",
+    description:
+      "Answers to common questions about hair systems, scalp micropigmentation (SMP), maintenance, and non-surgical hair replacement from Amersham specialists.",
+    canonicalPath: "/faq",
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqs.map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a },
+        })),
+      },
+      breadcrumbSchema([
+        { name: "Home", path: "/" },
+        { name: "FAQ", path: "/faq" },
+      ]),
+    ],
+  });
 
   // Smooth scroll for hash on load
   useEffect(() => {
