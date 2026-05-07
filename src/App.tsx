@@ -32,6 +32,7 @@ import CrownCoverageTreatmentPage from "@/pages/services/CrownCoverageTreatmentP
 import HairSystemReattachmentPage from "@/pages/services/HairSystemReattachmentPage";
 import HairSystemBaseCleanPage from "@/pages/services/HairSystemBaseCleanPage";
 import HairSystemFullMaintenancePage from "@/pages/services/HairSystemFullMaintenancePage";
+import HowItWorksPage from "@/pages/HowItWorksPage";
 import { serviceCategories } from "@/data/services";
 import NotFound from "@/pages/NotFound";
 
@@ -69,6 +70,7 @@ const App = () => (
             <Route path="/georges-barbers" element={<GBLanding />} />
             <Route path="/mens-hair-to-stay" element={<MHTSLanding />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/how-it-works" element={<HowItWorksPage />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogPostPage />} />
