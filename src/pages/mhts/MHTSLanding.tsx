@@ -137,17 +137,40 @@ const MHTSLanding = () => {
     </section>
 
     {/* ─── TRUST STRIP ─── */}
-    <section className="py-10 bg-mhts-charcoal">
+    <section className="py-14 bg-mhts-charcoal">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto text-center">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto">
           {[
-            { icon: Shield, label: "100% Confidential" },
-            { icon: Award, label: "Specialist Trained" },
-            { icon: Clock, label: "By Appointment Only" },
+            {
+              icon: Shield,
+              title: "100% Confidential",
+              desc: "Discreet, judgement-free service. Your privacy is protected at every stage of consultation and treatment.",
+            },
+            {
+              icon: Award,
+              title: "Specialist Trained",
+              desc: "Expert specialists in hair systems, SMP (scalp micropigmentation), and ongoing maintenance.",
+            },
+            {
+              icon: CalendarCheck,
+              title: "8+ Years Experience",
+              desc: "Proven expertise in hair loss solutions and non-surgical hair replacement, delivered professionally.",
+            },
+            {
+              icon: Clock,
+              title: "By Appointment Only",
+              desc: "Private one-to-one consultations at our Amersham studio — never rushed, always tailored to you.",
+            },
           ].map((item) => (
-            <div key={item.label} className="flex items-center justify-center gap-3 text-mhts-white/80">
-              <item.icon className="w-5 h-5 text-mhts-white/50" />
-              <span className="text-sm tracking-wide font-body">{item.label}</span>
+            <div
+              key={item.title}
+              className="bg-mhts-charcoal/40 border border-mhts-white/10 rounded-sm p-5 text-center md:text-left"
+            >
+              <item.icon className="w-6 h-6 text-mhts-white/70 mb-3 mx-auto md:mx-0" />
+              <h3 className="text-mhts-white text-sm font-medium tracking-wide font-body mb-2">
+                {item.title}
+              </h3>
+              <p className="text-mhts-white/60 text-xs font-body leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>
