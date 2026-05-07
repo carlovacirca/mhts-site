@@ -495,6 +495,52 @@ const MHTSLanding = () => {
       </div>
     </section>
 
+    {/* ─── AREAS SERVICED PREVIEW ─── */}
+    <section id="mhts-areas" className="py-16 bg-card">
+      <div className="container mx-auto px-4 max-w-5xl">
+        <div className="text-center mb-10">
+          <p className="text-mhts-slate uppercase tracking-[0.2em] text-xs mb-3 font-body">Where We Serve</p>
+          <h2 className="text-3xl md:text-4xl text-mhts-charcoal font-light tracking-wide">
+            Service Areas Across Buckinghamshire
+          </h2>
+          <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-5 mb-6" />
+          <p className="text-foreground/80 font-body max-w-3xl mx-auto">
+            We serve clients across Amersham and surrounding areas. Whether you're in Chesham,
+            High Wycombe, Beaconsfield, or anywhere in Buckinghamshire, our specialist technicians
+            are ready to help with professional hair replacement systems and scalp micropigmentation (SMP) solutions.
+          </p>
+        </div>
+        <div className="flex flex-wrap justify-center gap-3 mb-10">
+          {[
+            "Amersham",
+            "Chesham",
+            "High Wycombe",
+            "Beaconsfield",
+            "Chalfont St Giles",
+            "Little Chalfont",
+            "Gerrards Cross",
+            "Throughout Buckinghamshire",
+          ].map((area) => (
+            <span
+              key={area}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-border bg-mhts-light text-mhts-charcoal text-sm font-body"
+            >
+              <MapPin className="w-3.5 h-3.5" />
+              {area}
+            </span>
+          ))}
+        </div>
+        <div className="text-center">
+          <Link
+            to="/areas-serviced"
+            className="inline-flex items-center gap-2 bg-mhts-charcoal text-mhts-white px-8 py-3 rounded-sm hover:bg-mhts-slate transition-colors font-body tracking-wide"
+          >
+            Explore All Service Areas <ChevronRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </div>
+    </section>
+
     {/* ─── CONTACT (with opening hours) ─── */}
     <section id="mhts-contact" className="pt-8 pb-20 bg-mhts-light scroll-mt-20">
       <div className="container mx-auto px-4">
