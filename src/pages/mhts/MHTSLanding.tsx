@@ -476,7 +476,7 @@ const MHTSLanding = () => {
     </section>
 
     {/* ─── BOOK ─── */}
-    <section id="mhts-book" className="py-20 bg-mhts-light scroll-mt-20">
+    <section id="mhts-book" className="pt-20 pb-4 bg-mhts-light scroll-mt-20">
       <div className="w-full">
         <div className="text-center mb-10 px-4">
           <h2 className="font-display text-3xl md:text-4xl text-mhts-charcoal tracking-wide mb-3">Book a Consultation</h2>
@@ -487,16 +487,16 @@ const MHTSLanding = () => {
           data-url="https://menshairtostay.trafft.com"
           data-query="&t=s&uuid=848c1e33-c5d4-4dc8-a7de-94102b7c344b"
           data-lang="en"
-          data-autoresize="0"
+          data-autoresize="1"
           data-showsidebar="1"
           data-showservices="0"
-          style={{ minWidth: "320px", minHeight: "1000px", width: "100%" }}
+          style={{ minWidth: "320px", width: "100%" }}
         />
       </div>
     </section>
 
     {/* ─── CONTACT (with opening hours) ─── */}
-    <section id="mhts-contact" className="py-20 bg-mhts-light scroll-mt-20">
+    <section id="mhts-contact" className="pt-8 pb-20 bg-mhts-light scroll-mt-20">
       <div className="container mx-auto px-4">
         <div className="text-center mb-14">
           <p className="text-mhts-slate uppercase tracking-[0.2em] text-xs mb-3 font-body">Get In Touch</p>
