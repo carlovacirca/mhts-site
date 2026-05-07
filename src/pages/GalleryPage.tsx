@@ -56,27 +56,25 @@ const GalleryPage = () => {
   const [filter, setFilter] = useState<Category>("all");
   const [lightbox, setLightbox] = useState<GalleryItem | null>(null);
 
-  useEffect(() => {
-    const prevTitle = document.title;
-    document.title = "Hair Replacement Before & After | Real Results | Men's Hair To Stay";
-    const meta =
-      document.querySelector('meta[name="description"]') ||
-      (() => {
-        const m = document.createElement("meta");
-        m.setAttribute("name", "description");
-        document.head.appendChild(m);
-        return m;
-      })();
-    const prevDesc = meta.getAttribute("content");
-    meta.setAttribute(
-      "content",
-      "See real before and after photos of hair systems and scalp micropigmentation (SMP). Transformation results from Men's Hair To Stay in Amersham."
-    );
-    return () => {
-      document.title = prevTitle;
-      if (prevDesc) meta.setAttribute("content", prevDesc);
-    };
-  }, []);
+  useSeo({
+    title: "Hair Replacement Before & After | Real Results",
+    description:
+      "See real before and after photos of hair systems and scalp micropigmentation (SMP). Transformation results from Men's Hair To Stay in Amersham.",
+    canonicalPath: "/gallery",
+    jsonLd: [
+      breadcrumbSchema([
+        { name: "Home", path: "/" },
+        { name: "Gallery", path: "/gallery" },
+      ]),
+      ...items.map((it) => ({
+        "@context": "https://schema.org",
+        "@type": "ImageObject",
+        contentUrl: it.after,
+        caption: it.alt,
+        description: `${it.service} — before and after at Men's Hair To Stay, Amersham.`,
+      })),
+    ],
+  });
 
   const visible = filter === "all" ? items : items.filter((i) => i.category === filter);
 
