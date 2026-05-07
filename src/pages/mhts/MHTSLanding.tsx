@@ -188,39 +188,7 @@ const MHTSLanding = () => {
       </div>
     </section>
 
-    {/* ─── HOW IT WORKS ─── */}
-    <section id="mhts-how-it-works" className="py-20 scroll-mt-20">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-14">
-          <p className="text-mhts-slate uppercase tracking-[0.2em] text-xs mb-3 font-body">Your Journey</p>
-          <h2 className="text-3xl md:text-4xl text-mhts-charcoal font-light tracking-wide">How It Works</h2>
-          <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-5" />
-        </div>
-        <div className="max-w-3xl mx-auto">
-          {steps.map((step, i) => (
-            <motion.div
-              key={step.number}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.12 }}
-              className="flex gap-6 mb-10 last:mb-0"
-            >
-              <div className="shrink-0 w-14 h-14 rounded-full border-2 border-mhts-charcoal flex items-center justify-center">
-                <span className="text-mhts-charcoal font-body text-sm font-semibold">{step.number}</span>
-              </div>
-              <div className="pt-2">
-                <h3 className="text-lg text-mhts-charcoal tracking-wide mb-2">{step.title}</h3>
-                <p className="text-muted-foreground text-sm font-body leading-relaxed">{step.desc}</p>
-                {i < steps.length - 1 && (
-                  <div className="w-px h-8 bg-border ml-0 mt-4" />
-                )}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
+    {/* HOW IT WORKS — moved to dedicated /how-it-works page */}
 
     {/* ─── MAINTENANCE ─── */}
     <section className="py-16 bg-mhts-light">
