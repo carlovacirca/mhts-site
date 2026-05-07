@@ -5,6 +5,7 @@ import { Shield, Award, Clock, Phone, Mail, MapPin, Star, Quote, AlertCircle, Ca
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import SectionHeading from "@/components/SectionHeading";
 import OpeningHours from "@/components/OpeningHours";
+import { blogPosts } from "@/data/blogPosts";
 import mhtsHero from "@/assets/mhts-hero.jpg";
 import mhtsBefore1 from "@/assets/mhts-before-1.jpg";
 import mhtsAfter1 from "@/assets/mhts-after-1.jpg";
