@@ -23,6 +23,7 @@ import HairReplacementServicePage from "@/pages/services/HairReplacementServiceP
 import InitialConsultationFittingPage from "@/pages/services/InitialConsultationFittingPage";
 import HairSystemColouringPage from "@/pages/services/HairSystemColouringPage";
 import HairSystemStylingPage from "@/pages/services/HairSystemStylingPage";
+import FullSMPTreatmentPage from "@/pages/services/FullSMPTreatmentPage";
 import SMPTouchUpPage from "@/pages/services/SMPTouchUpPage";
 import SMPConsultationPage from "@/pages/services/SMPConsultationPage";
 import DensityTreatmentConsultationPage from "@/pages/services/DensityTreatmentConsultationPage";
