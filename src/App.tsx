@@ -23,6 +23,7 @@ import HairReplacementServicePage from "@/pages/services/HairReplacementServiceP
 import InitialConsultationFittingPage from "@/pages/services/InitialConsultationFittingPage";
 import HairSystemColouringPage from "@/pages/services/HairSystemColouringPage";
 import HairSystemStylingPage from "@/pages/services/HairSystemStylingPage";
+import FullSMPTreatmentPage from "@/pages/services/FullSMPTreatmentPage";
 import SMPTouchUpPage from "@/pages/services/SMPTouchUpPage";
 import SMPConsultationPage from "@/pages/services/SMPConsultationPage";
 import DensityTreatmentConsultationPage from "@/pages/services/DensityTreatmentConsultationPage";
@@ -80,6 +81,7 @@ const App = () => (
             <Route path="/hair-systems/initial-consultation-and-fitting" element={<InitialConsultationFittingPage />} />
             <Route path="/hair-systems/hair-system-colouring" element={<HairSystemColouringPage />} />
             <Route path="/hair-systems/hair-system-styling" element={<HairSystemStylingPage />} />
+            <Route path="/scalp-micropigmentation/full-smp-treatment" element={<FullSMPTreatmentPage />} />
             <Route path="/scalp-micropigmentation/smp-touch-up-session" element={<SMPTouchUpPage />} />
             <Route path="/scalp-micropigmentation/smp-consultation" element={<SMPConsultationPage />} />
             <Route path="/hair-density/density-treatment-consultation" element={<DensityTreatmentConsultationPage />} />
