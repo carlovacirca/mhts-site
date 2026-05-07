@@ -1,6 +1,6 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useSeo, breadcrumbSchema } from "@/lib/seo";
 import {
   CalendarCheck,
   Palette,
