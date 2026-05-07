@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { CalendarCheck, Phone, X, Shield, Award, Sparkles } from "lucide-react";
+import { useSeo, breadcrumbSchema } from "@/lib/seo";
 import before1 from "@/assets/mhts-before-1.jpg";
 import before2 from "@/assets/mhts-before-2.jpg";
 import before3 from "@/assets/mhts-before-3.jpg";
