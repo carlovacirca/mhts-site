@@ -8,6 +8,7 @@ import Layout from "@/components/Layout";
 import HomePage from "@/pages/HomePage";
 import GBLanding from "@/pages/georges/GBLanding";
 import GBFaqPage from "@/pages/georges/GBFaqPage";
+import GBBlogPage from "@/pages/georges/GBBlogPage";
 import MHTSLanding from "@/pages/mhts/MHTSLanding";
 import ContactPage from "@/pages/ContactPage";
 import FAQPage from "@/pages/FAQPage";
@@ -74,6 +75,7 @@ const App = () => (
             <Route path="/" element={<HomePage />} />
             <Route path="/georges-barbers" element={<GBLanding />} />
             <Route path="/georges-barbers/faq" element={<GBFaqPage />} />
+            <Route path="/georges-barbers/blog" element={<GBBlogPage />} />
             <Route path="/mens-hair-to-stay" element={<MHTSLanding />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/how-it-works" element={<HowItWorksPage />} />
