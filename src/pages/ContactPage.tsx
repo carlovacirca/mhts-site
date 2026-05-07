@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useSeo, breadcrumbSchema, localBusinessSchema } from "@/lib/seo";
 import { Link } from "react-router-dom";
 import { z } from "zod";
 import { MapPin, Phone, Mail, CalendarCheck, ShieldCheck, Award, Lock } from "lucide-react";
@@ -39,64 +40,19 @@ const ContactPage = () => {
   const [form, setForm] = useState({ name: "", email: "", phone: "", service: "", message: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  useEffect(() => {
-    const prevTitle = document.title;
-    document.title = "Contact Hair Replacement Clinic | Amersham | Men's Hair To Stay";
-    const meta =
-      document.querySelector('meta[name="description"]') ||
-      (() => {
-        const m = document.createElement("meta");
-        m.setAttribute("name", "description");
-        document.head.appendChild(m);
-        return m;
-      })();
-    const prevDesc = meta.getAttribute("content");
-    meta.setAttribute(
-      "content",
-      "Contact Men's Hair To Stay in Amersham. Phone, email, or visit our studio. Hair systems, SMP, and maintenance services. Buckinghamshire area."
-    );
-
-    const ld = document.createElement("script");
-    ld.type = "application/ld+json";
-    ld.text = JSON.stringify([
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        name: "Men's Hair To Stay",
-        image: "https://menshairtostay.co.uk/og.jpg",
-        telephone: "+44-7947-878087",
-        email: "georgesbarbers1991@gmail.com",
-        address: {
-          "@type": "PostalAddress",
-          streetAddress: "11 Chesham Road",
-          addressLocality: "Amersham",
-          postalCode: "HP6 5HN",
-          addressCountry: "GB",
-        },
-        areaServed: serviceAreas,
-        openingHoursSpecification: [
-          { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday"], opens: "09:30", closes: "17:00" },
-          { "@type": "OpeningHoursSpecification", dayOfWeek: "Saturday", opens: "09:30", closes: "12:30" },
-        ],
-        url: "https://menshairtostay.co.uk/contact",
-      },
-      {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: "https://menshairtostay.co.uk/" },
-          { "@type": "ListItem", position: 2, name: "Contact", item: "https://menshairtostay.co.uk/contact" },
-        ],
-      },
-    ]);
-    document.head.appendChild(ld);
-
-    return () => {
-      document.title = prevTitle;
-      if (prevDesc) meta.setAttribute("content", prevDesc);
-      if (ld.parentNode) document.head.removeChild(ld);
-    };
-  }, []);
+  useSeo({
+    title: "Contact Hair Replacement Clinic | Amersham",
+    description:
+      "Contact Men's Hair To Stay in Amersham. Phone, email, or visit our studio. Hair systems, SMP, and maintenance services. Buckinghamshire area.",
+    canonicalPath: "/contact",
+    jsonLd: [
+      localBusinessSchema,
+      breadcrumbSchema([
+        { name: "Home", path: "/" },
+        { name: "Contact", path: "/contact" },
+      ]),
+    ],
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
