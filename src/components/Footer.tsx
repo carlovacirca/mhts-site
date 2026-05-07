@@ -36,7 +36,16 @@ const Footer = () => (
         <div className="mb-4">
           <img src={mhtsLogoFull} alt="Men's Hair To Stay" className="h-20 md:h-24 object-contain" />
         </div>
-        <p className="text-sm opacity-70 mb-4">Premium hair replacement & SMP in Amersham.</p>
+        <nav className="flex flex-col gap-1 text-sm mb-4">
+          <Link to="/services" className="hover:text-mhts-slate transition-colors">Services</Link>
+          <Link to="/how-it-works" className="hover:text-mhts-slate transition-colors">How It Works</Link>
+          <Link to="/gallery" className="hover:text-mhts-slate transition-colors">Gallery</Link>
+          <Link to="/book" className="hover:text-mhts-slate transition-colors">Book</Link>
+          <Link to="/faq" className="hover:text-mhts-slate transition-colors">FAQ</Link>
+          <Link to="/blog" className="hover:text-mhts-slate transition-colors">Blog</Link>
+          <Link to="/areas-serviced" className="hover:text-mhts-slate transition-colors">Areas Serviced</Link>
+          <Link to="/contact" className="hover:text-mhts-slate transition-colors">Contact</Link>
+        </nav>
         <div className="flex gap-3">
           <a href="https://www.instagram.com/menshairtostay?igsh=d2dmaXJzb210OWZ0" target="_blank" rel="noopener noreferrer" className="hover:text-mhts-slate transition-colors" aria-label="MHTS Instagram">
             <Instagram className="w-5 h-5" />
