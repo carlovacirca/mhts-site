@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Instagram, Facebook, MapPin, Phone, Mail, Clock } from "lucide-react";
+import { Instagram, Facebook, MapPin, Phone, Mail } from "lucide-react";
 import gbLogoFull from "@/assets/gb-logo-full.jpeg";
 import mhtsLogoFull from "@/assets/mhts-logo-full.jpeg";
 
@@ -17,7 +17,15 @@ const Footer = () => (
         <div className="mb-4">
           <img src={gbLogoFull} alt="Georges Barbers" className="h-20 md:h-24 object-contain" />
         </div>
-        <p className="text-sm opacity-70 mb-4">Traditional gents barbershop & ear piercing studio in Amersham.</p>
+        <nav className="flex flex-col gap-1 text-sm mb-4 opacity-80">
+          <Link to="/georges-barbers" className="hover:text-gb-gold transition-colors">Home</Link>
+          <Link to="/georges-barbers#gb-services" className="hover:text-gb-gold transition-colors">Services</Link>
+          <Link to="/georges-barbers#gb-gallery" className="hover:text-gb-gold transition-colors">Gallery</Link>
+          <Link to="/georges-barbers#gb-book" className="hover:text-gb-gold transition-colors">Book</Link>
+          <Link to="/georges-barbers/faq" className="hover:text-gb-gold transition-colors">FAQ</Link>
+          <Link to="/georges-barbers/blog" className="hover:text-gb-gold transition-colors">Blog</Link>
+          <Link to="/georges-barbers#gb-contact" className="hover:text-gb-gold transition-colors">Contact</Link>
+        </nav>
         <div className="flex gap-3">
           <a href="https://www.instagram.com/georgesbarbers1991/" target="_blank" rel="noopener noreferrer" className="hover:text-gb-gold transition-colors" aria-label="Georges Barbers Instagram">
             <Instagram className="w-5 h-5" />
@@ -36,7 +44,16 @@ const Footer = () => (
         <div className="mb-4">
           <img src={mhtsLogoFull} alt="Men's Hair To Stay" className="h-20 md:h-24 object-contain" />
         </div>
-        <p className="text-sm opacity-70 mb-4">Premium hair replacement & SMP in Amersham.</p>
+        <nav className="flex flex-col gap-1 text-sm mb-4">
+          <Link to="/services" className="hover:text-mhts-slate transition-colors">Services</Link>
+          <Link to="/how-it-works" className="hover:text-mhts-slate transition-colors">How It Works</Link>
+          <Link to="/gallery" className="hover:text-mhts-slate transition-colors">Gallery</Link>
+          <Link to="/book" className="hover:text-mhts-slate transition-colors">Book</Link>
+          <Link to="/faq" className="hover:text-mhts-slate transition-colors">FAQ</Link>
+          <Link to="/blog" className="hover:text-mhts-slate transition-colors">Blog</Link>
+          <Link to="/areas-serviced" className="hover:text-mhts-slate transition-colors">Areas Serviced</Link>
+          <Link to="/contact" className="hover:text-mhts-slate transition-colors">Contact</Link>
+        </nav>
         <div className="flex gap-3">
           <a href="https://www.instagram.com/menshairtostay?igsh=d2dmaXJzb210OWZ0" target="_blank" rel="noopener noreferrer" className="hover:text-mhts-slate transition-colors" aria-label="MHTS Instagram">
             <Instagram className="w-5 h-5" />
