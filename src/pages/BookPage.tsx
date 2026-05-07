@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Phone, CalendarCheck, Clock, PoundSterling } from "lucide-react";
+import { Phone, CalendarCheck } from "lucide-react";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
 import {
   Accordion,
@@ -12,50 +12,33 @@ import {
 const appointments = [
   {
     title: "Free Hair Replacement Consultation",
-    duration: "30 minutes",
-    cost: "Free",
+    isFree: true,
     desc: "A confidential, no-obligation consultation with a specialist technician to assess hair loss, discuss hair systems, SMP and thinning hair options, and answer your questions.",
     keywords: "Free consultation · Hair replacement assessment · Specialist advice",
   },
   {
     title: "Regroom Services (Reattachment & Restyle)",
-    duration: "60–90 minutes",
-    cost: "From £55",
     desc: "Professional hair system reattachment with quick regroom (1x adhesive) or full regroom (2x adhesive), including base clean, fresh adhesive application, and restyle to your preferred look.",
     keywords: "Hair system regroom · Reattachment · Adhesive · Restyle",
   },
   {
     title: "Full Maintenance Package",
-    duration: "120 minutes",
-    cost: "From £95",
     desc: "Complete hair system full maintenance package: deep base clean, full reattachment with two adhesive applications, colour refresh and professional styling for long-lasting wear.",
     keywords: "Hair system maintenance · Base clean · Colour · Styling",
   },
   {
     title: "SMP Treatments (Scalp Micropigmentation)",
-    duration: "2–4 hours per session",
-    cost: "From £350 per session",
     desc: "Full SMP treatment, SMP touch-up sessions and SMP consultations to create realistic hair follicle density for thinning hair, crown coverage, or full scalp micropigmentation.",
     keywords: "Scalp micropigmentation · SMP touch-up · Crown coverage",
   },
   {
     title: "Specialized Treatments",
-    duration: "60–90 minutes",
-    cost: "From £75",
     desc: "Targeted thinning hair treatments, crown coverage treatments and density treatment consultations designed to address specific hair loss concerns with discreet, natural-looking results.",
     keywords: "Thinning hair · Crown coverage · Density treatment",
   },
 ];
 
 const faqs = [
-  {
-    q: "How much does a hair replacement appointment cost?",
-    a: "Initial hair replacement consultations are completely free. Regroom services start from £55, full maintenance packages from £95, and SMP treatments from £350 per session. Final pricing depends on your hair system, treatment type and time required — confirmed at your free consultation.",
-  },
-  {
-    q: "How long does each appointment take?",
-    a: "A free consultation takes around 30 minutes. A standard regroom (reattachment) takes 60–90 minutes. A full maintenance package takes around 2 hours. Scalp micropigmentation (SMP) sessions take 2–4 hours depending on coverage area.",
-  },
   {
     q: "What's the difference between a quick regroom and a full regroom?",
     a: "A quick regroom uses one adhesive application and is ideal for clients with stable hair systems needing a fast refresh. A full regroom uses two adhesive applications with a thorough base clean for maximum hold and longevity — recommended every 4–6 weeks for daily wearers.",
@@ -167,23 +150,20 @@ const BookPage = () => {
               maintenance and SMP — choose the right appointment for you.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
             {appointments.map((a) => (
               <article
                 key={a.title}
-                className="bg-card border border-border rounded-sm p-6 flex flex-col"
+                className="bg-card border border-border rounded-sm p-6 flex flex-col w-full sm:w-[calc(50%-0.75rem)] md:w-[calc(33.333%-1rem)] lg:w-[calc(20%-1.2rem)]"
               >
                 <h3 className="text-lg text-mhts-charcoal font-medium tracking-wide">
                   {a.title}
                 </h3>
-                <div className="flex flex-wrap gap-4 mt-3 text-xs uppercase tracking-[0.15em] text-mhts-slate font-body">
-                  <span className="inline-flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5" /> {a.duration}
+                {a.isFree && (
+                  <span className="inline-flex w-fit items-center gap-1 mt-3 text-xs uppercase tracking-[0.15em] text-mhts-charcoal font-body bg-mhts-light px-2 py-1 rounded-sm">
+                    Free
                   </span>
-                  <span className="inline-flex items-center gap-1">
-                    <PoundSterling className="w-3.5 h-3.5" /> {a.cost}
-                  </span>
-                </div>
+                )}
                 <p className="text-foreground/80 font-body text-sm leading-relaxed mt-4 flex-1">
                   {a.desc}
                 </p>

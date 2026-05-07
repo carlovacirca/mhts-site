@@ -117,12 +117,14 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
               >
                 <Home className="w-5 h-5" />
               </Link>
-              <button
+              <Link
+                to={brandPath}
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 className="flex items-center gap-2"
+                aria-label={`${brandName} home`}
               >
                 <img src={logo} alt={brandName} className="h-14 md:h-20 object-contain" />
-              </button>
+              </Link>
             </div>
 
             {/* Desktop nav */}
