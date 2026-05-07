@@ -12,6 +12,7 @@ const Layout = () => {
   const isContact = location.pathname === "/contact";
   const isFAQ = location.pathname === "/faq";
   const isBlog = location.pathname.startsWith("/blog");
+  const isHowItWorks = location.pathname === "/how-it-works";
   const serviceSlugs = [
     "/hair-systems",
     "/scalp-micropigmentation",
@@ -31,6 +32,7 @@ const Layout = () => {
       {isFAQ && <BrandHeader brand="mhts" />}
       {isBlog && <BrandHeader brand="mhts" />}
       {isService && <BrandHeader brand="mhts" />}
+      {isHowItWorks && <BrandHeader brand="mhts" />}
       <main className="flex-1">
         <Outlet />
       </main>
