@@ -16,6 +16,7 @@ const Layout = () => {
   const isGallery = location.pathname === "/gallery";
   const isBook = location.pathname === "/book";
   const isServices = location.pathname === "/services";
+  const isAreas = location.pathname === "/areas-serviced";
   const serviceSlugs = [
     "/hair-systems",
     "/scalp-micropigmentation",
@@ -39,6 +40,7 @@ const Layout = () => {
       {isGallery && <BrandHeader brand="mhts" />}
       {isBook && <BrandHeader brand="mhts" />}
       {isServices && <BrandHeader brand="mhts" />}
+      {isAreas && <BrandHeader brand="mhts" />}
       <main className="flex-1">
         <Outlet />
       </main>

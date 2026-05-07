@@ -36,6 +36,7 @@ import HowItWorksPage from "@/pages/HowItWorksPage";
 import ServicesPage from "@/pages/ServicesPage";
 import GalleryPage from "@/pages/GalleryPage";
 import BookPage from "@/pages/BookPage";
+import AreasServicedPage from "@/pages/AreasServicedPage";
 import { serviceCategories } from "@/data/services";
 import NotFound from "@/pages/NotFound";
 
@@ -79,6 +80,7 @@ const App = () => (
             <Route path="/book" element={<BookPage />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/blog" element={<BlogPage />} />
+            <Route path="/areas-serviced" element={<AreasServicedPage />} />
             <Route path="/blog/:slug" element={<BlogPostPage />} />
             <Route path="/hair-systems" element={<HairSystemsPage />} />
             <Route path="/scalp-micropigmentation" element={<ScalpMicropigmentationPage />} />
