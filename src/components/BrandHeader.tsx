@@ -21,8 +21,8 @@ const mhtsLinks = [
   { to: "/book", label: "Book" },
   { to: "/faq", label: "FAQ" },
   { to: "/blog", label: "Blog" },
-  { to: "/contact", label: "Contact" },
   { to: "/areas-serviced", label: "Areas Serviced" },
+  { to: "/contact", label: "Contact" },
 ];
 
 interface BrandHeaderProps {
