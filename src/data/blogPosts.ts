@@ -20,9 +20,6 @@ import blogAug25 from "@/assets/blog-aug25.jpg";
 import blogAug18 from "@/assets/blog-aug18.jpg";
 import blogAug11 from "@/assets/blog-aug11.jpg";
 import blogAug04 from "@/assets/blog-aug04.jpg";
-import blogJul28 from "@/assets/blog-jul28.jpg";
-import blogJul21 from "@/assets/blog-jul21.jpg";
-import blogJul14 from "@/assets/blog-jul14.jpg";
 
 export const categories = [
   "All Posts",
@@ -45,7 +42,7 @@ export const blogPosts: BlogPost[] = [
     metaDescription:
       "Discover everything about modern hair systems in 2026. From types and costs to maintenance tips, this comprehensive guide helps Amersham residents find the perfect non-surgical hair loss solution.",
     readTime: "15 min read",
-    date: "2026-05-08",
+    date: "2026-05-07",
     author: "Men's Hair To Stay Team",
     featuredImageAlt:
       "Professional hair system fitting consultation showing natural-looking hair replacement",
@@ -234,7 +231,7 @@ Ready to explore your options? Book a free, private consultation today. No press
     metaDescription:
       "Discover how scalp micropigmentation (SMP) works in 2026. From the procedure to costs and results, this complete guide helps Amersham residents explore this revolutionary non-surgical hair loss solution.",
     readTime: "18 min read",
-    date: "2026-05-01",
+    date: "2026-04-30",
     author: "Men's Hair To Stay Team",
     featuredImageAlt:
       "Close-up of scalp micropigmentation treatment showing realistic hair follicle impressions",
@@ -540,7 +537,7 @@ For residents across Amersham, Chesham, Beaconsfield, High Wycombe, Watford, Ric
     metaDescription:
       "Comparing hair systems and scalp micropigmentation in Amersham? Discover the pros, cons, costs, and results of both non-surgical hair loss solutions to make the right choice for your lifestyle.",
     readTime: "22 min read",
-    date: "2026-05-06",
+    date: "2026-04-23",
     author: "Men's Hair To Stay Team",
     featuredImageAlt:
       "Side-by-side comparison of hair system results and scalp micropigmentation treatment",
@@ -1035,7 +1032,7 @@ Book a free, no-obligation consultation to discuss hair systems, scalp micropigm
     metaDescription:
       "Master hair system maintenance with our complete care guide. Learn daily routines, product recommendations, professional care schedules, and expert tips to extend your system's lifespan in Amersham and Buckinghamshire.",
     readTime: "25 min read",
-    date: "2026-05-08",
+    date: "2026-04-16",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Hair system being cleaned and conditioned",
     image: blogAug25,
@@ -1861,7 +1858,7 @@ Book a maintenance appointment or consultation to discuss your specific system c
     metaDescription:
       "Amazing before and after photos of hair systems and scalp micropigmentation. Real client transformations showing life-changing hair restoration results.",
     readTime: "6 min read",
-    date: "2024-08-18",
+    date: "2026-04-09",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Before and after hair restoration transformation",
     image: blogAug18,
@@ -1896,7 +1893,7 @@ Book a consultation to start your own transformation.`,
     metaDescription:
       "Discover comprehensive hair loss solutions designed for women in Amersham and Buckinghamshire. From hair systems to scalp micropigmentation, explore all your non-surgical restoration options.",
     readTime: "28 min read",
-    date: "2026-05-06",
+    date: "2026-04-02",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Woman exploring hair restoration options during consultation",
     image: blogAug11,
@@ -2748,7 +2745,7 @@ You deserve to feel like yourself again. Let's make that happen.`,
     metaDescription:
       "Complete 2026 pricing guide for hair restoration solutions in Amersham and Buckinghamshire. Compare costs of hair systems, SMP, transplants, medications, and combination approaches with transparent breakdowns.",
     readTime: "30 min read",
-    date: "2026-05-06",
+    date: "2026-03-26",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Cost comparison chart for hair restoration options",
     image: blogAug04,
@@ -3978,116 +3975,5 @@ The investment in your appearance and confidence might be one of the best invest
 Ready to understand costs specific to your situation? Book a consultation with our Amersham specialists. We'll provide transparent pricing for hair systems, SMP, combination approaches, or any other solutions appropriate for your needs. No hidden costs, no pressure—just honest guidance and fair pricing.
 
 Serving Amersham, Chesham, Beaconsfield, High Wycombe, and throughout Buckinghamshire with competitive pricing and exceptional value.`,
-  },
-
-  {
-    slug: "hair-restoration-myths-debunked",
-    title: "20 Hair Restoration Myths Debunked: Separating Fact from Fiction",
-    category: "Expert Tips",
-    excerpt:
-      "Debunking common myths about hair systems, SMP and hair restoration — with the facts from treatment experts.",
-    metaDescription:
-      "Debunking common myths about hair systems, scalp micropigmentation, and hair restoration. Get the facts from hair loss treatment experts.",
-    readTime: "8 min read",
-    date: "2024-07-28",
-    author: "Men's Hair To Stay Team",
-    featuredImageAlt: "Expert dispelling hair restoration myths",
-    image: blogJul28,
-    content: `Let's separate fact from fiction.
-
-## Myth 1: Hair systems look fake
-False — modern systems are undetectable.
-
-## Myth 2: SMP is just a tattoo
-False — different needles, pigments and technique.
-
-## Myth 3: You can't swim or exercise
-False — bonded systems and SMP both allow active lifestyles.
-
-## Myth 4: Restoration is only for men
-False — women benefit too.
-
-## Myth 5: It's unaffordable
-False — many options fit different budgets.
-
-## FAQ
-
-### Where can I learn more?
-Book a free consultation.
-
-## Conclusion
-Knowledge empowers your decision. Get the facts from a trusted provider.`,
-  },
-  {
-    slug: "smp-aftercare-complete-guide",
-    title: "Scalp Micropigmentation Aftercare: Essential Guide for Optimal Results",
-    category: "Maintenance & Care",
-    excerpt:
-      "Day-by-day SMP aftercare guide for healing, long-term care and maintaining your scalp micropigmentation results.",
-    metaDescription:
-      "Complete SMP aftercare instructions for perfect results. Day-by-day guide to healing, long-term care, and maintaining your scalp micropigmentation.",
-    readTime: "7 min read",
-    date: "2024-07-21",
-    author: "Men's Hair To Stay Team",
-    featuredImageAlt: "SMP aftercare moisturiser and SPF products",
-    image: blogJul21,
-    content: `Aftercare is essential for crisp, long-lasting SMP results.
-
-## Days 1-4
-Keep scalp dry. No washing, sweating or sun exposure.
-
-## Days 5-7
-Begin gentle washing with lukewarm water and mild shampoo.
-
-## Week 2 onward
-Resume normal routine. Apply SPF 30+ daily.
-
-## Long-Term Care
-Avoid harsh exfoliants. Touch-ups every 3-5 years.
-
-## FAQ
-
-### When can I exercise?
-After day 7.
-
-## Conclusion
-Follow aftercare strictly for the best long-term results.`,
-  },
-  {
-    slug: "choosing-hair-restoration-provider",
-    title: "How to Choose the Best Hair Restoration Provider: Expert Selection Guide",
-    category: "Expert Tips",
-    excerpt:
-      "Learn how to select the best hair system or SMP provider — red flags, key questions and credentials to verify.",
-    metaDescription:
-      "Learn how to select the best hair system or SMP provider. Red flags to avoid, questions to ask, and credentials to verify for quality results.",
-    readTime: "9 min read",
-    date: "2024-07-14",
-    author: "Men's Hair To Stay Team",
-    featuredImageAlt: "Consultation between client and hair restoration specialist",
-    image: blogJul14,
-    content: `Your provider matters more than the technique itself.
-
-## Credentials to Verify
-Training, licensing, insurance, hygiene standards.
-
-## Questions to Ask
-- How long have you specialised in this?
-- Can I see your portfolio?
-- What guarantees do you offer?
-
-## Red Flags
-Pressure tactics, no portfolio, unusually low prices.
-
-## Reviews and Reputation
-Check Google, Trustpilot and social media.
-
-## FAQ
-
-### How many consultations should I do?
-At least 2-3 to compare.
-
-## Conclusion
-Choose carefully. Book a free no-pressure consultation today.`,
   },
 ];
