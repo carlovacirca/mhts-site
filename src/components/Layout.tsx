@@ -40,6 +40,7 @@ const Layout = () => {
       {isGallery && <BrandHeader brand="mhts" />}
       {isBook && <BrandHeader brand="mhts" />}
       {isServices && <BrandHeader brand="mhts" />}
+      {isAreas && <BrandHeader brand="mhts" />}
       <main className="flex-1">
         <Outlet />
       </main>
