@@ -286,7 +286,7 @@ const HairSystemsPage = () => {
             </h2>
             <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-5" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-5 gap-6 max-w-5xl mx-auto">
             {category.subServices.map((sub, i) => (
               <motion.div
                 key={sub.slug}
@@ -294,6 +294,13 @@ const HairSystemsPage = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
+                className={`${
+                  i < 3
+                    ? "md:col-span-2"
+                    : i === 3
+                    ? "md:col-span-2 md:col-start-2"
+                    : "md:col-span-2 md:col-start-4"
+                } lg:col-span-1 lg:col-start-auto`}
               >
                 <Link
                   to={`/${category.slug}/${sub.slug}`}
