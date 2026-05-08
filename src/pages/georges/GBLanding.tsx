@@ -136,13 +136,16 @@ const GBLanding = () => (
         <SectionHeading title="Services & Pricing" subtitle="Honest pricing, no hidden extras" brand="gb" />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto">
           {services.map((s, i) => (
-            <motion.div
+            <motion.a
               key={s.name}
+              href="https://carlo56fm.setmore.com/george"
+              target="_blank"
+              rel="noopener noreferrer"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.06 }}
-              className="bg-gb-cream rounded-lg p-5 border border-gb-gold/20 hover:border-gb-gold/50 transition-colors text-center"
+              className="bg-gb-cream rounded-lg p-5 border border-gb-gold/20 hover:border-gb-gold/50 transition-colors text-center block"
             >
               <s.icon className="w-7 h-7 text-gb-gold mx-auto mb-3" />
               <h3 className="font-display text-gb-green font-semibold mb-1">{s.name}</h3>
@@ -150,7 +153,7 @@ const GBLanding = () => (
               <span className="inline-block bg-gb-green text-gb-gold font-display font-semibold text-lg px-4 py-1 rounded-md">
                 {s.price}
               </span>
-            </motion.div>
+            </motion.a>
           ))}
         </div>
         <p className="text-center text-muted-foreground text-sm mt-8 font-body">Haircuts: walk-ins welcome, no appointment needed • Piercings: appointment only</p>
