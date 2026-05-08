@@ -236,16 +236,14 @@ const GBLanding = () => (
                 Please note: Saturday and Sunday are walk-in only. Online booking is available Monday to Friday.
               </p>
             </div>
-            <div className="rounded-lg overflow-hidden border border-gb-gold/20">
-              <iframe
-                src="https://carlo56fm.setmore.com/george"
-                width="100%"
-                height="500"
-                style={{ border: 0 }}
-                title="Georges Barbers Booking"
-                loading="lazy"
-              />
-            </div>
+            <a
+              href="https://carlo56fm.setmore.com/george"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-gb-green text-gb-gold font-display font-semibold px-8 py-3 rounded-md hover:bg-gb-green/90 transition-colors"
+            >
+              Book Online
+            </a>
           </div>
         </div>
       </div>
