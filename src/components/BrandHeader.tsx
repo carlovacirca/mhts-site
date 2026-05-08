@@ -52,30 +52,49 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
     ? "bg-gb-black border-b border-gb-black"
     : "bg-card/95 backdrop-blur-md border-b border-border shadow-sm";
 
-  // Track active section via IntersectionObserver
+  const brandPath = isGB ? "/georges-barbers" : "/mens-hair-to-stay";
+  const onBrandPage = location.pathname === brandPath;
+
+  // Track active section via IntersectionObserver — only on brand landing page
   useEffect(() => {
-    const ids = links.map((l) => l.to.replace("#", ""));
+    if (!onBrandPage) {
+      setActiveSection("");
+      return;
+    }
+    const anchorIds = links
+      .filter((l) => l.to.startsWith("#"))
+      .map((l) => l.to.slice(1));
+    const visible = new Map<string, number>();
+
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            setActiveSection("#" + entry.target.id);
+            visible.set(entry.target.id, entry.intersectionRatio);
+          } else {
+            visible.delete(entry.target.id);
           }
         }
+        let bestId = "";
+        let bestRatio = -1;
+        for (const [id, ratio] of visible) {
+          if (ratio > bestRatio) {
+            bestRatio = ratio;
+            bestId = id;
+          }
+        }
+        setActiveSection(bestId ? "#" + bestId : "");
       },
-      { rootMargin: "-20% 0px -60% 0px" }
+      { rootMargin: "-30% 0px -50% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] }
     );
 
-    ids.forEach((id) => {
+    anchorIds.forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
 
     return () => observer.disconnect();
-  }, [links]);
-
-  const brandPath = isGB ? "/georges-barbers" : "/mens-hair-to-stay";
-  const onBrandPage = location.pathname === brandPath;
+  }, [links, onBrandPage, location.pathname]);
 
   const handleAnchorClick = (hash: string) => {
     setOpen(false);
