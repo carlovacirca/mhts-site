@@ -11,6 +11,7 @@ const gbLinks = [
   { to: "#gb-book", label: "Book" },
   { to: "/georges-barbers/faq", label: "FAQ" },
   { to: "/georges-barbers/blog", label: "Blog" },
+  { to: "/georges-barbers/areas-serviced", label: "Areas Serviced" },
   { to: "#gb-contact", label: "Contact" },
 ];
 
