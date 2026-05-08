@@ -174,7 +174,7 @@ const GBAreasServicedPage = () => {
             Areas We Serve
           </h2>
           <div className="w-16 h-0.5 bg-gb-gold mx-auto mb-12" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {areas.map((a) => (
               <div key={a.name} className="bg-gb-cream rounded-lg p-6 border border-gb-gold/20 hover:border-gb-gold/60 transition-colors">
                 <div className="flex items-start gap-3">
