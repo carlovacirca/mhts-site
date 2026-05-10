@@ -14,6 +14,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { findCategory } from "@/data/services";
+import hairDensityHero from "@/assets/hair-density-hero.jpg";
 
 const benefits = [
   { icon: Leaf, text: "Works with your existing natural hair" },
@@ -131,15 +132,14 @@ const HairDensityPage = () => {
         </div>
       </section>
 
-      {/* IMAGE SLOT */}
-      <section className="py-12 bg-mhts-light">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto aspect-[16/7] border border-dashed border-mhts-slate/40 rounded-sm flex items-center justify-center bg-card">
-            <span className="text-mhts-slate text-sm font-body uppercase tracking-[0.2em]">
-              Image slot
-            </span>
-          </div>
-        </div>
+      {/* HERO IMAGE */}
+      <section className="bg-mhts-light">
+        <img
+          src={hairDensityHero}
+          alt="Close-up of natural-looking hair density result"
+          className="w-full h-auto object-cover"
+          loading="lazy"
+        />
       </section>
 
       {/* WHAT IS IT */}
