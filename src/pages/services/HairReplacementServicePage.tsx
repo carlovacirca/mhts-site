@@ -15,7 +15,6 @@ import {
   Award,
 } from "lucide-react";
 import { findCategory } from "@/data/services";
-import hairReplacementImage from "@/assets/mhts-hair-replacement-consultation.jpg";
 
 const benefits = [
   { icon: Route, text: "Complete end-to-end hair replacement service" },
@@ -135,13 +134,10 @@ const HairReplacementServicePage = () => {
       {/* IMAGE SLOT */}
       <section className="py-12 bg-mhts-light">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto aspect-[16/7] rounded-sm overflow-hidden bg-card">
-            <img
-              src={hairReplacementImage}
-              alt="Hair replacement consultation at Men's Hair to Stay Amersham"
-              className="w-full h-full object-cover"
-              loading="lazy"
-            />
+          <div className="max-w-4xl mx-auto aspect-[16/7] border border-dashed border-mhts-slate/40 rounded-sm flex items-center justify-center bg-card">
+            <span className="text-mhts-slate text-sm font-body uppercase tracking-[0.2em]">
+              Image slot
+            </span>
           </div>
         </div>
       </section>
