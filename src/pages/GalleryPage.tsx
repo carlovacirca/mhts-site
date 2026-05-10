@@ -37,7 +37,7 @@ const items: GalleryItem[] = [
   {
     before: before3,
     after: after3,
-    service: "Full SMP Treatment",
+    service: "Hair System Fitting and Style",
     category: "smp",
     alt: "Before and after full scalp micropigmentation treatment — Men's Hair To Stay Amersham",
   },
