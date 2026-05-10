@@ -15,6 +15,7 @@ import {
   Award,
 } from "lucide-react";
 import { findCategory } from "@/data/services";
+import hairReplacementImage from "@/assets/mhts-hair-replacement-consultation.jpg";
 
 const benefits = [
   { icon: Route, text: "Complete end-to-end hair replacement service" },
