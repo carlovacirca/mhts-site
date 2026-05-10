@@ -13,6 +13,7 @@ import {
   Users,
 } from "lucide-react";
 import { findCategory } from "@/data/services";
+import hairSystemMaintenanceHero from "@/assets/hair-system-maintenance-hero.jpg";
 
 const benefits = [
   { icon: Clock, text: "Extends the lifespan of your hair system" },
@@ -131,15 +132,14 @@ const HairSystemMaintenancePage = () => {
         </div>
       </section>
 
-      {/* IMAGE SLOT */}
-      <section className="py-12 bg-mhts-light">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto aspect-[16/7] border border-dashed border-mhts-slate/40 rounded-sm flex items-center justify-center bg-card">
-            <span className="text-mhts-slate text-sm font-body uppercase tracking-[0.2em]">
-              Image slot
-            </span>
-          </div>
-        </div>
+      {/* HERO IMAGE */}
+      <section className="bg-mhts-light">
+        <img
+          src={hairSystemMaintenanceHero}
+          alt="Stylist performing hair system maintenance on a client"
+          className="w-full h-auto object-cover"
+          loading="lazy"
+        />
       </section>
 
       {/* WHAT IS IT */}
