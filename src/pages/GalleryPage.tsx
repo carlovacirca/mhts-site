@@ -43,17 +43,8 @@ const items: GalleryItem[] = [
   },
 ];
 
-const filters: { label: string; value: Category }[] = [
-  { label: "All Results", value: "all" },
-  { label: "Hair Systems", value: "hair-systems" },
-  { label: "Scalp Micropigmentation (SMP)", value: "smp" },
-  { label: "Maintenance & Regroom", value: "maintenance" },
-  { label: "Thinning Hair Treatments", value: "thinning" },
-  { label: "Crown Coverage Treatments", value: "crown" },
-];
 
 const GalleryPage = () => {
-  const [filter, setFilter] = useState<Category>("all");
   const [lightbox, setLightbox] = useState<GalleryItem | null>(null);
 
   useSeo({
@@ -76,7 +67,7 @@ const GalleryPage = () => {
     ],
   });
 
-  const visible = filter === "all" ? items : items.filter((i) => i.category === filter);
+  const visible = items;
 
   return (
     <div className="mhts-theme">
@@ -102,22 +93,6 @@ const GalleryPage = () => {
       {/* FILTERS + GRID */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap justify-center gap-2 mb-12">
-            {filters.map((f) => (
-              <button
-                key={f.value}
-                onClick={() => setFilter(f.value)}
-                className={`px-4 py-2 text-sm rounded-sm font-body tracking-wide transition-colors border ${
-                  filter === f.value
-                    ? "bg-mhts-charcoal text-mhts-white border-mhts-charcoal"
-                    : "bg-card text-mhts-charcoal border-border hover:bg-mhts-light"
-                }`}
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
-
           {visible.length === 0 ? (
             <p className="text-center text-foreground/70 font-body py-12">
               More transformations coming soon for this category.
