@@ -15,6 +15,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { findCategory } from "@/data/services";
+import hairSystemsHero from "@/assets/hair-systems-hero.jpg";
 
 const benefits = [
   { icon: Sparkles, text: "100% human hair for a completely natural look and feel" },
@@ -132,15 +133,14 @@ const HairSystemsPage = () => {
         </div>
       </section>
 
-      {/* IMAGE SLOT */}
-      <section className="py-12 bg-mhts-light">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto aspect-[16/7] border border-dashed border-mhts-slate/40 rounded-sm flex items-center justify-center bg-card">
-            <span className="text-mhts-slate text-sm font-body uppercase tracking-[0.2em]">
-              Image slot
-            </span>
-          </div>
-        </div>
+      {/* HERO IMAGE */}
+      <section className="bg-mhts-light">
+        <img
+          src={hairSystemsHero}
+          alt="Men's Hair to Stay consultation in Amersham"
+          className="w-full h-auto object-cover"
+          loading="lazy"
+        />
       </section>
 
       {/* WHAT IS IT */}
