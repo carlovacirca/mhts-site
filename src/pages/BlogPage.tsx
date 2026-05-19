@@ -44,10 +44,15 @@ const BlogPage = () => {
     ],
   });
 
-  const featured = blogPosts.find((p) => p.featured) ?? blogPosts[0];
+  const sortedPosts = useMemo(
+    () => [...blogPosts].sort((a, b) => b.date.localeCompare(a.date)),
+    []
+  );
+
+  const featured = sortedPosts[0];
 
   const filtered = useMemo(() => {
-    return blogPosts
+    return sortedPosts
       .filter((p) => p.slug !== featured.slug || category !== "All Posts" || search.trim() !== "")
       .filter((p) => category === "All Posts" || p.category === category)
       .filter((p) => {
@@ -59,7 +64,7 @@ const BlogPage = () => {
           p.category.toLowerCase().includes(q)
         );
       });
-  }, [search, category, featured.slug]);
+  }, [search, category, featured.slug, sortedPosts]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / POSTS_PER_PAGE));
   const visiblePosts = filtered.slice((page - 1) * POSTS_PER_PAGE, page * POSTS_PER_PAGE);
