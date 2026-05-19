@@ -20,6 +20,7 @@ import blogAug25 from "@/assets/blog-aug25.jpg";
 import blogAug18 from "@/assets/blog-aug18.jpg";
 import blogAug11 from "@/assets/blog-aug11.jpg";
 import blogAug04 from "@/assets/blog-aug04.jpg";
+import blogHairTransplantAlternatives from "@/assets/blog-hair-transplant-alternatives.jpg";
 
 export const categories = [
   "All Posts",
@@ -3987,6 +3988,7 @@ Serving Amersham, Chesham, Beaconsfield, High Wycombe, and throughout Buckingham
     readTime: "18 min read",
     date: "2026-05-19",
     author: "Men's Hair To Stay Team",
+    image: blogHairTransplantAlternatives,
     featuredImageAlt:
       "Man with restored natural-looking hair after non-surgical hair replacement treatment",
     content: `Hair transplants have long been presented as the "gold standard" for hair restoration. Surgery, permanent results, your own growing hair—it sounds ideal.
