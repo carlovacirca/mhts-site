@@ -20,20 +20,30 @@ interface Block {
 const slugify = (s: string) =>
   s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
+type InlinePart = string | { bold: string } | { link: { text: string; href: string } };
 const renderInline = (text: string) => {
-  const parts: (string | { bold: string })[] = [];
-  const re = /\*\*([^*]+)\*\*/g;
+  const parts: InlinePart[] = [];
+  const re = /\*\*([^*]+)\*\*|\[([^\]]+)\]\(([^)]+)\)/g;
   let last = 0;
   let m: RegExpExecArray | null;
   while ((m = re.exec(text))) {
     if (m.index > last) parts.push(text.slice(last, m.index));
-    parts.push({ bold: m[1] });
+    if (m[1] !== undefined) parts.push({ bold: m[1] });
+    else parts.push({ link: { text: m[2], href: m[3] } });
     last = m.index + m[0].length;
   }
   if (last < text.length) parts.push(text.slice(last));
-  return parts.map((p, i) =>
-    typeof p === "string" ? <span key={i}>{p}</span> : <strong key={i}>{p.bold}</strong>
-  );
+  return parts.map((p, i) => {
+    if (typeof p === "string") return <span key={i}>{p}</span>;
+    if ("bold" in p) return <strong key={i}>{p.bold}</strong>;
+    const { text: lt, href } = p.link;
+    const isInternal = href.startsWith("/");
+    return isInternal ? (
+      <Link key={i} to={href} className="text-mhts-charcoal underline hover:no-underline">{lt}</Link>
+    ) : (
+      <a key={i} href={href} target="_blank" rel="noopener noreferrer" className="text-mhts-charcoal underline hover:no-underline">{lt}</a>
+    );
+  });
 };
 
 const parseContent = (md: string): Block[] => {
