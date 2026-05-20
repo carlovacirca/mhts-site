@@ -78,6 +78,7 @@ const App = () => (
             <Route path="/georges-barbers" element={<GBLanding />} />
             <Route path="/georges-barbers/faq" element={<GBFaqPage />} />
             <Route path="/georges-barbers/blog" element={<GBBlogPage />} />
+            <Route path="/georges-barbers/blog/:slug" element={<GBBlogPostPage />} />
             <Route path="/georges-barbers/areas-serviced" element={<GBAreasServicedPage />} />
             <Route path="/mens-hair-to-stay" element={<MHTSLanding />} />
             <Route path="/contact" element={<ContactPage />} />
