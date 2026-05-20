@@ -9,6 +9,7 @@ import HomePage from "@/pages/HomePage";
 import GBLanding from "@/pages/georges/GBLanding";
 import GBFaqPage from "@/pages/georges/GBFaqPage";
 import GBBlogPage from "@/pages/georges/GBBlogPage";
+import GBBlogPostPage from "@/pages/georges/GBBlogPostPage";
 import GBAreasServicedPage from "@/pages/georges/GBAreasServicedPage";
 import MHTSLanding from "@/pages/mhts/MHTSLanding";
 import ContactPage from "@/pages/ContactPage";
@@ -77,6 +78,7 @@ const App = () => (
             <Route path="/georges-barbers" element={<GBLanding />} />
             <Route path="/georges-barbers/faq" element={<GBFaqPage />} />
             <Route path="/georges-barbers/blog" element={<GBBlogPage />} />
+            <Route path="/georges-barbers/blog/:slug" element={<GBBlogPostPage />} />
             <Route path="/georges-barbers/areas-serviced" element={<GBAreasServicedPage />} />
             <Route path="/mens-hair-to-stay" element={<MHTSLanding />} />
             <Route path="/contact" element={<ContactPage />} />
