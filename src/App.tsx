@@ -10,6 +10,7 @@ import GBLanding from "@/pages/georges/GBLanding";
 import GBFaqPage from "@/pages/georges/GBFaqPage";
 import GBBlogPage from "@/pages/georges/GBBlogPage";
 import GBBlogPostPage from "@/pages/georges/GBBlogPostPage";
+import GBSkinFadePostPage from "@/pages/georges/GBSkinFadePostPage";
 import GBAreasServicedPage from "@/pages/georges/GBAreasServicedPage";
 import MHTSLanding from "@/pages/mhts/MHTSLanding";
 import ContactPage from "@/pages/ContactPage";
