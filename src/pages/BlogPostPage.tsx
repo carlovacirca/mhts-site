@@ -10,6 +10,11 @@ import RelatedVideo from "@/components/RelatedVideo";
 import NewsletterSubscribeBar from "@/components/NewsletterSubscribeBar";
 import { blogPosts } from "@/data/blogPosts";
 import blogPlaceholderIllustration from "@/assets/blog-placeholder-illustration.jpg";
+import blogNonSurgicalInline1 from "@/assets/blog-non-surgical-inline-1.jpg";
+
+const inlineImageOverrides: Record<string, string[]> = {
+  "non-surgical-hair-replacement-men-uk": [blogNonSurgicalInline1],
+};
 
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" });
