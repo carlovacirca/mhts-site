@@ -2804,6 +2804,14 @@ You deserve to feel like yourself again. Let's make that happen.`,
     date: "2026-03-26",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Cost comparison chart for hair restoration options",
+    faqs: [
+      { q: "What's the most affordable hair restoration option?", a: "Medications and nutritional support are the lowest upfront cost, while hair systems offer the best balance of price, immediacy and visible results." },
+      { q: "Are hair systems cheaper than a transplant?", a: "Over the short term yes, and many clients find lifetime costs comparable while gaining flexibility and avoiding surgery." },
+      { q: "How much does SMP cost?", a: "SMP is a one-off investment spread across 2–3 sessions, with a light touch-up every 4–6 years to maintain tone." },
+      { q: "Do you offer payment plans?", a: "Yes — flexible payment options are available. We'll talk through the right plan for you at your consultation." },
+      { q: "Are consultations free?", a: "Yes. All initial consultations at Men's Hair To Stay are completely free and no-obligation." },
+    ],
+
     image: blogAug04,
     content: `Let's be honest: one of the biggest barriers to pursuing hair restoration isn't finding the right solution—it's understanding the financial commitment.
 
