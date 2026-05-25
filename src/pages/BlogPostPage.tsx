@@ -327,6 +327,7 @@ const BlogPostPage = () => {
 
             return sections.map((section, si) => {
               const hasH3 = section.some((b) => b.type === "h3");
+              const totalP = section.filter((b) => b.type === "p").length;
               const nodes: JSX.Element[] = [];
               let h3Count = 0;
               let pCount = 0;
@@ -335,7 +336,7 @@ const BlogPostPage = () => {
                 nodes.push(renderBlock(b, `${si}-${bi}`));
                 if (b.type === "h3") h3Count += 1;
                 if (b.type === "p") pCount += 1;
-                const trigger = hasH3 ? h3Count === 2 : pCount === 2;
+                const trigger = hasH3 ? h3Count === 2 : pCount === 2 && totalP >= 3;
                 if (!imageInserted && trigger) {
                   nodes.push(<ImagePlaceholder key={`${si}-img`} k={`${si}-img`} />);
                   imageInserted = true;
