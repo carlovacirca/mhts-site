@@ -24,6 +24,9 @@ import RelatedVideo from "@/components/RelatedVideo";
 import NewsletterSubscribeBar from "@/components/NewsletterSubscribeBar";
 import GBRelatedFaqs from "@/components/GBRelatedFaqs";
 import { withInjectedImages } from "@/lib/blogImageSlots";
+import gbSkinFadeInline1 from "@/assets/gb-skin-fade-inline-1.jpg";
+
+const inlineImageOverrides: string[] = [gbSkinFadeInline1];
 
 const post = {
   slug: "skin-fade-amersham-complete-guide",
@@ -454,7 +457,9 @@ const GBSkinFadePostPage = () => {
             </Collapsible>
           )}
 
-          {blocks.map((b, i) => {
+          {(() => {
+            let imgIdx = 0;
+            return blocks.map((b, i) => {
             const key = `b-${i}`;
             if (b.type === "h2")
               return (
@@ -498,7 +503,22 @@ const GBSkinFadePostPage = () => {
                   ))}
                 </ol>
               );
-            if (b.type === "img")
+            if (b.type === "img") {
+              const override = inlineImageOverrides[imgIdx++];
+              if (override)
+                return (
+                  <div
+                    key={key}
+                    className="not-prose my-8 aspect-[16/9] w-full rounded-lg overflow-hidden border border-border bg-mhts-light/50"
+                  >
+                    <img
+                      src={override}
+                      alt="Skin fade haircut at Georges Barbers Amersham"
+                      className="w-full h-full object-cover object-top"
+                      loading="lazy"
+                    />
+                  </div>
+                );
               return (
                 <div
                   key={key}
@@ -510,12 +530,14 @@ const GBSkinFadePostPage = () => {
                   </div>
                 </div>
               );
+            }
             return (
               <p key={key} className="my-4 leading-relaxed text-foreground/90">
                 {renderInline(b.text!)}
               </p>
             );
-          })}
+            });
+          })()}
         </article>
 
 
