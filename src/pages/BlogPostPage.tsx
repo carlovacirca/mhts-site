@@ -317,7 +317,7 @@ const BlogPostPage = () => {
             const ImagePlaceholder = ({ k }: { k: string }) => (
               <div
                 key={k}
-                className="not-prose my-8 aspect-[16/9] w-full rounded-lg border border-border bg-mhts-light/50 flex items-center justify-center overflow-hidden"
+                className="not-prose my-8 aspect-[16/9] w-full rounded-lg border border-border bg-muted flex items-center justify-center overflow-hidden"
               >
                 <img
                   src={blogPlaceholderIllustration}
