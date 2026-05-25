@@ -1067,6 +1067,14 @@ Book a free, no-obligation consultation to discuss hair systems, scalp micropigm
     date: "2026-04-16",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Hair system being cleaned and conditioned",
+    faqs: [
+      { q: "How often should I clean my hair system?", a: "A gentle wash 2–3 times a week with a sulphate-free shampoo keeps the base and hair in top condition." },
+      { q: "What products should I avoid?", a: "Avoid heavy silicones, sulphates, alcohol-based sprays and oil-based conditioners on the base — they break down adhesives and bonds." },
+      { q: "How often do I need professional maintenance?", a: "Most clients book a reattachment and refresh every 3–5 weeks to keep the bond secure and the style fresh." },
+      { q: "Can I style my system with heat tools?", a: "Yes, on a low-to-medium setting. Always use a heat protectant and avoid direct heat on the base." },
+      { q: "How can I extend the life of my system?", a: "Gentle washing, proper storage when not in use, and consistent professional maintenance can significantly extend its lifespan." },
+    ],
+
     image: blogAug25,
     content: `You've made the investment. You've walked out of your consultation with a full head of hair, caught your reflection multiple times that first day, and felt that rush of confidence returning.
 
