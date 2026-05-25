@@ -28,6 +28,7 @@ import blogAug18 from "@/assets/blog-aug18.jpg";
 import blogAug11 from "@/assets/blog-aug11.jpg";
 import blogAug04 from "@/assets/blog-aug04.jpg";
 import blogHairTransplantAlternatives from "@/assets/blog-hair-transplant-alternatives.jpg";
+import blogNonSurgicalHairReplacement from "@/assets/blog-non-surgical-hair-replacement.jpg";
 
 export const categories = [
   "All Posts",
@@ -4386,8 +4387,9 @@ Don't accept that transplants are your only option. Modern alternatives work exc
     readTime: "12 min read",
     date: "2026-05-25",
     author: "Men's Hair To Stay Team",
+    image: blogNonSurgicalHairReplacement,
     featuredImageAlt:
-      "Man receiving a non-surgical hair replacement system fitting at Men's Hair To Stay in Amersham",
+      "Confident smiling man with full natural-looking hair on the beach after non-surgical hair replacement at Men's Hair To Stay Amersham",
     faqs: [
       { q: "Is non-surgical hair replacement painful?", a: "No. The process is completely non-invasive — no needles, no surgery, no recovery time. The bond uses medical-grade adhesive applied to the scalp." },
       { q: "How long does a fitting take?", a: "Most first fittings take 2–3 hours from preparation to the final cut, blend and style." },
