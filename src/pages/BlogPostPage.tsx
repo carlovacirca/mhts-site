@@ -13,9 +13,10 @@ import { computeImageSlots } from "@/lib/blogImageSlots";
 import blogPlaceholderIllustration from "@/assets/blog-placeholder-illustration.jpg";
 import blogNonSurgicalInline1 from "@/assets/blog-non-surgical-inline-1.jpg";
 import blogNonSurgicalInline2 from "@/assets/blog-non-surgical-inline-2.jpg";
+import blogNonSurgicalInline3 from "@/assets/blog-non-surgical-inline-3.jpg";
 
 const inlineImageOverrides: Record<string, string[]> = {
-  "non-surgical-hair-replacement-men-uk": [blogNonSurgicalInline1, blogNonSurgicalInline2],
+  "non-surgical-hair-replacement-men-uk": [blogNonSurgicalInline1, blogNonSurgicalInline2, blogNonSurgicalInline3],
 };
 
 const formatDate = (iso: string) =>
