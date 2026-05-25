@@ -28,6 +28,7 @@ import gbSkinFadeInline1 from "@/assets/gb-skin-fade-inline-1.jpg";
 import gbSkinFadeInline2 from "@/assets/gb-skin-fade-inline-2.jpg";
 import gbSkinFadeInline3 from "@/assets/gb-skin-fade-inline-3.jpg";
 import gbSkinFadeInline4 from "@/assets/gb-skin-fade-inline-4.jpg";
+import gbSkinFadeHero from "@/assets/gb-skin-fade-hero.jpg";
 
 const inlineImageOverrides: string[] = [gbSkinFadeInline1, gbSkinFadeInline2, gbSkinFadeInline3, gbSkinFadeInline4];
 
@@ -374,10 +375,14 @@ const GBSkinFadePostPage = () => {
         />
       </div>
 
-      {/* Hero image placeholder */}
+      {/* Hero image */}
       <section className="bg-background">
-        <div className="w-full h-[40vh] md:h-[60vh] bg-gradient-to-br from-mhts-navy to-mhts-charcoal flex items-center justify-center">
-          <ImageIcon className="w-16 h-16 text-mhts-white/30" />
+        <div className="w-full h-[40vh] md:h-[60vh] overflow-hidden">
+          <img
+            src={gbSkinFadeHero}
+            alt="Barber performing a precise skin fade haircut at Georges Barbers in Amersham"
+            className="w-full h-full object-cover"
+          />
         </div>
       </section>
 
