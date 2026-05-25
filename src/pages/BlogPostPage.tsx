@@ -322,7 +322,7 @@ const BlogPostPage = () => {
                 <img
                   src={blogPlaceholderIllustration}
                   alt="Illustration"
-                  className="h-full w-auto object-contain"
+                  className="h-full w-full object-cover"
                   loading="lazy"
                 />
               </div>
