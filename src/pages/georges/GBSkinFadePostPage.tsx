@@ -375,10 +375,14 @@ const GBSkinFadePostPage = () => {
         />
       </div>
 
-      {/* Hero image placeholder */}
+      {/* Hero image */}
       <section className="bg-background">
-        <div className="w-full h-[40vh] md:h-[60vh] bg-gradient-to-br from-mhts-navy to-mhts-charcoal flex items-center justify-center">
-          <ImageIcon className="w-16 h-16 text-mhts-white/30" />
+        <div className="w-full h-[40vh] md:h-[60vh] overflow-hidden">
+          <img
+            src={gbSkinFadeHero}
+            alt="Barber performing a precise skin fade haircut at Georges Barbers in Amersham"
+            className="w-full h-full object-cover"
+          />
         </div>
       </section>
 
