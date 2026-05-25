@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Calendar, Clock, ChevronRight, Share2, Facebook, Twitter, Linkedin, Mail, ArrowLeft } from "lucide-react";
+import { Calendar, Clock, ChevronRight, Share2, Facebook, Twitter, Linkedin, Mail, ArrowLeft, ChevronDown, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { blogPosts } from "@/data/blogPosts";
 
 const formatDate = (iso: string) =>
@@ -172,28 +173,43 @@ const BlogPostPage = () => {
         />
       </div>
 
-      {/* Hero */}
-      <section className="relative bg-gradient-to-br from-mhts-navy to-mhts-charcoal text-mhts-white py-20 px-4">
-        <div className="absolute inset-0 bg-black/30" />
-        <div className="container mx-auto max-w-4xl relative">
-          <Link to="/blog" className="inline-flex items-center gap-1 text-sm text-mhts-white/70 hover:text-mhts-white mb-6">
-            <ArrowLeft className="w-4 h-4" /> Back to blog
-          </Link>
-          <span className="inline-block px-3 py-1 bg-mhts-white/10 backdrop-blur text-mhts-white text-xs rounded-full mb-4">
-            {post.category}
-          </span>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-3xl md:text-5xl font-bold mb-6"
-          >
-            {post.title}
-          </motion.h1>
-          <div className="flex flex-wrap items-center gap-5 text-sm text-mhts-white/80">
-            <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {formatDate(post.date)}</span>
-            <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {post.readTime}</span>
-            <span>By {post.author}</span>
+      {/* Hero image */}
+      <section className="bg-background">
+        {post.image ? (
+          <img
+            src={post.image}
+            alt={post.featuredImageAlt}
+            className="w-full h-[40vh] md:h-[60vh] object-cover"
+          />
+        ) : (
+          <div className="w-full h-[40vh] md:h-[60vh] bg-gradient-to-br from-mhts-navy to-mhts-charcoal flex items-center justify-center">
+            <ImageIcon className="w-16 h-16 text-mhts-white/30" />
           </div>
+        )}
+      </section>
+
+      {/* Title block */}
+      <section className="container mx-auto max-w-4xl px-4 pt-10">
+        <Link to="/blog" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4">
+          <ArrowLeft className="w-4 h-4" /> Back to blog
+        </Link>
+        <span className="inline-block px-3 py-1 bg-mhts-light text-mhts-charcoal text-xs rounded-full mb-4">
+          {post.category}
+        </span>
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-3xl md:text-5xl font-bold mb-4 text-mhts-charcoal"
+        >
+          {post.title}
+        </motion.h1>
+        <p className="italic text-lg text-muted-foreground mb-5 leading-relaxed">
+          {post.excerpt}
+        </p>
+        <div className="flex flex-wrap items-center gap-5 text-sm text-muted-foreground">
+          <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {formatDate(post.date)}</span>
+          <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {post.readTime}</span>
+          <span>By {post.author}</span>
         </div>
       </section>
 
@@ -232,37 +248,106 @@ const BlogPostPage = () => {
 
         {/* Article */}
         <article className="prose prose-slate max-w-none">
-          {blocks.map((b, i) => {
-            if (b.type === "h2")
-              return (
-                <h2 id={b.id} key={i} className="text-2xl md:text-3xl font-bold mt-10 mb-4 text-mhts-charcoal scroll-mt-24">
-                  {b.text}
-                </h2>
-              );
-            if (b.type === "h3")
-              return (
-                <h3 id={b.id} key={i} className="text-xl font-semibold mt-6 mb-3 text-mhts-charcoal scroll-mt-24">
-                  {b.text}
-                </h3>
-              );
-            if (b.type === "ul")
-              return (
-                <ul key={i} className="list-disc pl-6 my-4 space-y-1.5 text-foreground/90">
-                  {b.items!.map((it, j) => <li key={j}>{renderInline(it)}</li>)}
-                </ul>
-              );
-            if (b.type === "ol")
-              return (
-                <ol key={i} className="list-decimal pl-6 my-4 space-y-1.5 text-foreground/90">
-                  {b.items!.map((it, j) => <li key={j}>{renderInline(it)}</li>)}
+          {/* Collapsible Table of Contents */}
+          {toc.length > 0 && (
+            <Collapsible defaultOpen className="not-prose mb-10 border border-border rounded-lg bg-mhts-light/40">
+              <CollapsibleTrigger className="group flex w-full items-center justify-between p-4 text-left">
+                <span className="font-semibold text-mhts-charcoal uppercase tracking-wider text-sm">
+                  Table of Contents
+                </span>
+                <ChevronDown className="w-4 h-4 transition-transform group-data-[state=open]:rotate-180" />
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <ol className="list-decimal pl-10 pr-4 pb-4 space-y-1.5 text-sm">
+                  {toc.map((h) => (
+                    <li key={h.id}>
+                      <a href={`#${h.id}`} className="text-muted-foreground hover:text-mhts-charcoal transition-colors">
+                        {h.text}
+                      </a>
+                    </li>
+                  ))}
                 </ol>
+              </CollapsibleContent>
+            </Collapsible>
+          )}
+
+          {(() => {
+            // Group blocks into H2 sections so we can inject an image placeholder
+            // after the second H3 of each section.
+            const sections: Block[][] = [];
+            let current: Block[] = [];
+            for (const b of blocks) {
+              if (b.type === "h2") {
+                if (current.length) sections.push(current);
+                current = [b];
+              } else {
+                if (!current.length) current = [];
+                current.push(b);
+              }
+            }
+            if (current.length) sections.push(current);
+
+            const renderBlock = (b: Block, key: string) => {
+              if (b.type === "h2")
+                return (
+                  <h2 id={b.id} key={key} className="text-2xl md:text-3xl font-bold mt-10 mb-4 text-mhts-charcoal scroll-mt-24">
+                    {b.text}
+                  </h2>
+                );
+              if (b.type === "h3")
+                return (
+                  <h3 id={b.id} key={key} className="text-xl font-semibold mt-6 mb-3 text-mhts-charcoal scroll-mt-24">
+                    {b.text}
+                  </h3>
+                );
+              if (b.type === "ul")
+                return (
+                  <ul key={key} className="list-disc pl-6 my-4 space-y-1.5 text-foreground/90">
+                    {b.items!.map((it, j) => <li key={j}>{renderInline(it)}</li>)}
+                  </ul>
+                );
+              if (b.type === "ol")
+                return (
+                  <ol key={key} className="list-decimal pl-6 my-4 space-y-1.5 text-foreground/90">
+                    {b.items!.map((it, j) => <li key={j}>{renderInline(it)}</li>)}
+                  </ol>
+                );
+              return (
+                <p key={key} className="my-4 leading-relaxed text-foreground/90">
+                  {renderInline(b.text!)}
+                </p>
               );
-            return (
-              <p key={i} className="my-4 leading-relaxed text-foreground/90">
-                {renderInline(b.text!)}
-              </p>
+            };
+
+            const ImagePlaceholder = ({ k }: { k: string }) => (
+              <div
+                key={k}
+                className="not-prose my-8 aspect-[16/9] w-full rounded-lg border-2 border-dashed border-border bg-mhts-light/50 flex items-center justify-center text-muted-foreground"
+              >
+                <div className="flex flex-col items-center gap-2 text-sm">
+                  <ImageIcon className="w-8 h-8" />
+                  <span>Image placeholder</span>
+                </div>
+              </div>
             );
-          })}
+
+            return sections.map((section, si) => {
+              const nodes: JSX.Element[] = [];
+              let h3Count = 0;
+              let imageInserted = false;
+              section.forEach((b, bi) => {
+                nodes.push(renderBlock(b, `${si}-${bi}`));
+                if (b.type === "h3") h3Count += 1;
+                if (!imageInserted && h3Count === 2) {
+                  // Insert image after this H3's following content; we add it now
+                  // and any subsequent H3s/paragraphs render after the image.
+                  nodes.push(<ImagePlaceholder key={`${si}-img`} k={`${si}-img`} />);
+                  imageInserted = true;
+                }
+              });
+              return <section key={si}>{nodes}</section>;
+            });
+          })()}
 
           {/* Newsletter */}
           <div className="mt-12 bg-mhts-light p-6 rounded-lg not-prose">
