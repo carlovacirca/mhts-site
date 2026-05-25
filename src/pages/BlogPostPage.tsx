@@ -12,6 +12,15 @@ import { blogPosts } from "@/data/blogPosts";
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" });
 
+const categoryRoutes: Record<string, string> = {
+  "Hair Systems": "/hair-systems",
+  "Scalp Micropigmentation": "/scalp-micropigmentation",
+  "Hair Loss Solutions": "/hair-density",
+  "Maintenance & Care": "/hair-system-maintenance",
+  "Expert Tips": "/services",
+  "Before & After": "/gallery",
+};
+
 interface Block {
   type: "h2" | "h3" | "p" | "ul" | "ol";
   text?: string;
