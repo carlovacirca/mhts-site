@@ -412,7 +412,16 @@ const BlogPostPage = () => {
       </div>
 
       {/* Related Video */}
-      <RelatedVideo title={post.title} />
+      {post.slug === "non-surgical-hair-replacement-men-uk" ? (
+        <RelatedVideo
+          videoId="ZDSasEXYfGw"
+          thumbnail="https://i.ytimg.com/vi/ZDSasEXYfGw/maxresdefault.jpg"
+          title="Hair System | Pros & Cons | Top 8 Facts Hair Loss | Non-Surgical Hair Replacement System Men UK"
+          url="https://www.youtube.com/watch?v=ZDSasEXYfGw"
+        />
+      ) : (
+        <RelatedVideo title={post.title} />
+      )}
 
       {/* Related */}
       <section className="container mx-auto px-4 pb-12">
