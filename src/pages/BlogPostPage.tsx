@@ -9,6 +9,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import RelatedVideo from "@/components/RelatedVideo";
 import NewsletterSubscribeBar from "@/components/NewsletterSubscribeBar";
 import { blogPosts } from "@/data/blogPosts";
+import { computeImageSlots } from "@/lib/blogImageSlots";
 import blogPlaceholderIllustration from "@/assets/blog-placeholder-illustration.jpg";
 import blogNonSurgicalInline1 from "@/assets/blog-non-surgical-inline-1.jpg";
 import blogNonSurgicalInline2 from "@/assets/blog-non-surgical-inline-2.jpg";
