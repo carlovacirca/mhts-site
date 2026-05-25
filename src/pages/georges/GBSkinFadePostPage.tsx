@@ -615,6 +615,14 @@ const GBSkinFadePostPage = () => {
 
       </div>
 
+      {/* Related Video */}
+      <RelatedVideo
+        videoId="CipXbhzvuUo"
+        thumbnail="https://i.ytimg.com/vi/CipXbhzvuUo/maxresdefault.jpg"
+        title="Perfect fade in 4 minutes | How to cut mens hair"
+        url="https://www.youtube.com/watch?v=CipXbhzvuUo"
+      />
+
       {/* Bottom CTA */}
       <section className="container mx-auto px-4 pb-12">
         <div className="bg-mhts-charcoal text-mhts-white rounded-xl p-8 md:p-10 text-center">
@@ -638,7 +646,7 @@ const GBSkinFadePostPage = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-mhts-white text-mhts-white hover:bg-mhts-white hover:text-mhts-charcoal"
+                className="border-mhts-white bg-mhts-white text-mhts-charcoal hover:bg-mhts-white/90 hover:text-mhts-charcoal"
               >
                 Book Online
               </Button>
@@ -646,14 +654,6 @@ const GBSkinFadePostPage = () => {
           </div>
         </div>
       </section>
-
-      {/* Related Video */}
-      <RelatedVideo
-        videoId="CipXbhzvuUo"
-        thumbnail="https://i.ytimg.com/vi/CipXbhzvuUo/maxresdefault.jpg"
-        title="Perfect fade in 4 minutes | How to cut mens hair"
-        url="https://www.youtube.com/watch?v=CipXbhzvuUo"
-      />
 
       {/* Newsletter subscribe bar */}
       <NewsletterSubscribeBar />
