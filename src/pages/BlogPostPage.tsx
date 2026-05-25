@@ -9,6 +9,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import RelatedVideo from "@/components/RelatedVideo";
 import NewsletterSubscribeBar from "@/components/NewsletterSubscribeBar";
 import { blogPosts } from "@/data/blogPosts";
+import blogPlaceholderIllustration from "@/assets/blog-placeholder-illustration.jpg";
 
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" });
@@ -316,12 +317,14 @@ const BlogPostPage = () => {
             const ImagePlaceholder = ({ k }: { k: string }) => (
               <div
                 key={k}
-                className="not-prose my-8 aspect-[16/9] w-full rounded-lg border-2 border-dashed border-border bg-mhts-light/50 flex items-center justify-center text-muted-foreground"
+                className="not-prose my-8 aspect-[16/9] w-full rounded-lg border border-border bg-mhts-light/50 flex items-center justify-center overflow-hidden"
               >
-                <div className="flex flex-col items-center gap-2 text-sm">
-                  <ImageIcon className="w-8 h-8" />
-                  <span>Image placeholder</span>
-                </div>
+                <img
+                  src={blogPlaceholderIllustration}
+                  alt="Illustration"
+                  className="h-full w-auto object-contain"
+                  loading="lazy"
+                />
               </div>
             );
 
