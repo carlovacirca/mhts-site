@@ -104,7 +104,12 @@ const HairSystemsPage = () => {
     <div className="mhts-theme">
       {/* HERO */}
       <section className="relative min-h-[60vh] flex items-center bg-mhts-charcoal overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-mhts-charcoal via-mhts-charcoal/95 to-mhts-charcoal/80" />
+        <img
+          src={hairSystemsHero}
+          alt="Men's Hair to Stay consultation in Amersham"
+          className="absolute inset-0 w-full h-full object-cover object-left"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-mhts-charcoal/85 via-mhts-charcoal/60 to-transparent" />
         <div className="container mx-auto px-4 relative z-10 py-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
