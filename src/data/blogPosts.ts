@@ -1944,6 +1944,14 @@ Book a consultation to start your own transformation.`,
     date: "2026-04-02",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Woman exploring hair restoration options during consultation",
+    faqs: [
+      { q: "Is hair loss in women different from men?", a: "Yes. Women typically experience diffuse thinning across the crown and parting rather than a receding hairline or bald patches." },
+      { q: "What are the main causes of female hair loss?", a: "Common causes include hormonal changes, postpartum shedding, menopause, stress, thyroid issues, and nutritional deficiencies." },
+      { q: "What non-surgical options work for women?", a: "Women's hair systems and toppers, density treatments, medications and nutritional support all deliver excellent results without surgery." },
+      { q: "Will a topper or hair system look natural?", a: "Yes. Modern women's systems are ultra-fine, custom colour-matched, and blended into your own hair for an undetectable finish." },
+      { q: "How do I start the process?", a: "Book a free, private consultation. We'll assess your hair, discuss the cause of your loss, and tailor a plan to your goals." },
+    ],
+
     image: blogAug11,
     content: `The statistics are sobering. By age 50, approximately two-thirds of women experience some degree of hair loss. Yet women's hair loss remains vastly under-discussed compared to male pattern baldness, leaving many women feeling isolated, confused, and unsure where to turn.
 
