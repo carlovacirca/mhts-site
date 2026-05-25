@@ -1901,6 +1901,14 @@ Book a maintenance appointment or consultation to discuss your specific system c
     date: "2026-04-09",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Before and after hair restoration transformation",
+    faqs: [
+      { q: "Are these transformations real client results?", a: "Yes — every transformation featured is from a real Men's Hair To Stay client, shared with their permission." },
+      { q: "How quickly were these results achieved?", a: "Hair systems and SMP deliver results in a single day or a few short sessions. Treatments like medications take 3–6 months." },
+      { q: "Can I achieve a result like this?", a: "Almost certainly. The best way to know is a free consultation where we'll assess your hair loss and walk you through the right approach." },
+      { q: "How long do these results last?", a: "With proper maintenance, hair systems are refreshed every few months and SMP lasts 4–6 years before a touch-up." },
+      { q: "Can I see more before-and-after photos?", a: "Yes — visit our gallery or book a consultation to view additional client transformations in person." },
+    ],
+
     image: blogAug18,
     content: `Real client transformations show what's possible with modern hair restoration.
 
