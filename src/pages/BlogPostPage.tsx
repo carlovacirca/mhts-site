@@ -358,6 +358,25 @@ const BlogPostPage = () => {
 
         {/* Right sidebar — Related FAQs + CTA */}
         <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start hidden lg:block">
+          <div>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-1.5 mb-3">
+              <Share2 className="w-3 h-3" /> Share
+            </p>
+            <div className="flex flex-row gap-2">
+              <a target="_blank" rel="noopener" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`} className="p-2 rounded-md border border-border hover:bg-mhts-light transition-colors">
+                <Facebook className="w-4 h-4" />
+              </a>
+              <a target="_blank" rel="noopener" href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(post.title)}`} className="p-2 rounded-md border border-border hover:bg-mhts-light transition-colors">
+                <Twitter className="w-4 h-4" />
+              </a>
+              <a target="_blank" rel="noopener" href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`} className="p-2 rounded-md border border-border hover:bg-mhts-light transition-colors">
+                <Linkedin className="w-4 h-4" />
+              </a>
+              <a href={`mailto:?subject=${encodeURIComponent(post.title)}&body=${encodeURIComponent(shareUrl)}`} className="p-2 rounded-md border border-border hover:bg-mhts-light transition-colors">
+                <Mail className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
           {post.faqs && post.faqs.length > 0 && (
             <div>
               <h4 className="font-bold mb-3 text-mhts-charcoal text-sm uppercase tracking-wider">
