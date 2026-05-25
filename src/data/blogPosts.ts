@@ -54,6 +54,14 @@ export const blogPosts: BlogPost[] = [
     author: "Men's Hair To Stay Team",
     featuredImageAlt:
       "Professional hair system fitting consultation showing natural-looking hair replacement",
+    faqs: [
+      { q: "How long does a hair system last?", a: "With proper care, a quality hair system typically lasts 4–8 months before needing replacement, depending on the base material and how often it's worn." },
+      { q: "Can I shower, swim and exercise with a hair system?", a: "Yes — modern systems are fully secure and designed for everyday life, including showering, swimming, the gym, and sweating." },
+      { q: "Will people be able to tell I'm wearing one?", a: "No. Properly fitted and cut into your bio-hair, today's systems are virtually undetectable, even up close." },
+      { q: "How much does a hair system cost in the UK?", a: "Pricing varies by base type and customisation. We provide a full quote at your free consultation, with predictable ongoing maintenance costs." },
+      { q: "How often do I need to come in for maintenance?", a: "Most clients visit every 3–5 weeks for a reattachment, clean and style to keep the system looking flawless." },
+    ],
+
     image: blogHairSystemsGuide,
     featured: true,
     content: `Hair loss is one of those experiences that can quietly chip away at your confidence. Maybe you've noticed your hairline creeping back, or perhaps the crown of your head is showing more scalp than you'd like. If you're reading this from Amersham, Chesham, or anywhere across Buckinghamshire, you're likely exploring your options—and wondering if hair systems are the answer.
@@ -243,6 +251,14 @@ Ready to explore your options? Book a free, private consultation today. No press
     author: "Men's Hair To Stay Team",
     featuredImageAlt:
       "Close-up of scalp micropigmentation treatment showing realistic hair follicle impressions",
+    faqs: [
+      { q: "Is scalp micropigmentation painful?", a: "Most clients describe it as mild discomfort — similar to a light scratching sensation. Topical numbing can be applied for sensitive areas." },
+      { q: "How long does SMP last?", a: "Results typically last 4–6 years before a light touch-up is needed to refresh tone and density." },
+      { q: "Will SMP look like real hair?", a: "Yes. When done by a trained artist, the layered micro-dots replicate natural hair follicles and blend seamlessly with existing hair." },
+      { q: "How many sessions are required?", a: "Most full treatments take 2–3 sessions spaced a couple of weeks apart to build depth and a natural finish." },
+      { q: "Can SMP be combined with a hair system or transplant?", a: "Absolutely — SMP is often used to add density behind a hair system or to camouflage transplant scarring." },
+    ],
+
     image: blogSmpProcedure,
     content: `There's a particular moment that stays with many of our clients. It's not during the procedure itself, or even when they first see the results. It's when they realise they've stopped thinking about their hair loss.
 
@@ -549,6 +565,14 @@ For residents across Amersham, Chesham, Beaconsfield, High Wycombe, Watford, Ric
     author: "Men's Hair To Stay Team",
     featuredImageAlt:
       "Side-by-side comparison of hair system results and scalp micropigmentation treatment",
+    faqs: [
+      { q: "What's the main difference between hair systems and SMP?", a: "Hair systems give you real hair you can style and run your fingers through. SMP creates the appearance of a closely shaved head using pigment." },
+      { q: "Which option looks more natural?", a: "Both look exceptionally natural when done well — the right choice depends on whether you want length and style (system) or a clean shaved look (SMP)." },
+      { q: "Which one is cheaper long-term?", a: "SMP has a higher upfront cost but minimal ongoing maintenance. Hair systems are more affordable upfront but require regular maintenance visits." },
+      { q: "Can I switch between them later?", a: "Yes — many clients start with one and add the other (e.g. SMP under a system for added density) as their needs evolve." },
+      { q: "How do I decide which is right for me?", a: "A free consultation is the best way to compare. We'll assess your hair loss, lifestyle, and goals to recommend the right path." },
+    ],
+
     image: blogBeforeAfter,
     content: `Standing in front of the mirror, you've made peace with the fact that your hair isn't coming back on its own. You've researched the options, ruled out surgery, and now you're faced with a decision: hair systems or scalp micropigmentation?
 
@@ -1043,6 +1067,14 @@ Book a free, no-obligation consultation to discuss hair systems, scalp micropigm
     date: "2026-04-16",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Hair system being cleaned and conditioned",
+    faqs: [
+      { q: "How often should I clean my hair system?", a: "A gentle wash 2–3 times a week with a sulphate-free shampoo keeps the base and hair in top condition." },
+      { q: "What products should I avoid?", a: "Avoid heavy silicones, sulphates, alcohol-based sprays and oil-based conditioners on the base — they break down adhesives and bonds." },
+      { q: "How often do I need professional maintenance?", a: "Most clients book a reattachment and refresh every 3–5 weeks to keep the bond secure and the style fresh." },
+      { q: "Can I style my system with heat tools?", a: "Yes, on a low-to-medium setting. Always use a heat protectant and avoid direct heat on the base." },
+      { q: "How can I extend the life of my system?", a: "Gentle washing, proper storage when not in use, and consistent professional maintenance can significantly extend its lifespan." },
+    ],
+
     image: blogAug25,
     content: `You've made the investment. You've walked out of your consultation with a full head of hair, caught your reflection multiple times that first day, and felt that rush of confidence returning.
 
@@ -1869,6 +1901,14 @@ Book a maintenance appointment or consultation to discuss your specific system c
     date: "2026-04-09",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Before and after hair restoration transformation",
+    faqs: [
+      { q: "Are these transformations real client results?", a: "Yes — every transformation featured is from a real Men's Hair To Stay client, shared with their permission." },
+      { q: "How quickly were these results achieved?", a: "Hair systems and SMP deliver results in a single day or a few short sessions. Treatments like medications take 3–6 months." },
+      { q: "Can I achieve a result like this?", a: "Almost certainly. The best way to know is a free consultation where we'll assess your hair loss and walk you through the right approach." },
+      { q: "How long do these results last?", a: "With proper maintenance, hair systems are refreshed every few months and SMP lasts 4–6 years before a touch-up." },
+      { q: "Can I see more before-and-after photos?", a: "Yes — visit our gallery or book a consultation to view additional client transformations in person." },
+    ],
+
     image: blogAug18,
     content: `Real client transformations show what's possible with modern hair restoration.
 
@@ -1904,6 +1944,14 @@ Book a consultation to start your own transformation.`,
     date: "2026-04-02",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Woman exploring hair restoration options during consultation",
+    faqs: [
+      { q: "Is hair loss in women different from men?", a: "Yes. Women typically experience diffuse thinning across the crown and parting rather than a receding hairline or bald patches." },
+      { q: "What are the main causes of female hair loss?", a: "Common causes include hormonal changes, postpartum shedding, menopause, stress, thyroid issues, and nutritional deficiencies." },
+      { q: "What non-surgical options work for women?", a: "Women's hair systems and toppers, density treatments, medications and nutritional support all deliver excellent results without surgery." },
+      { q: "Will a topper or hair system look natural?", a: "Yes. Modern women's systems are ultra-fine, custom colour-matched, and blended into your own hair for an undetectable finish." },
+      { q: "How do I start the process?", a: "Book a free, private consultation. We'll assess your hair, discuss the cause of your loss, and tailor a plan to your goals." },
+    ],
+
     image: blogAug11,
     content: `The statistics are sobering. By age 50, approximately two-thirds of women experience some degree of hair loss. Yet women's hair loss remains vastly under-discussed compared to male pattern baldness, leaving many women feeling isolated, confused, and unsure where to turn.
 
@@ -2756,6 +2804,14 @@ You deserve to feel like yourself again. Let's make that happen.`,
     date: "2026-03-26",
     author: "Men's Hair To Stay Team",
     featuredImageAlt: "Cost comparison chart for hair restoration options",
+    faqs: [
+      { q: "What's the most affordable hair restoration option?", a: "Medications and nutritional support are the lowest upfront cost, while hair systems offer the best balance of price, immediacy and visible results." },
+      { q: "Are hair systems cheaper than a transplant?", a: "Over the short term yes, and many clients find lifetime costs comparable while gaining flexibility and avoiding surgery." },
+      { q: "How much does SMP cost?", a: "SMP is a one-off investment spread across 2–3 sessions, with a light touch-up every 4–6 years to maintain tone." },
+      { q: "Do you offer payment plans?", a: "Yes — flexible payment options are available. We'll talk through the right plan for you at your consultation." },
+      { q: "Are consultations free?", a: "Yes. All initial consultations at Men's Hair To Stay are completely free and no-obligation." },
+    ],
+
     image: blogAug04,
     content: `Let's be honest: one of the biggest barriers to pursuing hair restoration isn't finding the right solution—it's understanding the financial commitment.
 
