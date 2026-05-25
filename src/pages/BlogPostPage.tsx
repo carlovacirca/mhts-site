@@ -412,6 +412,9 @@ const BlogPostPage = () => {
 
       </div>
 
+      {/* Related Video */}
+      <RelatedVideo title={post.title} />
+
       {/* Related */}
       <section className="container mx-auto px-4 pb-12">
         <h2 className="text-2xl md:text-3xl font-bold text-mhts-charcoal mb-6">Related articles</h2>
@@ -439,11 +442,9 @@ const BlogPostPage = () => {
         </div>
       </section>
 
-      {/* Related Video */}
-      <RelatedVideo title={post.title} />
-
       {/* Newsletter subscribe bar */}
       <NewsletterSubscribeBar />
+
 
     </div>
   );
