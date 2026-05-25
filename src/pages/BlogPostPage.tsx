@@ -173,28 +173,43 @@ const BlogPostPage = () => {
         />
       </div>
 
-      {/* Hero */}
-      <section className="relative bg-gradient-to-br from-mhts-navy to-mhts-charcoal text-mhts-white py-20 px-4">
-        <div className="absolute inset-0 bg-black/30" />
-        <div className="container mx-auto max-w-4xl relative">
-          <Link to="/blog" className="inline-flex items-center gap-1 text-sm text-mhts-white/70 hover:text-mhts-white mb-6">
-            <ArrowLeft className="w-4 h-4" /> Back to blog
-          </Link>
-          <span className="inline-block px-3 py-1 bg-mhts-white/10 backdrop-blur text-mhts-white text-xs rounded-full mb-4">
-            {post.category}
-          </span>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-3xl md:text-5xl font-bold mb-6"
-          >
-            {post.title}
-          </motion.h1>
-          <div className="flex flex-wrap items-center gap-5 text-sm text-mhts-white/80">
-            <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {formatDate(post.date)}</span>
-            <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {post.readTime}</span>
-            <span>By {post.author}</span>
+      {/* Hero image */}
+      <section className="bg-background">
+        {post.image ? (
+          <img
+            src={post.image}
+            alt={post.featuredImageAlt}
+            className="w-full h-[40vh] md:h-[60vh] object-cover"
+          />
+        ) : (
+          <div className="w-full h-[40vh] md:h-[60vh] bg-gradient-to-br from-mhts-navy to-mhts-charcoal flex items-center justify-center">
+            <ImageIcon className="w-16 h-16 text-mhts-white/30" />
           </div>
+        )}
+      </section>
+
+      {/* Title block */}
+      <section className="container mx-auto max-w-4xl px-4 pt-10">
+        <Link to="/blog" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4">
+          <ArrowLeft className="w-4 h-4" /> Back to blog
+        </Link>
+        <span className="inline-block px-3 py-1 bg-mhts-light text-mhts-charcoal text-xs rounded-full mb-4">
+          {post.category}
+        </span>
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-3xl md:text-5xl font-bold mb-4 text-mhts-charcoal"
+        >
+          {post.title}
+        </motion.h1>
+        <p className="italic text-lg text-muted-foreground mb-5 leading-relaxed">
+          {post.excerpt}
+        </p>
+        <div className="flex flex-wrap items-center gap-5 text-sm text-muted-foreground">
+          <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {formatDate(post.date)}</span>
+          <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {post.readTime}</span>
+          <span>By {post.author}</span>
         </div>
       </section>
 
