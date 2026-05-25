@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { blogPosts } from "@/data/blogPosts";
 
 const formatDate = (iso: string) =>
@@ -376,25 +377,25 @@ const BlogPostPage = () => {
           </div>
         </article>
 
-        {/* Right sidebar — TOC + CTA */}
+        {/* Right sidebar — Related FAQs + CTA */}
         <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start hidden lg:block">
-          {toc.length > 0 && (
+          {post.faqs && post.faqs.length > 0 && (
             <div>
               <h4 className="font-bold mb-3 text-mhts-charcoal text-sm uppercase tracking-wider">
-                On this page
+                Related FAQs
               </h4>
-              <ul className="space-y-2 text-sm border-l border-border pl-3">
-                {toc.map((h) => (
-                  <li key={h.id}>
-                    <a
-                      href={`#${h.id}`}
-                      className="text-muted-foreground hover:text-mhts-charcoal transition-colors block"
-                    >
-                      {h.text}
-                    </a>
-                  </li>
+              <Accordion type="single" collapsible className="border border-border rounded-lg bg-mhts-light/40 px-3">
+                {post.faqs.map((f, i) => (
+                  <AccordionItem key={i} value={`faq-${i}`} className="border-b last:border-b-0">
+                    <AccordionTrigger className="text-sm text-left text-mhts-charcoal hover:no-underline py-3">
+                      {f.q}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-sm text-muted-foreground leading-relaxed">
+                      {f.a}
+                    </AccordionContent>
+                  </AccordionItem>
                 ))}
-              </ul>
+              </Accordion>
             </div>
           )}
           <div className="bg-mhts-charcoal text-mhts-white p-5 rounded-lg">
@@ -409,6 +410,7 @@ const BlogPostPage = () => {
             </Link>
           </div>
         </aside>
+
       </div>
 
       {/* Related */}

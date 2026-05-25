@@ -1,3 +1,8 @@
+export interface BlogFAQ {
+  q: string;
+  a: string;
+}
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -11,7 +16,9 @@ export interface BlogPost {
   image?: string;
   content: string; // markdown-ish
   featured?: boolean;
+  faqs?: BlogFAQ[];
 }
+
 
 import blogHairSystemsGuide from "@/assets/blog-hair-systems-guide.jpg";
 import blogSmpProcedure from "@/assets/blog-smp-procedure.jpg";
@@ -3991,6 +3998,28 @@ Serving Amersham, Chesham, Beaconsfield, High Wycombe, and throughout Buckingham
     image: blogHairTransplantAlternatives,
     featuredImageAlt:
       "Man with restored natural-looking hair after non-surgical hair replacement treatment",
+    faqs: [
+      {
+        q: "Are hair transplant alternatives as effective as surgery?",
+        a: "For most people, yes. Hair systems and SMP deliver immediate, natural-looking results without surgery, downtime, or the risk of a failed graft — and they work even when you don't have enough donor hair for a transplant.",
+      },
+      {
+        q: "How quickly will I see results?",
+        a: "Hair systems give a full head of hair the same day they're fitted. SMP is usually completed in 2–3 short sessions. Medications take 3–6 months to show visible change.",
+      },
+      {
+        q: "Will a hair system look obvious?",
+        a: "Modern systems use ultra-fine bases and are colour-matched and cut into your existing hair. Fitted properly, they're virtually undetectable in everyday life.",
+      },
+      {
+        q: "How much do non-surgical hair solutions cost?",
+        a: "Costs vary by solution and maintenance frequency. Hair systems and SMP are typically a fraction of the lifetime cost of a transplant, with predictable ongoing maintenance.",
+      },
+      {
+        q: "Can I combine different treatments?",
+        a: "Absolutely. Many clients combine a hair system with medications to preserve their remaining hair, or pair SMP with thinning treatments for added density.",
+      },
+    ],
     content: `Hair transplants have long been presented as the "gold standard" for hair restoration. Surgery, permanent results, your own growing hair—it sounds ideal.
 
 But here's what's often overlooked: hair transplants aren't right for everyone.
