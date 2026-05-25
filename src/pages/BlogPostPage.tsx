@@ -12,6 +12,15 @@ import { blogPosts } from "@/data/blogPosts";
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" });
 
+const categoryRoutes: Record<string, string> = {
+  "Hair Systems": "/hair-systems",
+  "Scalp Micropigmentation": "/scalp-micropigmentation",
+  "Hair Loss Solutions": "/hair-density",
+  "Maintenance & Care": "/hair-system-maintenance",
+  "Expert Tips": "/services",
+  "Before & After": "/gallery",
+};
+
 interface Block {
   type: "h2" | "h3" | "p" | "ul" | "ol";
   text?: string;
@@ -201,13 +210,10 @@ const BlogPostPage = () => {
       {/* Title block */}
       <div className="container mx-auto px-4 pt-6 grid lg:grid-cols-[1fr_280px] gap-8">
         <section>
-          <div className="flex items-center justify-between gap-4 mb-4">
+          <div className="mb-4">
             <Link to="/blog" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
               <ArrowLeft className="w-4 h-4" /> Back to blog
             </Link>
-            <span className="inline-block px-3 py-1 bg-mhts-light text-mhts-charcoal text-xs rounded-full">
-              {post.category}
-            </span>
           </div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -383,6 +389,15 @@ const BlogPostPage = () => {
                 <Mail className="w-4 h-4" />
               </a>
             </div>
+          </div>
+          <div>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground mb-3">Category</p>
+            <Link
+              to={categoryRoutes[post.category] || "/services"}
+              className="inline-block px-3 py-1 bg-mhts-light text-mhts-charcoal text-xs rounded-full hover:bg-mhts-charcoal hover:text-mhts-white transition-colors"
+            >
+              {post.category}
+            </Link>
           </div>
           {post.faqs && post.faqs.length > 0 && (
             <div>
