@@ -251,6 +251,14 @@ Ready to explore your options? Book a free, private consultation today. No press
     author: "Men's Hair To Stay Team",
     featuredImageAlt:
       "Close-up of scalp micropigmentation treatment showing realistic hair follicle impressions",
+    faqs: [
+      { q: "Is scalp micropigmentation painful?", a: "Most clients describe it as mild discomfort — similar to a light scratching sensation. Topical numbing can be applied for sensitive areas." },
+      { q: "How long does SMP last?", a: "Results typically last 4–6 years before a light touch-up is needed to refresh tone and density." },
+      { q: "Will SMP look like real hair?", a: "Yes. When done by a trained artist, the layered micro-dots replicate natural hair follicles and blend seamlessly with existing hair." },
+      { q: "How many sessions are required?", a: "Most full treatments take 2–3 sessions spaced a couple of weeks apart to build depth and a natural finish." },
+      { q: "Can SMP be combined with a hair system or transplant?", a: "Absolutely — SMP is often used to add density behind a hair system or to camouflage transplant scarring." },
+    ],
+
     image: blogSmpProcedure,
     content: `There's a particular moment that stays with many of our clients. It's not during the procedure itself, or even when they first see the results. It's when they realise they've stopped thinking about their hair loss.
 
