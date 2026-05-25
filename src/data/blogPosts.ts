@@ -565,6 +565,14 @@ For residents across Amersham, Chesham, Beaconsfield, High Wycombe, Watford, Ric
     author: "Men's Hair To Stay Team",
     featuredImageAlt:
       "Side-by-side comparison of hair system results and scalp micropigmentation treatment",
+    faqs: [
+      { q: "What's the main difference between hair systems and SMP?", a: "Hair systems give you real hair you can style and run your fingers through. SMP creates the appearance of a closely shaved head using pigment." },
+      { q: "Which option looks more natural?", a: "Both look exceptionally natural when done well — the right choice depends on whether you want length and style (system) or a clean shaved look (SMP)." },
+      { q: "Which one is cheaper long-term?", a: "SMP has a higher upfront cost but minimal ongoing maintenance. Hair systems are more affordable upfront but require regular maintenance visits." },
+      { q: "Can I switch between them later?", a: "Yes — many clients start with one and add the other (e.g. SMP under a system for added density) as their needs evolve." },
+      { q: "How do I decide which is right for me?", a: "A free consultation is the best way to compare. We'll assess your hair loss, lifestyle, and goals to recommend the right path." },
+    ],
+
     image: blogBeforeAfter,
     content: `Standing in front of the mirror, you've made peace with the fact that your hair isn't coming back on its own. You've researched the options, ruled out surgery, and now you're faced with a decision: hair systems or scalp micropigmentation?
 
