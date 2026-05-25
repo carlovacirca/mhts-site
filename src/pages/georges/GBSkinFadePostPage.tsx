@@ -648,7 +648,12 @@ const GBSkinFadePostPage = () => {
       </section>
 
       {/* Related Video */}
-      <RelatedVideo title="Skin Fade Haircut — Step by Step" />
+      <RelatedVideo
+        videoId="CipXbhzvuUo"
+        thumbnail="https://i.ytimg.com/vi/CipXbhzvuUo/maxresdefault.jpg"
+        title="Perfect fade in 4 minutes | How to cut mens hair"
+        url="https://www.youtube.com/watch?v=CipXbhzvuUo"
+      />
 
       {/* Newsletter subscribe bar */}
       <NewsletterSubscribeBar />
