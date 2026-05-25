@@ -192,9 +192,6 @@ Find us at 11 Chesham Road, Amersham HP6 5HN. Call 01494 432131 or visit menshai
 Georges Barbers. Amersham's original barbershop since 1991.`,
 };
 
-// Placeholder YouTube URL & thumbnail
-const YOUTUBE_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-const YOUTUBE_THUMB = `https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg`;
 
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString("en-GB", {
@@ -297,7 +294,7 @@ const parseContent = (md: string): Block[] => {
 
 const GBSkinFadePostPage = () => {
   const [progress, setProgress] = useState(0);
-  const [email, setEmail] = useState("");
+
 
   const blocks = useMemo(() => parseContent(post.content), []);
   const toc = blocks.filter((b) => b.type === "h2") as Required<
@@ -515,36 +512,8 @@ const GBSkinFadePostPage = () => {
               </p>
             );
           })}
-
-          {/* Newsletter */}
-          <div className="mt-12 bg-mhts-light p-6 rounded-lg not-prose">
-            <h3 className="font-bold text-lg mb-2 text-mhts-charcoal">
-              Get more expert insights
-            </h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Subscribe for grooming tips, guides and exclusive offers from
-              Georges Barbers.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-2">
-              <Input
-                type="email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="bg-background"
-              />
-              <Button
-                className="bg-mhts-charcoal hover:bg-mhts-charcoal/90 text-mhts-white"
-                onClick={() => {
-                  if (email)
-                    window.location.href = `mailto:georgesbarbers1991@gmail.com?subject=Newsletter%20signup&body=Please%20add%20${email}`;
-                }}
-              >
-                Subscribe
-              </Button>
-            </div>
-          </div>
         </article>
+
 
         {/* Sidebar */}
         <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start hidden lg:block">
