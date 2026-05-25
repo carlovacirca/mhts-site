@@ -54,6 +54,14 @@ export const blogPosts: BlogPost[] = [
     author: "Men's Hair To Stay Team",
     featuredImageAlt:
       "Professional hair system fitting consultation showing natural-looking hair replacement",
+    faqs: [
+      { q: "How long does a hair system last?", a: "With proper care, a quality hair system typically lasts 4–8 months before needing replacement, depending on the base material and how often it's worn." },
+      { q: "Can I shower, swim and exercise with a hair system?", a: "Yes — modern systems are fully secure and designed for everyday life, including showering, swimming, the gym, and sweating." },
+      { q: "Will people be able to tell I'm wearing one?", a: "No. Properly fitted and cut into your bio-hair, today's systems are virtually undetectable, even up close." },
+      { q: "How much does a hair system cost in the UK?", a: "Pricing varies by base type and customisation. We provide a full quote at your free consultation, with predictable ongoing maintenance costs." },
+      { q: "How often do I need to come in for maintenance?", a: "Most clients visit every 3–5 weeks for a reattachment, clean and style to keep the system looking flawless." },
+    ],
+
     image: blogHairSystemsGuide,
     featured: true,
     content: `Hair loss is one of those experiences that can quietly chip away at your confidence. Maybe you've noticed your hairline creeping back, or perhaps the crown of your head is showing more scalp than you'd like. If you're reading this from Amersham, Chesham, or anywhere across Buckinghamshire, you're likely exploring your options—and wondering if hair systems are the answer.
