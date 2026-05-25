@@ -326,8 +326,9 @@ const BlogPostPage = () => {
               </div>
             );
 
+            const allowImages = post.slug in inlineImageOverrides;
             const overrides = inlineImageOverrides[post.slug] ?? [];
-            const slotIndices = computeImageSlots(blocks);
+            const slotIndices = allowImages ? computeImageSlots(blocks) : [];
             const slotSet = new Set(slotIndices);
             const slotOrder = new Map<number, number>();
             slotIndices.forEach((idx, n) => slotOrder.set(idx, n));
