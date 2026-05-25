@@ -10,6 +10,17 @@ export interface GBBlogPost {
 
 export const gbBlogPosts: GBBlogPost[] = [
   {
+    slug: "skin-fade-amersham-complete-guide",
+    title: "Skin Fade Haircuts in Amersham: The Complete Guide to Getting It Right",
+    excerpt:
+      "The skin fade has become one of the most popular haircuts in the UK, and it is easy to see why. Clean, sharp, versatile and suitable for almost every hair type, it works just as well in the office as it does on a night out.",
+    metaDescription:
+      "Everything you need to know about skin fades in Amersham. What they are, the different types, how to ask for one, how long they last, and where to get the best skin fade near you.",
+    date: "2026-05-25",
+    readTime: "12 min read",
+    content: "",
+  },
+  {
     slug: "ear-piercing-amersham-complete-local-guide",
     title: "Ear Piercing in Amersham: Your Complete Local Guide to Georges Barbers",
     excerpt:
