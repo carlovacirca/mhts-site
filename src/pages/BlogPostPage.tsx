@@ -4,9 +4,10 @@ import { motion } from "framer-motion";
 import { Calendar, Clock, ChevronRight, Share2, Facebook, Twitter, Linkedin, Mail, ArrowLeft, ChevronDown, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import RelatedVideo from "@/components/RelatedVideo";
+import NewsletterSubscribeBar from "@/components/NewsletterSubscribeBar";
 import { blogPosts } from "@/data/blogPosts";
 
 const formatDate = (iso: string) =>
@@ -104,7 +105,7 @@ const BlogPostPage = () => {
   const { slug } = useParams();
   const post = blogPosts.find((p) => p.slug === slug);
   const [progress, setProgress] = useState(0);
-  const [email, setEmail] = useState("");
+
 
   const blocks = useMemo(() => (post ? parseContent(post.content) : []), [post]);
   const toc = blocks.filter((b) => b.type === "h2") as Required<Pick<Block, "text" | "id">>[];
@@ -341,33 +342,8 @@ const BlogPostPage = () => {
               return <section key={si}>{nodes}</section>;
             });
           })()}
-
-          {/* Newsletter */}
-          <div className="mt-12 bg-mhts-light p-6 rounded-lg not-prose">
-            <h3 className="font-bold text-lg mb-2 text-mhts-charcoal">Get more expert insights</h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Subscribe for hair restoration tips, guides and exclusive offers.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-2">
-              <Input
-                type="email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="bg-background"
-              />
-              <Button
-                className="bg-mhts-charcoal hover:bg-mhts-charcoal/90 text-mhts-white"
-                onClick={() => {
-                  if (email)
-                    window.location.href = `mailto:georgesbarbers1991@gmail.com?subject=Newsletter%20signup&body=Please%20add%20${email}`;
-                }}
-              >
-                Subscribe
-              </Button>
-            </div>
-          </div>
         </article>
+
 
         {/* Right sidebar — Related FAQs + CTA */}
         <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start hidden lg:block">
@@ -434,7 +410,7 @@ const BlogPostPage = () => {
       </div>
 
       {/* Related */}
-      <section className="container mx-auto px-4 pb-20">
+      <section className="container mx-auto px-4 pb-12">
         <h2 className="text-2xl md:text-3xl font-bold text-mhts-charcoal mb-6">Related articles</h2>
         <div className="grid md:grid-cols-3 gap-6">
           {fallbackRelated.map((p) => (
@@ -459,6 +435,13 @@ const BlogPostPage = () => {
           ))}
         </div>
       </section>
+
+      {/* Related Video */}
+      <RelatedVideo title={post.title} />
+
+      {/* Newsletter subscribe bar */}
+      <NewsletterSubscribeBar />
+
     </div>
   );
 };
