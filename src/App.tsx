@@ -11,6 +11,7 @@ import GBFaqPage from "@/pages/georges/GBFaqPage";
 import GBBlogPage from "@/pages/georges/GBBlogPage";
 import GBBlogPostPage from "@/pages/georges/GBBlogPostPage";
 import GBSkinFadePostPage from "@/pages/georges/GBSkinFadePostPage";
+import GBEarPiercingPostPage from "@/pages/georges/GBEarPiercingPostPage";
 import GBAreasServicedPage from "@/pages/georges/GBAreasServicedPage";
 import MHTSLanding from "@/pages/mhts/MHTSLanding";
 import ContactPage from "@/pages/ContactPage";
@@ -80,6 +81,7 @@ const App = () => (
             <Route path="/georges-barbers/faq" element={<GBFaqPage />} />
             <Route path="/georges-barbers/blog" element={<GBBlogPage />} />
             <Route path="/georges-barbers/blog/skin-fade-amersham-complete-guide" element={<GBSkinFadePostPage />} />
+            <Route path="/georges-barbers/blog/ear-piercing-amersham-complete-local-guide" element={<GBEarPiercingPostPage />} />
             <Route path="/georges-barbers/blog/:slug" element={<GBBlogPostPage />} />
             <Route path="/georges-barbers/areas-serviced" element={<GBAreasServicedPage />} />
             <Route path="/mens-hair-to-stay" element={<MHTSLanding />} />

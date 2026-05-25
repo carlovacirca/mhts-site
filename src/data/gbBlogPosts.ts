@@ -22,56 +22,14 @@ export const gbBlogPosts: GBBlogPost[] = [
   },
   {
     slug: "ear-piercing-amersham-complete-local-guide",
-    title: "Ear Piercing in Amersham: Your Complete Local Guide to Georges Barbers",
+    title: "Ear Piercing in Amersham: The Complete Guide to Georges Barbers",
     excerpt:
-      "Everything you need to know about safe, professional ear piercing in Amersham — from who comes in, to what to expect on the day.",
+      "Everything you need to know about ear piercing in Amersham — where to go, what to expect, aftercare advice, children's piercings and why Georges Barbers has been the trusted local choice since 1991.",
     metaDescription:
-      "Looking for ear piercing in Amersham? Georges Barbers on Chesham Road offers safe, professional ear & body piercing since 1991. Walk-ins welcome 7 days.",
-    date: "2026-05-19",
-    readTime: "5 min read",
-    content: `If you're searching for ear piercing in Amersham, you've found the right place. Georges Barbers has been serving the local community from 11 Chesham Road since 1991, and over the decades it has become the trusted name for safe, professional ear piercing in the area.
-
-Whether you're getting your first piercing or adding to a collection, this guide covers everything you need to know before you visit.
-
-## Why Georges Barbers Is Amersham's Go-To Piercing Studio
-
-Not every barbershop offers piercing services, and not every piercing studio gives you the kind of warm, unhurried experience that comes from a genuine family-run business. Georges does both.
-
-Having operated in the heart of Amersham for more than 30 years, the team here has built a reputation that goes well beyond haircuts. Locals from across the Chilterns trust Georges for ear piercing precisely because the environment is professional, hygienic and relaxed. There's no clinical coldness, no rushing you through. You're treated like a neighbour, because chances are you are one.
-
-The studio also offers body piercing for those looking for something beyond a standard lobe piercing, making it a genuinely versatile destination for anyone exploring their options.
-
-## Who Comes to Georges for Ear Piercing?
-
-The short answer is everyone. Georges welcomes clients of all ages, and ear piercing is a service that spans generations. Parents bring younger children for their first lobe piercings. Teenagers come in wanting something a little more individual. Adults who've been thinking about it for years finally take the plunge.
-
-Because Georges is a walk-in barbershop, you don't need to book ahead to come in and ask questions. If you're unsure whether a particular piercing is right for you, the team are happy to talk it through. That approachability is one of the reasons so many people recommend Georges to friends and family across the local area.
-
-## Serving Amersham and the Surrounding Chilterns
-
-Georges Barbers is ideally placed for anyone living in or around Amersham, but the shop also draws clients from neighbouring towns and villages throughout the area. If you're based in Chesham, Great Missenden, Little Chalfont or Beaconsfield, Georges is well worth the short journey.
-
-The location on Chesham Road puts it within easy reach whether you're coming by car or public transport, and parking in the area makes it a straightforward visit without the stress of navigating a large town centre.
-
-Word travels fast in tight-knit communities like these, and the fact that people regularly make the trip from surrounding areas says a lot about the trust Georges has earned. When you're looking for ear piercing near Amersham, reputation matters, and few local businesses can match more than three decades of satisfied customers.
-
-## What to Expect When You Visit
-
-When you walk through the door at Georges, you'll find a traditional barbershop atmosphere combined with a professional piercing setup. The team take hygiene and aftercare seriously, and they'll walk you through everything you need to know before and after your piercing.
-
-Eyebrow threading is also available on Saturdays, so if you're coming in for a piercing at the weekend you can make a full appointment of it. For those who want to plan ahead, online booking is available Monday to Friday through the Georges booking page.
-
-Walk-ins are welcome seven days a week, so you can simply show up at 11 Chesham Road whenever it suits you. There's no need to plan days in advance or worry about whether you'll be seen.
-
-If you're coming with a child or a younger teenager, the team are experienced with all ages and will make the experience as calm and comfortable as possible. Georges has been part of the Amersham community long enough to have pierced the ears of parents who now bring their own children in.
-
-## Ready to Book Your Ear Piercing in Amersham?
-
-Georges Barbers is open seven days a week and always happy to welcome new faces alongside the regulars. For ear piercing in Amersham done properly, in a shop that genuinely knows and cares about its community, there's nowhere better.
-
-You can find out more or book your visit on the [Georges Barbers services page](/georges-barbers), or use the [online booking page](https://carlo56fm.setmore.com/george) if you'd like to secure a specific time Monday to Friday.
-
-Georges Barbers is at 11 Chesham Road, Amersham, HP6 5HN. Call ahead on 01494 432131 or just walk in.`,
+      "Everything you need to know about ear piercing in Amersham. Where to go, what to expect, aftercare advice, children's piercings and why Georges Barbers has been the trusted local choice since 1991.",
+    date: "2026-05-25",
+    readTime: "12 min read",
+    content: "",
   },
   {
     slug: "georges-barbers-amersham-original-barbershop-since-1991",
