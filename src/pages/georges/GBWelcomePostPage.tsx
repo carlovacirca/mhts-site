@@ -13,15 +13,16 @@ import {
   ArrowLeft,
   ChevronDown,
   ImageIcon,
-  Play,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import RelatedVideo from "@/components/RelatedVideo";
+import NewsletterSubscribeBar from "@/components/NewsletterSubscribeBar";
+import GBRelatedFaqs from "@/components/GBRelatedFaqs";
 
 const post = {
   slug: "georges-barbers-amersham-original-barbershop-since-1991",
@@ -224,8 +225,6 @@ For online booking Monday to Friday, visit menshairtostay.co.uk/georges-barbers 
 Georges Barbers. 11 Chesham Road, Amersham HP6 5HN. Amersham's original barbershop since 1991.`,
 };
 
-const YOUTUBE_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-const YOUTUBE_THUMB = `https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg`;
 
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString("en-GB", {
@@ -328,7 +327,7 @@ const parseContent = (md: string): Block[] => {
 
 const GBWelcomePostPage = () => {
   const [progress, setProgress] = useState(0);
-  const [email, setEmail] = useState("");
+
 
   const blocks = useMemo(() => parseContent(post.content), []);
   const toc = blocks.filter((b) => b.type === "h2") as Required<
@@ -540,35 +539,8 @@ const GBWelcomePostPage = () => {
               </p>
             );
           })}
-
-          <div className="mt-12 bg-mhts-light p-6 rounded-lg not-prose">
-            <h3 className="font-bold text-lg mb-2 text-mhts-charcoal">
-              Get more expert insights
-            </h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Subscribe for grooming tips, guides and exclusive offers from
-              Georges Barbers.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-2">
-              <Input
-                type="email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="bg-background"
-              />
-              <Button
-                className="bg-mhts-charcoal hover:bg-mhts-charcoal/90 text-mhts-white"
-                onClick={() => {
-                  if (email)
-                    window.location.href = `mailto:georgesbarbers1991@gmail.com?subject=Newsletter%20signup&body=Please%20add%20${email}`;
-                }}
-              >
-                Subscribe
-              </Button>
-            </div>
-          </div>
         </article>
+
 
         <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start hidden lg:block">
           <div>
@@ -630,7 +602,9 @@ const GBWelcomePostPage = () => {
               </Button>
             </Link>
           </div>
+          <GBRelatedFaqs tags={["welcome", "general"]} />
         </aside>
+
       </div>
 
       <section className="container mx-auto px-4 pb-12">
@@ -664,42 +638,12 @@ const GBWelcomePostPage = () => {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 pb-20">
-        <h2 className="text-2xl md:text-3xl font-bold text-mhts-charcoal mb-6">
-          Related Video
-        </h2>
-        <a
-          href={YOUTUBE_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group block max-w-3xl rounded-lg overflow-hidden border border-border shadow-sm hover:shadow-lg transition-shadow"
-        >
-          <div className="relative aspect-video bg-mhts-light">
-            <img
-              src={YOUTUBE_THUMB}
-              alt="Watch the related video on YouTube"
-              className="w-full h-full object-cover"
-              loading="lazy"
-              onError={(e) => {
-                (e.currentTarget as HTMLImageElement).style.display = "none";
-              }}
-            />
-            <div className="absolute inset-0 bg-mhts-charcoal/30 group-hover:bg-mhts-charcoal/20 transition-colors flex items-center justify-center">
-              <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-mhts-white/95 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                <Play className="w-8 h-8 md:w-10 md:h-10 text-mhts-charcoal fill-mhts-charcoal ml-1" />
-              </div>
-            </div>
-          </div>
-          <div className="p-5 bg-background">
-            <p className="text-xs uppercase tracking-wider text-muted-foreground mb-1">
-              Watch on YouTube
-            </p>
-            <p className="font-semibold text-mhts-charcoal">
-              Inside Georges Barbers Amersham
-            </p>
-          </div>
-        </a>
-      </section>
+      {/* Related Video */}
+      <RelatedVideo title="Inside Georges Barbers Amersham" />
+
+      {/* Newsletter subscribe bar */}
+      <NewsletterSubscribeBar />
+
     </div>
   );
 };
