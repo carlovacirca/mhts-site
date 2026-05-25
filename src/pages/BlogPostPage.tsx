@@ -11,9 +11,10 @@ import NewsletterSubscribeBar from "@/components/NewsletterSubscribeBar";
 import { blogPosts } from "@/data/blogPosts";
 import blogPlaceholderIllustration from "@/assets/blog-placeholder-illustration.jpg";
 import blogNonSurgicalInline1 from "@/assets/blog-non-surgical-inline-1.jpg";
+import blogNonSurgicalInline2 from "@/assets/blog-non-surgical-inline-2.jpg";
 
 const inlineImageOverrides: Record<string, string[]> = {
-  "non-surgical-hair-replacement-men-uk": [blogNonSurgicalInline1],
+  "non-surgical-hair-replacement-men-uk": [blogNonSurgicalInline1, blogNonSurgicalInline2],
 };
 
 const formatDate = (iso: string) =>
