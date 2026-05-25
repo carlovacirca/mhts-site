@@ -201,12 +201,14 @@ const BlogPostPage = () => {
       {/* Title block */}
       <div className="container mx-auto px-4 pt-6 grid lg:grid-cols-[1fr_280px] gap-8">
         <section>
-          <Link to="/blog" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4">
-            <ArrowLeft className="w-4 h-4" /> Back to blog
-          </Link>
-          <span className="inline-block px-3 py-1 bg-mhts-light text-mhts-charcoal text-xs rounded-full mb-4">
-            {post.category}
-          </span>
+          <div className="flex items-center justify-between gap-4 mb-4">
+            <Link to="/blog" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+              <ArrowLeft className="w-4 h-4" /> Back to blog
+            </Link>
+            <span className="inline-block px-3 py-1 bg-mhts-light text-mhts-charcoal text-xs rounded-full">
+              {post.category}
+            </span>
+          </div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
