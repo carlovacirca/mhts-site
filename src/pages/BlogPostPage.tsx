@@ -214,14 +214,15 @@ const BlogPostPage = () => {
           >
             {post.title}
           </motion.h1>
-          <p className="italic text-lg text-muted-foreground mb-5 leading-relaxed">
-            {post.excerpt}
-          </p>
-          <div className="flex flex-wrap items-center gap-5 text-sm text-muted-foreground">
+          <div className="flex flex-wrap items-center gap-5 text-sm text-muted-foreground mb-5">
             <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {formatDate(post.date)}</span>
             <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {post.readTime}</span>
             <span>By {post.author}</span>
           </div>
+          <p className="italic text-lg text-muted-foreground leading-relaxed">
+            {post.excerpt}
+          </p>
+
         </section>
         <div className="hidden lg:block" />
       </div>
