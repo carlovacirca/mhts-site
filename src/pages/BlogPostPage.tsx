@@ -273,21 +273,6 @@ const BlogPostPage = () => {
           )}
 
           {(() => {
-            // Group blocks into H2 sections so we can inject an image placeholder
-            // after the second H3 of each section.
-            const sections: Block[][] = [];
-            let current: Block[] = [];
-            for (const b of blocks) {
-              if (b.type === "h2") {
-                if (current.length) sections.push(current);
-                current = [b];
-              } else {
-                if (!current.length) current = [];
-                current.push(b);
-              }
-            }
-            if (current.length) sections.push(current);
-
             const renderBlock = (b: Block, key: string) => {
               if (b.type === "h2")
                 return (
@@ -335,29 +320,21 @@ const BlogPostPage = () => {
             );
 
             const overrides = inlineImageOverrides[post.slug] ?? [];
-            let inlineImgIndex = 0;
+            const slotIndices = computeImageSlots(blocks);
+            const slotSet = new Set(slotIndices);
+            const slotOrder = new Map<number, number>();
+            slotIndices.forEach((idx, n) => slotOrder.set(idx, n));
 
-            return sections.map((section, si) => {
-              const hasH3 = section.some((b) => b.type === "h3");
-              const totalP = section.filter((b) => b.type === "p").length;
-              const nodes: JSX.Element[] = [];
-              let h3Count = 0;
-              let pCount = 0;
-              let imageInserted = false;
-              section.forEach((b, bi) => {
-                nodes.push(renderBlock(b, `${si}-${bi}`));
-                if (b.type === "h3") h3Count += 1;
-                if (b.type === "p") pCount += 1;
-                const trigger = hasH3 ? h3Count === 2 : pCount === 2 && totalP >= 3;
-                if (!imageInserted && trigger) {
-                  const src = overrides[inlineImgIndex] ?? blogPlaceholderIllustration;
-                  nodes.push(<ImagePlaceholder key={`${si}-img`} k={`${si}-img`} src={src} />);
-                  inlineImgIndex += 1;
-                  imageInserted = true;
-                }
-              });
-              return <section key={si}>{nodes}</section>;
+            const nodes: JSX.Element[] = [];
+            blocks.forEach((b, bi) => {
+              nodes.push(renderBlock(b, `b-${bi}`));
+              if (slotSet.has(bi)) {
+                const n = slotOrder.get(bi)!;
+                const src = overrides[n] ?? blogPlaceholderIllustration;
+                nodes.push(<ImagePlaceholder key={`img-${bi}`} k={`img-${bi}`} src={src} />);
+              }
             });
+            return nodes;
           })()}
         </article>
 
