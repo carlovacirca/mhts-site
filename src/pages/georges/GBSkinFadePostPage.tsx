@@ -13,15 +13,16 @@ import {
   ArrowLeft,
   ChevronDown,
   ImageIcon,
-  Play,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import RelatedVideo from "@/components/RelatedVideo";
+import NewsletterSubscribeBar from "@/components/NewsletterSubscribeBar";
+import GBRelatedFaqs from "@/components/GBRelatedFaqs";
 
 const post = {
   slug: "skin-fade-amersham-complete-guide",
