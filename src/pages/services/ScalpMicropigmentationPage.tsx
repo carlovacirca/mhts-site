@@ -110,9 +110,10 @@ const ScalpMicropigmentationPage = () => {
         <img
           src={smpHero}
           alt="Close-up of scalp micropigmentation result showing a defined hairline"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover object-left"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-mhts-charcoal via-mhts-charcoal/95 to-mhts-charcoal/60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-mhts-charcoal/80 via-mhts-charcoal/50 to-transparent" />
+
         <div className="container mx-auto px-4 relative z-10 py-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
