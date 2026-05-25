@@ -189,8 +189,17 @@ const BlogPostPage = () => {
         )}
       </section>
 
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 pt-6 text-sm text-muted-foreground">
+        <Link to="/" className="hover:text-foreground">Home</Link>
+        <ChevronRight className="inline w-3 h-3 mx-1" />
+        <Link to="/blog" className="hover:text-foreground">Blog</Link>
+        <ChevronRight className="inline w-3 h-3 mx-1" />
+        <span className="text-foreground line-clamp-1 inline">{post.title}</span>
+      </div>
+
       {/* Title block */}
-      <div className="container mx-auto px-4 pt-10 grid lg:grid-cols-[1fr_280px] gap-8">
+      <div className="container mx-auto px-4 pt-6 grid lg:grid-cols-[1fr_280px] gap-8">
         <section>
           <Link to="/blog" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4">
             <ArrowLeft className="w-4 h-4" /> Back to blog
@@ -217,15 +226,6 @@ const BlogPostPage = () => {
         <div className="hidden lg:block" />
       </div>
 
-
-      {/* Breadcrumbs */}
-      <div className="container mx-auto px-4 py-4 text-sm text-muted-foreground">
-        <Link to="/" className="hover:text-foreground">Home</Link>
-        <ChevronRight className="inline w-3 h-3 mx-1" />
-        <Link to="/blog" className="hover:text-foreground">Blog</Link>
-        <ChevronRight className="inline w-3 h-3 mx-1" />
-        <span className="text-foreground line-clamp-1 inline">{post.title}</span>
-      </div>
 
       <div className="container mx-auto px-4 pb-20 grid lg:grid-cols-[1fr_280px] gap-8">
 
