@@ -21,13 +21,11 @@ const RelatedVideo = ({
 
   return (
     <section className="container mx-auto px-4 pb-12">
-      <h2 className="text-2xl md:text-3xl font-bold text-mhts-charcoal mb-6">
-        Related Video
-    <section className="container mx-auto px-4 pb-12">
       <h2 className="text-2xl md:text-3xl font-bold text-mhts-charcoal mb-6 text-center">
         Related Video
       </h2>
       <div className="max-w-3xl mx-auto rounded-lg overflow-hidden border border-border shadow-sm">
+
 
         {videoId && playing ? (
           <div className="relative aspect-video bg-mhts-charcoal">
