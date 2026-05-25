@@ -23,6 +23,7 @@ import {
 import RelatedVideo from "@/components/RelatedVideo";
 import NewsletterSubscribeBar from "@/components/NewsletterSubscribeBar";
 import GBRelatedFaqs from "@/components/GBRelatedFaqs";
+import { withInjectedImages } from "@/lib/blogImageSlots";
 
 const post = {
   slug: "skin-fade-amersham-complete-guide",

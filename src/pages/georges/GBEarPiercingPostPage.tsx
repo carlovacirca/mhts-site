@@ -294,7 +294,10 @@ const GBEarPiercingPostPage = () => {
   const [progress, setProgress] = useState(0);
 
 
-  const blocks = useMemo(() => parseContent(post.content), []);
+  const blocks = useMemo(
+    () => withInjectedImages(parseContent(post.content), () => ({ type: "img" } as Block)),
+    [],
+  );
   const toc = blocks.filter((b) => b.type === "h2") as Required<
     Pick<Block, "text" | "id">
   >[];
