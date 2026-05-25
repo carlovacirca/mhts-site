@@ -390,6 +390,15 @@ const BlogPostPage = () => {
               </a>
             </div>
           </div>
+          <div>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground mb-3">Category</p>
+            <Link
+              to={categoryRoutes[post.category] || "/services"}
+              className="inline-block px-3 py-1 bg-mhts-light text-mhts-charcoal text-xs rounded-full hover:bg-mhts-charcoal hover:text-mhts-white transition-colors"
+            >
+              {post.category}
+            </Link>
+          </div>
           {post.faqs && post.faqs.length > 0 && (
             <div>
               <h4 className="font-bold mb-3 text-mhts-charcoal text-sm uppercase tracking-wider">
