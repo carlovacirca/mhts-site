@@ -82,6 +82,7 @@ const App = () => (
             <Route path="/georges-barbers/faq" element={<GBFaqPage />} />
             <Route path="/georges-barbers/blog" element={<GBBlogPage />} />
             <Route path="/georges-barbers/blog/skin-fade-amersham-complete-guide" element={<GBSkinFadePostPage />} />
+            <Route path="/georges-barbers/blog/ear-piercing-amersham-complete-local-guide" element={<GBEarPiercingPostPage />} />
             <Route path="/georges-barbers/blog/georges-barbers-amersham-original-barbershop-since-1991" element={<GBWelcomePostPage />} />
             <Route path="/georges-barbers/blog/:slug" element={<GBBlogPostPage />} />
             <Route path="/georges-barbers/areas-serviced" element={<GBAreasServicedPage />} />
