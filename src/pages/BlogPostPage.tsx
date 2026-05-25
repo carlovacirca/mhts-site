@@ -319,19 +319,22 @@ const BlogPostPage = () => {
               );
             };
 
-            const ImagePlaceholder = ({ k }: { k: string }) => (
+            const ImagePlaceholder = ({ k, src }: { k: string; src: string }) => (
               <div
                 key={k}
                 className="not-prose my-8 aspect-[16/9] w-full rounded-lg border border-border bg-muted flex items-center justify-center overflow-hidden"
               >
                 <img
-                  src={blogPlaceholderIllustration}
+                  src={src}
                   alt="Illustration"
                   className="h-full w-full object-cover"
                   loading="lazy"
                 />
               </div>
             );
+
+            const overrides = inlineImageOverrides[post.slug] ?? [];
+            let inlineImgIndex = 0;
 
             return sections.map((section, si) => {
               const hasH3 = section.some((b) => b.type === "h3");
@@ -346,7 +349,9 @@ const BlogPostPage = () => {
                 if (b.type === "p") pCount += 1;
                 const trigger = hasH3 ? h3Count === 2 : pCount === 2 && totalP >= 3;
                 if (!imageInserted && trigger) {
-                  nodes.push(<ImagePlaceholder key={`${si}-img`} k={`${si}-img`} />);
+                  const src = overrides[inlineImgIndex] ?? blogPlaceholderIllustration;
+                  nodes.push(<ImagePlaceholder key={`${si}-img`} k={`${si}-img`} src={src} />);
+                  inlineImgIndex += 1;
                   imageInserted = true;
                 }
               });
