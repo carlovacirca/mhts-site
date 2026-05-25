@@ -24,6 +24,9 @@ import RelatedVideo from "@/components/RelatedVideo";
 import NewsletterSubscribeBar from "@/components/NewsletterSubscribeBar";
 import GBRelatedFaqs from "@/components/GBRelatedFaqs";
 import { withInjectedImages } from "@/lib/blogImageSlots";
+import gbSkinFadeInline1 from "@/assets/gb-skin-fade-inline-1.jpg";
+
+const inlineImageOverrides: string[] = [gbSkinFadeInline1];
 
 const post = {
   slug: "skin-fade-amersham-complete-guide",
