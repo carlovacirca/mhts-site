@@ -28,9 +28,6 @@ export const computeImageSlots = <T extends IndexableBlock>(blocks: T[]): number
     slots.add(paragraphIdx[pPos]);
   }
 
-  // If we have fewer unique paragraph anchors than 4 (very short posts),
-  // pad with the last paragraph index repeated — caller can still render
-  // up to N images, but typically short posts will yield fewer slots.
   while (slots.size < 4 && paragraphIdx.length > 0) {
     const last = paragraphIdx[paragraphIdx.length - 1];
     if (slots.has(last)) break;
@@ -38,4 +35,21 @@ export const computeImageSlots = <T extends IndexableBlock>(blocks: T[]): number
   }
 
   return Array.from(slots).sort((a, b) => a - b);
+};
+
+// Returns a new blocks array with synthetic `{ type: "img" }` blocks inserted
+// at the 4 computed slot positions. Existing img blocks in the source are
+// stripped first so we don't double-count.
+export const withInjectedImages = <T extends IndexableBlock>(
+  blocks: T[],
+  makeImg: () => T,
+): T[] => {
+  const cleaned = blocks.filter((b) => b.type !== "img");
+  const slots = new Set(computeImageSlots(cleaned));
+  const out: T[] = [];
+  cleaned.forEach((b, i) => {
+    out.push(b);
+    if (slots.has(i)) out.push(makeImg());
+  });
+  return out;
 };
