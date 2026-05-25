@@ -137,15 +137,8 @@ const HairDensityPage = () => {
         </div>
       </section>
 
-      {/* HERO IMAGE */}
-      <section className="bg-mhts-light">
-        <img
-          src={hairDensityHero}
-          alt="Close-up of natural-looking hair density result"
-          className="w-full h-auto object-cover"
-          loading="lazy"
-        />
-      </section>
+
+
 
       {/* WHAT IS IT */}
       <section className="py-20">
