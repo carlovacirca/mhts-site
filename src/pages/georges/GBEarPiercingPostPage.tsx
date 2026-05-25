@@ -296,7 +296,7 @@ const GBEarPiercingPostPage = () => {
 
 
   const blocks = useMemo(
-    () => withInjectedImages(parseContent(post.content), () => ({ type: "img" } as Block)),
+    () => parseContent(post.content),
     [],
   );
   const toc = blocks.filter((b) => b.type === "h2") as Required<
