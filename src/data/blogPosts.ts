@@ -1,3 +1,8 @@
+export interface BlogFAQ {
+  q: string;
+  a: string;
+}
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -11,7 +16,9 @@ export interface BlogPost {
   image?: string;
   content: string; // markdown-ish
   featured?: boolean;
+  faqs?: BlogFAQ[];
 }
+
 
 import blogHairSystemsGuide from "@/assets/blog-hair-systems-guide.jpg";
 import blogSmpProcedure from "@/assets/blog-smp-procedure.jpg";
