@@ -15,10 +15,11 @@ import blogNonSurgicalInline1 from "@/assets/blog-non-surgical-inline-1.jpg";
 import blogNonSurgicalInline2 from "@/assets/blog-non-surgical-inline-2.jpg";
 import blogNonSurgicalInline3 from "@/assets/blog-non-surgical-inline-3.jpg";
 import blogHairTransplantAltInline1 from "@/assets/blog-hair-transplant-alt-inline-1.jpg";
+import blogHairTransplantAltInline2 from "@/assets/blog-hair-transplant-alt-inline-2.jpg";
 
 const inlineImageOverrides: Record<string, string[]> = {
   "non-surgical-hair-replacement-men-uk": [blogNonSurgicalInline1, blogNonSurgicalInline2, blogNonSurgicalInline3],
-  "best-hair-transplant-alternatives-non-surgical-solutions": [blogHairTransplantAltInline1],
+  "best-hair-transplant-alternatives-non-surgical-solutions": [blogHairTransplantAltInline1, blogHairTransplantAltInline2],
 };
 
 const formatDate = (iso: string) =>
