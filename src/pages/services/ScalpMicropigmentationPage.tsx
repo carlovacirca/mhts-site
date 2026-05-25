@@ -112,7 +112,7 @@ const ScalpMicropigmentationPage = () => {
           alt="Close-up of scalp micropigmentation result showing a defined hairline"
           className="absolute inset-0 w-full h-full object-cover object-left"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-mhts-charcoal/80 via-mhts-charcoal/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-mhts-charcoal/85 via-mhts-charcoal/60 to-transparent" />
 
         <div className="container mx-auto px-4 relative z-10 py-20">
           <motion.div
