@@ -26,8 +26,9 @@ import GBRelatedFaqs from "@/components/GBRelatedFaqs";
 import { withInjectedImages } from "@/lib/blogImageSlots";
 import gbSkinFadeInline1 from "@/assets/gb-skin-fade-inline-1.jpg";
 import gbSkinFadeInline2 from "@/assets/gb-skin-fade-inline-2.jpg";
+import gbSkinFadeInline3 from "@/assets/gb-skin-fade-inline-3.jpg";
 
-const inlineImageOverrides: string[] = [gbSkinFadeInline1, gbSkinFadeInline2];
+const inlineImageOverrides: string[] = [gbSkinFadeInline1, gbSkinFadeInline2, gbSkinFadeInline3];
 
 const post = {
   slug: "skin-fade-amersham-complete-guide",
