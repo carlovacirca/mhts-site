@@ -137,15 +137,8 @@ const HairSystemMaintenancePage = () => {
         </div>
       </section>
 
-      {/* HERO IMAGE */}
-      <section className="bg-mhts-light">
-        <img
-          src={hairSystemMaintenanceHero}
-          alt="Stylist performing hair system maintenance on a client"
-          className="w-full h-auto object-cover"
-          loading="lazy"
-        />
-      </section>
+
+
 
       {/* WHAT IS IT */}
       <section className="py-20">
