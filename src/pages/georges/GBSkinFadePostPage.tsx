@@ -28,6 +28,7 @@ import gbSkinFadeInline1 from "@/assets/gb-skin-fade-inline-1.jpg";
 import gbSkinFadeInline2 from "@/assets/gb-skin-fade-inline-2.jpg";
 import gbSkinFadeInline3 from "@/assets/gb-skin-fade-inline-3.jpg";
 import gbSkinFadeInline4 from "@/assets/gb-skin-fade-inline-4.jpg";
+import gbSkinFadeHero from "@/assets/gb-skin-fade-hero.jpg";
 
 const inlineImageOverrides: string[] = [gbSkinFadeInline1, gbSkinFadeInline2, gbSkinFadeInline3, gbSkinFadeInline4];
 
