@@ -419,7 +419,7 @@ const BlogPostPage = () => {
           title="Hair System | Pros & Cons | Top 8 Facts Hair Loss | Non-Surgical Hair Replacement System Men UK"
           url="https://www.youtube.com/watch?v=ZDSasEXYfGw"
         />
-      ) : (
+      ) : post.slug === "best-hair-transplant-alternatives-non-surgical-solutions" ? null : (
         <RelatedVideo title={post.title} />
       )}
 
