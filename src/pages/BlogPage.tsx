@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Search, Calendar, Clock, ChevronRight, Mail } from "lucide-react";
+import { Search, Calendar, Clock, ChevronRight, Mail, Phone } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -291,11 +291,12 @@ const BlogPage = () => {
 
           <div className="bg-mhts-light p-5 rounded-lg">
             <h4 className="font-bold mb-2 text-mhts-charcoal flex items-center gap-2">
-              <Mail className="w-4 h-4" /> Newsletter
+              <Mail className="w-4 h-4" /> Get in Touch
             </h4>
             <p className="text-xs text-muted-foreground mb-3">
-              Get expert hair restoration tips in your inbox.
+              Call or email us and we'll add you to our list for tips, guides and exclusive offers.
             </p>
+            {/* FORM TEMPORARILY DISABLED — pending Formspree integration. Restore this block once a Formspree form ID is wired up.
             <Input
               type="email"
               placeholder="you@example.com"
@@ -307,12 +308,27 @@ const BlogPage = () => {
               className="w-full bg-mhts-charcoal hover:bg-mhts-charcoal/90 text-mhts-white"
               onClick={() => {
                 if (email) {
-                  window.location.href = `mailto:georgesbarbers1991@gmail.com?subject=Newsletter%20signup&body=Please%20add%20${email}%20to%20the%20newsletter.`;
+                  window.location.href = `mailto:georgesbarbers1991@gmail.com?subject=Newsletter%20signup&body=Please%20add%20${encodeURIComponent(email)}%20to%20the%20newsletter.`;
                 }
               }}
             >
               Subscribe
             </Button>
+            */}
+            <div className="flex flex-col gap-2">
+              <a
+                href="tel:07947878087"
+                className="inline-flex items-center justify-center gap-2 w-full bg-mhts-charcoal hover:bg-mhts-charcoal/90 text-mhts-white rounded-md px-4 py-2 text-sm"
+              >
+                <Phone className="w-4 h-4" /> 07947 878087
+              </a>
+              <a
+                href="mailto:georgesbarbers1991@gmail.com"
+                className="inline-flex items-center justify-center gap-2 w-full bg-mhts-charcoal hover:bg-mhts-charcoal/90 text-mhts-white rounded-md px-4 py-2 text-sm break-all"
+              >
+                <Mail className="w-4 h-4" /> Email Us
+              </a>
+            </div>
           </div>
         </aside>
       </section>

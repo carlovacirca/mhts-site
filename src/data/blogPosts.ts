@@ -38,12 +38,11 @@ export const categories = [
   "Maintenance & Care",
   "Before & After",
   "Expert Tips",
-  "Client Stories",
 ];
 
 export const blogPosts: BlogPost[] = [
   {
-    slug: "ultimate-guide-hair-systems-2024",
+    slug: "ultimate-guide-hair-systems",
     title: "The Ultimate Guide to Hair Systems: Everything You Need to Know in 2026",
     category: "Hair Systems",
     excerpt:
@@ -2794,7 +2793,7 @@ Book a private, judgment-free consultation to discuss hair systems, scalp microp
 You deserve to feel like yourself again. Let's make that happen.`,
   },
   {
-    slug: "hair-restoration-cost-guide-2024",
+    slug: "hair-restoration-cost-guide",
     title: "Hair Restoration Cost Guide 2026: Complete Pricing Breakdown for Amersham & Buckinghamshire",
     category: "Expert Tips",
     excerpt:

@@ -14,7 +14,26 @@ import {
   MapPin,
 } from "lucide-react";
 import { findCategory } from "@/data/services";
+import { useJsonLd, useCanonical, useOpenGraph } from "@/lib/seo";
+import ServicePricing from "@/components/ServicePricing";
 import smpHero from "@/assets/smp-hero.jpg";
+
+const pricingRows = [
+  { name: "SMP Consultation", price: "Free", note: "No obligation" },
+  { name: "Full SMP Treatment", price: "Contact us for pricing" },
+  { name: "SMP Touch-Up Session", price: "Contact us for pricing" },
+];
+
+const pricingJsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: "SMP Consultation",
+    provider: { "@type": "LocalBusiness", name: "Men's Hair To Stay" },
+    areaServed: "Amersham",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "GBP", description: "Free initial consultation" },
+  },
+];
 
 const benefits = [
   { icon: InfinityIcon, text: "Permanent solution with minimal top-up maintenance" },
@@ -80,6 +99,13 @@ const faqs = [
 const ScalpMicropigmentationPage = () => {
   const category = findCategory("scalp-micropigmentation")!;
 
+  useJsonLd(pricingJsonLd);
+  useCanonical("/scalp-micropigmentation");
+  useOpenGraph(
+    "Scalp Micropigmentation Amersham | SMP Treatment | Men's Hair to Stay",
+    "Expert scalp micropigmentation in Amersham. Men's Hair to Stay provides full SMP treatments, touch-up sessions and consultations for men across Buckinghamshire and Hertfordshire."
+  );
+
   useEffect(() => {
     const prevTitle = document.title;
     document.title =
@@ -134,15 +160,17 @@ const ScalpMicropigmentationPage = () => {
               closely-shaved head.
             </p>
             <Link
-              to="/mens-hair-to-stay#mhts-book"
+              to="/#mhts-book"
               className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
             >
-              <CalendarCheck className="w-4 h-4" /> Book a Free Consultation
+              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
             </Link>
           </motion.div>
         </div>
       </section>
 
+      {/* PRICING */}
+      <ServicePricing rows={pricingRows} />
 
       {/* WHAT IS IT */}
       <section className="py-20">
@@ -358,10 +386,10 @@ const ScalpMicropigmentationPage = () => {
             Book your free SMP consultation at Men's Hair to Stay in Amersham.
           </p>
           <Link
-            to="/mens-hair-to-stay#mhts-book"
+            to="/#mhts-book"
             className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
           >
-            <CalendarCheck className="w-4 h-4" /> Book a Free Consultation
+            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
           </Link>
         </div>
       </section>

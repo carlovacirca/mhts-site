@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { Instagram, Facebook, MapPin, Phone, Mail } from "lucide-react";
-import gbLogoFull from "@/assets/gb-logo-full.jpeg";
 import mhtsLogoFull from "@/assets/mhts-logo-full.jpeg";
 
 const TikTokIcon = () => (
@@ -9,59 +8,40 @@ const TikTokIcon = () => (
   </svg>
 );
 
+const quickLinks = [
+  { to: "/services", label: "Services" },
+  { to: "/how-it-works", label: "How It Works" },
+  { to: "/gallery", label: "Gallery" },
+  { to: "/book", label: "Book" },
+  { to: "/faq", label: "FAQ" },
+  { to: "/blog", label: "Blog" },
+  { to: "/areas-serviced", label: "Areas Serviced" },
+  { to: "/contact", label: "Contact" },
+];
+
 const Footer = () => (
   <footer>
-    <div className="grid grid-cols-1 md:grid-cols-3">
-      {/* Georges Barbers - dark background */}
-      <div className="bg-gb-black text-background p-8">
-        <div className="mb-4">
-          <img src={gbLogoFull} alt="Georges Barbers" className="h-20 md:h-24 object-contain" />
-        </div>
-        <nav className="flex flex-col gap-1 text-sm mb-4 opacity-80">
-          <Link to="/georges-barbers" className="hover:text-gb-gold transition-colors">Home</Link>
-          <Link to="/georges-barbers#gb-services" className="hover:text-gb-gold transition-colors">Services</Link>
-          <Link to="/georges-barbers#gb-gallery" className="hover:text-gb-gold transition-colors">Gallery</Link>
-          <Link to="/georges-barbers#gb-book" className="hover:text-gb-gold transition-colors">Book</Link>
-          <Link to="/georges-barbers/faq" className="hover:text-gb-gold transition-colors">FAQ</Link>
-          <Link to="/georges-barbers/blog" className="hover:text-gb-gold transition-colors">Blog</Link>
-          <Link to="/georges-barbers#gb-contact" className="hover:text-gb-gold transition-colors">Contact</Link>
-        </nav>
-        <div className="flex gap-3">
-          <a href="https://www.instagram.com/georgesbarbers1991/" target="_blank" rel="noopener noreferrer" className="hover:text-gb-gold transition-colors" aria-label="Georges Barbers Instagram">
-            <Instagram className="w-5 h-5" />
-          </a>
-          <a href="https://www.facebook.com/georgesbarbershopp" target="_blank" rel="noopener noreferrer" className="hover:text-gb-gold transition-colors" aria-label="Georges Barbers Facebook">
-            <Facebook className="w-5 h-5" />
-          </a>
-          <a href="https://tiktok.com/@georgesbarbers" target="_blank" rel="noopener noreferrer" className="hover:text-gb-gold transition-colors" aria-label="Georges Barbers TikTok">
-            <TikTokIcon />
-          </a>
-        </div>
-      </div>
-
+    <div className="grid grid-cols-1 md:grid-cols-2">
       {/* Men's Hair To Stay - white background */}
       <div className="bg-background text-foreground p-8">
         <div className="mb-4">
           <img src={mhtsLogoFull} alt="Men's Hair To Stay" className="h-20 md:h-24 object-contain" />
         </div>
         <nav className="flex flex-col gap-1 text-sm mb-4">
-          <Link to="/services" className="hover:text-mhts-slate transition-colors">Services</Link>
-          <Link to="/how-it-works" className="hover:text-mhts-slate transition-colors">How It Works</Link>
-          <Link to="/gallery" className="hover:text-mhts-slate transition-colors">Gallery</Link>
-          <Link to="/book" className="hover:text-mhts-slate transition-colors">Book</Link>
-          <Link to="/faq" className="hover:text-mhts-slate transition-colors">FAQ</Link>
-          <Link to="/blog" className="hover:text-mhts-slate transition-colors">Blog</Link>
-          <Link to="/areas-serviced" className="hover:text-mhts-slate transition-colors">Areas Serviced</Link>
-          <Link to="/contact" className="hover:text-mhts-slate transition-colors">Contact</Link>
+          {quickLinks.map((l) => (
+            <Link key={l.to} to={l.to} className="hover:text-mhts-slate transition-colors">
+              {l.label}
+            </Link>
+          ))}
         </nav>
         <div className="flex gap-3">
-          <a href="https://www.instagram.com/menshairtostay?igsh=d2dmaXJzb210OWZ0" target="_blank" rel="noopener noreferrer" className="hover:text-mhts-slate transition-colors" aria-label="MHTS Instagram">
+          <a href="https://www.instagram.com/menshairtostay?igsh=d2dmaXJzb210OWZ0" target="_blank" rel="noopener noreferrer" className="p-3 -m-3 hover:text-mhts-slate transition-colors" aria-label="MHTS Instagram">
             <Instagram className="w-5 h-5" />
           </a>
-          <a href="https://www.facebook.com/share/14XfkPCSNsP/" target="_blank" rel="noopener noreferrer" className="hover:text-mhts-slate transition-colors" aria-label="MHTS Facebook">
+          <a href="https://www.facebook.com/share/14XfkPCSNsP/" target="_blank" rel="noopener noreferrer" className="p-3 -m-3 hover:text-mhts-slate transition-colors" aria-label="MHTS Facebook">
             <Facebook className="w-5 h-5" />
           </a>
-          <a href="https://tiktok.com/@menshairtostay" target="_blank" rel="noopener noreferrer" className="hover:text-mhts-slate transition-colors" aria-label="MHTS TikTok">
+          <a href="https://tiktok.com/@menshairtostay" target="_blank" rel="noopener noreferrer" className="p-3 -m-3 hover:text-mhts-slate transition-colors" aria-label="MHTS TikTok">
             <TikTokIcon />
           </a>
         </div>
@@ -72,20 +52,21 @@ const Footer = () => (
         <h3 className="text-xl font-semibold mb-4">Visit Us</h3>
         <div className="space-y-2 text-sm opacity-80">
           <p className="flex items-center gap-2"><MapPin className="w-4 h-4 shrink-0" /> 11 Chesham Road, Amersham HP6 5HN</p>
-          <p className="flex items-center gap-2"><Phone className="w-4 h-4 shrink-0" /> Georges: 01494 432131</p>
-          <p className="flex items-center gap-2"><Phone className="w-4 h-4 shrink-0" /> MHTS: 07947 878087</p>
+          <p className="flex items-center gap-2"><Phone className="w-4 h-4 shrink-0" /> 07947 878087</p>
           <p className="flex items-center gap-2"><Mail className="w-4 h-4 shrink-0" /> georgesbarbers1991@gmail.com</p>
         </div>
         <div className="mt-4 flex gap-4">
-          <Link to="/georges-barbers" className="text-xs uppercase tracking-wider hover:text-gb-gold transition-colors">Georges</Link>
-          <Link to="/mens-hair-to-stay" className="text-xs uppercase tracking-wider hover:text-gb-gold transition-colors">MHTS</Link>
-          <Link to="/contact" className="text-xs uppercase tracking-wider hover:text-gb-gold transition-colors">Contact</Link>
+          <Link to="/contact" className="text-xs uppercase tracking-wider hover:text-mhts-slate transition-colors">Contact</Link>
         </div>
       </div>
     </div>
 
-    <div className="bg-foreground border-t border-background/10 py-4 text-center text-xs text-background/50">
-      © {new Date().getFullYear()} Georges Barbers & Men's Hair To Stay. All rights reserved.
+    <div className="bg-foreground border-t border-background/10 py-4 text-center text-xs text-background/50 flex flex-col sm:flex-row items-center justify-center gap-2">
+      <span>© {new Date().getFullYear()} Men's Hair To Stay. All rights reserved.</span>
+      <span className="hidden sm:inline">·</span>
+      <Link to="/privacy-policy" className="hover:text-background/80 transition-colors underline">
+        Privacy Policy
+      </Link>
     </div>
   </footer>
 );

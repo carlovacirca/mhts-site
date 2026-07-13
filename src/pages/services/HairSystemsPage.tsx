@@ -15,7 +15,28 @@ import {
   MapPin,
 } from "lucide-react";
 import { findCategory } from "@/data/services";
+import { useJsonLd, useCanonical, useOpenGraph } from "@/lib/seo";
+import ServicePricing from "@/components/ServicePricing";
 import hairSystemsHero from "@/assets/hair-systems-hero.jpg";
+
+const pricingRows = [
+  { name: "Initial Consultation & Fitting", price: "Free", note: "No obligation" },
+  { name: "Non-Surgical Hair Replacement", price: "Contact us for pricing" },
+  { name: "Hair Replacement Service", price: "Contact us for pricing" },
+  { name: "Hair System Colouring", price: "Contact us for pricing" },
+  { name: "Hair System Styling", price: "Contact us for pricing" },
+];
+
+const pricingJsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: "Initial Consultation & Fitting",
+    provider: { "@type": "LocalBusiness", name: "Men's Hair To Stay" },
+    areaServed: "Amersham",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "GBP", description: "Free initial consultation" },
+  },
+];
 
 const benefits = [
   { icon: Sparkles, text: "100% human hair for a completely natural look and feel" },
@@ -77,6 +98,13 @@ const faqs = [
 const HairSystemsPage = () => {
   const category = findCategory("hair-systems")!;
 
+  useJsonLd(pricingJsonLd);
+  useCanonical("/hair-systems");
+  useOpenGraph(
+    "Hair Systems Amersham | Non-Surgical Hair Replacement | Men's Hair to Stay",
+    "Discover premium hair systems in Amersham. Men's Hair to Stay offers natural-looking, non-surgical hair replacement for men across Amersham, Chesham, Beaconsfield, High Wycombe and surrounding areas."
+  );
+
   useEffect(() => {
     const prevTitle = document.title;
     document.title =
@@ -129,17 +157,17 @@ const HairSystemsPage = () => {
               Look and feel like yourself again — without going under the knife.
             </p>
             <Link
-              to="/mens-hair-to-stay#mhts-book"
+              to="/#mhts-book"
               className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
             >
-              <CalendarCheck className="w-4 h-4" /> Book a Free Consultation
+              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
             </Link>
           </motion.div>
         </div>
       </section>
 
-
-
+      {/* PRICING */}
+      <ServicePricing rows={pricingRows} />
 
       {/* WHAT IS IT */}
       <section className="py-20">
@@ -364,10 +392,10 @@ const HairSystemsPage = () => {
             Amersham today.
           </p>
           <Link
-            to="/mens-hair-to-stay#mhts-book"
+            to="/#mhts-book"
             className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
           >
-            <CalendarCheck className="w-4 h-4" /> Book a Free Consultation
+            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
           </Link>
         </div>
       </section>

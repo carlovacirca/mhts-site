@@ -123,11 +123,3 @@ export const serviceCategories: ServiceCategory[] = [
 
 export const findCategory = (slug: string) =>
   serviceCategories.find((c) => c.slug === slug);
-
-export const findSubService = (categorySlug: string, subSlug: string) => {
-  const category = findCategory(categorySlug);
-  if (!category) return null;
-  const sub = category.subServices.find((s) => s.slug === subSlug);
-  if (!sub) return null;
-  return { category, sub };
-};

@@ -1,8 +1,20 @@
 import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import { serviceCategories } from "@/data/services";
+import { useSeo, breadcrumbSchema } from "@/lib/seo";
 
 const ServicesPage = () => {
+  useSeo({
+    title: "Our Services | Hair Systems, SMP & Maintenance",
+    description:
+      "Hair systems, scalp micropigmentation, hair density treatments and ongoing maintenance from Men's Hair To Stay in Amersham. Explore all our services.",
+    canonicalPath: "/services",
+    jsonLd: breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+    ]),
+  });
+
   return (
     <div className="mhts-theme">
       <section className="bg-mhts-charcoal py-20">

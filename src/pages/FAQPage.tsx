@@ -11,6 +11,7 @@ import {
   Twitter,
   Linkedin,
   Mail,
+  Phone,
   ChevronRight,
   CalendarCheck,
   HelpCircle,
@@ -206,7 +207,7 @@ const FAQPage = () => {
               </li>
               <li>
                 <Link
-                  to="/mens-hair-to-stay"
+                  to="/"
                   className="hover:text-gb-gold transition-colors"
                 >
                   Men's Hair To Stay
@@ -368,10 +369,10 @@ const FAQPage = () => {
                           </p>
                         </div>
                         <Link
-                          to="/mens-hair-to-stay#mhts-book"
+                          to="/#mhts-book"
                           className="bg-gb-gold text-mhts-charcoal px-6 py-3 rounded-lg font-semibold hover:bg-gb-gold-light transition-colors whitespace-nowrap"
                         >
-                          Book Consultation
+                          Book Free Consultation
                         </Link>
                       </motion.div>
                     )}
@@ -390,7 +391,7 @@ const FAQPage = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
-                className="p-2 rounded-full bg-mhts-white border border-border hover:bg-mhts-light transition-colors"
+                className="p-3.5 rounded-full bg-mhts-white border border-border hover:bg-mhts-light transition-colors"
               >
                 <Facebook className="w-4 h-4 text-mhts-charcoal" />
               </a>
@@ -399,7 +400,7 @@ const FAQPage = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`}
-                className="p-2 rounded-full bg-mhts-white border border-border hover:bg-mhts-light transition-colors"
+                className="p-3.5 rounded-full bg-mhts-white border border-border hover:bg-mhts-light transition-colors"
               >
                 <Twitter className="w-4 h-4 text-mhts-charcoal" />
               </a>
@@ -408,14 +409,14 @@ const FAQPage = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
-                className="p-2 rounded-full bg-mhts-white border border-border hover:bg-mhts-light transition-colors"
+                className="p-3.5 rounded-full bg-mhts-white border border-border hover:bg-mhts-light transition-colors"
               >
                 <Linkedin className="w-4 h-4 text-mhts-charcoal" />
               </a>
               <a
                 aria-label="Share by email"
                 href={`mailto:?subject=${encodeURIComponent(shareText)}&body=${encodeURIComponent(shareUrl)}`}
-                className="p-2 rounded-full bg-mhts-white border border-border hover:bg-mhts-light transition-colors"
+                className="p-3.5 rounded-full bg-mhts-white border border-border hover:bg-mhts-light transition-colors"
               >
                 <Mail className="w-4 h-4 text-mhts-charcoal" />
               </a>
@@ -438,9 +439,10 @@ const FAQPage = () => {
               Still have questions?
             </h2>
             <p className="text-mhts-slate">
-              Send us a message and our hair restoration team will get back to you.
+              Call or email us and our hair restoration team will get back to you.
             </p>
           </div>
+          {/* FORM TEMPORARILY DISABLED — pending Formspree integration. Restore this block once a Formspree form ID is wired up.
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -484,6 +486,23 @@ const FAQPage = () => {
               <Mail className="w-4 h-4" /> Send Message
             </button>
           </form>
+          */}
+          <div className="grid gap-4 bg-mhts-light p-6 md:p-8 rounded-xl border border-border text-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a
+                href="tel:07947878087"
+                className="bg-mhts-charcoal text-mhts-white px-6 py-3 rounded-lg font-semibold hover:bg-mhts-navy transition-colors inline-flex items-center justify-center gap-2"
+              >
+                <Phone className="w-4 h-4" /> Call 07947 878087
+              </a>
+              <a
+                href="mailto:georgesbarbers1991@gmail.com"
+                className="bg-mhts-charcoal text-mhts-white px-6 py-3 rounded-lg font-semibold hover:bg-mhts-navy transition-colors inline-flex items-center justify-center gap-2 break-all"
+              >
+                <Mail className="w-4 h-4" /> georgesbarbers1991@gmail.com
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -498,17 +517,17 @@ const FAQPage = () => {
               {
                 title: "Our Services",
                 desc: "Hair systems, SMP, density treatments and more.",
-                to: "/mens-hair-to-stay#mhts-services",
+                to: "/#mhts-services",
               },
               {
                 title: "Before & After Gallery",
                 desc: "Real client results and transformations.",
-                to: "/mens-hair-to-stay#mhts-gallery",
+                to: "/#mhts-gallery",
               },
               {
                 title: "Book a Consultation",
                 desc: "Free, confidential and no obligation.",
-                to: "/mens-hair-to-stay#mhts-book",
+                to: "/#mhts-book",
               },
             ].map((c) => (
               <Link

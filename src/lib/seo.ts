@@ -7,13 +7,27 @@ export interface SeoOptions {
   jsonLd?: object | object[];
 }
 
-const SITE_URL = "https://menshairtostay.co.uk";
+export const SITE_URL = "https://menshairtostay.co.uk";
 
 const upsertMeta = (name: string, content: string) => {
   let el = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null;
   if (!el) {
     el = document.createElement("meta");
     el.setAttribute("name", name);
+    document.head.appendChild(el);
+  }
+  const prev = el.getAttribute("content");
+  el.setAttribute("content", content);
+  return () => {
+    if (prev !== null) el!.setAttribute("content", prev);
+  };
+};
+
+const upsertMetaProperty = (property: string, content: string) => {
+  let el = document.querySelector(`meta[property="${property}"]`) as HTMLMetaElement | null;
+  if (!el) {
+    el = document.createElement("meta");
+    el.setAttribute("property", property);
     document.head.appendChild(el);
   }
   const prev = el.getAttribute("content");
@@ -69,6 +83,41 @@ export const useSeo = ({ title, description, canonicalPath, jsonLd }: SeoOptions
   }, [title, description, canonicalPath, JSON.stringify(jsonLd)]);
 };
 
+export const useCanonical = (path: string) => {
+  useEffect(() => {
+    const restore = upsertCanonical(SITE_URL + path);
+    return restore;
+  }, [path]);
+};
+
+export const useOpenGraph = (title: string, description: string) => {
+  useEffect(() => {
+    const restoreTitle = upsertMetaProperty("og:title", title);
+    const restoreDesc = upsertMetaProperty("og:description", description);
+    return () => {
+      restoreTitle();
+      restoreDesc();
+    };
+  }, [title, description]);
+};
+
+export const useJsonLd = (data: object | object[]) => {
+  useEffect(() => {
+    const items = Array.isArray(data) ? data : [data];
+    const scripts = items.map((d) => {
+      const s = document.createElement("script");
+      s.type = "application/ld+json";
+      s.text = JSON.stringify(d);
+      document.head.appendChild(s);
+      return s;
+    });
+    return () => {
+      scripts.forEach((s) => s.remove());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(data)]);
+};
+
 export const breadcrumbSchema = (items: { name: string; path: string }[]) => ({
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -99,7 +148,6 @@ export const localBusinessSchema = {
   areaServed: ["Amersham", "Chesham", "High Wycombe", "Beaconsfield", "Buckinghamshire"],
   priceRange: "££",
   openingHoursSpecification: [
-    { "@type": "OpeningHoursSpecification", dayOfWeek: ["Tuesday", "Wednesday", "Thursday", "Friday"], opens: "09:00", closes: "18:00" },
-    { "@type": "OpeningHoursSpecification", dayOfWeek: "Saturday", opens: "09:00", closes: "17:00" },
+    { "@type": "OpeningHoursSpecification", dayOfWeek: ["Tuesday", "Wednesday", "Thursday", "Friday"], opens: "09:30", closes: "17:00" },
   ],
 };

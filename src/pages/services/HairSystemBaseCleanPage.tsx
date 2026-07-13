@@ -13,6 +13,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { findCategory } from "@/data/services";
+import { useCanonical, useOpenGraph } from "@/lib/seo";
 
 const benefits = [
   { icon: Droplets, text: "Thorough removal of adhesive and product build-up" },
@@ -63,6 +64,11 @@ const faqs = [
 
 const HairSystemBaseCleanPage = () => {
   const category = findCategory("hair-system-maintenance")!;
+  useCanonical("/hair-system-maintenance/hair-system-base-clean-and-reattach");
+  useOpenGraph(
+    "Hair System Base Clean & Reattach Amersham | Men's Hair to Stay",
+    "Professional hair system base cleaning and reattachment in Amersham at Men's Hair to Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding Buckinghamshire areas."
+  );
 
   useEffect(() => {
     const prevTitle = document.title;
@@ -113,23 +119,12 @@ const HairSystemBaseCleanPage = () => {
               that removes build-up, restores your base and reattaches your system to perfection.
             </p>
             <Link
-              to="/mens-hair-to-stay#mhts-book"
+              to="/#mhts-book"
               className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
             >
-              <CalendarCheck className="w-4 h-4" /> Book a Free Consultation
+              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
             </Link>
           </motion.div>
-        </div>
-      </section>
-
-      {/* IMAGE SLOT */}
-      <section className="py-12 bg-mhts-light">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto aspect-[16/7] border border-dashed border-mhts-slate/40 rounded-sm flex items-center justify-center bg-card">
-            <span className="text-mhts-slate text-sm font-body uppercase tracking-[0.2em]">
-              Image slot
-            </span>
-          </div>
         </div>
       </section>
 
@@ -341,10 +336,10 @@ const HairSystemBaseCleanPage = () => {
             Book your base clean and reattach appointment at Men's Hair to Stay in Amersham.
           </p>
           <Link
-            to="/mens-hair-to-stay#mhts-book"
+            to="/#mhts-book"
             className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
           >
-            <CalendarCheck className="w-4 h-4" /> Book a Free Consultation
+            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
           </Link>
         </div>
       </section>

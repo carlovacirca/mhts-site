@@ -8,6 +8,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import RelatedVideo from "@/components/RelatedVideo";
 import NewsletterSubscribeBar from "@/components/NewsletterSubscribeBar";
+import { useCanonical } from "@/lib/seo";
 import { blogPosts } from "@/data/blogPosts";
 import { computeImageSlots } from "@/lib/blogImageSlots";
 import blogPlaceholderIllustration from "@/assets/blog-placeholder-illustration.jpg";
@@ -123,6 +124,8 @@ const BlogPostPage = () => {
 
   const blocks = useMemo(() => (post ? parseContent(post.content) : []), [post]);
   const toc = blocks.filter((b) => b.type === "h2") as Required<Pick<Block, "text" | "id">>[];
+
+  useCanonical(post ? `/blog/${post.slug}` : "/blog");
 
   useEffect(() => {
     if (!post) return;
@@ -354,16 +357,16 @@ const BlogPostPage = () => {
               <Share2 className="w-3 h-3" /> Share
             </p>
             <div className="flex flex-row gap-2">
-              <a target="_blank" rel="noopener" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`} className="p-2 rounded-md border border-border hover:bg-mhts-light transition-colors">
+              <a target="_blank" rel="noopener" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`} className="p-3.5 rounded-md border border-border hover:bg-mhts-light transition-colors">
                 <Facebook className="w-4 h-4" />
               </a>
-              <a target="_blank" rel="noopener" href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(post.title)}`} className="p-2 rounded-md border border-border hover:bg-mhts-light transition-colors">
+              <a target="_blank" rel="noopener" href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(post.title)}`} className="p-3.5 rounded-md border border-border hover:bg-mhts-light transition-colors">
                 <Twitter className="w-4 h-4" />
               </a>
-              <a target="_blank" rel="noopener" href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`} className="p-2 rounded-md border border-border hover:bg-mhts-light transition-colors">
+              <a target="_blank" rel="noopener" href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`} className="p-3.5 rounded-md border border-border hover:bg-mhts-light transition-colors">
                 <Linkedin className="w-4 h-4" />
               </a>
-              <a href={`mailto:?subject=${encodeURIComponent(post.title)}&body=${encodeURIComponent(shareUrl)}`} className="p-2 rounded-md border border-border hover:bg-mhts-light transition-colors">
+              <a href={`mailto:?subject=${encodeURIComponent(post.title)}&body=${encodeURIComponent(shareUrl)}`} className="p-3.5 rounded-md border border-border hover:bg-mhts-light transition-colors">
                 <Mail className="w-4 h-4" />
               </a>
             </div>
@@ -401,9 +404,9 @@ const BlogPostPage = () => {
             <p className="text-sm text-mhts-white/80 mb-4">
               Discuss your hair restoration goals with our specialists.
             </p>
-            <Link to="/mens-hair-to-stay#mhts-book">
+            <Link to="/#mhts-book">
               <Button className="w-full bg-mhts-white text-mhts-charcoal hover:bg-mhts-white/90">
-                Book Consultation
+                Book Free Consultation
               </Button>
             </Link>
           </div>

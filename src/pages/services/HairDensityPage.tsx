@@ -14,7 +14,26 @@ import {
   MapPin,
 } from "lucide-react";
 import { findCategory } from "@/data/services";
+import { useJsonLd, useCanonical, useOpenGraph } from "@/lib/seo";
+import ServicePricing from "@/components/ServicePricing";
 import hairDensityHero from "@/assets/hair-density-hero.jpg";
+
+const pricingRows = [
+  { name: "Density Treatment Consultation", price: "Free", note: "No obligation" },
+  { name: "Thinning Hair Treatment", price: "Contact us for pricing" },
+  { name: "Crown Coverage Treatment", price: "Contact us for pricing" },
+];
+
+const pricingJsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: "Density Treatment Consultation",
+    provider: { "@type": "LocalBusiness", name: "Men's Hair To Stay" },
+    areaServed: "Amersham",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "GBP", description: "Free initial consultation" },
+  },
+];
 
 const benefits = [
   { icon: Leaf, text: "Works with your existing natural hair" },
@@ -76,6 +95,13 @@ const faqs = [
 const HairDensityPage = () => {
   const category = findCategory("hair-density")!;
 
+  useJsonLd(pricingJsonLd);
+  useCanonical("/hair-density");
+  useOpenGraph(
+    "Hair Density Treatment Amersham | Thinning Hair Solutions | Men's Hair to Stay",
+    "Struggling with thinning hair? Men's Hair to Stay in Amersham offers specialist hair density treatments for men including crown coverage and thinning hair solutions across Buckinghamshire and Hertfordshire."
+  );
+
   useEffect(() => {
     const prevTitle = document.title;
     document.title =
@@ -128,17 +154,17 @@ const HairDensityPage = () => {
               solutions for thinning hair, crown coverage and everything in between.
             </p>
             <Link
-              to="/mens-hair-to-stay#mhts-book"
+              to="/#mhts-book"
               className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
             >
-              <CalendarCheck className="w-4 h-4" /> Book a Free Consultation
+              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
             </Link>
           </motion.div>
         </div>
       </section>
 
-
-
+      {/* PRICING */}
+      <ServicePricing rows={pricingRows} />
 
       {/* WHAT IS IT */}
       <section className="py-20">
@@ -356,10 +382,10 @@ const HairDensityPage = () => {
             Amersham.
           </p>
           <Link
-            to="/mens-hair-to-stay#mhts-book"
+            to="/#mhts-book"
             className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
           >
-            <CalendarCheck className="w-4 h-4" /> Book a Free Consultation
+            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
           </Link>
         </div>
       </section>

@@ -28,7 +28,7 @@
     --ring: 152 40% 18%;
     --radius: 0.5rem;
 
-    /* Georges Barbers brand */
+    /* Accent palette (originally Georges Barbers brand colours, now shared accents) */
     --gb-black: 0 0% 0%;
     --gb-green: 152 40% 18%;
     --gb-green-light: 152 30% 28%;
@@ -68,17 +68,6 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: 'DM Sans', sans-serif;
   }
-}
-
-/* Georges Barbers themed sections */
-.gb-theme {
-  font-family: 'Playfair Display', serif;
-}
-.gb-theme h1, .gb-theme h2, .gb-theme h3, .gb-theme h4 {
-  font-family: 'Playfair Display', serif;
-}
-.gb-theme p, .gb-theme span, .gb-theme li, .gb-theme a {
-  font-family: 'DM Sans', sans-serif;
 }
 
 /* MHTS themed sections */

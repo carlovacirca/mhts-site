@@ -1,13 +1,50 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Phone, CalendarCheck } from "lucide-react";
-import { useSeo, breadcrumbSchema } from "@/lib/seo";
+import { useSeo, useJsonLd, breadcrumbSchema } from "@/lib/seo";
+import { useCookieConsent, setCookieConsent } from "@/lib/cookieConsent";
+import ServicePricing from "@/components/ServicePricing";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+
+const TRAFFT_DEFAULT_SERVICE_UUID = "848c1e33-c5d4-4dc8-a7de-94102b7c344b";
+const TRAFFT_REGROOM_1X_SERVICE_UUID = "80fff5ce-ada5-47aa-a44b-d13e553088db";
+const TRAFFT_REGROOM_2X_SERVICE_UUID = "d7d8c271-93b9-4fa1-aa0d-c1eb39b41c3f";
+const TRAFFT_CONSULTATION_SERVICE_UUID = "21801063-7fb5-47a2-aa5b-39c66bd400fb";
+
+const pricingJsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Regroom (1x Adhesive)",
+    serviceType: "Regroom (1x Adhesive)",
+    provider: { "@type": "LocalBusiness", name: "Men's Hair To Stay" },
+    areaServed: "Amersham",
+    offers: { "@type": "Offer", name: "Regroom (1x Adhesive)", price: "60", priceCurrency: "GBP" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Regroom (2x Adhesive)",
+    serviceType: "Regroom (2x Adhesive)",
+    provider: { "@type": "LocalBusiness", name: "Men's Hair To Stay" },
+    areaServed: "Amersham",
+    offers: { "@type": "Offer", name: "Regroom (2x Adhesive)", price: "65", priceCurrency: "GBP" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Initial Consultation",
+    serviceType: "Initial Consultation",
+    provider: { "@type": "LocalBusiness", name: "Men's Hair To Stay" },
+    areaServed: "Amersham",
+    offers: { "@type": "Offer", name: "Initial Consultation", price: "0", priceCurrency: "GBP", description: "Free initial consultation" },
+  },
+];
 
 const appointments = [
   {
@@ -53,7 +90,7 @@ const faqs = [
   },
   {
     q: "Can I reschedule or cancel my appointment?",
-    a: "Yes. You can reschedule or cancel through your booking confirmation email up to 24 hours before your appointment, or call us on 01494 432426 and we'll arrange a new time that suits you.",
+    a: "Yes. You can reschedule or cancel through your booking confirmation email up to 24 hours before your appointment, or call us on 07947 878087 and we'll arrange a new time that suits you.",
   },
 ];
 
@@ -69,7 +106,13 @@ const BookPage = () => {
     ]),
   });
 
+  useJsonLd(pricingJsonLd);
+
+  const cookieConsent = useCookieConsent();
+  const [serviceUuid, setServiceUuid] = useState(TRAFFT_DEFAULT_SERVICE_UUID);
+
   useEffect(() => {
+    if (cookieConsent !== "accepted") return;
     const script = document.createElement("script");
     script.src = "https://menshairtostay.trafft.com/embed.js";
     script.async = true;
@@ -77,11 +120,18 @@ const BookPage = () => {
     return () => {
       if (script.parentNode) document.body.removeChild(script);
     };
-  }, []);
+  }, [cookieConsent, serviceUuid]);
 
-  const scrollToWidget = () => {
+  const scrollToWidget = (uuid: string = TRAFFT_DEFAULT_SERVICE_UUID) => {
+    setServiceUuid(uuid);
     document.getElementById("trafft-booking")?.scrollIntoView({ behavior: "smooth" });
   };
+
+  const pricingRows = [
+    { name: "Regroom (1x Adhesive)", price: "£60", onClick: () => scrollToWidget(TRAFFT_REGROOM_1X_SERVICE_UUID) },
+    { name: "Regroom (2x Adhesive)", price: "£65", onClick: () => scrollToWidget(TRAFFT_REGROOM_2X_SERVICE_UUID) },
+    { name: "Initial Consultation", price: "Free", onClick: () => scrollToWidget(TRAFFT_CONSULTATION_SERVICE_UUID) },
+  ];
 
   return (
     <div className="mhts-theme">
@@ -103,14 +153,17 @@ const BookPage = () => {
           </p>
           <div className="mt-8">
             <button
-              onClick={scrollToWidget}
+              onClick={() => scrollToWidget()}
               className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
             >
-              <CalendarCheck className="w-4 h-4" /> Book Now
+              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
             </button>
           </div>
         </div>
       </section>
+
+      {/* PRICING */}
+      <ServicePricing rows={pricingRows} />
 
       {/* TRAFFT WIDGET */}
       <section id="trafft-booking" className="py-16 bg-mhts-light">
@@ -124,16 +177,31 @@ const BookPage = () => {
               Select your service and time below to confirm your appointment.
             </p>
           </div>
-          <div
-            className="embedded-booking w-full"
-            data-url="https://menshairtostay.trafft.com"
-            data-query="&t=s&uuid=848c1e33-c5d4-4dc8-a7de-94102b7c344b"
-            data-lang="en"
-            data-autoresize="0"
-            data-showsidebar="1"
-            data-showservices="0"
-            style={{ minWidth: "320px", minHeight: "1000px", width: "100%" }}
-          />
+          {cookieConsent === "accepted" ? (
+            <div
+              key={serviceUuid}
+              className="embedded-booking w-full"
+              data-url="https://menshairtostay.trafft.com"
+              data-query={`&t=s&uuid=${serviceUuid}`}
+              data-lang="en"
+              data-autoresize="0"
+              data-showsidebar="1"
+              data-showservices="0"
+              style={{ minWidth: "320px", minHeight: "1000px", width: "100%" }}
+            />
+          ) : (
+            <div className="text-center max-w-md mx-auto py-10">
+              <p className="text-foreground/70 font-body text-sm mb-4">
+                The booking calendar needs cookies enabled to load.
+              </p>
+              <button
+                onClick={() => setCookieConsent("accepted")}
+                className="inline-flex items-center gap-2 bg-mhts-charcoal text-mhts-white px-6 py-2.5 rounded-sm hover:bg-mhts-navy transition-colors font-body text-sm"
+              >
+                Enable cookies to book online
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
@@ -175,10 +243,10 @@ const BookPage = () => {
           </div>
           <div className="text-center mt-10">
             <button
-              onClick={scrollToWidget}
+              onClick={() => scrollToWidget()}
               className="inline-flex items-center gap-2 bg-mhts-charcoal text-mhts-white font-medium px-8 py-3 rounded-sm hover:bg-mhts-navy transition-colors font-body tracking-wide"
             >
-              <CalendarCheck className="w-4 h-4" /> Book Your Appointment
+              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
             </button>
           </div>
         </div>
@@ -220,10 +288,10 @@ const BookPage = () => {
             consultation, regroom or SMP appointment.
           </p>
           <a
-            href="tel:01494432426"
+            href="tel:07947878087"
             className="inline-flex items-center gap-2 mt-8 bg-mhts-charcoal text-mhts-white font-medium px-8 py-3 rounded-sm hover:bg-mhts-navy transition-colors font-body tracking-wide"
           >
-            <Phone className="w-4 h-4" /> Call 01494 432426
+            <Phone className="w-4 h-4" /> Call 07947 878087
           </a>
         </div>
       </section>

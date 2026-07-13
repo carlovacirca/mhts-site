@@ -13,7 +13,34 @@ import {
   Users,
 } from "lucide-react";
 import { findCategory } from "@/data/services";
+import { useJsonLd, useCanonical, useOpenGraph } from "@/lib/seo";
+import ServicePricing from "@/components/ServicePricing";
 import hairSystemMaintenanceHero from "@/assets/hair-system-maintenance-hero.jpg";
+
+const pricingRows = [
+  { name: "Hair System Reattachment & Restyling", price: "£60", note: "Regroom · 1x adhesive" },
+  { name: "Hair System Base Clean & Reattach", price: "£65", note: "Regroom · 2x adhesive, includes base clean" },
+  { name: "Hair System Full Maintenance Package", price: "Contact us for pricing" },
+];
+
+const pricingJsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: "Hair System Reattachment & Restyling (Regroom, 1x Adhesive)",
+    provider: { "@type": "LocalBusiness", name: "Men's Hair To Stay" },
+    areaServed: "Amersham",
+    offers: { "@type": "Offer", price: "60", priceCurrency: "GBP" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: "Hair System Base Clean & Reattach (Regroom, 2x Adhesive)",
+    provider: { "@type": "LocalBusiness", name: "Men's Hair To Stay" },
+    areaServed: "Amersham",
+    offers: { "@type": "Offer", price: "65", priceCurrency: "GBP" },
+  },
+];
 
 const benefits = [
   { icon: Clock, text: "Extends the lifespan of your hair system" },
@@ -75,6 +102,13 @@ const faqs = [
 const HairSystemMaintenancePage = () => {
   const category = findCategory("hair-system-maintenance")!;
 
+  useJsonLd(pricingJsonLd);
+  useCanonical("/hair-system-maintenance");
+  useOpenGraph(
+    "Hair System Maintenance Amersham | Hair System Aftercare | Men's Hair to Stay",
+    "Professional hair system maintenance in Amersham. Men's Hair to Stay offers reattachment, base cleans and full maintenance packages to keep your hair system looking perfect. Serving Buckinghamshire and Hertfordshire."
+  );
+
   useEffect(() => {
     const prevTitle = document.title;
     document.title =
@@ -128,17 +162,17 @@ const HairSystemMaintenancePage = () => {
               investment.
             </p>
             <Link
-              to="/mens-hair-to-stay#mhts-book"
+              to="/#mhts-book"
               className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
             >
-              <CalendarCheck className="w-4 h-4" /> Book a Free Consultation
+              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
             </Link>
           </motion.div>
         </div>
       </section>
 
-
-
+      {/* PRICING */}
+      <ServicePricing rows={pricingRows} />
 
       {/* WHAT IS IT */}
       <section className="py-20">
@@ -356,10 +390,10 @@ const HairSystemMaintenancePage = () => {
             Amersham.
           </p>
           <Link
-            to="/mens-hair-to-stay#mhts-book"
+            to="/#mhts-book"
             className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
           >
-            <CalendarCheck className="w-4 h-4" /> Book a Free Consultation
+            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
           </Link>
         </div>
       </section>

@@ -1,26 +1,15 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Layout from "@/components/Layout";
-import HomePage from "@/pages/HomePage";
-import GBLanding from "@/pages/georges/GBLanding";
-import GBFaqPage from "@/pages/georges/GBFaqPage";
-import GBBlogPage from "@/pages/georges/GBBlogPage";
-import GBBlogPostPage from "@/pages/georges/GBBlogPostPage";
-import GBSkinFadePostPage from "@/pages/georges/GBSkinFadePostPage";
-import GBEarPiercingPostPage from "@/pages/georges/GBEarPiercingPostPage";
-import GBWelcomePostPage from "@/pages/georges/GBWelcomePostPage";
-import GBAreasServicedPage from "@/pages/georges/GBAreasServicedPage";
 import MHTSLanding from "@/pages/mhts/MHTSLanding";
 import ContactPage from "@/pages/ContactPage";
 import FAQPage from "@/pages/FAQPage";
 import BlogPage from "@/pages/BlogPage";
 import BlogPostPage from "@/pages/BlogPostPage";
-import ServiceCategoryPage from "@/pages/services/ServiceCategoryPage";
-import SubServicePage from "@/pages/services/SubServicePage";
 import HairSystemsPage from "@/pages/services/HairSystemsPage";
 import ScalpMicropigmentationPage from "@/pages/services/ScalpMicropigmentationPage";
 import HairDensityPage from "@/pages/services/HairDensityPage";
@@ -44,7 +33,8 @@ import ServicesPage from "@/pages/ServicesPage";
 import GalleryPage from "@/pages/GalleryPage";
 import BookPage from "@/pages/BookPage";
 import AreasServicedPage from "@/pages/AreasServicedPage";
-import { serviceCategories } from "@/data/services";
+import AreaPage from "@/pages/AreaPage";
+import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -77,16 +67,8 @@ const App = () => (
         <ScrollToTop />
         <Routes>
           <Route element={<Layout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/georges-barbers" element={<GBLanding />} />
-            <Route path="/georges-barbers/faq" element={<GBFaqPage />} />
-            <Route path="/georges-barbers/blog" element={<GBBlogPage />} />
-            <Route path="/georges-barbers/blog/skin-fade-amersham-complete-guide" element={<GBSkinFadePostPage />} />
-            <Route path="/georges-barbers/blog/ear-piercing-amersham-complete-local-guide" element={<GBEarPiercingPostPage />} />
-            <Route path="/georges-barbers/blog/georges-barbers-amersham-original-barbershop-since-1991" element={<GBWelcomePostPage />} />
-            <Route path="/georges-barbers/blog/:slug" element={<GBBlogPostPage />} />
-            <Route path="/georges-barbers/areas-serviced" element={<GBAreasServicedPage />} />
-            <Route path="/mens-hair-to-stay" element={<MHTSLanding />} />
+            <Route path="/" element={<MHTSLanding />} />
+            <Route path="/mens-hair-to-stay" element={<Navigate to="/" replace />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/how-it-works" element={<HowItWorksPage />} />
             <Route path="/services" element={<ServicesPage />} />
@@ -95,6 +77,10 @@ const App = () => (
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/areas-serviced" element={<AreasServicedPage />} />
+            <Route path="/areas/:slug" element={<AreaPage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route path="/blog/ultimate-guide-hair-systems-2024" element={<Navigate to="/blog/ultimate-guide-hair-systems" replace />} />
+            <Route path="/blog/hair-restoration-cost-guide-2024" element={<Navigate to="/blog/hair-restoration-cost-guide" replace />} />
             <Route path="/blog/:slug" element={<BlogPostPage />} />
             <Route path="/hair-systems" element={<HairSystemsPage />} />
             <Route path="/scalp-micropigmentation" element={<ScalpMicropigmentationPage />} />
@@ -114,10 +100,6 @@ const App = () => (
             <Route path="/hair-system-maintenance/hair-system-reattachment-and-restyling" element={<HairSystemReattachmentPage />} />
             <Route path="/hair-system-maintenance/hair-system-base-clean-and-reattach" element={<HairSystemBaseCleanPage />} />
             <Route path="/hair-system-maintenance/hair-system-full-maintenance-package" element={<HairSystemFullMaintenancePage />} />
-            {serviceCategories.flatMap((c) => [
-              <Route key={c.slug} path={`/${c.slug}`} element={<ServiceCategoryPage />} />,
-              <Route key={`${c.slug}-sub`} path={`/${c.slug}/:sub`} element={<SubServicePage />} />,
-            ])}
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

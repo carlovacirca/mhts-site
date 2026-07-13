@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Shield, Award, Clock, Phone, Mail, MapPin, Star, Quote, AlertCircle, CalendarCheck, ChevronRight, CheckCircle2 } from "lucide-react";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
-import SectionHeading from "@/components/SectionHeading";
 import OpeningHours from "@/components/OpeningHours";
 import { blogPosts } from "@/data/blogPosts";
+import { useSeo, localBusinessSchema } from "@/lib/seo";
+import { useCookieConsent, setCookieConsent } from "@/lib/cookieConsent";
 import mhtsHero from "@/assets/mhts-hero.jpg";
 import mhtsBefore1 from "@/assets/mhts-before-1.jpg";
 import mhtsAfter1 from "@/assets/mhts-after-1.jpg";
@@ -87,7 +88,18 @@ const reviews = [
 ];
 
 const MHTSLanding = () => {
+  useSeo({
+    title: "Hair Replacement Systems & SMP in Amersham | 8+ Years",
+    description:
+      "Professional non-surgical hair replacement systems and scalp micropigmentation (SMP) in Amersham. Free consultation. Specialist technicians. 100% confidential.",
+    canonicalPath: "/",
+    jsonLd: localBusinessSchema,
+  });
+
+  const cookieConsent = useCookieConsent();
+
   useEffect(() => {
+    if (cookieConsent !== "accepted") return;
     const script = document.createElement("script");
     script.src = "https://menshairtostay.trafft.com/embed.js";
     script.async = true;
@@ -95,7 +107,7 @@ const MHTSLanding = () => {
     return () => {
       document.body.removeChild(script);
     };
-  }, []);
+  }, [cookieConsent]);
 
   return (
     <div className="mhts-theme">
@@ -123,7 +135,7 @@ const MHTSLanding = () => {
               href="#mhts-book"
               className="inline-block bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
             >
-              Book Consultation
+              Book Free Consultation
             </a>
             <a
               href="#mhts-services"
@@ -482,16 +494,30 @@ const MHTSLanding = () => {
           <h2 className="font-display text-3xl md:text-4xl text-mhts-charcoal tracking-wide mb-3">Book a Consultation</h2>
           <p className="text-mhts-slate font-body text-base md:text-lg max-w-xl mx-auto">Select a date and time below to book your free consultation with our specialist team.</p>
         </div>
-        <div
-          className="embedded-booking w-full"
-          data-url="https://menshairtostay.trafft.com"
-          data-query="&t=s&uuid=848c1e33-c5d4-4dc8-a7de-94102b7c344b"
-          data-lang="en"
-          data-autoresize="1"
-          data-showsidebar="1"
-          data-showservices="0"
-          style={{ minWidth: "320px", width: "100%" }}
-        />
+        {cookieConsent === "accepted" ? (
+          <div
+            className="embedded-booking w-full"
+            data-url="https://menshairtostay.trafft.com"
+            data-query="&t=s&uuid=848c1e33-c5d4-4dc8-a7de-94102b7c344b"
+            data-lang="en"
+            data-autoresize="1"
+            data-showsidebar="1"
+            data-showservices="0"
+            style={{ minWidth: "320px", width: "100%" }}
+          />
+        ) : (
+          <div className="container mx-auto px-4 pb-16 text-center max-w-md">
+            <p className="text-foreground/70 font-body text-sm mb-4">
+              The booking calendar needs cookies enabled to load.
+            </p>
+            <button
+              onClick={() => setCookieConsent("accepted")}
+              className="inline-flex items-center gap-2 bg-mhts-charcoal text-mhts-white px-6 py-2.5 rounded-sm hover:bg-mhts-slate transition-colors font-body text-sm"
+            >
+              Enable cookies to book online
+            </button>
+          </div>
+        )}
       </div>
     </section>
 
@@ -585,7 +611,7 @@ const MHTSLanding = () => {
           </div>
 
           {/* Opening Hours */}
-          <OpeningHours brand="mhts" />
+          <OpeningHours />
         </div>
       </div>
     </section>

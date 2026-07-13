@@ -116,10 +116,10 @@ const HowItWorksPage = () => {
               our process works.
             </p>
             <Link
-              to="/mens-hair-to-stay#mhts-book"
+              to="/#mhts-book"
               className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
             >
-              <CalendarCheck className="w-4 h-4" /> Book a Free Consultation
+              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
             </Link>
           </motion.div>
         </div>
@@ -277,10 +277,10 @@ const HowItWorksPage = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
-              to="/mens-hair-to-stay#mhts-book"
+              to="/#mhts-book"
               className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
             >
-              <CalendarCheck className="w-4 h-4" /> Book Your Free Consultation
+              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
             </Link>
             <a
               href="tel:07947878087"
@@ -296,13 +296,13 @@ const HowItWorksPage = () => {
               Explore More
             </p>
             <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-body">
-              <Link to="/mens-hair-to-stay#mhts-services" className="text-mhts-white/80 hover:text-mhts-white transition-colors">
+              <Link to="/#mhts-services" className="text-mhts-white/80 hover:text-mhts-white transition-colors">
                 View Our Services
               </Link>
-              <Link to="/mens-hair-to-stay#mhts-gallery" className="text-mhts-white/80 hover:text-mhts-white transition-colors">
+              <Link to="/#mhts-gallery" className="text-mhts-white/80 hover:text-mhts-white transition-colors">
                 See Hair System & SMP Results
               </Link>
-              <Link to="/mens-hair-to-stay#mhts-book" className="text-mhts-white/80 hover:text-mhts-white transition-colors">
+              <Link to="/#mhts-book" className="text-mhts-white/80 hover:text-mhts-white transition-colors">
                 Book Your Consultation
               </Link>
               <Link to="/faq" className="text-mhts-white/80 hover:text-mhts-white transition-colors">

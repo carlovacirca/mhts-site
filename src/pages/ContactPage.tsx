@@ -123,7 +123,7 @@ const ContactPage = () => {
           {/* Hours */}
           <div className="mt-10 max-w-md mx-auto">
             <h3 className="text-center text-mhts-charcoal font-medium tracking-wide mb-4">Studio Opening Hours</h3>
-            <OpeningHours brand="mhts" />
+            <OpeningHours />
           </div>
         </div>
       </section>
@@ -132,10 +132,11 @@ const ContactPage = () => {
       <section className="py-16 bg-mhts-light">
         <div className="container mx-auto px-4 max-w-3xl">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl text-mhts-charcoal font-light tracking-wide">Send Us a Message</h2>
+            <h2 className="text-3xl md:text-4xl text-mhts-charcoal font-light tracking-wide">Get in Touch</h2>
             <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-5" />
             <p className="text-foreground/75 font-body mt-5">All enquiries are 100% confidential. No obligation, no pressure.</p>
           </div>
+          {/* FORM TEMPORARILY DISABLED — pending Formspree integration. Restore this block once a Formspree form ID is wired up; handleSubmit/contactSchema/form state above are left intact for a quick restore.
           <form onSubmit={handleSubmit} noValidate className="bg-card border border-border rounded-sm p-6 md:p-8 space-y-5">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
@@ -177,6 +178,20 @@ const ContactPage = () => {
               Send Message
             </Button>
           </form>
+          */}
+          <div className="bg-card border border-border rounded-sm p-8 md:p-10 text-center">
+            <p className="text-foreground/80 font-body leading-relaxed mb-6">
+              Call or email us directly and our specialist team will get back to you.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a href="tel:07947878087" className="inline-flex items-center justify-center gap-2 bg-mhts-charcoal text-mhts-white px-6 py-3 rounded-sm hover:bg-mhts-navy transition-colors font-body text-sm">
+                <Phone className="w-4 h-4" /> Call 07947 878087
+              </a>
+              <a href="mailto:georgesbarbers1991@gmail.com" className="inline-flex items-center justify-center gap-2 bg-mhts-charcoal text-mhts-white px-6 py-3 rounded-sm hover:bg-mhts-navy transition-colors font-body text-sm break-all">
+                <Mail className="w-4 h-4" /> georgesbarbers1991@gmail.com
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(node \"C:\\\\Users\\\\0\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-0-menshairtostay\\\\04184ae1-5919-4676-8ccd-87159b1528ed\\\\scratchpad\\\\wordcount.mjs\")",
+      "Bash(cp \"C:\\\\Users\\\\0\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-0-menshairtostay\\\\04184ae1-5919-4676-8ccd-87159b1528ed\\\\scratchpad\\\\wordcount.mjs\" \"/c/Users/0/menshairtostay/wordcount.mjs\")",
+      "Bash(node wordcount.mjs)",
+      "Bash(cp \"C:\\\\Users\\\\0\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-0-menshairtostay\\\\04184ae1-5919-4676-8ccd-87159b1528ed\\\\scratchpad\\\\wordcount2.mjs\" \"/c/Users/0/menshairtostay/wordcount2.mjs\")",
+      "Bash(node wordcount2.mjs)",
+      "Bash(npm audit *)"
+    ]
+  }
+}

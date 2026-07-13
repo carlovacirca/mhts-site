@@ -14,6 +14,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { findCategory } from "@/data/services";
+import { useCanonical, useOpenGraph } from "@/lib/seo";
 
 const benefits = [
   { icon: MessageCircle, text: "Completely free with no obligation" },
@@ -69,6 +70,11 @@ const faqs = [
 
 const SMPConsultationPage = () => {
   const category = findCategory("scalp-micropigmentation")!;
+  useCanonical("/scalp-micropigmentation/smp-consultation");
+  useOpenGraph(
+    "SMP Consultation Amersham | Free Scalp Micropigmentation Consultation | Men's Hair to Stay",
+    "Free SMP consultation in Amersham. Discuss your scalp micropigmentation options with the specialists at Men's Hair to Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+  );
 
   useEffect(() => {
     const prevTitle = document.title;
@@ -120,23 +126,12 @@ const SMPConsultationPage = () => {
               pressure.
             </p>
             <Link
-              to="/mens-hair-to-stay#mhts-book"
+              to="/#mhts-book"
               className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
             >
-              <CalendarCheck className="w-4 h-4" /> Book a Free Consultation
+              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
             </Link>
           </motion.div>
-        </div>
-      </section>
-
-      {/* IMAGE SLOT */}
-      <section className="py-12 bg-mhts-light">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto aspect-[16/7] border border-dashed border-mhts-slate/40 rounded-sm flex items-center justify-center bg-card">
-            <span className="text-mhts-slate text-sm font-body uppercase tracking-[0.2em]">
-              Image slot
-            </span>
-          </div>
         </div>
       </section>
 
@@ -350,10 +345,10 @@ const SMPConsultationPage = () => {
             Book your free SMP consultation at Men's Hair to Stay in Amersham today.
           </p>
           <Link
-            to="/mens-hair-to-stay#mhts-book"
+            to="/#mhts-book"
             className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
           >
-            <CalendarCheck className="w-4 h-4" /> Book a Free Consultation
+            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
           </Link>
         </div>
       </section>

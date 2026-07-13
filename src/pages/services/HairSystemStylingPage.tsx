@@ -14,6 +14,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { findCategory } from "@/data/services";
+import { useCanonical, useOpenGraph } from "@/lib/seo";
 
 const benefits = [
   { icon: Scissors, text: "Expert cutting and styling to suit your face shape" },
@@ -61,6 +62,11 @@ const faqs = [
 
 const HairSystemStylingPage = () => {
   const category = findCategory("hair-systems")!;
+  useCanonical("/hair-systems/hair-system-styling");
+  useOpenGraph(
+    "Hair System Styling Amersham | Hair Unit Styling Service | Men's Hair to Stay",
+    "Professional hair system styling in Amersham. Get the cut, style and finish you want from Men's Hair to Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding Buckinghamshire areas."
+  );
 
   useEffect(() => {
     const prevTitle = document.title;
@@ -111,23 +117,12 @@ const HairSystemStylingPage = () => {
               and finishing so your system looks exactly the way you want it.
             </p>
             <Link
-              to="/mens-hair-to-stay#mhts-book"
+              to="/#mhts-book"
               className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
             >
-              <CalendarCheck className="w-4 h-4" /> Book a Free Consultation
+              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
             </Link>
           </motion.div>
-        </div>
-      </section>
-
-      {/* IMAGE SLOT */}
-      <section className="py-12 bg-mhts-light">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto aspect-[16/7] border border-dashed border-mhts-slate/40 rounded-sm flex items-center justify-center bg-card">
-            <span className="text-mhts-slate text-sm font-body uppercase tracking-[0.2em]">
-              Image slot
-            </span>
-          </div>
         </div>
       </section>
 
@@ -341,10 +336,10 @@ const HairSystemStylingPage = () => {
             Book your hair system styling appointment at Men's Hair to Stay in Amersham.
           </p>
           <Link
-            to="/mens-hair-to-stay#mhts-book"
+            to="/#mhts-book"
             className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
           >
-            <CalendarCheck className="w-4 h-4" /> Book a Free Consultation
+            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
           </Link>
         </div>
       </section>

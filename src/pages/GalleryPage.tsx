@@ -224,7 +224,7 @@ const GalleryPage = () => {
               to="/book"
               className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
             >
-              <CalendarCheck className="w-4 h-4" /> Book Your Free Consultation
+              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
             </Link>
             <a
               href="tel:07947878087"
