@@ -94,6 +94,16 @@ const faqs = [
   },
 ];
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
 const BookPage = () => {
   useSeo({
     title: "Book Hair Replacement Appointment | Free Consultation",
@@ -107,6 +117,7 @@ const BookPage = () => {
   });
 
   useJsonLd(pricingJsonLd);
+  useJsonLd(faqJsonLd);
 
   const cookieConsent = useCookieConsent();
   const [serviceUuid, setServiceUuid] = useState(TRAFFT_DEFAULT_SERVICE_UUID);

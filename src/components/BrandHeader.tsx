@@ -235,9 +235,9 @@ const BrandHeader = () => {
             <div className="flex items-center gap-2">
               <Link
                 to="/book"
-                className="inline-flex items-center gap-1.5 bg-mhts-charcoal text-mhts-white px-3 py-2 md:px-5 md:py-2.5 rounded-sm text-xs md:text-sm font-body tracking-wide hover:bg-mhts-slate transition-colors whitespace-nowrap"
+                className="hidden md:inline-flex items-center gap-1.5 bg-mhts-charcoal text-mhts-white px-5 py-2.5 rounded-sm text-sm font-body tracking-wide hover:bg-mhts-slate transition-colors whitespace-nowrap"
               >
-                <CalendarCheck className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                <CalendarCheck className="w-4 h-4" />
                 Book Free Consultation
               </Link>
               <button
@@ -248,6 +248,17 @@ const BrandHeader = () => {
                 {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
             </div>
+          </div>
+
+          {/* Mobile-only full-width CTA row */}
+          <div className="md:hidden pb-3">
+            <Link
+              to="/book"
+              className="flex items-center justify-center gap-1.5 w-full bg-mhts-charcoal text-mhts-white px-4 py-3 rounded-sm text-sm font-body tracking-wide hover:bg-mhts-slate transition-colors"
+            >
+              <CalendarCheck className="w-4 h-4" />
+              Book Free Consultation
+            </Link>
           </div>
         </div>
 

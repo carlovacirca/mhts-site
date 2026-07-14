@@ -5,7 +5,7 @@ import { Shield, Award, Clock, Phone, Mail, MapPin, Star, Quote, AlertCircle, Ca
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import OpeningHours from "@/components/OpeningHours";
 import { blogPosts } from "@/data/blogPosts";
-import { useSeo, localBusinessSchema } from "@/lib/seo";
+import { useSeo, useJsonLd, localBusinessSchema } from "@/lib/seo";
 import { useCookieConsent, setCookieConsent } from "@/lib/cookieConsent";
 import mhtsHero from "@/assets/mhts-hero.jpg";
 import mhtsBefore1 from "@/assets/mhts-before-1.jpg";
@@ -87,6 +87,43 @@ const reviews = [
   },
 ];
 
+const homeFaqs = [
+  {
+    q: "How long does a hair system last?",
+    a: "A high-quality hair system typically lasts 6–12 months with proper care and regular maintenance. We recommend a regroom or maintenance appointment every 4–6 weeks to keep your hair system looking fresh, natural, and undetectable.",
+  },
+  {
+    q: "Is hair replacement undetectable?",
+    a: "Yes — when expertly fitted and styled, our hair systems are virtually undetectable. We custom-match hair colour, density, and texture to blend seamlessly with your natural hair for a completely natural look.",
+  },
+  {
+    q: "Is SMP painful?",
+    a: "Scalp micropigmentation (SMP) is a non-invasive treatment with minimal discomfort. Most clients describe the sensation as mild and tolerable. A topical numbing agent can be applied to ensure your session is as comfortable as possible.",
+  },
+  {
+    q: "How much does a consultation cost?",
+    a: "Your initial consultation is completely free. There is no obligation — we will assess your hair loss, discuss your goals, and recommend the best hair system or SMP treatment for your needs.",
+  },
+  {
+    q: "How often does a hair system need maintenance?",
+    a: "We recommend booking a maintenance or regroom appointment every 4–6 weeks. Regular upkeep ensures your hair system remains secure, clean, and styled perfectly — extending its lifespan and keeping it undetectable.",
+  },
+  {
+    q: "Is SMP permanent?",
+    a: "SMP is considered semi-permanent. The results typically last 3–5 years before a touch-up is needed. It is a long-lasting, non-invasive solution for thinning hair and receding hairlines, requiring minimal ongoing maintenance.",
+  },
+];
+
+const homeFaqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: homeFaqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
 const MHTSLanding = () => {
   useSeo({
     title: "Hair Replacement Systems & SMP in Amersham | 8+ Years",
@@ -95,6 +132,8 @@ const MHTSLanding = () => {
     canonicalPath: "/",
     jsonLd: localBusinessSchema,
   });
+
+  useJsonLd(homeFaqJsonLd);
 
   const cookieConsent = useCookieConsent();
 
@@ -359,54 +398,16 @@ const MHTSLanding = () => {
         </div>
         <div className="max-w-3xl mx-auto">
           <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="q1">
-              <AccordionTrigger className="text-left font-medium text-mhts-charcoal">
-                How long does a hair system last?
-              </AccordionTrigger>
-              <AccordionContent className="text-foreground/80 font-body leading-relaxed">
-                A high-quality hair system typically lasts 6–12 months with proper care and regular maintenance. We recommend a regroom or maintenance appointment every 4–6 weeks to keep your hair system looking fresh, natural, and undetectable.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="q2">
-              <AccordionTrigger className="text-left font-medium text-mhts-charcoal">
-                Is hair replacement undetectable?
-              </AccordionTrigger>
-              <AccordionContent className="text-foreground/80 font-body leading-relaxed">
-                Yes — when expertly fitted and styled, our hair systems are virtually undetectable. We custom-match hair colour, density, and texture to blend seamlessly with your natural hair for a completely natural look.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="q3">
-              <AccordionTrigger className="text-left font-medium text-mhts-charcoal">
-                Is SMP painful?
-              </AccordionTrigger>
-              <AccordionContent className="text-foreground/80 font-body leading-relaxed">
-                Scalp micropigmentation (SMP) is a non-invasive treatment with minimal discomfort. Most clients describe the sensation as mild and tolerable. A topical numbing agent can be applied to ensure your session is as comfortable as possible.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="q4">
-              <AccordionTrigger className="text-left font-medium text-mhts-charcoal">
-                How much does a consultation cost?
-              </AccordionTrigger>
-              <AccordionContent className="text-foreground/80 font-body leading-relaxed">
-                Your initial consultation is completely free. There is no obligation — we will assess your hair loss, discuss your goals, and recommend the best hair system or SMP treatment for your needs.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="q5">
-              <AccordionTrigger className="text-left font-medium text-mhts-charcoal">
-                How often does a hair system need maintenance?
-              </AccordionTrigger>
-              <AccordionContent className="text-foreground/80 font-body leading-relaxed">
-                We recommend booking a maintenance or regroom appointment every 4–6 weeks. Regular upkeep ensures your hair system remains secure, clean, and styled perfectly — extending its lifespan and keeping it undetectable.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="q6">
-              <AccordionTrigger className="text-left font-medium text-mhts-charcoal">
-                Is SMP permanent?
-              </AccordionTrigger>
-              <AccordionContent className="text-foreground/80 font-body leading-relaxed">
-                SMP is considered semi-permanent. The results typically last 3–5 years before a touch-up is needed. It is a long-lasting, non-invasive solution for thinning hair and receding hairlines, requiring minimal ongoing maintenance.
-              </AccordionContent>
-            </AccordionItem>
+            {homeFaqs.map((f, i) => (
+              <AccordionItem key={i} value={`q${i + 1}`}>
+                <AccordionTrigger className="text-left font-medium text-mhts-charcoal">
+                  {f.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-foreground/80 font-body leading-relaxed">
+                  {f.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
           </Accordion>
           <div className="mt-10 text-center">
             <Link

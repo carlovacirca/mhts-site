@@ -19,10 +19,21 @@ import blogHairTransplantAltInline1 from "@/assets/blog-hair-transplant-alt-inli
 import blogHairTransplantAltInline2 from "@/assets/blog-hair-transplant-alt-inline-2.jpg";
 import blogHairTransplantAltInline3 from "@/assets/blog-hair-transplant-alt-inline-3.jpg";
 import blogHairTransplantAltInline4 from "@/assets/blog-hair-transplant-alt-inline-4.jpg";
+import blogHairSystemBondComparison from "@/assets/blog-hair-system-bond-comparison.jpg";
 
 const inlineImageOverrides: Record<string, string[]> = {
   "non-surgical-hair-replacement-men-uk": [blogNonSurgicalInline1, blogNonSurgicalInline2, blogNonSurgicalInline3],
   "best-hair-transplant-alternatives-non-surgical-solutions": [blogHairTransplantAltInline1, blogHairTransplantAltInline2, blogHairTransplantAltInline3, blogHairTransplantAltInline4],
+};
+
+// Posts that mark an exact inline-image position in their content with a bare
+// `[IMAGE]` line (parsed into a `{ type: "img" }` block) use this map instead
+// of the auto-distributed 4-slot system above.
+const explicitInlineImages: Record<string, { src: string; alt: string }> = {
+  "hair-system-maintenance-4-to-6-weeks": {
+    src: blogHairSystemBondComparison,
+    alt: "Comparison of a failing hair system bond versus a freshly maintained bond",
+  },
 };
 
 const formatDate = (iso: string) =>
@@ -38,7 +49,7 @@ const categoryRoutes: Record<string, string> = {
 };
 
 interface Block {
-  type: "h2" | "h3" | "p" | "ul" | "ol";
+  type: "h2" | "h3" | "p" | "ul" | "ol" | "img";
   text?: string;
   id?: string;
   items?: string[];
@@ -91,7 +102,10 @@ const parseContent = (md: string): Block[] => {
       flushList();
       continue;
     }
-    if (line.startsWith("## ")) {
+    if (line === "[IMAGE]") {
+      flushList();
+      blocks.push({ type: "img" });
+    } else if (line.startsWith("## ")) {
       flushList();
       const text = line.slice(3);
       blocks.push({ type: "h2", text, id: slugify(text) });
@@ -150,6 +164,7 @@ const BlogPostPage = () => {
     setOg("og:description", post.metaDescription);
     setOg("og:type", "article");
     setOg("og:url", window.location.href);
+    if (post.image) setOg("og:image", new URL(post.image, window.location.origin).href);
 
     // Article schema
     const ld = document.createElement("script");
@@ -166,7 +181,30 @@ const BlogPostPage = () => {
     });
     document.getElementById("article-jsonld")?.remove();
     document.head.appendChild(ld);
-    return () => document.getElementById("article-jsonld")?.remove();
+
+    // FAQPage schema
+    let faqLd: HTMLScriptElement | null = null;
+    if (post.faqs && post.faqs.length > 0) {
+      faqLd = document.createElement("script");
+      faqLd.type = "application/ld+json";
+      faqLd.id = "faq-jsonld";
+      faqLd.text = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: post.faqs.map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a },
+        })),
+      });
+      document.getElementById("faq-jsonld")?.remove();
+      document.head.appendChild(faqLd);
+    }
+
+    return () => {
+      document.getElementById("article-jsonld")?.remove();
+      document.getElementById("faq-jsonld")?.remove();
+    };
   }, [post]);
 
   useEffect(() => {
@@ -308,6 +346,23 @@ const BlogPostPage = () => {
                     {b.items!.map((it, j) => <li key={j}>{renderInline(it)}</li>)}
                   </ol>
                 );
+              if (b.type === "img") {
+                const explicit = explicitInlineImages[post.slug];
+                if (!explicit) return null;
+                return (
+                  <div
+                    key={key}
+                    className="not-prose my-8 aspect-[16/9] w-full rounded-lg border border-border bg-muted flex items-center justify-center overflow-hidden"
+                  >
+                    <img
+                      src={explicit.src}
+                      alt={explicit.alt}
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                );
+              }
               return (
                 <p key={key} className="my-4 leading-relaxed text-foreground/90">
                   {renderInline(b.text!)}
@@ -422,7 +477,8 @@ const BlogPostPage = () => {
           title="Hair System | Pros & Cons | Top 8 Facts Hair Loss | Non-Surgical Hair Replacement System Men UK"
           url="https://www.youtube.com/watch?v=ZDSasEXYfGw"
         />
-      ) : post.slug === "best-hair-transplant-alternatives-non-surgical-solutions" ? null : (
+      ) : post.slug === "best-hair-transplant-alternatives-non-surgical-solutions" ||
+        post.slug === "hair-system-maintenance-4-to-6-weeks" ? null : (
         <RelatedVideo title={post.title} />
       )}
 
