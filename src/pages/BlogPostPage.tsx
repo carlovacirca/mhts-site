@@ -20,6 +20,7 @@ import blogHairTransplantAltInline2 from "@/assets/blog-hair-transplant-alt-inli
 import blogHairTransplantAltInline3 from "@/assets/blog-hair-transplant-alt-inline-3.jpg";
 import blogHairTransplantAltInline4 from "@/assets/blog-hair-transplant-alt-inline-4.jpg";
 import blogHairSystemBondComparison from "@/assets/blog-hair-system-bond-comparison.jpg";
+import blogHairDensityComparison from "@/assets/blog-hair-density-comparison.jpg";
 
 const inlineImageOverrides: Record<string, string[]> = {
   "non-surgical-hair-replacement-men-uk": [blogNonSurgicalInline1, blogNonSurgicalInline2, blogNonSurgicalInline3],
@@ -33,6 +34,10 @@ const explicitInlineImages: Record<string, { src: string; alt: string }> = {
   "hair-system-maintenance-4-to-6-weeks": {
     src: blogHairSystemBondComparison,
     alt: "Comparison of a failing hair system bond versus a freshly maintained bond",
+  },
+  "hair-density-treatment-for-thinning-hair": {
+    src: blogHairDensityComparison,
+    alt: "Side by side comparison of thinning hair and fuller density after treatment at Men's Hair To Stay",
   },
 };
 
@@ -478,7 +483,8 @@ const BlogPostPage = () => {
           url="https://www.youtube.com/watch?v=ZDSasEXYfGw"
         />
       ) : post.slug === "best-hair-transplant-alternatives-non-surgical-solutions" ||
-        post.slug === "hair-system-maintenance-4-to-6-weeks" ? null : (
+        post.slug === "hair-system-maintenance-4-to-6-weeks" ||
+        post.slug === "hair-density-treatment-for-thinning-hair" ? null : (
         <RelatedVideo title={post.title} />
       )}
 
