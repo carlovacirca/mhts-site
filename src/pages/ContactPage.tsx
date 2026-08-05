@@ -66,7 +66,7 @@ const ContactPage = () => {
     setErrors({});
     const subject = encodeURIComponent(`Contact from ${result.data.name}`);
     const body = encodeURIComponent(
-      `Name: ${result.data.name}\nEmail: ${result.data.email}\nPhone: ${result.data.phone || "—"}\nService: ${result.data.service || "—"}\n\n${result.data.message}`
+      `Name: ${result.data.name}\nEmail: ${result.data.email}\nPhone: ${result.data.phone || ", "}\nService: ${result.data.service || ", "}\n\n${result.data.message}`
     );
     window.location.href = `mailto:georgesbarbers1991@gmail.com?subject=${subject}&body=${body}`;
     toast({ title: "Opening your email app", description: "Your message has been prepared. Send it to complete your enquiry." });
@@ -79,7 +79,7 @@ const ContactPage = () => {
         <div className="container mx-auto px-4 text-center max-w-3xl">
           <p className="text-mhts-white/60 uppercase tracking-[0.3em] text-xs mb-4 font-body">Get in Touch</p>
           <h1 className="text-3xl md:text-5xl font-light tracking-wide text-mhts-white leading-tight">
-            Contact Men's Hair To Stay — Hair Replacement Specialist in Amersham
+            Contact Men's Hair To Stay, Hair Replacement Specialist in Amersham
           </h1>
           <div className="w-12 h-px bg-mhts-white/40 mx-auto my-6" />
           <p className="text-mhts-white/70 font-body leading-relaxed">
@@ -136,7 +136,7 @@ const ContactPage = () => {
             <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-5" />
             <p className="text-foreground/75 font-body mt-5">All enquiries are 100% confidential. No obligation, no pressure.</p>
           </div>
-          {/* FORM TEMPORARILY DISABLED — pending Formspree integration. Restore this block once a Formspree form ID is wired up; handleSubmit/contactSchema/form state above are left intact for a quick restore.
+          {/* FORM TEMPORARILY DISABLED, pending Formspree integration. Restore this block once a Formspree form ID is wired up; handleSubmit/contactSchema/form state above are left intact for a quick restore.
           <form onSubmit={handleSubmit} noValidate className="bg-card border border-border rounded-sm p-6 md:p-8 space-y-5">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
@@ -201,7 +201,7 @@ const ContactPage = () => {
           <div className="text-center mb-8">
             <h2 className="text-3xl md:text-4xl text-mhts-charcoal font-light tracking-wide">Find Our Amersham Studio</h2>
             <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-5" />
-            <p className="text-foreground/75 font-body mt-5">11 Chesham Road, Amersham HP6 5HN — easy parking, discreet entrance.</p>
+            <p className="text-foreground/75 font-body mt-5">11 Chesham Road, Amersham HP6 5HN, easy parking, discreet entrance.</p>
           </div>
           <div className="rounded-sm overflow-hidden border border-border">
             <iframe
@@ -212,7 +212,7 @@ const ContactPage = () => {
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Men's Hair To Stay — Amersham studio location"
+              title="Men's Hair To Stay, Amersham studio location"
             />
           </div>
         </div>
@@ -243,7 +243,7 @@ const ContactPage = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { icon: ShieldCheck, title: "Free Consultations", desc: "Confidential, no-obligation hair loss assessment with a specialist — no pressure to proceed." },
+              { icon: ShieldCheck, title: "Free Consultations", desc: "Confidential, no-obligation hair loss assessment with a specialist, no pressure to proceed." },
               { icon: Award, title: "Specialist Expertise", desc: "Years of experience fitting hair systems, performing SMP and supporting men through hair loss." },
               { icon: Lock, title: "100% Confidential", desc: "Discreet private studio in Amersham. Your details and visits are kept completely confidential." },
             ].map((c) => (

@@ -19,7 +19,7 @@ import { useCanonical, useOpenGraph } from "@/lib/seo";
 const benefits = [
   { icon: MessageCircle, text: "Completely free, no-obligation consultation" },
   { icon: Search, text: "Expert assessment of your hair loss pattern and scalp" },
-  { icon: HeartHandshake, text: "Honest recommendations — we only suggest what is right for you" },
+  { icon: HeartHandshake, text: "Honest recommendations. We only suggest what is right for you" },
   { icon: UserCheck, text: "Professional fitting by trained hair system specialists" },
   { icon: Scissors, text: "Same-day styling included in your fitting appointment" },
   { icon: BookOpen, text: "Friendly, private and welcoming environment" },
@@ -64,7 +64,7 @@ const faqs = [
   },
   {
     q: "How soon after my consultation can I be fitted?",
-    a: "Fitting appointments are typically arranged within 2 to 4 weeks of your consultation, once your system has been customised.",
+    a: "Fitting appointments are typically arranged within 2 to 4 weeks of your consultation, once your system has been customized.",
   },
 ];
 
@@ -121,7 +121,7 @@ const InitialConsultationFittingPage = () => {
               <span className="font-normal">a Free Conversation.</span>
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
-              Your initial consultation and fitting at Men's Hair to Stay — no
+              Your initial consultation and fitting at Men's Hair to Stay, no
               pressure, no obligation, just honest expert advice and a plan built
               around you.
             </p>
@@ -153,7 +153,7 @@ const InitialConsultationFittingPage = () => {
               journey. During this appointment, our specialists assess your hair loss
               pattern, discuss your lifestyle and goals, and recommend the most suitable
               solution. Once you are ready to proceed, your fitting appointment is where
-              the transformation happens — your custom system is professionally applied
+              the transformation happens. Your custom system is professionally applied
               and styled to create a seamless, natural result.
             </p>
             <p>
@@ -213,7 +213,7 @@ const InitialConsultationFittingPage = () => {
           <p className="text-foreground/80 font-body leading-relaxed">
             Any man who is considering a hair system or wants to explore their hair
             restoration options. You do not need to have made any decisions before
-            attending — the consultation is designed to help you make the right choice
+            attending, the consultation is designed to help you make the right choice
             with confidence and clarity.
           </p>
         </div>

@@ -18,8 +18,8 @@ import ServicePricing from "@/components/ServicePricing";
 import hairSystemMaintenanceHero from "@/assets/hair-system-maintenance-hero.jpg";
 
 const pricingRows = [
-  { name: "Hair System Reattachment & Restyling", price: "£60", note: "Regroom · 1x adhesive" },
-  { name: "Hair System Base Clean & Reattach", price: "£65", note: "Regroom · 2x adhesive, includes base clean" },
+  { name: "Hair System Reattachment & Restyling", price: "Quoted at your consultation", note: "Regroom · 1x adhesive" },
+  { name: "Hair System Base Clean & Reattach", price: "Quoted at your consultation", note: "Regroom · 2x adhesive, includes base clean" },
   { name: "Hair System Full Maintenance Package", price: "Contact us for pricing" },
 ];
 
@@ -30,7 +30,6 @@ const pricingJsonLd = [
     serviceType: "Hair System Reattachment & Restyling (Regroom, 1x Adhesive)",
     provider: { "@type": "LocalBusiness", name: "Men's Hair To Stay" },
     areaServed: "Amersham",
-    offers: { "@type": "Offer", price: "60", priceCurrency: "GBP" },
   },
   {
     "@context": "https://schema.org",
@@ -38,7 +37,6 @@ const pricingJsonLd = [
     serviceType: "Hair System Base Clean & Reattach (Regroom, 2x Adhesive)",
     provider: { "@type": "LocalBusiness", name: "Men's Hair To Stay" },
     areaServed: "Amersham",
-    offers: { "@type": "Offer", price: "65", priceCurrency: "GBP" },
   },
 ];
 
@@ -157,7 +155,7 @@ const HairSystemMaintenancePage = () => {
               <span className="font-normal">Its Best.</span>
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
-              Professional hair system maintenance in Amersham — reattachment,
+              Professional hair system maintenance in Amersham, reattachment,
               cleaning, restyling and full maintenance packages to protect your
               investment.
             </p>
@@ -188,7 +186,7 @@ const HairSystemMaintenancePage = () => {
           </div>
           <div className="space-y-6 text-foreground/80 font-body leading-relaxed">
             <p>
-              A hair system is an investment — and like any investment, it needs
+              A hair system is an investment, and like any investment, it needs
               regular professional care to perform at its best. Hair system
               maintenance covers everything from reattachment and restyling through
               to deep base cleans and full maintenance packages that keep your
@@ -199,7 +197,7 @@ const HairSystemMaintenancePage = () => {
               maintenance services to suit every client and every system. Whether
               you need a quick reattach, a thorough base clean or a comprehensive
               maintenance session, our team keeps your hair system in perfect
-              condition — serving clients across Chesham, Beaconsfield,
+              condition, serving clients across Chesham, Beaconsfield,
               Rickmansworth, High Wycombe, Gerrards Cross and surrounding areas.
             </p>
           </div>

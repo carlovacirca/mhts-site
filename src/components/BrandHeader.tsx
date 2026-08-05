@@ -33,7 +33,7 @@ const BrandHeader = () => {
   const brandPath = "/";
   const onBrandPage = location.pathname === brandPath;
 
-  // Track active section via IntersectionObserver — only on the home page
+  // Track active section via IntersectionObserver, only on the home page
   useEffect(() => {
     if (!onBrandPage) {
       setActiveSection("");

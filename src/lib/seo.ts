@@ -146,7 +146,6 @@ export const localBusinessSchema = {
     addressCountry: "GB",
   },
   areaServed: ["Amersham", "Chesham", "High Wycombe", "Beaconsfield", "Buckinghamshire"],
-  priceRange: "££",
   openingHoursSpecification: [
     { "@type": "OpeningHoursSpecification", dayOfWeek: ["Tuesday", "Wednesday", "Thursday", "Friday"], opens: "09:30", closes: "17:00" },
   ],

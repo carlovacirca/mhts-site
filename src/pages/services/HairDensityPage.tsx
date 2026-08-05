@@ -40,7 +40,7 @@ const benefits = [
   { icon: Crosshair, text: "Targeted treatment for thinning and crown loss" },
   { icon: ShieldCheck, text: "No surgery or lengthy recovery" },
   { icon: Sparkles, text: "Natural-looking fullness and volume" },
-  { icon: UserCog, text: "Personalised to your exact hair loss pattern" },
+  { icon: UserCog, text: "Personalized to your exact hair loss pattern" },
   { icon: Activity, text: "Suitable for early to moderate stages of hair loss" },
   { icon: Zap, text: "Immediate visible improvement" },
   { icon: MapPin, text: "Ongoing support from local Amersham specialists" },
@@ -53,7 +53,7 @@ const steps = [
   },
   {
     title: "Treatment Plan",
-    desc: "A personalised plan is created targeting your specific areas of concern.",
+    desc: "A personalized plan is created targeting your specific areas of concern.",
   },
   {
     title: "Treatment Session",
@@ -150,7 +150,7 @@ const HairDensityPage = () => {
               <span className="font-normal">Real Confidence.</span>
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
-              Specialist hair density treatments for men in Amersham — targeted
+              Specialist hair density treatments for men in Amersham, targeted
               solutions for thinning hair, crown coverage and everything in between.
             </p>
             <Link
@@ -182,14 +182,13 @@ const HairDensityPage = () => {
             <p>
               Hair density treatments are specialist solutions designed for men who
               still have natural hair but are experiencing thinning, reduced volume
-              or patchy coverage — particularly around the crown. Rather than
+              or patchy coverage, particularly around the crown. Rather than
               replacing your hair entirely, density treatments work with what you
               have, enhancing fullness and coverage for a natural, thicker result.
             </p>
             <p>
               At Men's Hair to Stay in Amersham, we assess your individual hair
-              loss pattern and recommend the most effective density solution —
-              whether that is a targeted thinning hair treatment, crown coverage or
+              loss pattern and recommend the most effective density solution, whether that is a targeted thinning hair treatment, crown coverage or
               a full density consultation to map out your options. We serve men
               across Amersham, Chesham, Beaconsfield, Rickmansworth, Gerrards Cross
               and High Wycombe.
@@ -244,7 +243,7 @@ const HairDensityPage = () => {
           </div>
           <p className="text-foreground/80 font-body leading-relaxed">
             Hair density treatments are ideal for men who are in the early to
-            moderate stages of hair loss — particularly those noticing thinning at
+            moderate stages of hair loss, particularly those noticing thinning at
             the crown, a widening parting or reduced volume overall. If you are not
             yet ready for a full hair system or SMP but want to address your
             thinning hair now, a density treatment is the perfect starting point.

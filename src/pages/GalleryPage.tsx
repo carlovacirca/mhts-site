@@ -25,21 +25,21 @@ const items: GalleryItem[] = [
     after: after1,
     service: "Hair System Fitting & Application",
     category: "hair-systems",
-    alt: "Before and after hair system fitting — Men's Hair To Stay Amersham",
+    alt: "Before and after hair system fitting, Men's Hair To Stay Amersham",
   },
   {
     before: before2,
     after: after2,
     service: "Hair System Reattachment & Restyle",
     category: "maintenance",
-    alt: "Before and after hair system reattachment and restyle — Men's Hair To Stay Amersham",
+    alt: "Before and after hair system reattachment and restyle, Men's Hair To Stay Amersham",
   },
   {
     before: before3,
     after: after3,
     service: "Hair System Fitting and Style",
     category: "smp",
-    alt: "Before and after full scalp micropigmentation treatment — Men's Hair To Stay Amersham",
+    alt: "Before and after full scalp micropigmentation treatment, Men's Hair To Stay Amersham",
   },
 ];
 
@@ -62,7 +62,7 @@ const GalleryPage = () => {
         "@type": "ImageObject",
         contentUrl: it.after,
         caption: it.alt,
-        description: `${it.service} — before and after at Men's Hair To Stay, Amersham.`,
+        description: `${it.service}, before and after at Men's Hair To Stay, Amersham.`,
       })),
     ],
   });
@@ -78,7 +78,7 @@ const GalleryPage = () => {
             Real Results
           </p>
           <h1 className="text-3xl md:text-5xl font-light tracking-wide text-mhts-white leading-tight">
-            Hair Replacement Before &amp; After Gallery — Real Results
+            Hair Replacement Before &amp; After Gallery, Real Results
           </h1>
           <div className="w-12 h-px bg-mhts-white/40 mx-auto my-6" />
           <p className="text-mhts-white/70 font-body leading-relaxed">
@@ -109,7 +109,7 @@ const GalleryPage = () => {
                     <div className="relative">
                       <img
                         src={item.before}
-                        alt={`Before — ${item.service}`}
+                        alt={`Before, ${item.service}`}
                         loading="lazy"
                         className="w-full h-64 object-cover object-top"
                       />
@@ -120,7 +120,7 @@ const GalleryPage = () => {
                     <div className="relative">
                       <img
                         src={item.after}
-                        alt={`After — ${item.service}`}
+                        alt={`After, ${item.service}`}
                         loading="lazy"
                         className="w-full h-64 object-cover object-top"
                       />
@@ -271,13 +271,13 @@ const GalleryPage = () => {
           <div className="max-w-5xl w-full" onClick={(e) => e.stopPropagation()}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               <div className="relative">
-                <img src={lightbox.before} alt={`Before — ${lightbox.service}`} className="w-full max-h-[80vh] object-contain bg-black" />
+                <img src={lightbox.before} alt={`Before, ${lightbox.service}`} className="w-full max-h-[80vh] object-contain bg-black" />
                 <span className="absolute top-3 left-3 bg-mhts-charcoal/90 text-mhts-white text-xs uppercase tracking-widest px-3 py-1 rounded-sm font-body">
                   Before
                 </span>
               </div>
               <div className="relative">
-                <img src={lightbox.after} alt={`After — ${lightbox.service}`} className="w-full max-h-[80vh] object-contain bg-black" />
+                <img src={lightbox.after} alt={`After, ${lightbox.service}`} className="w-full max-h-[80vh] object-contain bg-black" />
                 <span className="absolute top-3 left-3 bg-mhts-white/95 text-mhts-charcoal text-xs uppercase tracking-widest px-3 py-1 rounded-sm font-body">
                   After
                 </span>

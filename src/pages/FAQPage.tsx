@@ -34,12 +34,12 @@ const faqs: FAQ[] = [
   {
     category: "Hair Systems",
     q: "How long do hair systems last?",
-    a: "The lifespan of a hair system depends on the quality, maintenance, and daily wear. Our premium human hair systems typically last 6–12 months with proper care and regular maintenance appointments. Synthetic hair systems generally last 3–6 months. Factors affecting longevity include adhesive quality, cleaning routine, styling habits, and environmental exposure. We recommend monthly maintenance visits to ensure your hair replacement system remains secure, natural-looking, and in optimal condition.",
+    a: "The lifespan of a hair system depends on the quality, maintenance, and daily wear. Our premium human hair systems typically last 6 to 12 months with proper care and regular maintenance appointments. Synthetic hair systems generally last 3 to 6 months. Factors affecting longevity include adhesive quality, cleaning routine, styling habits, and environmental exposure. We recommend monthly maintenance visits to ensure your hair replacement system remains secure, natural-looking, and in optimal condition.",
   },
   {
     category: "Hair Systems",
     q: "Are hair systems detectable or do they look natural?",
-    a: "Modern hair systems are virtually undetectable when professionally fitted and maintained. Our custom hair replacement solutions feature ultra-thin base materials, hand-tied hair strands, and natural hairlines that mimic real hair growth patterns. The key to an undetectable hair system is customisation — we match hair colour, texture, density, and wave pattern to your existing hair. With proper application by our trained hair restoration specialists, even close inspection won't reveal you're wearing a hair system.",
+    a: "Modern hair systems are virtually undetectable when professionally fitted and maintained. Our custom hair replacement solutions feature ultra-thin base materials, hand-tied hair strands, and natural hairlines that mimic real hair growth patterns. The key to an undetectable hair system is customization. We match hair colour, texture, density, and wave pattern to your existing hair. With proper application by our trained hair restoration specialists, even close inspection won't reveal you're wearing a hair system.",
   },
   {
     category: "Hair Systems",
@@ -49,7 +49,7 @@ const faqs: FAQ[] = [
   {
     category: "Hair Systems",
     q: "How much does a hair system cost?",
-    a: "Hair system cost varies based on customisation, hair type, base material, and maintenance requirements. Initial investment for a custom hair replacement system ranges from £400–£2,400, with monthly maintenance costs between £80–£240. While this may seem significant, compared to hair transplant surgery costing £3,000–£12,000, hair systems offer an affordable, non-invasive alternative with immediate results. We offer financing options and package deals for long-term clients seeking ongoing hair restoration solutions.",
+    a: "Hair system cost varies based on the base material, the hair type and quality, the density, the size of the area covered, whether the system is stock or custom made, and your maintenance schedule. Because every one of those varies by person, we quote after an assessment rather than off a price list. You get a specific, personalized figure at your free consultation, covering both the system and what a full year of maintenance looks like, with no obligation to use it. Compared with hair transplant surgery, a hair system spreads the investment over a predictable rhythm rather than concentrating it in one procedure, needs no surgery, and gives you a visible result the same day. Financing options and packages for long-term clients are available.",
   },
   {
     category: "Hair Systems",
@@ -59,7 +59,7 @@ const faqs: FAQ[] = [
   {
     category: "Hair Systems",
     q: "How is a hair system attached to my head?",
-    a: "Hair system attachment uses medical-grade adhesives, tapes, or a combination of both methods. The attachment process involves thorough scalp preparation, including cleaning and removing oils, followed by precise application of bonding agents to ensure a secure hold lasting 2–6 weeks. Our hair restoration specialists select the appropriate attachment method based on your scalp condition, lifestyle, and wearing preferences. Some clients prefer liquid adhesives for maximum hold, while others choose tape for easier removal and reapplication during maintenance appointments.",
+    a: "Hair system attachment uses medical-grade adhesives, tapes, or a combination of both methods. The attachment process involves thorough scalp preparation, including cleaning and removing oils, followed by precise application of bonding agents to ensure a secure hold lasting 2 to 6 weeks. Our hair restoration specialists select the appropriate attachment method based on your scalp condition, lifestyle, and wearing preferences. Some clients prefer liquid adhesives for maximum hold, while others choose tape for easier removal and reapplication during maintenance appointments.",
   },
   {
     category: "Hair Systems",
@@ -69,7 +69,7 @@ const faqs: FAQ[] = [
   {
     category: "Hair Systems",
     q: "How often do I need maintenance for my hair system?",
-    a: "Regular hair system maintenance is essential for optimal appearance and longevity. We recommend professional maintenance appointments every 3–4 weeks, which include cleaning the scalp, removing residual adhesive, reattaching the hair system with fresh bonding agents, trimming, styling, and blending with your natural hair. Between appointments, daily home care involves gentle washing, conditioning, and minimal heat styling. Consistent maintenance ensures your non-surgical hair replacement remains secure, comfortable, and undetectable while preventing scalp issues and extending the hair system's lifespan.",
+    a: "Regular hair system maintenance is essential for optimal appearance and longevity. We recommend professional maintenance appointments every 3 to 4 weeks, which include cleaning the scalp, removing residual adhesive, reattaching the hair system with fresh bonding agents, trimming, styling, and blending with your natural hair. Between appointments, daily home care involves gentle washing, conditioning, and minimal heat styling. Consistent maintenance ensures your non-surgical hair replacement remains secure, comfortable, and undetectable while preventing scalp issues and extending the hair system's lifespan.",
   },
   {
     category: "Hair Systems",
@@ -79,42 +79,42 @@ const faqs: FAQ[] = [
   {
     category: "SMP",
     q: "What is scalp micropigmentation (SMP)?",
-    a: "Scalp micropigmentation (SMP) is a non-surgical hair loss treatment that uses specialised micro-needles to deposit pigment into the scalp's dermal layer, creating the appearance of natural hair follicles. This innovative hair restoration technique effectively treats male pattern baldness, female hair loss, alopecia, thinning hair, and scalp scarring. SMP provides the illusion of a fuller head of hair, defined hairline, or closely-shaved hairstyle. Unlike temporary solutions, scalp micropigmentation offers long-lasting results, typically lasting 3–5 years before requiring touch-ups.",
+    a: "Scalp micropigmentation (SMP) is a non-surgical hair loss treatment that uses specialized micro-needles to deposit pigment into the scalp's dermal layer, creating the appearance of natural hair follicles. This innovative hair restoration technique effectively treats male pattern baldness, female hair loss, alopecia, thinning hair, and scalp scarring. SMP provides the illusion of a fuller head of hair, defined hairline, or closely-shaved hairstyle. Unlike temporary solutions, scalp micropigmentation offers long-lasting results, typically lasting 3 to 5 years before requiring touch-ups.",
   },
   {
     category: "SMP",
     q: "How long does scalp micropigmentation last?",
-    a: "Scalp micropigmentation results typically last 3–5 years before fading requires touch-up sessions. Longevity depends on factors including skin type, sun exposure, skincare routine, and pigment quality. Unlike tattoos that turn blue or green, our specialised SMP pigments are formulated to fade naturally without colour change. Most clients schedule touch-up appointments every 3–4 years to maintain optimal density and colour saturation. Proper aftercare, including sun protection and gentle cleansing, significantly extends the lifespan of your scalp micropigmentation treatment.",
+    a: "Scalp micropigmentation results typically last 3 to 5 years before fading requires touch-up sessions. Longevity depends on factors including skin type, sun exposure, skincare routine, and pigment quality. Unlike tattoos that turn blue or green, our specialized SMP pigments are formulated to fade naturally without colour change. Most clients schedule touch-up appointments every 3 to 4 years to maintain optimal density and colour saturation. Proper aftercare, including sun protection and gentle cleansing, significantly extends the lifespan of your scalp micropigmentation treatment.",
   },
   {
     category: "SMP",
     q: "Is scalp micropigmentation painful?",
-    a: "Scalp micropigmentation discomfort is minimal and well-tolerated by most clients. The sensation is often described as light scratching or tingling rather than pain. Our SMP technicians use specialised micro-needles that penetrate only the dermal layer, making the procedure less painful than traditional tattooing. Most clients rate discomfort at 2–4 on a 10-point scale. We offer topical numbing agents for sensitive individuals. The scalp micropigmentation procedure is performed over 2–3 sessions, allowing your scalp to rest between treatments and ensuring your comfort throughout the hair restoration process.",
+    a: "Scalp micropigmentation discomfort is minimal and well-tolerated by most clients. The sensation is often described as light scratching or tingling rather than pain. Our SMP technicians use specialized micro-needles that penetrate only the dermal layer, making the procedure less painful than traditional tattooing. Most clients rate discomfort at 2 to 4 on a 10-point scale. We offer topical numbing agents for sensitive individuals. The scalp micropigmentation procedure is performed over 2 to 3 sessions, allowing your scalp to rest between treatments and ensuring your comfort throughout the hair restoration process.",
   },
   {
     category: "SMP",
     q: "How many sessions does SMP require?",
-    a: "Complete scalp micropigmentation treatment typically requires 2–3 sessions spaced 10–14 days apart. The first session establishes the hairline, density pattern, and base layer of pigmentation. The second session adds depth, density, and blending. A third session may be scheduled for perfecting details and achieving optimal results. This gradual approach allows proper healing between treatments and ensures natural-looking results. Each SMP session lasts 2–4 hours depending on the treatment area size. Our hair restoration specialists customise the number of sessions based on your hair loss pattern, desired density, and skin characteristics.",
+    a: "Complete scalp micropigmentation treatment typically requires 2 to 3 sessions spaced 10 to 14 days apart. The first session establishes the hairline, density pattern, and base layer of pigmentation. The second session adds depth, density, and blending. A third session may be scheduled for perfecting details and achieving optimal results. This gradual approach allows proper healing between treatments and ensures natural-looking results. Each SMP session lasts 2 to 4 hours depending on the treatment area size. Our hair restoration specialists customize the number of sessions based on your hair loss pattern, desired density, and skin characteristics.",
   },
   {
     category: "SMP",
     q: "Can SMP work for women experiencing hair loss?",
-    a: "Scalp micropigmentation is highly effective for women with thinning hair, female pattern hair loss, or alopecia. Unlike men who often choose the shaved head appearance, women typically receive SMP density treatment that creates the illusion of thicker hair by filling gaps between existing hair strands. This technique adds the appearance of fuller, denser hair without altering your hairstyle. SMP for women works exceptionally well for widening parts, thinning crowns, and areas of diffuse hair loss. Our female hair restoration specialists customise pigment colour and density patterns to complement your natural hair and achieve seamless, undetectable results.",
+    a: "Scalp micropigmentation is highly effective for women with thinning hair, female pattern hair loss, or alopecia. Unlike men who often choose the shaved head appearance, women typically receive SMP density treatment that creates the illusion of thicker hair by filling gaps between existing hair strands. This technique adds the appearance of fuller, denser hair without altering your hairstyle. SMP for women works exceptionally well for widening parts, thinning crowns, and areas of diffuse hair loss. Our female hair restoration specialists customize pigment colour and density patterns to complement your natural hair and achieve seamless, undetectable results.",
   },
   {
     category: "SMP",
     q: "What's the difference between SMP and a hair tattoo?",
-    a: "Scalp micropigmentation differs significantly from traditional hair tattoos. SMP uses specialised pigments formulated to match natural hair follicle appearance and fade naturally without colour change, while tattoo ink often turns blue or green over time. SMP technicians employ specific needle depths, dot patterns, and application techniques that create realistic hair follicle impressions, whereas tattoos penetrate deeper skin layers with different artistic goals. SMP equipment, training, and artistic approach are specifically designed for hair restoration, resulting in natural-looking results that seamlessly blend with existing hair.",
+    a: "Scalp micropigmentation differs significantly from traditional hair tattoos. SMP uses specialized pigments formulated to match natural hair follicle appearance and fade naturally without colour change, while tattoo ink often turns blue or green over time. SMP technicians employ specific needle depths, dot patterns, and application techniques that create realistic hair follicle impressions, whereas tattoos penetrate deeper skin layers with different artistic goals. SMP equipment, training, and artistic approach are specifically designed for hair restoration, resulting in natural-looking results that seamlessly blend with existing hair.",
   },
   {
     category: "SMP",
     q: "How much does scalp micropigmentation cost?",
-    a: "Scalp micropigmentation cost varies based on treatment area size, hair loss extent, and session number required. Complete SMP treatment typically ranges from £1,200–£3,200. Hairline restoration may cost £1,200–£2,000, while full scalp coverage for advanced baldness ranges £2,400–£3,200. Compared to hair transplant surgery costing £3,000–£12,000 with variable results, SMP offers an affordable, predictable, non-surgical alternative. We provide free consultations with detailed pricing based on your specific hair restoration needs. Many clients find SMP the most cost-effective long-term solution for hair loss concerns.",
+    a: "Scalp micropigmentation cost varies based on the size of the treatment area, the extent of your hair loss and the number of sessions needed to build the density you want. Hairline restoration sits at the lower end, density work under thinning hair sits in the middle, and full scalp coverage for advanced loss sits at the top. Compared with hair transplant surgery, SMP is non-surgical, has no meaningful downtime and gives a predictable result you can see from the first session. Ongoing cost is minimal, since a touch-up every few years is a fraction of the original treatment. We provide free consultations with detailed, personalized pricing based on your specific needs.",
   },
   {
     category: "SMP",
     q: "What is the recovery time after SMP?",
-    a: "Scalp micropigmentation recovery is minimal with most clients resuming normal activities immediately. The scalp may appear slightly red for 2–3 days post-treatment, similar to mild sunburn. We recommend avoiding intense exercise, swimming, saunas, and direct sun exposure for 4–5 days following each SMP session. The pigmented area should not be scratched or picked during healing. Complete healing occurs within 7–10 days. Unlike hair transplant surgery requiring weeks of recovery, SMP allows you to maintain your regular schedule with minimal disruption while achieving natural-looking hair restoration results.",
+    a: "Scalp micropigmentation recovery is minimal with most clients resuming normal activities immediately. The scalp may appear slightly red for 2 to 3 days post-treatment, similar to mild sunburn. We recommend avoiding intense exercise, swimming, saunas, and direct sun exposure for 4 to 5 days following each SMP session. The pigmented area should not be scratched or picked during healing. Complete healing occurs within 7 to 10 days. Unlike hair transplant surgery requiring weeks of recovery, SMP allows you to maintain your regular schedule with minimal disruption while achieving natural-looking hair restoration results.",
   },
   {
     category: "SMP",
@@ -124,7 +124,7 @@ const faqs: FAQ[] = [
   {
     category: "General",
     q: "Can I combine hair systems with scalp micropigmentation?",
-    a: "Combining hair systems with scalp micropigmentation creates optimal hair restoration results for many clients. SMP provides a realistic scalp appearance beneath thinner hair system base materials, enhancing the illusion of natural hair growth. This combination works excellently for clients wanting flexibility — wearing a hair system for length and volume while having SMP provide coverage when the system is removed. SMP also creates a defined hairline that guides hair system placement and improves overall naturalness. Our hair restoration specialists can design a customised treatment plan combining both solutions for maximum effectiveness.",
+    a: "Combining hair systems with scalp micropigmentation creates optimal hair restoration results for many clients. SMP provides a realistic scalp appearance beneath thinner hair system base materials, enhancing the illusion of natural hair growth. This combination works excellently for clients wanting flexibility. Wearing a hair system for length and volume while having SMP provide coverage when the system is removed. SMP also creates a defined hairline that guides hair system placement and improves overall naturalness. Our hair restoration specialists can design a customized treatment plan combining both solutions for maximum effectiveness.",
   },
 ];
 
@@ -180,7 +180,7 @@ const FAQPage = () => {
   }, [activeCat, query]);
 
   const shareUrl = typeof window !== "undefined" ? window.location.href : "";
-  const shareText = "Hair Systems & SMP FAQ — Men's Hair To Stay";
+  const shareText = "Hair Systems & SMP FAQ, Men's Hair To Stay";
 
   return (
     <div className="bg-mhts-light min-h-screen print:bg-white">
@@ -442,7 +442,7 @@ const FAQPage = () => {
               Call or email us and our hair restoration team will get back to you.
             </p>
           </div>
-          {/* FORM TEMPORARILY DISABLED — pending Formspree integration. Restore this block once a Formspree form ID is wired up.
+          {/* FORM TEMPORARILY DISABLED, pending Formspree integration. Restore this block once a Formspree form ID is wired up.
           <form
             onSubmit={(e) => {
               e.preventDefault();

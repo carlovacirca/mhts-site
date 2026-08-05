@@ -20,7 +20,7 @@ const benefits = [
   { icon: MessageCircle, text: "Free and completely no-obligation" },
   { icon: Search, text: "In-depth scalp and density assessment" },
   { icon: Eye, text: "Identification of thinning patterns" },
-  { icon: HeartHandshake, text: "Personalised treatment recommendations" },
+  { icon: HeartHandshake, text: "Personalized treatment recommendations" },
   { icon: ShieldCheck, text: "Honest advice with no hard sell" },
   { icon: BookOpen, text: "Clear explanation of all available options" },
   { icon: MapPin, text: "Local to Amersham" },
@@ -32,7 +32,7 @@ const steps = [
     desc: "We examine your scalp and existing hair density in detail.",
   },
   {
-    title: "Pattern Analysis",
+    title: "Pattern Analyzis",
     desc: "We identify your thinning pattern and likely progression.",
   },
   {
@@ -40,7 +40,7 @@ const steps = [
     desc: "We walk you through all relevant density treatment options.",
   },
   {
-    title: "Personalised Plan",
+    title: "Personalized Plan",
     desc: "A tailored treatment plan is recommended based on your assessment.",
   },
   {
@@ -117,8 +117,8 @@ const DensityTreatmentConsultationPage = () => {
               <span className="font-normal">Find Your Solution.</span>
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
-              A free density treatment consultation in Amersham — expert assessment
-              of your thinning hair and a personalised plan to restore fullness and
+              A free density treatment consultation in Amersham, expert assessment
+              of your thinning hair and a personalized plan to restore fullness and
               confidence.
             </p>
             <Link
@@ -207,7 +207,7 @@ const DensityTreatmentConsultationPage = () => {
           </div>
           <p className="text-foreground/80 font-body leading-relaxed">
             Men who are noticing their hair thinning, a widening parting, reduced volume
-            or crown coverage concerns — and who want professional guidance on what to do
+            or crown coverage concerns, and who want professional guidance on what to do
             next.
           </p>
         </div>

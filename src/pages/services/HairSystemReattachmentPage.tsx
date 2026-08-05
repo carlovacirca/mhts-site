@@ -22,7 +22,7 @@ const benefits = [
   { icon: Scissors, text: "Restyling included in every appointment" },
   { icon: Sparkles, text: "Keeps your system looking freshly fitted" },
   { icon: CalendarClock, text: "Recommended every 4 to 6 weeks" },
-  { icon: Clock, text: "Quick appointment — typically 60 to 90 minutes" },
+  { icon: Clock, text: "Quick appointment, typically 60 to 90 minutes" },
   { icon: MapPin, text: "Available from our Amersham studio" },
 ];
 
@@ -117,7 +117,7 @@ const HairSystemReattachmentPage = () => {
               <span className="font-normal">Looking Its Best Again.</span>
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
-              Professional hair system reattachment and restyling in Amersham — quick, expert appointments
+              Professional hair system reattachment and restyling in Amersham, quick, expert appointments
               to keep your system secure and your look sharp.
             </p>
             <Link
@@ -147,7 +147,7 @@ const HairSystemReattachmentPage = () => {
               Over time, the adhesive bonding your hair system to your scalp naturally breaks down.
               Our reattachment and restyling service removes your system safely, prepares both
               the system base and your scalp, applies fresh adhesive and reattaches your
-              system securely — finishing with a professional restyle to make it look
+              system securely, finishing with a professional restyle to make it look
               freshly fitted.
             </p>
             <p>

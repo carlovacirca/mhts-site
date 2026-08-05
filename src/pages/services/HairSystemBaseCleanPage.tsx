@@ -50,7 +50,7 @@ const steps = [
 const faqs = [
   {
     q: "How is this different from a standard reattachment?",
-    a: "A base clean and reattach includes a thorough deep clean of your system base to remove all adhesive residue and product build-up — not just a standard surface clean.",
+    a: "A base clean and reattach includes a thorough deep clean of your system base to remove all adhesive residue and product build-up, not just a standard surface clean.",
   },
   {
     q: "How often should I book a base clean?",
@@ -115,7 +115,7 @@ const HairSystemBaseCleanPage = () => {
               <span className="font-normal">Perfect Reattach.</span>
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
-              Professional hair system base cleaning and reattachment in Amersham — a thorough service
+              Professional hair system base cleaning and reattachment in Amersham, a thorough service
               that removes build-up, restores your base and reattaches your system to perfection.
             </p>
             <Link
@@ -145,7 +145,7 @@ const HairSystemBaseCleanPage = () => {
               Over time, adhesive residue, product build-up and natural oils accumulate
               on your hair system base, which can affect both the look and longevity
               of your system. Our base clean and reattach service goes deeper than
-              a standard reattachment — thoroughly cleaning and restoring your system
+              a standard reattachment, thoroughly cleaning and restoring your system
               base before professionally reattaching it for a fresh, secure and natural-looking result.
             </p>
             <p>

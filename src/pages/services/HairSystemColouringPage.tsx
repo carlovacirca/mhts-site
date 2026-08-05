@@ -29,7 +29,7 @@ const benefits = [
 const steps = [
   {
     title: "Colour Assessment",
-    desc: "We analyse your natural hair colour, including any grey and tonal variation.",
+    desc: "We analyze your natural hair colour, including any grey and tonal variation.",
   },
   {
     title: "Colour Mixing",
@@ -52,7 +52,7 @@ const steps = [
 const faqs = [
   {
     q: "Can you match grey hair or mixed tones?",
-    a: "Yes. We specialise in blending grey and matching complex, multi-tonal natural hair colours.",
+    a: "Yes. We specialize in blending grey and matching complex, multi-tonal natural hair colours.",
   },
   {
     q: "How often will I need my system colour refreshed?",
@@ -117,7 +117,7 @@ const HairSystemColouringPage = () => {
               <span className="font-normal">Every Time.</span>
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
-              Professional hair system colouring in Amersham — expert colour matching,
+              Professional hair system colouring in Amersham, expert colour matching,
               toning and blending so your system looks completely natural against your
               own hair.
             </p>
@@ -147,8 +147,7 @@ const HairSystemColouringPage = () => {
             <p>
               Getting the colour right is one of the most critical factors in making a
               hair system look completely natural. Our hair system colouring service
-              ensures your unit is precisely matched to your natural hair colour —
-              including any grey, highlights or subtle tonal variation — so there is no
+              ensures your unit is precisely matched to your natural hair colour, including any grey, highlights or subtle tonal variation, so there is no
               visible difference between your system and your own hair.
             </p>
             <p>

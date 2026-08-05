@@ -64,7 +64,7 @@ const steps = [
 const faqs = [
   {
     q: "What is included in the full maintenance package?",
-    a: "Everything — base clean, adhesive removal, scalp prep, fresh reattachment, wash, condition and a full restyle.",
+    a: "Everything, base clean, adhesive removal, scalp prep, fresh reattachment, wash, condition and a full restyle.",
   },
   {
     q: "How long does the full package appointment take?",
@@ -137,8 +137,7 @@ const HairSystemFullMaintenancePage = () => {
               <span className="font-normal">One Appointment.</span>
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
-              The complete hair system maintenance package at Men's Hair to Stay in Amersham —
-              full care, professional results and a system that always looks its absolute best.
+              The complete hair system maintenance package at Men's Hair to Stay in Amersham, full care, professional results and a system that always looks its absolute best.
             </p>
             <Link
               to="/#mhts-book"
@@ -167,8 +166,7 @@ const HairSystemFullMaintenancePage = () => {
               Our hair system full maintenance package is the most comprehensive care option
               available for your hair system. In a single appointment, your system receives
               a full base clean, professional adhesive removal, scalp preparation, fresh
-              reattachment, a wash and condition, and a complete professional restyle —
-              leaving you walking out looking and feeling as if your system was just
+              reattachment, a wash and condition, and a complete professional restyle, leaving you walking out looking and feeling as if your system was just
               freshly fitted.
             </p>
             <p>

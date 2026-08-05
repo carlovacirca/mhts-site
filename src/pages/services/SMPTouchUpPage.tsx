@@ -117,7 +117,7 @@ const SMPTouchUpPage = () => {
               <span className="font-normal">Fresh and Sharp.</span>
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
-              SMP touch-up sessions in Amersham — refresh your scalp micropigmentation
+              SMP touch-up sessions in Amersham, refresh your scalp micropigmentation
               and restore that just-treated definition whenever you need it.
             </p>
             <Link
@@ -147,14 +147,14 @@ const SMPTouchUpPage = () => {
               Over time, scalp micropigmentation pigment naturally fades as part of
               the body's healing process and exposure to sunlight and the elements. A
               touch-up session refreshes and restores your SMP to its original
-              sharpness — maintaining the density, hairline definition and overall
+              sharpness, maintaining the density, hairline definition and overall
               appearance of your treatment.
             </p>
             <p>
               Touch-up sessions are typically shorter than the original treatment and
               focus on refreshing the areas where pigment has lightened most. Men's
               Hair to Stay offers SMP touch-up sessions for existing clients and for
-              men who have had SMP performed elsewhere — serving clients across
+              men who have had SMP performed elsewhere, serving clients across
               Amersham, Chesham, Beaconsfield, High Wycombe and surrounding areas.
             </p>
           </div>

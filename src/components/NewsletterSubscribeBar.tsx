@@ -12,7 +12,7 @@ const NewsletterSubscribeBar = () => {
         <p className="text-sm text-muted-foreground mb-4">
           Call or email us and we'll add you to our list for tips, guides and exclusive offers.
         </p>
-        {/* FORM TEMPORARILY DISABLED — pending Formspree integration. Restore this block once a Formspree form ID is wired up.
+        {/* FORM TEMPORARILY DISABLED, pending Formspree integration. Restore this block once a Formspree form ID is wired up.
         <div className="flex flex-col sm:flex-row gap-2">
           <Input
             type="email"

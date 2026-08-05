@@ -76,7 +76,7 @@ const PrivacyPolicyPage = () => {
               <li>Respond to your enquiry and answer your questions</li>
               <li>Arrange and manage consultations and appointments</li>
               <li>
-                Send you newsletter updates and offers — but only if you've opted in to
+                Send you newsletter updates and offers, but only if you've opted in to
                 receive them
               </li>
             </ul>
@@ -120,13 +120,12 @@ const PrivacyPolicyPage = () => {
               Our online booking calendar (provided by Trafft) sets cookies once you accept
               them via the cookie banner on this site, including Google Ads remarketing
               cookies that may be used to show you relevant ads on other websites. These
-              cookies are only set after you actively accept them — if you decline, the
+              cookies are only set after you actively accept them, if you decline, the
               booking widget won't load, and you can still reach us by phone or email
               instead.
             </p>
             <p>
-              We also use Google Analytics 4 (GA4) to understand how visitors use this site
-              — for example, which pages are popular and how people navigate around — so we
+              We also use Google Analytics 4 (GA4) to understand how visitors use this site, for example, which pages are popular and how people navigate around, so we
               can keep improving it. Like the booking widget, GA4 only loads and sets cookies
               once you accept via the cookie banner; if you decline, it never loads. You can
               change your mind at any time by clearing your browser's cookies for this site,
@@ -141,7 +140,7 @@ const PrivacyPolicyPage = () => {
             <p>
               We keep enquiry and contact form submissions for as long as reasonably needed
               to respond to you and, where relevant, to keep a record of past clients and
-              appointments — typically no longer than 24 months from your last contact with
+              appointments, typically no longer than 24 months from your last contact with
               us. If you've subscribed to our newsletter, we'll keep your email address
               until you unsubscribe or ask us to remove it.
             </p>

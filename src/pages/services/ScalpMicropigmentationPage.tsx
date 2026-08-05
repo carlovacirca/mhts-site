@@ -41,7 +41,7 @@ const benefits = [
   { icon: Users, text: "Suitable for all skin tones and stages of hair loss" },
   { icon: ShieldCheck, text: "No surgery, no scarring, no recovery time" },
   { icon: Scissors, text: "Covers scars from previous hair transplants" },
-  { icon: Droplet, text: "Low daily maintenance — just keep it moisturised" },
+  { icon: Droplet, text: "Low daily maintenance, just keep it moisturized" },
   { icon: Zap, text: "Immediate confidence boost after first session" },
   { icon: MapPin, text: "Locally available in Amersham" },
 ];
@@ -65,7 +65,7 @@ const steps = [
   },
   {
     title: "Aftercare",
-    desc: "Simple moisturising routine and sun protection to preserve your results.",
+    desc: "Simple moisturizing routine and sun protection to preserve your results.",
   },
 ];
 
@@ -155,7 +155,7 @@ const ScalpMicropigmentationPage = () => {
               <span className="font-normal">Every Single Day.</span>
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
-              Scalp micropigmentation in Amersham — a permanent, low-maintenance
+              Scalp micropigmentation in Amersham, a permanent, low-maintenance
               solution for hair loss that creates the appearance of a full,
               closely-shaved head.
             </p>
@@ -190,14 +190,14 @@ const ScalpMicropigmentationPage = () => {
               treatment that uses micro-needles to deposit pigment into the scalp,
               replicating the appearance of hair follicles. The result is a
               realistic, defined hairline and the look of a closely cropped head of
-              hair — even on a completely bald scalp.
+              hair, even on a completely bald scalp.
             </p>
             <p>
               Unlike tattoos, SMP uses specific pigments and techniques designed
               exclusively for the scalp, ensuring a natural result that does not
               turn blue or green over time. At Men's Hair to Stay in Amersham, our
               SMP treatments are tailored to your skin tone, head shape and desired
-              hairline — serving clients across Chesham, Beaconsfield,
+              hairline, serving clients across Chesham, Beaconsfield,
               Rickmansworth, High Wycombe, Gerrards Cross and beyond.
             </p>
           </div>

@@ -20,7 +20,7 @@ const benefits = [
   { icon: Sparkles, text: "Works with your natural hair" },
   { icon: Eye, text: "Immediate visible improvement in density and volume" },
   { icon: HeartPulse, text: "Non-surgical with no recovery time" },
-  { icon: UserCheck, text: "Personalised to your hair loss pattern" },
+  { icon: UserCheck, text: "Personalized to your hair loss pattern" },
   { icon: CheckCircle, text: "Natural-looking fuller appearance" },
   { icon: CalendarClock, text: "Ongoing treatment plans available" },
   { icon: MapPin, text: "Locally available in Amersham" },
@@ -33,7 +33,7 @@ const steps = [
   },
   {
     title: "Treatment Plan",
-    desc: "A personalised plan targeting your specific areas of concern.",
+    desc: "A personalized plan targeting your specific areas of concern.",
   },
   {
     title: "Treatment Session",
@@ -121,7 +121,7 @@ const ThinningHairTreatmentPage = () => {
               <span className="font-normal">Without the Wait.</span>
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
-              Specialist thinning hair treatment for men in Amersham — targeted solutions
+              Specialist thinning hair treatment for men in Amersham, targeted solutions
               that add real density and restore confidence from your very first appointment.
             </p>
             <Link
@@ -150,7 +150,7 @@ const ThinningHairTreatmentPage = () => {
             <p>
               Our thinning hair treatment is a targeted density solution for men who are
               experiencing reduced hair volume, a more visible scalp or a general loss of
-              fullness — but who still have enough natural hair to work with. Rather than
+              fullness, but who still have enough natural hair to work with. Rather than
               replacing your hair, we enhance what you have, creating the appearance of
               significantly thicker, fuller hair using specialist techniques matched to your
               individual hair profile.

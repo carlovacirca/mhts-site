@@ -2,10 +2,10 @@ import { Clock } from "lucide-react";
 
 const mhtsHours = [
   { day: "Monday", time: "Closed" },
-  { day: "Tuesday", time: "9:30am – 5pm" },
-  { day: "Wednesday", time: "9:30am – 5pm" },
-  { day: "Thursday", time: "9:30am – 5pm" },
-  { day: "Friday", time: "9:30am – 5pm" },
+  { day: "Tuesday", time: "9:30am, 5pm" },
+  { day: "Wednesday", time: "9:30am, 5pm" },
+  { day: "Thursday", time: "9:30am, 5pm" },
+  { day: "Friday", time: "9:30am, 5pm" },
   { day: "Saturday", time: "Closed" },
   { day: "Sunday", time: "Closed" },
 ];

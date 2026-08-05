@@ -22,6 +22,7 @@ import blogHairTransplantAltInline4 from "@/assets/blog-hair-transplant-alt-inli
 import blogHairSystemBondComparison from "@/assets/blog-hair-system-bond-comparison.jpg";
 import blogHairDensityComparison from "@/assets/blog-hair-density-comparison.jpg";
 import blogHairSystemFittingComparison from "@/assets/blog-hair-system-fitting-comparison.jpg";
+import mhtsHairSystemBeforeAfterInline from "@/assets/mhts-hair-system-before-after-inline.jpg";
 
 const inlineImageOverrides: Record<string, string[]> = {
   "non-surgical-hair-replacement-men-uk": [blogNonSurgicalInline1, blogNonSurgicalInline2, blogNonSurgicalInline3],
@@ -32,6 +33,10 @@ const inlineImageOverrides: Record<string, string[]> = {
 // `[IMAGE]` line (parsed into a `{ type: "img" }` block) use this map instead
 // of the auto-distributed 4-slot system above.
 const explicitInlineImages: Record<string, { src: string; alt: string }> = {
+  "does-a-hair-system-look-natural": {
+    src: mhtsHairSystemBeforeAfterInline,
+    alt: "Side by side comparison of a thinning crown before and full density after a hair system fitting",
+  },
   "hair-system-maintenance-4-to-6-weeks": {
     src: blogHairSystemBondComparison,
     alt: "Comparison of a failing hair system bond versus a freshly maintained bond",
@@ -415,7 +420,7 @@ const BlogPostPage = () => {
         </article>
 
 
-        {/* Right sidebar — Related FAQs + CTA */}
+        {/* Right sidebar, Related FAQs + CTA */}
         <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start hidden lg:block">
           <div>
             <p className="text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-1.5 mb-3">

@@ -113,7 +113,7 @@ const HairSystemStylingPage = () => {
               <span className="font-normal">Cut to Perfection.</span>
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
-              Professional hair system styling in Amersham — expert cutting, styling
+              Professional hair system styling in Amersham, expert cutting, styling
               and finishing so your system looks exactly the way you want it.
             </p>
             <Link
@@ -143,7 +143,7 @@ const HairSystemStylingPage = () => {
               A great hair system is only as good as the styling that goes with it.
               Our hair system styling service ensures your unit is cut, shaped and
               finished to suit your face shape, personal style and the way your hair
-              naturally grows — creating a result that is entirely your own.
+              naturally grows, creating a result that is entirely your own.
             </p>
             <p>
               At Men's Hair to Stay in Amersham, styling is available as part of your

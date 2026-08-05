@@ -154,7 +154,7 @@ const HairSystemsPage = () => {
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
               Premium hair systems for men in Amersham and across Buckinghamshire.
-              Look and feel like yourself again — without going under the knife.
+              Look and feel like yourself again, without going under the knife.
             </p>
             <Link
               to="/#mhts-book"
@@ -192,7 +192,7 @@ const HairSystemsPage = () => {
             </p>
             <p>
               At Men's Hair to Stay, we custom-fit every hair system to your head shape,
-              hair colour, texture and density — so no two systems are ever the same.
+              hair colour, texture and density, so no two systems are ever the same.
               Serving men across Amersham, Chesham, Beaconsfield, Rickmansworth,
               Gerrards Cross and High Wycombe, we are the local specialists in hair
               systems that truly look and feel real.
@@ -246,8 +246,7 @@ const HairSystemsPage = () => {
             <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-5" />
           </div>
           <p className="text-foreground/80 font-body leading-relaxed">
-            Hair systems are ideal for men who are experiencing any stage of hair loss —
-            from a receding hairline to complete baldness. Whether your hair loss is
+            Hair systems are ideal for men who are experiencing any stage of hair loss, from a receding hairline to complete baldness. Whether your hair loss is
             caused by genetics, alopecia, medical treatment or any other reason, a hair
             system can restore your full head of hair without surgery. If you live in or
             around Amersham, Chesham, Beaconsfield, High Wycombe, Rickmansworth,

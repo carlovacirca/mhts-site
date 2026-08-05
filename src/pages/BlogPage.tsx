@@ -13,6 +13,13 @@ const POSTS_PER_PAGE = 9;
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" });
 
+const isPublished = (isoDate: string) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const publish = new Date(`${isoDate}T00:00:00`);
+  return publish.getTime() <= today.getTime();
+};
+
 const BlogPage = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All Posts");
@@ -28,7 +35,7 @@ const BlogPage = () => {
       {
         "@context": "https://schema.org",
         "@type": "Blog",
-        name: "Men's Hair To Stay — Hair Restoration Blog",
+        name: "Men's Hair To Stay, Hair Restoration Blog",
         blogPost: blogPosts.map((p) => ({
           "@type": "BlogPosting",
           headline: p.title,
@@ -44,9 +51,18 @@ const BlogPage = () => {
     ],
   });
 
+  const previewMode =
+    typeof window !== "undefined" &&
+    new URLSearchParams(window.location.search).get("preview") === "1";
+
+  const livePosts = useMemo(
+    () => (previewMode ? blogPosts : blogPosts.filter((p) => isPublished(p.date))),
+    [previewMode]
+  );
+
   const sortedPosts = useMemo(
-    () => [...blogPosts].sort((a, b) => b.date.localeCompare(a.date)),
-    []
+    () => [...livePosts].sort((a, b) => b.date.localeCompare(a.date)),
+    [livePosts]
   );
 
   const featured = sortedPosts[0];
@@ -69,8 +85,8 @@ const BlogPage = () => {
   const totalPages = Math.max(1, Math.ceil(filtered.length / POSTS_PER_PAGE));
   const visiblePosts = filtered.slice((page - 1) * POSTS_PER_PAGE, page * POSTS_PER_PAGE);
 
-  const popularPosts = blogPosts.slice(0, 4);
-  const recentPosts = [...blogPosts].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 4);
+  const popularPosts = livePosts.slice(0, 4);
+  const recentPosts = [...livePosts].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 4);
 
   return (
     <div className="bg-background min-h-screen">
@@ -296,7 +312,7 @@ const BlogPage = () => {
             <p className="text-xs text-muted-foreground mb-3">
               Call or email us and we'll add you to our list for tips, guides and exclusive offers.
             </p>
-            {/* FORM TEMPORARILY DISABLED — pending Formspree integration. Restore this block once a Formspree form ID is wired up.
+            {/* FORM TEMPORARILY DISABLED, pending Formspree integration. Restore this block once a Formspree form ID is wired up.
             <Input
               type="email"
               placeholder="you@example.com"

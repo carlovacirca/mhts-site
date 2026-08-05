@@ -60,8 +60,7 @@ const ServicePricing = ({ rows }: ServicePricingProps) => (
       <div className="mt-6 flex items-start gap-3 bg-card border border-mhts-slate/30 rounded-sm p-5">
         <CheckCircle2 className="w-5 h-5 text-mhts-charcoal shrink-0 mt-0.5" />
         <p className="text-sm text-foreground/80 font-body leading-relaxed">
-          <strong className="text-mhts-charcoal">Your initial consultation is always free</strong> —
-          no obligation, no pressure. We'll assess your hair loss and confirm exact pricing for
+          <strong className="text-mhts-charcoal">Your initial consultation is always free</strong>, no obligation, no pressure. We'll assess your hair loss and confirm exact pricing for
           your treatment plan before you commit to anything.
         </p>
       </div>

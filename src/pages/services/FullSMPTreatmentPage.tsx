@@ -125,7 +125,7 @@ const FullSMPTreatmentPage = () => {
               <span className="font-normal">Defined. Natural. Yours.</span>
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
-              Full scalp micropigmentation treatment in Amersham — a complete
+              Full scalp micropigmentation treatment in Amersham, a complete
               multi-session programme designed to recreate the look of natural
               hair follicles and a sharp, tailored hairline.
             </p>
@@ -157,13 +157,13 @@ const FullSMPTreatmentPage = () => {
               specialist pigment to replicate the appearance of natural hair
               follicles on the scalp. A full SMP treatment is delivered across
               multiple sessions to build depth, density and a defined hairline
-              gradually — creating a result that looks completely natural.
+              gradually, creating a result that looks completely natural.
             </p>
             <p>
               Whether you're concealing thinning, hiding scars or shaping a
               clean, modern shaved style, full SMP gives you a finish that's
               sharp, low-maintenance and built around you. Men's Hair to Stay
-              offers full SMP treatment in Amersham — serving clients across
+              offers full SMP treatment in Amersham, serving clients across
               Chesham, Beaconsfield, High Wycombe and surrounding areas.
             </p>
           </div>

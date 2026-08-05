@@ -84,7 +84,7 @@ const AreaPage = () => {
           <div className="mt-8 flex items-start gap-3 bg-mhts-light border border-border rounded-sm p-5">
             <MapPin className="w-5 h-5 text-mhts-charcoal shrink-0 mt-0.5" />
             <p className="text-sm text-foreground/80 font-body leading-relaxed">
-              <strong className="text-mhts-charcoal">Men's Hair To Stay</strong> — 11 Chesham Road,
+              <strong className="text-mhts-charcoal">Men's Hair To Stay</strong>, 11 Chesham Road,
               Amersham, HP6 5HN. {area.distanceLabel}.
             </p>
           </div>
@@ -206,7 +206,7 @@ const AreaPage = () => {
             Book Your Free Consultation from {area.name}
           </h2>
           <p className="text-mhts-white/70 font-body mb-8 max-w-xl mx-auto">
-            Speak to our specialist team at 11 Chesham Road, Amersham — free, confidential and no
+            Speak to our specialist team at 11 Chesham Road, Amersham, free, confidential and no
             obligation.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">

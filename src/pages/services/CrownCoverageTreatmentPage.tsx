@@ -22,7 +22,7 @@ const benefits = [
   { icon: Eye, text: "Immediate improvement in crown coverage" },
   { icon: HeartPulse, text: "Non-surgical with no recovery time" },
   { icon: CheckCircle, text: "Natural-looking results" },
-  { icon: UserCheck, text: "Personalised to your exact crown loss pattern" },
+  { icon: UserCheck, text: "Personalized to your exact crown loss pattern" },
   { icon: MapPin, text: "Locally available in Amersham" },
 ];
 
@@ -33,7 +33,7 @@ const steps = [
   },
   {
     title: "Treatment Plan",
-    desc: "Personalised plan targeting your crown coverage requirements.",
+    desc: "Personalized plan targeting your crown coverage requirements.",
   },
   {
     title: "Treatment Session",
@@ -117,7 +117,7 @@ const CrownCoverageTreatmentPage = () => {
               <span className="font-normal">Restore Your Confidence.</span>
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
-              Specialist crown coverage treatment in Amersham — targeted density solutions
+              Specialist crown coverage treatment in Amersham, targeted density solutions
               for the area men worry about most.
             </p>
             <Link
@@ -146,12 +146,12 @@ const CrownCoverageTreatmentPage = () => {
             <p>
               Crown hair loss is one of the most common and noticeable forms of hair thinning
               in men. Our crown coverage treatment is a targeted density solution that addresses
-              thinning and loss specifically at the crown — using specialist techniques to restore
+              thinning and loss specifically at the crown, using specialist techniques to restore
               fullness, coverage and a natural appearance in the area that matters most.
             </p>
             <p>
               At Men's Hair to Stay in Amersham, we assess your crown in detail, understand your
-              current density and deliver a personalised treatment that achieves the best possible
+              current density and deliver a personalized treatment that achieves the best possible
               coverage for your individual situation. Serving men across Chesham, Beaconsfield,
               Rickmansworth, High Wycombe, Gerrards Cross and surrounding areas.
             </p>

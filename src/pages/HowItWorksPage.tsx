@@ -40,7 +40,7 @@ const steps = [
 
 const whyChoose = [
   "8+ years of specialist expertise in hair systems and SMP",
-  "100% confidential service — privacy guaranteed",
+  "100% confidential service, privacy guaranteed",
   "Specialist-trained technicians in non-surgical hair replacement",
   "By appointment only (private, discreet studio in Amersham)",
   "Free initial consultation and fitting assessment",

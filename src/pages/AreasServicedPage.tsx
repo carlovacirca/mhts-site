@@ -3,7 +3,7 @@ import { MapPin, ArrowRight, ChevronRight } from "lucide-react";
 import { useSeo } from "@/lib/seo";
 
 const areas = [
-  { name: "Amersham", slug: "amersham", desc: "Our home base — 11 Chesham Road, HP6 5HN. Specialist hair replacement and SMP." },
+  { name: "Amersham", slug: "amersham", desc: "Our home base, 11 Chesham Road, HP6 5HN. Specialist hair replacement and SMP." },
   { name: "Chesham", slug: "chesham", desc: "Just minutes away. Clients across Chesham trust us for non-surgical hair replacement." },
   { name: "High Wycombe", slug: "high-wycombe", desc: "The nearest specialist in hair systems and non-surgical hair replacement for High Wycombe." },
   { name: "Beaconsfield", slug: "beaconsfield", desc: "Confidential consultations for Beaconsfield clients seeking professional solutions." },

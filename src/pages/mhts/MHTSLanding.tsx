@@ -47,7 +47,7 @@ const steps = [
   {
     number: "02",
     title: "Custom Design",
-    desc: "Your specialist creates a personalised treatment plan. For hair systems, precise measurements and colour matching ensure a perfect fit.",
+    desc: "Your specialist creates a personalized treatment plan. For hair systems, precise measurements and colour matching ensure a perfect fit.",
   },
   {
     number: "03",
@@ -62,7 +62,7 @@ const steps = [
 ];
 
 const maintenanceTips = [
-  "Attend regular maintenance appointments every 4–6 weeks",
+  "Attend regular maintenance appointments every 4 to 6 weeks",
   "Use recommended gentle, sulphate-free shampoos",
   "Avoid excessive heat styling on hair systems",
   "Follow your specialist's aftercare instructions carefully",
@@ -90,11 +90,11 @@ const reviews = [
 const homeFaqs = [
   {
     q: "How long does a hair system last?",
-    a: "A high-quality hair system typically lasts 6–12 months with proper care and regular maintenance. We recommend a regroom or maintenance appointment every 4–6 weeks to keep your hair system looking fresh, natural, and undetectable.",
+    a: "A high-quality hair system typically lasts 6 to 12 months with proper care and regular maintenance. We recommend a regroom or maintenance appointment every 4 to 6 weeks to keep your hair system looking fresh, natural, and undetectable.",
   },
   {
     q: "Is hair replacement undetectable?",
-    a: "Yes — when expertly fitted and styled, our hair systems are virtually undetectable. We custom-match hair colour, density, and texture to blend seamlessly with your natural hair for a completely natural look.",
+    a: "Yes, when expertly fitted and styled, our hair systems are virtually undetectable. We custom-match hair colour, density, and texture to blend seamlessly with your natural hair for a completely natural look.",
   },
   {
     q: "Is SMP painful?",
@@ -102,15 +102,15 @@ const homeFaqs = [
   },
   {
     q: "How much does a consultation cost?",
-    a: "Your initial consultation is completely free. There is no obligation — we will assess your hair loss, discuss your goals, and recommend the best hair system or SMP treatment for your needs.",
+    a: "Your initial consultation is completely free. There is no obligation. We will assess your hair loss, discuss your goals, and recommend the best hair system or SMP treatment for your needs.",
   },
   {
     q: "How often does a hair system need maintenance?",
-    a: "We recommend booking a maintenance or regroom appointment every 4–6 weeks. Regular upkeep ensures your hair system remains secure, clean, and styled perfectly — extending its lifespan and keeping it undetectable.",
+    a: "We recommend booking a maintenance or regroom appointment every 4 to 6 weeks. Regular upkeep ensures your hair system remains secure, clean, and styled perfectly, extending its lifespan and keeping it undetectable.",
   },
   {
     q: "Is SMP permanent?",
-    a: "SMP is considered semi-permanent. The results typically last 3–5 years before a touch-up is needed. It is a long-lasting, non-invasive solution for thinning hair and receding hairlines, requiring minimal ongoing maintenance.",
+    a: "SMP is considered semi-permanent. The results typically last 3 to 5 years before a touch-up is needed. It is a long-lasting, non-invasive solution for thinning hair and receding hairlines, requiring minimal ongoing maintenance.",
   },
 ];
 
@@ -167,7 +167,7 @@ const MHTSLanding = () => {
             <span className="font-normal">Restored.</span>
           </h1>
           <p className="text-mhts-white/70 text-lg max-w-md mb-10 font-body">
-            Premium hair systems & scalp micropigmentation — delivered with discretion in Amersham.
+            Premium hair systems & scalp micropigmentation, delivered with discretion in Amersham.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <a
@@ -210,7 +210,7 @@ const MHTSLanding = () => {
             {
               icon: Clock,
               title: "By Appointment Only",
-              desc: "Private one-to-one consultations at our Amersham studio — never rushed, always tailored to you.",
+              desc: "Private one-to-one consultations at our Amersham studio, never rushed, always tailored to you.",
             },
           ].map((item) => (
             <div
@@ -264,7 +264,7 @@ const MHTSLanding = () => {
       </div>
     </section>
 
-    {/* HOW IT WORKS — moved to dedicated /how-it-works page */}
+    {/* HOW IT WORKS, moved to dedicated /how-it-works page */}
 
     {/* ─── MAINTENANCE ─── */}
     <section className="py-16 bg-mhts-light">

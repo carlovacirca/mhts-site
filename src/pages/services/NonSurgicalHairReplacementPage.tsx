@@ -18,7 +18,7 @@ import { findCategory } from "@/data/services";
 import { useCanonical, useOpenGraph } from "@/lib/seo";
 
 const benefits = [
-  { icon: Zap, text: "Immediate results — walk in, walk out with a full head of hair" },
+  { icon: Zap, text: "Immediate results, walk in, walk out with a full head of hair" },
   { icon: ShieldCheck, text: "No surgery, anaesthetic or recovery period" },
   { icon: Sparkles, text: "No scarring or risk of complications" },
   { icon: Wallet, text: "Fraction of the cost of a hair transplant" },
@@ -35,7 +35,7 @@ const steps = [
   },
   {
     title: "System Design",
-    desc: "Custom matched to your hair profile — colour, texture and density.",
+    desc: "Custom matched to your hair profile, colour, texture and density.",
   },
   {
     title: "Professional Fitting",
@@ -54,7 +54,7 @@ const steps = [
 const faqs = [
   {
     q: "How is non-surgical hair replacement different from a transplant?",
-    a: "A transplant moves your own follicles surgically. Non-surgical replacement uses a custom hair system fitted to your scalp — no surgery, no recovery, immediate results.",
+    a: "A transplant moves your own follicles surgically. Non-surgical replacement uses a custom hair system fitted to your scalp, no surgery, no recovery, immediate results.",
   },
   {
     q: "Will anyone be able to tell I am wearing a hair system?",
@@ -124,7 +124,7 @@ const NonSurgicalHairReplacementPage = () => {
               <span className="font-normal">None of the Surgery.</span>
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
-              Non-surgical hair replacement in Amersham — the safe, effective and
+              Non-surgical hair replacement in Amersham, the safe, effective and
               immediate alternative to hair transplant surgery.
             </p>
             <Link
@@ -154,7 +154,7 @@ const NonSurgicalHairReplacementPage = () => {
               Non-surgical hair replacement is an umbrella term for all methods of
               restoring a full head of hair without going under the knife. At Men's
               Hair to Stay, our non-surgical approach centres on premium custom hair
-              systems — real human hair units, individually matched and professionally
+              systems, real human hair units, individually matched and professionally
               fitted to give you an undetectable, natural result with zero surgery,
               zero scarring and zero recovery time.
             </p>
@@ -214,7 +214,7 @@ const NonSurgicalHairReplacementPage = () => {
           </div>
           <p className="text-foreground/80 font-body leading-relaxed">
             Non-surgical hair replacement is suitable for men at any stage of hair
-            loss — from a slightly receding hairline to complete baldness. It is
+            loss, from a slightly receding hairline to complete baldness. It is
             particularly popular with men who have been advised they are not suitable
             for a transplant, those who want immediate results, and those who want to
             avoid the risk and cost of surgery. Serving men across Amersham, Chesham,

@@ -20,7 +20,7 @@ import { useCanonical, useOpenGraph } from "@/lib/seo";
 const benefits = [
   { icon: Route, text: "Complete end-to-end hair replacement service" },
   { icon: MessageCircle, text: "Expert consultation included at no charge" },
-  { icon: Palette, text: "Fully customised system matched to your profile" },
+  { icon: Palette, text: "Fully customized system matched to your profile" },
   { icon: UserCheck, text: "Professional fitting by trained specialists" },
   { icon: HeartHandshake, text: "Aftercare and maintenance support included" },
   { icon: Clock, text: "Flexible ongoing maintenance appointments" },
@@ -35,7 +35,7 @@ const steps = [
   },
   {
     title: "System Selection",
-    desc: "We source and customise your perfect system matched to you.",
+    desc: "We source and customize your perfect system matched to you.",
   },
   {
     title: "Fitting Appointment",
@@ -54,11 +54,11 @@ const steps = [
 const faqs = [
   {
     q: "Is the consultation really free?",
-    a: "Yes, completely. No pressure, no obligation — just an honest conversation about your options.",
+    a: "Yes, completely. No pressure, no obligation, just an honest conversation about your options.",
   },
   {
     q: "How long does the full process take from consultation to fitting?",
-    a: "From your consultation to your fitting day is typically 2 to 4 weeks, depending on system customisation requirements.",
+    a: "From your consultation to your fitting day is typically 2 to 4 weeks, depending on system customization requirements.",
   },
   {
     q: "Do you offer a service for clients who already have a hair system?",
@@ -123,7 +123,7 @@ const HairReplacementServicePage = () => {
               <span className="font-normal">Replacement Service in Amersham.</span>
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
-              From consultation to fitting to aftercare — Men's Hair to Stay provides
+              From consultation to fitting to aftercare, Men's Hair to Stay provides
               a full end-to-end hair replacement service for men across Buckinghamshire
               and Hertfordshire.
             </p>
@@ -153,14 +153,14 @@ const HairReplacementServicePage = () => {
             <p>
               Our hair replacement service covers the complete journey from your very
               first consultation through to your fitting and beyond. We handle every
-              detail — assessing your hair loss, sourcing and customising your system,
+              detail, assessing your hair loss, sourcing and customizing your system,
               professionally fitting it and providing ongoing aftercare and maintenance
               support.
             </p>
             <p>
               Men's Hair to Stay is Amersham's dedicated hair replacement specialists,
               serving clients across Chesham, Beaconsfield, Rickmansworth, Chorleywood,
-              Gerrards Cross, High Wycombe, Watford and Uxbridge with a personalised,
+              Gerrards Cross, High Wycombe, Watford and Uxbridge with a personalized,
               expert service from start to finish.
             </p>
           </div>

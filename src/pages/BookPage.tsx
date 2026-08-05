@@ -24,7 +24,6 @@ const pricingJsonLd = [
     serviceType: "Regroom (1x Adhesive)",
     provider: { "@type": "LocalBusiness", name: "Men's Hair To Stay" },
     areaServed: "Amersham",
-    offers: { "@type": "Offer", name: "Regroom (1x Adhesive)", price: "60", priceCurrency: "GBP" },
   },
   {
     "@context": "https://schema.org",
@@ -33,7 +32,6 @@ const pricingJsonLd = [
     serviceType: "Regroom (2x Adhesive)",
     provider: { "@type": "LocalBusiness", name: "Men's Hair To Stay" },
     areaServed: "Amersham",
-    offers: { "@type": "Offer", name: "Regroom (2x Adhesive)", price: "65", priceCurrency: "GBP" },
   },
   {
     "@context": "https://schema.org",
@@ -78,15 +76,15 @@ const appointments = [
 const faqs = [
   {
     q: "What's the difference between a quick regroom and a full regroom?",
-    a: "A quick regroom uses one adhesive application and is ideal for clients with stable hair systems needing a fast refresh. A full regroom uses two adhesive applications with a thorough base clean for maximum hold and longevity — recommended every 4–6 weeks for daily wearers.",
+    a: "A quick regroom uses one adhesive application and is ideal for clients with stable hair systems needing a fast refresh. A full regroom uses two adhesive applications with a thorough base clean for maximum hold and longevity, recommended every 4 to 6 weeks for daily wearers.",
   },
   {
     q: "Is scalp micropigmentation (SMP) painful?",
     a: "Most clients describe SMP as a mild, tolerable sensation similar to a light tattoo. We use ultra-fine needles and pause whenever needed. Numbing options can be discussed at your SMP consultation.",
   },
   {
-    q: "I'm not sure which service I need — what should I book?",
-    a: "Book the free hair replacement consultation. Our specialist will assess your hair loss, explain hair system, SMP, thinning hair and crown coverage options, and recommend the right treatment — with no obligation to proceed.",
+    q: "I'm not sure which service I need, what should I book?",
+    a: "Book the free hair replacement consultation. Our specialist will assess your hair loss, explain hair system, SMP, thinning hair and crown coverage options, and recommend the right treatment, with no obligation to proceed.",
   },
   {
     q: "Can I reschedule or cancel my appointment?",
@@ -139,8 +137,8 @@ const BookPage = () => {
   };
 
   const pricingRows = [
-    { name: "Regroom (1x Adhesive)", price: "£60", onClick: () => scrollToWidget(TRAFFT_REGROOM_1X_SERVICE_UUID) },
-    { name: "Regroom (2x Adhesive)", price: "£65", onClick: () => scrollToWidget(TRAFFT_REGROOM_2X_SERVICE_UUID) },
+    { name: "Regroom (1x Adhesive)", price: "Quoted at your consultation", onClick: () => scrollToWidget(TRAFFT_REGROOM_1X_SERVICE_UUID) },
+    { name: "Regroom (2x Adhesive)", price: "Quoted at your consultation", onClick: () => scrollToWidget(TRAFFT_REGROOM_2X_SERVICE_UUID) },
     { name: "Initial Consultation", price: "Free", onClick: () => scrollToWidget(TRAFFT_CONSULTATION_SERVICE_UUID) },
   ];
 
@@ -226,7 +224,7 @@ const BookPage = () => {
             <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-5" />
             <p className="text-foreground/75 font-body mt-5 max-w-2xl mx-auto">
               From your first free consultation to ongoing hair system
-              maintenance and SMP — choose the right appointment for you.
+              maintenance and SMP, choose the right appointment for you.
             </p>
           </div>
           <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">

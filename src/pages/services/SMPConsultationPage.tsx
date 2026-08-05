@@ -122,7 +122,7 @@ const SMPConsultationPage = () => {
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
               A free, no-obligation SMP consultation at Men's Hair to Stay in
-              Amersham — honest advice, expert assessment and a clear plan with no
+              Amersham, honest advice, expert assessment and a clear plan with no
               pressure.
             </p>
             <Link
