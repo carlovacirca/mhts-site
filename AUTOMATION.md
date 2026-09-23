@@ -8,7 +8,7 @@ Update and recommit it whenever a meaningful decision or change is made.
 |---|---|
 | **Client** | Men's Hair To Stay, menshairtostay.co.uk |
 | **Repo** | github.com/carlovacirca/mhts-site, branch `main` |
-| **Current phase** | Phase 1. Tasks 0a, 0b, 1, 2 done. Next: task 3, Research Agent. **Deadline: first automated blog live for all four clients Monday 5 October 2026** |
+| **Current phase** | Phase 1. Tasks 0a, 0b, 1, 2 done. Next: task 3 first real run, then task 4, Writer Agent. **Deadline: first automated blog live for all four clients Monday 5 October 2026** |
 | **Last updated** | 23 September 2026 |
 | **Owner** | Carlo Vacirca |
 
@@ -245,6 +245,7 @@ Base: `https://rank-automation.carlo-vacirca.workers.dev/api`. Bearer token for 
 | `GET` | `/topics?task_id=&client_id=` | Research output |
 | `POST` | `/topics` | Save a proposed topic, called by the Research Agent |
 | `POST` | `/topics/:id/choose` | Dispatch `writer.yml` in `rank-automation`, then mark chosen and discard sibling topics. If the dispatch fails the topic stays `proposed` |
+| `GET` | `/clients`, `/clients/:id` | Client rows |
 | `GET` | `/agents?client_id=` | Agent profiles |
 | `GET` `PATCH` | `/agents/:id` | Read and edit a system prompt |
 | `POST` | `/runs` | Log a run |
@@ -289,7 +290,7 @@ Reference implementations: `content staging/august-2026/` and `content staging/s
 | 0b | GitHub Action: build and `wrangler pages deploy` on merge to `main` | **Done 23 Sep.** Stage 1 deployed `f95b19e` to a preview URL. Stage 2 `901e79e` deploys `main` to production. Verified live: `menshairtostay.co.uk` serves bundle `index-ChM7DBzp.js`, the old `index-nQQevdLg.js` is gone |
 | 1 | D1 database, tables, seed `clients` and `agents` | **Done 23 Sep.** D1 `rank-automation` (region weur) created by the Database Action in `rank-automation` repo, commit `e91f735`. All 6 contract tables present plus `d1_migrations` (Wrangler's own tracking table). `clients` seeded with `mhts`. Agents are seeded in tasks 3 and 4 with their prompts |
 | 2 | Worker API | **Done 23 Sep.** `rank-automation` commit `b9c8473`, live at `https://rank-automation.carlo-vacirca.workers.dev`. 35 of 35 local checks pass. Deploy check: `/api/health` 200, `/api/tasks` 401 without token, 200 with token |
-| 3 | Research Agent script, Claude API with web search, proposes 2 to 3 topics | Not started |
+| 3 | Research Agent script, Claude API with web search, proposes 2 to 3 topics | **Built 23 Sep**, `rank-automation` commit `da9ce3c`. Unit tests and a full local run against a mock API pass. Awaiting first real run |
 | 4 | Writer Agent script, full post as validated markdown | Not started |
 | 5 | Image generation, OpenAI, committed to `src/assets` in the same PR | Not started |
 | 6 | Commit and open PR | Not started |
@@ -363,6 +364,13 @@ Trigger: on the second-to-last day of each month Carlo uploads booking data and 
 
 **2026-09-23, agents live in a separate `rank-automation` repo.**
 With four clients in scope, putting the agents inside `mhts-site` would make the other three sites depend on MHTS's repo. One private `rank-automation` repo holds the Worker, D1 migrations and agent scripts for every client. The agents open PRs against each client's site repo using a fine-grained PAT scoped to those repos. `client_id` on every table already supports this.
+
+**2026-09-23, Research Agent design (task 3).**
+- Model `claude-sonnet-5` with `web_search_20260318` and `web_fetch_20260318`. Chosen over Haiku because it supports web fetch, which the source rule depends on. Pricing verified on 23 September: $2 input, $10 output per million tokens, $10 per 1,000 searches, web fetch free beyond tokens. Stored in `config/pricing.json`.
+- **Source rule enforced in code, not just the prompt:** a source is kept only if the model fetched that exact page during the run. Unfetched sources are removed and a topic left with no fetched source is dropped. Fewer than 2 surviving topics fails the run.
+- Service rotation: the service least recently chosen leads the week.
+- System prompts live in `agents/prompts/<agent-id>.md` only as the starting version. They are seeded into D1 with INSERT OR IGNORE, so once an agent exists its prompt is edited in D1 (dashboard or API), never overwritten by a deploy.
+- Runners talk only to the Worker API, never to D1 directly, so the dashboard and the agents share one set of rules.
 
 ---
 
