@@ -8,7 +8,7 @@ Update and recommit it whenever a meaningful decision or change is made.
 |---|---|
 | **Client** | Men's Hair To Stay, menshairtostay.co.uk |
 | **Repo** | github.com/carlovacirca/mhts-site, branch `main` |
-| **Current phase** | Phase 1, blog automation. 0a done. 0b stage 1 verified, stage 2 (production) committed, awaiting Carlo's push |
+| **Current phase** | Phase 1, blog automation. 0a and 0b done. Next: task 1, D1 database |
 | **Last updated** | 23 September 2026 |
 | **Owner** | Carlo Vacirca |
 
@@ -280,7 +280,7 @@ Reference implementations: `content staging/august-2026/` and `content staging/s
 | # | Item | Status |
 |---|---|---|
 | 0a | Markdown content layer in the Vite app, Zod schema, `import.meta.glob` loader | **Done 23 Sep.** Pushed as `6d0722a`. Not yet deployed, the first 0b run deploys it |
-| 0b | GitHub Action: build and `wrangler pages deploy` on merge to `main` | **Stage 1 verified 23 Sep**: first Action run deployed `f95b19e` to `preview-0b.menshairtostay.pages.dev`. **Stage 2 committed**: `DEPLOY_BRANCH` set to `main`, goes live on Carlo's push |
+| 0b | GitHub Action: build and `wrangler pages deploy` on merge to `main` | **Done 23 Sep.** Stage 1 deployed `f95b19e` to a preview URL. Stage 2 `901e79e` deploys `main` to production. Verified live: `menshairtostay.co.uk` serves bundle `index-ChM7DBzp.js`, the old `index-nQQevdLg.js` is gone |
 | 1 | D1 database, tables, seed `clients` and `agents` | Not started |
 | 2 | Worker API | Not started |
 | 3 | Research Agent script, Claude API with web search, proposes 2 to 3 topics | Not started |
@@ -432,6 +432,6 @@ Steps 1 and 2 unblock the build. The rest can follow.
 
 ### Immediate next step
 
-0a is built. Next is 0b, the deploy Action, which needs blocking question 1 answered and `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` stored as GitHub secrets. Kept below for the record: the rule that applied to the 0a migration.
+0a and 0b are done. Next is task 1, the D1 database, using the schema in section 4.2. Before task 9 schedules posts ahead, fix the known issue of future-dated posts showing early. Kept below for the record: the rule that applied to the 0a migration.
 
 **The migration must preserve `faqs`, `category`, `readTime`, `author` and the ISO `date` on every post.** `faqs` generates the FAQPage structured data and `date` drives the Monday gate. If a migration quietly drops either, the site loses rich results and scheduled publishing, and neither failure is visible by looking at the site. Verify post by post, not in aggregate.
