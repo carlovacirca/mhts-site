@@ -9,7 +9,7 @@ Update and recommit it whenever a meaningful decision or change is made.
 | **Client** | Men's Hair To Stay, menshairtostay.co.uk |
 | **Repo** | github.com/carlovacirca/mhts-site, branch `main` |
 | **Current phase** | Phase 1, blog automation. Not started, setup pending |
-| **Last updated** | 22 September 2026 |
+| **Last updated** | 23 September 2026 |
 | **Owner** | Carlo Vacirca |
 
 ---
@@ -300,6 +300,11 @@ The plan had generated images stored in R2 and referenced by public URL. On insp
 **2026-09-23, the live site is ahead of `main`, and that is a deploy-model artefact.**
 Verified in a browser: September is live. Verified in git: September is not committed. `npm run deploy` builds from disk, not from git, so deploys have never required a commit. Recorded because it is counterintuitive and because it is exactly the kind of thing a future session would otherwise rediscover the hard way. The deploy Action fixes it permanently by making `main` the thing that ships.
 
+**2026-09-23, September committed selectively, not with `git add -A`.**
+About 83 files differ from git only in line endings (CRLF on disk, LF in the repo), with no content change. Committing them would bury the real change in noise. Only the real changes were staged, with `core.autocrlf=input` so they go in as LF. `.claude/settings.local.json` is now gitignored. `content staging/` remains untracked, pending a decision.
+
+**Operational note for Cowork sessions:** committing from the Cowork VM cannot delete files in `.git` unless delete permission is granted, so git leaves `index.lock`, `HEAD.lock` and `tmp_obj_*` files behind. A leftover `index.lock` blocks every later git command. After any commit from Cowork, run `find .git -name '*.lock'` and remove anything it finds.
+
 ---
 
 ## 8. Open questions and next steps
@@ -307,11 +312,11 @@ Verified in a browser: September is live. Verified in git: September is not comm
 ### Blocking, needed from Carlo
 
 1. **Is the Cloudflare Pages project git-connected or direct-upload?** Decision made assuming direct-upload. Worth confirming in the dashboard, because if it is already git-connected then item 0b is free.
-2. **Cloudflare account ID** and an **API token** with Pages edit, D1 edit and R2 edit permissions, stored as GitHub secrets.
+2. **Cloudflare account ID** and an **API token** with Pages edit and D1 edit permissions, stored as GitHub secrets. (R2 is not needed, see the decisions log.)
 3. **Telegram** bot token and the chat ID to send approvals to.
 4. **Anthropic and OpenAI API keys** as GitHub secrets. Names: `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`.
 5. **Write access** for the automation to open PRs. A fine-grained PAT scoped to this repo, with Contents read and write and Pull requests read and write.
-6. **Commit and push the working tree**, so `main` matches the live site before any automated PR is opened.
+6. **Push to GitHub.** Done locally 23 September 2026: September committed as `217cdbe`. **Awaiting `git push` from Carlo.** Until pushed, GitHub `main` is still `6894aab` (August).
 
 ### Known issues, unrelated to this project but worth clearing
 
@@ -339,15 +344,16 @@ Plain English. Work top to bottom. Nothing here needs a developer.
 
 ### Step 1. Make GitHub match the live site
 
-The live site is ahead of the repo, see section 8. From the `menshairtostay` folder:
+The commit is done (`217cdbe`, 23 September 2026). Only the push is left. In Command Prompt:
 
 ```
-git add -A
-git commit -m "September 2026 content, remove placeholder video component"
+cd "C:\Users\0\1. Rank SEO\menshairtostay"
 git push
 ```
 
-**Do this before anything else.** Until it is done, an automated PR would branch from an August-era `main` and merging it could wipe September.
+**Do not use `git add -A`.** About 83 files show as modified only because of Windows versus Linux line endings. They have no real change and were deliberately left out of the commit.
+
+**Do this before anything else.** Until it is pushed, an automated PR would branch from an August-era `main` and merging it could wipe September.
 
 ### Step 2. Check how Cloudflare Pages deploys
 
