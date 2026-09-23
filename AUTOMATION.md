@@ -73,7 +73,7 @@ interface BlogPost {
 | **GitHub Actions** | The runner. Scheduled research, event-triggered writing, and deploy on merge |
 | **Cloudflare Workers** | API and webhook glue. Serves Telegram and, later, the dashboard |
 | **Cloudflare D1** | Database. Tasks, agent profiles, agent memory, cost logs |
-| **Cloudflare R2** | Image storage, public URLs referenced in frontmatter |
+| **Cloudflare R2** | **Not used in Phase 1.** See the decisions log. Reconsider for GBP and the dashboard |
 | **Cloudflare Pages** | Hosts the live site, and later the dashboard as a separate project |
 | **Telegram bot** | Approval interface. Preview plus Approve and Reject buttons |
 | **Claude API** | Content generation, web search tool enabled so sources are real and current |
@@ -107,7 +107,7 @@ category: "Hair Loss Solutions"
 publishDate: 2026-09-14
 author: "Lexie, hair replacement specialist, Men's Hair To Stay"
 readTime: "8 min read"
-heroImage: "https://<r2-public-domain>/mhts/autumn-hair-shedding-explained.jpg"
+heroImage: "@/assets/mhts-hair-shedding-brush-hero.jpg"
 heroImageAlt: "A men's hairbrush on a dark grey surface with loose hair in the bristles"
 tags: ["hair loss", "seasonal shedding"]
 sources:
@@ -263,7 +263,7 @@ Reference implementations: `content staging/august-2026/` and `content staging/s
 | 2 | Worker API | Not started |
 | 3 | Research Agent script, Claude API with web search, proposes 2 to 3 topics | Not started |
 | 4 | Writer Agent script, full post as validated markdown | Not started |
-| 5 | Image generation, OpenAI, upload to R2 | Not started |
+| 5 | Image generation, OpenAI, committed to `src/assets` in the same PR | Not started |
 | 6 | Commit and open PR | Not started |
 | 7 | Telegram bot, preview, cost, Approve and Reject | Not started |
 | 8 | Approve merges the PR, Action deploys | Not started |
@@ -294,6 +294,12 @@ The other three client repos each have a different blog architecture, so general
 **2026-09-22, DataForSEO dropped.**
 Claude's web search tool supplies trend and topic signal.
 
+**2026-09-23, R2 dropped from Phase 1. Hero images are committed to `src/assets`.**
+The plan had generated images stored in R2 and referenced by public URL. On inspection R2 was solving a problem this site does not have. Roughly 40 images already sit committed in `src/assets` and the arrangement works. Four posts a month at about 200KB is around 10MB of repo growth a year, which is negligible. Committed images also get hashed, compressed and cached by the Vite build, which a runtime R2 URL does not, so committing is marginally better for visitors as well as simpler. The one thing R2 offered was a public URL for the Telegram preview, but Telegram accepts a direct image upload, so no URL is needed. Dropping it removes a service, a credential and the permanent-URL decision from Phase 1. Revisit for GBP posts and the dashboard, which may genuinely want hosted images.
+
+**2026-09-23, the live site is ahead of `main`, and that is a deploy-model artefact.**
+Verified in a browser: September is live. Verified in git: September is not committed. `npm run deploy` builds from disk, not from git, so deploys have never required a commit. Recorded because it is counterintuitive and because it is exactly the kind of thing a future session would otherwise rediscover the hard way. The deploy Action fixes it permanently by making `main` the thing that ships.
+
 ---
 
 ## 8. Open questions and next steps
@@ -304,8 +310,8 @@ Claude's web search tool supplies trend and topic signal.
 2. **Cloudflare account ID** and an **API token** with Pages edit, D1 edit and R2 edit permissions, stored as GitHub secrets.
 3. **Telegram** bot token and the chat ID to send approvals to.
 4. **Anthropic and OpenAI API keys** as GitHub secrets. Names: `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`.
-5. **R2 bucket name** and whether a custom public domain is wanted for image URLs, since those URLs are permanent once published.
-6. **Write access** for the automation to open PRs. A fine-grained PAT or a GitHub App.
+5. **Write access** for the automation to open PRs. A fine-grained PAT scoped to this repo, with Contents read and write and Pull requests read and write.
+6. **Commit and push the working tree**, so `main` matches the live site before any automated PR is opened.
 
 ### Known issues, unrelated to this project but worth clearing
 
