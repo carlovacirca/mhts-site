@@ -1,0 +1,63 @@
+# Builds, tests and deploys the site to Cloudflare Pages (project: menshairtostay).
+#
+# - Pull requests: build and test only. A post that fails validation fails here,
+#   which is what blocks a bad generated post from being merged.
+# - Push to main: build, test, then deploy.
+#
+# ROLLOUT STAGE 1: pushes to main deploy to a PREVIEW URL only, not the live
+# domain. Once the preview has been checked, DEPLOY_BRANCH changes to "main"
+# and deploys go to production. See AUTOMATION.md task 0b.
+#
+# Needs repository secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID.
+
+name: Build and deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  # "main" = production (menshairtostay.co.uk). Anything else = preview URL.
+  DEPLOY_BRANCH: preview-0b
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci --no-audit --no-fund
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to Cloudflare Pages
+        if: github.event_name != 'pull_request'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: >
+          npx --yes wrangler@4 pages deploy dist
+          --project-name=menshairtostay
+          --branch="$DEPLOY_BRANCH"
+          --commit-hash="${{ github.sha }}"
+          --commit-message="$(git log -1 --format=%s)"

@@ -8,7 +8,7 @@ Update and recommit it whenever a meaningful decision or change is made.
 |---|---|
 | **Client** | Men's Hair To Stay, menshairtostay.co.uk |
 | **Repo** | github.com/carlovacirca/mhts-site, branch `main` |
-| **Current phase** | Phase 1, blog automation. 0a built and verified, awaiting Carlo's check before push |
+| **Current phase** | Phase 1, blog automation. 0a done. 0b stage 1 (deploy to a preview URL) built, awaiting secrets |
 | **Last updated** | 23 September 2026 |
 | **Owner** | Carlo Vacirca |
 
@@ -279,8 +279,8 @@ Reference implementations: `content staging/august-2026/` and `content staging/s
 
 | # | Item | Status |
 |---|---|---|
-| 0a | Markdown content layer in the Vite app, Zod schema, `import.meta.glob` loader | **Built and verified 23 Sep.** Committed locally, not pushed or deployed until Carlo has checked it |
-| 0b | GitHub Action: build and `wrangler pages deploy` on merge to `main` | Not started |
+| 0a | Markdown content layer in the Vite app, Zod schema, `import.meta.glob` loader | **Done 23 Sep.** Pushed as `6d0722a`. Not yet deployed, the first 0b run deploys it |
+| 0b | GitHub Action: build and `wrangler pages deploy` on merge to `main` | **Stage 1 built 23 Sep**: `.github/workflows/deploy.yml` deploys to preview branch `preview-0b` only. Stage 2, switch to production, after Carlo checks the preview |
 | 1 | D1 database, tables, seed `clients` and `agents` | Not started |
 | 2 | Worker API | Not started |
 | 3 | Research Agent script, Claude API with web search, proposes 2 to 3 topics | Not started |
@@ -332,13 +332,18 @@ The frontmatter is parsed and validated at build time by a small Vite plugin rat
 
 **Verification recorded for 0a:** a test compared every field of all 20 posts, and the array order, against a snapshot taken from the old `blogPosts.ts`: identical, including all FAQs (105 across the 20 posts) and every date. The production build before and after has the same image files with the same hashes, the same public files, and the same `index.html` apart from bundle names. Four unused CSS classes (`blur`, `shadow`, `static`, `running`) dropped out of the stylesheet because Tailwind had been picking those words up from blog prose in the old `.ts` file. No component uses them. Build validation was tested by breaking a post four ways (misspelt field, invalid category, missing image, impossible date), and each one stopped the build with a clear message.
 
+**2026-09-23, task 0b rolled out in two stages.**
+Pushing the workflow file to `main` runs it straight away, so a workflow that deployed to production would put the first automated build live before anyone looked at it. Stage 1 therefore deploys to a Pages preview URL (`preview-0b.menshairtostay.pages.dev`) and leaves the live domain alone. Once the preview is checked against the live site, one line (`DEPLOY_BRANCH`) changes to `main` and deploys go to production. Pull requests only build and test, never deploy, so a post that fails validation fails the PR check. Wrangler is called directly with `npx wrangler@4` rather than through a third-party Action, to keep one less dependency.
+
+**Why the Cloudflare deployments list shows the August commit on September deploys.** A direct-upload deploy is labelled with whatever commit the laptop's git was on at the time, not with what was actually uploaded. September was deployed while git still pointed at the August commit `6894aab`, so every recent deployment carries the August message. The labels are misleading, not the deploys. From 0b onwards each deployment is labelled with the real commit it was built from.
+
 ---
 
 ## 8. Open questions and next steps
 
 ### Blocking, needed from Carlo
 
-1. **Is the Cloudflare Pages project git-connected or direct-upload?** Decision made assuming direct-upload. Worth confirming in the dashboard, because if it is already git-connected then item 0b is free.
+1. ~~Is the Cloudflare Pages project git-connected or direct-upload?~~ **Answered 23 Sep: Direct Upload, no git connection.** Project name `menshairtostay`, production branch `main`, domains `menshairtostay.co.uk`, `www.menshairtostay.co.uk`, `menshairtostay.pages.dev`.
 2. **Cloudflare account ID** and an **API token** with Pages edit and D1 edit permissions, stored as GitHub secrets. (R2 is not needed, see the decisions log.)
 3. **Telegram** bot token and the chat ID to send approvals to.
 4. **Anthropic and OpenAI API keys** as GitHub secrets. Names: `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`.
