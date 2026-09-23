@@ -8,7 +8,7 @@ Update and recommit it whenever a meaningful decision or change is made.
 |---|---|
 | **Client** | Men's Hair To Stay, menshairtostay.co.uk |
 | **Repo** | github.com/carlovacirca/mhts-site, branch `main` |
-| **Current phase** | Phase 1, blog automation. Not started, setup pending |
+| **Current phase** | Phase 1, blog automation. 0a built and verified, awaiting Carlo's check before push |
 | **Last updated** | 23 September 2026 |
 | **Owner** | Carlo Vacirca |
 
@@ -39,6 +39,8 @@ Checked directly on 22 September 2026. **Several of these contradict the origina
 | Merging a PR triggers a Cloudflare Pages build | **Almost certainly false.** `npm run deploy` is `vite build && npx wrangler pages deploy dist`, run manually. No `.github/workflows` exist. Pushing to GitHub has been confirmed not to publish |
 
 Zod 3.25.76 **is** installed, but as a shadcn form dependency, not a content schema. It is reused for the new frontmatter schema.
+
+**Since task 0a (23 September 2026)** the third row is no longer true: posts are markdown files in `src/content/blog/`, and `src/data/blogPosts.ts` is now a loader that maps them onto the `BlogPost` interface below, so no page component changed.
 
 ### Existing `BlogPost` interface
 
@@ -91,7 +93,7 @@ interface BlogPost {
 
 ## 4. Data contracts
 
-> Status: **drafted, not yet created.** The dashboard should build against these shapes. Raise changes here before implementing them anywhere.
+> Status: **4.1 implemented in task 0a. 4.2 and 4.3 drafted, not yet created.** The dashboard should build against these shapes. Raise changes here before implementing them anywhere.
 
 ### 4.1 Markdown frontmatter
 
@@ -121,6 +123,26 @@ draft: false
 ```
 
 Zod schema lives at `src/content/schema.ts`. A post failing validation fails the build, which fails the PR check, which is the point.
+
+**As implemented (task 0a):**
+
+- Loader is `import.meta.glob('/src/content/blog/*.md', { eager: true, import: 'default' })` in `src/data/blogPosts.ts`.
+- Parsing and validation happen at build time in a Vite plugin, `vite/blog-markdown.ts`, using the `yaml` package. No YAML parser ships to the browser.
+- `heroImage` becomes a real import, so a missing image file also fails the build.
+- Rules beyond the example: unknown keys fail (a misspelt field cannot slip through); `slug` must equal the filename; `category` must be one of the six existing categories; `publishDate` must be a real calendar date; `readTime` must look like `8 min read`; `heroImage` must be `@/assets/<name>.jpg|jpeg|png|webp`; body cannot be empty.
+- Optional: `heroImage`, `featured` (added, the site uses it for one post), `faqs`, `tags` (default `[]`), `sources` (default `[]`), `draft` (default `false`, `true` hides the post entirely).
+- Migrated posts have no `tags` or `sources`, because the old data had none and none were invented.
+
+Mapping onto the site's existing `BlogPost` fields:
+
+| Frontmatter | `BlogPost` |
+|---|---|
+| `description` | `excerpt` |
+| `publishDate` | `date` |
+| `heroImage` | `image` (hashed asset URL) |
+| `heroImageAlt` | `featuredImageAlt` |
+| markdown body | `content` |
+| everything else | same name |
 
 ### 4.2 D1 schema
 
@@ -257,7 +279,7 @@ Reference implementations: `content staging/august-2026/` and `content staging/s
 
 | # | Item | Status |
 |---|---|---|
-| 0a | Markdown content layer in the Vite app, Zod schema, `import.meta.glob` loader | Not started |
+| 0a | Markdown content layer in the Vite app, Zod schema, `import.meta.glob` loader | **Built and verified 23 Sep.** Committed locally, not pushed or deployed until Carlo has checked it |
 | 0b | GitHub Action: build and `wrangler pages deploy` on merge to `main` | Not started |
 | 1 | D1 database, tables, seed `clients` and `agents` | Not started |
 | 2 | Worker API | Not started |
@@ -305,6 +327,11 @@ About 83 files differ from git only in line endings (CRLF on disk, LF in the rep
 
 **Operational note for Cowork sessions:** committing from the Cowork VM cannot delete files in `.git` unless delete permission is granted, so git leaves `index.lock`, `HEAD.lock` and `tmp_obj_*` files behind. A leftover `index.lock` blocks every later git command. After any commit from Cowork, run `find .git -name '*.lock'` and remove anything it finds.
 
+**2026-09-23, task 0a: markdown compiled by a Vite plugin, old array order kept.**
+The frontmatter is parsed and validated at build time by a small Vite plugin rather than in the browser, so a bad post fails the build and no YAML parser ships to visitors. `blogPosts.ts` keeps its exports and the `BlogPost` shape, so no page component changed. Array order decides which related posts appear under each article. Sorting by date would have changed the related links on 13 of 20 posts and removed the flagship hair systems guide from the related links of 8 posts, an internal-linking loss on a ranking site. The original order is therefore kept in `src/content/legacy-order.ts`, and new posts are appended after it, oldest first, as they were before.
+
+**Verification recorded for 0a:** a test compared every field of all 20 posts, and the array order, against a snapshot taken from the old `blogPosts.ts`: identical, including all FAQs (105 across the 20 posts) and every date. The production build before and after has the same image files with the same hashes, the same public files, and the same `index.html` apart from bundle names. Four unused CSS classes (`blur`, `shadow`, `static`, `running`) dropped out of the stylesheet because Tailwind had been picking those words up from blog prose in the old `.ts` file. No component uses them. Build validation was tested by breaking a post four ways (misspelt field, invalid category, missing image, impossible date), and each one stopped the build with a clear message.
+
 ---
 
 ## 8. Open questions and next steps
@@ -325,7 +352,7 @@ About 83 files differ from git only in line endings (CRLF on disk, LF in the rep
   This is not a mistake, it is how the deploy works. `npm run deploy` runs `vite build && wrangler pages deploy dist`, which builds from **files on disk**, not from git. So a deploy publishes whatever is in the working folder whether or not it was ever committed.
 
   It matters for this project because **automated PRs branch from `main` on GitHub**. If `main` is missing a month of content that is live, a merged PR could rebuild the site from a stale base and silently regress it. Commit and push the working tree before the automation opens its first PR. Once the deploy Action is in place this class of drift disappears, because deploys will come from `main` rather than from a laptop.
-- Four unused image imports remain in `blogPosts.ts`: `blogAug04`, `blogJul14`, `blogJul21`, `blogJul28`.
+- **Future-dated posts show early in three places.** The date gate only applies to the `/blog` listing. The homepage's latest-posts strip, the related posts under each article, and the Blog structured data on `/blog` all include posts dated in the future, and a future post's URL works if visited directly. Existing behaviour, not caused by 0a, and left unchanged. Worth fixing before the automation starts scheduling posts ahead.
 - `netlify.toml` is present but nothing reads it. It caused a wrong deploy-platform conclusion once already. Rename or delete it.
 
 ---
@@ -397,6 +424,6 @@ Steps 1 and 2 unblock the build. The rest can follow.
 
 ### Immediate next step
 
-Build 0a, the markdown content layer, and migrate the existing 20 posts into `src/content/blog/*.md` with the Zod schema. Everything else depends on it.
+0a is built. Next is 0b, the deploy Action, which needs blocking question 1 answered and `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` stored as GitHub secrets. Kept below for the record: the rule that applied to the 0a migration.
 
 **The migration must preserve `faqs`, `category`, `readTime`, `author` and the ISO `date` on every post.** `faqs` generates the FAQPage structured data and `date` drives the Monday gate. If a migration quietly drops either, the site loses rich results and scheduled publishing, and neither failure is visible by looking at the site. Verify post by post, not in aggregate.
