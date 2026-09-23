@@ -37,6 +37,9 @@ import mhtsHairSystemBaseMaterialsHero from "@/assets/mhts-hair-system-base-mate
 import mhtsConsultationRoomHero from "@/assets/mhts-consultation-room-hero.jpg";
 import mhtsSmpHealedResultHero from "@/assets/mhts-smp-healed-result-hero.jpg";
 import mhtsHairSystemHairlineHero from "@/assets/mhts-hair-system-hairline-hero.jpg";
+import mhtsHairSheddingBrushHero from "@/assets/mhts-hair-shedding-brush-hero.jpg";
+import mhtsSmpHealedResultBackHero from "@/assets/mhts-smp-healed-result-back-hero.jpg";
+import mhtsHairSystemMaintenanceHero from "@/assets/mhts-hair-system-maintenance-hero.jpg";
 import blogJul28 from "@/assets/blog-jul28.jpg";
 import blogJul21 from "@/assets/blog-jul21.jpg";
 import blogJul14 from "@/assets/blog-jul14.jpg";
@@ -3840,7 +3843,7 @@ Call 07947 878087 or [book your free consultation online](/book). Open Tuesday t
     metaDescription:
       "What actually changes the cost of a hair system or SMP, why a single published figure would mislead you, and six questions to ask before comparing quotes.",
     readTime: "8 min read",
-    date: "2026-08-24",
+    date: "2026-09-07",
     author: "Lexie, hair replacement specialist, Men's Hair To Stay",
     image: mhtsHairSystemBaseMaterialsHero,
     featuredImageAlt: "Three hair system bases in lace, skin and monofilament laid flat beside hair samples in three shades, with scissors and a comb",
@@ -4086,6 +4089,429 @@ Ask, at minimum:
 A studio that answers all five plainly is one worth using. A studio that deflects any of them is telling you something.
 
 Explore [hair systems](/hair-systems) and [scalp micropigmentation](/scalp-micropigmentation) before you come in, read [does a hair system look natural](/blog/does-a-hair-system-look-natural) if that is your main worry, and see how we serve [Amersham](/areas/amersham) and [Chesham](/areas/chesham).
+
+## Book a free confidential consultation
+
+Book a free confidential consultation at Men's Hair To Stay in Amersham. The studio is private, there is no signage on the door, and nothing you discuss is shared with anyone. Men and women, all hair types and backgrounds welcome.
+
+We serve Amersham, Chesham, Beaconsfield, High Wycombe, Rickmansworth, Watford, Harrow and across Buckinghamshire and South Bucks.
+
+Call 07947 878087 or [book your free consultation online](/book). Open Tuesday to Friday, 9:30 to 5.
+
+---
+
+**About the author.** Lexie is the hair replacement specialist at Men's Hair To Stay in Amersham, with around eight years of experience fitting custom hair systems and carrying out scalp micropigmentation for men and women across Buckinghamshire.`,
+  },
+  {
+    slug: "august-closure-back-friday-28",
+    title: "The Studio Is Closed Until Friday 28 August",
+    category: "Expert Tips",
+    excerpt:
+      "The Amersham studio is closed for a short summer break and reopens on Friday 28 August. Online booking stays open the whole time.",
+    metaDescription:
+      "Men's Hair To Stay is closed until Friday 28 August. Online booking stays open, so you can reserve an appointment for the week we return.",
+    readTime: "2 min read",
+    date: "2026-08-23",
+    author: "Lexie, hair replacement specialist, Men's Hair To Stay",
+    image: mhtsStudioWideHero,
+    featuredImageAlt: "The Men's Hair To Stay studio in Amersham, showing the chair, workstation and basin",
+    faqs: [
+      { q: "When do you reopen?", a: "Friday 28 August, at normal hours of Tuesday to Friday, 9:30 to 5. The diary is already open for that week and the days that follow, so you can reserve a slot now rather than waiting until we are back at the studio." },
+      { q: "Can I still book while you are away?", a: "Yes. Online booking stays open the whole time. Reserve any date from Friday 28 August onwards and it will be waiting for you when we return. The first few days back tend to fill quickly." },
+      { q: "My hair system maintenance is due this week. What should I do?", a: "Book the first available slot after we reopen rather than stretching the interval. An overdue bond starts to lift at the perimeter, which is the most common reason a system begins to look obvious to other people." },
+    ],
+    content: `The Amersham studio is closed for a short summer break and reopens on Friday 28 August at normal hours, Tuesday to Friday, 9:30 to 5.
+
+Online booking stays open the whole time, so nothing needs to wait until we are back. You can reserve a hair system maintenance appointment, a scalp micropigmentation session or a free confidential consultation for any date from the 28th onwards, and it will be there when we return.
+
+## If your maintenance falls due this week
+
+This is the one worth acting on. Hair system maintenance runs on a four to six week rhythm, and an overdue bond is the single most common reason a system starts to look like one, because it begins to lift at the perimeter where people notice.
+
+If yours is due around now, book the first slot back rather than stretching the interval further. The days immediately after a break fill quickly.
+
+## If you are still deciding
+
+Book a free confidential consultation for any date after the 28th. There is no obligation, nothing is sold to you, and you will get an honest assessment of your hair loss along with a personalized quote you are free to take away and think about.
+
+The studio is private, there is no signage on the door, and appointments are spaced so that no two clients ever overlap.
+
+## Book a free confidential consultation
+
+Reserve your appointment online for any date from Friday 28 August. We serve Amersham, Chesham, Beaconsfield, High Wycombe, Rickmansworth, Watford, Harrow and across Buckinghamshire and South Bucks.
+
+Call 07947 878087 or [book your free consultation online](/book). Back Friday 28 August, Tuesday to Friday, 9:30 to 5.`,
+  },
+  {
+    slug: "autumn-hair-shedding-explained",
+    title: "Why Is My Hair Shedding More in Autumn?",
+    category: "Hair Loss Solutions",
+    excerpt:
+      "Autumn shedding is real and there is research behind it. How to tell seasonal shedding from the start of pattern hair loss, and what to do about either.",
+    metaDescription:
+      "Autumn shedding is real and there is research behind it. How to tell seasonal shedding from the start of pattern hair loss, and what to do about either.",
+    readTime: "8 min read",
+    date: "2026-09-14",
+    author: "Lexie, hair replacement specialist, Men's Hair To Stay",
+    image: mhtsHairSheddingBrushHero,
+    featuredImageAlt: "A men's hairbrush on a dark grey surface with a noticeable amount of loose brown hair caught in the bristles",
+    faqs: [
+      { q: "How long does autumn shedding last?", a: "For most people the shedding builds to a peak and then tapers back to normal over six to nine months. If you are still losing noticeably more hair than usual the following spring, it is worth having it looked at properly, because a seasonal wave should have passed by then." },
+      { q: "Is losing 150 hairs a day something to worry about?", a: "Not on a single day. Normal is 50 to 100 a day, but that varies a lot with how often you wash and brush, so a heavy day after two days without washing means very little. What matters is the trend across weeks, which photographs show far better than counting does." },
+      { q: "Can seasonal shedding make me bald?", a: "No. Telogen effluvium is temporary and self correcting, and it does not cause baldness on its own. It can, however, unmask a genetic tendency to pattern hair loss that was already there. That is the shedding revealing the situation rather than causing it." },
+      { q: "Should I see a GP or come straight to you?", a: "See a GP first. That is the NHS recommendation and we agree with it. Thyroid problems and low iron are common causes of shedding, both are treatable, and neither needs anything we do. Come to us once you know what you are actually dealing with." },
+      { q: "Is shedding really a sign of regrowth?", a: "With this type of shedding, yes. A resting hair is not pushed out by damage, it is pushed out by a new hair growing up underneath it. DermNet describes hair fall in telogen effluvium as a sign of hair regrowth, which is why a fine fringe of short new hairs often appears along the hairline." },
+      { q: "Can I have a hair system or SMP while I am still shedding?", a: "You can be assessed at any time, but we would usually rather wait until the shedding settles, because both work best when the picture underneath is stable. Come in, get an honest read on what is happening, and we will tell you whether to act now or wait." },
+    ],
+    content: `Very likely seasonal. Research on 823 people found the proportion of resting hairs peaks in summer, and a resting hair sits in the scalp for roughly three months before a new one pushes it out, which lands the visible shedding in autumn. It normally settles on its own within a few months.
+
+There is a particular kind of alarm that comes with looking down at the shower tray in late September. More hair than last month. Noticeably more. And once you have seen it, you start counting.
+
+Before you spiral, the useful thing to know is that autumn is the single most likely time of year for this to happen to you, and that it happens to people whose hair is completely fine. It is also true that autumn is when a lot of people first notice something that was already underway. Both things are real, and telling them apart is the whole point of this article.
+
+## Is autumn shedding actually a real thing, or an internet myth?
+
+It is real, and there is proper research behind it rather than folklore.
+
+The most systematic study was carried out at the University Hospital of Zurich and published in the journal *Dermatology* in 2009. Researchers looked back over six years of records for people who had come in complaining of hair loss, excluded anyone with a disease or on a medication known to cause it, and were left with 823 healthy cases. Every one had a trichogram, which is a laboratory count of what proportion of plucked hairs are in the growing phase and what proportion are in the resting phase.
+
+The pattern was clear. There was an annual rhythm to hair growth and shedding, with the proportion of resting hairs reaching its maximum in summer. A second, less pronounced peak appeared in spring. Resting rates were at their lowest in late winter ([Kunz, Seifert and Trueb, *Dermatology*, 2009](https://karger.com/drm/article/219/2/105/103448)).
+
+Two honest caveats, because they matter. That study looked at women, and it was conducted in Switzerland rather than the UK. The authors were confirming what earlier researchers had reported, so this is not an isolated finding, but nobody should tell you it is settled science down to the month.
+
+## Why does the shedding land in autumn if the resting phase peaks in summer?
+
+This is the part that makes the whole thing click, and it comes down to how the hair cycle works.
+
+A hair does not fall out the moment it stops growing. It goes into a resting phase, called telogen, where it sits in the follicle doing nothing. DermNet puts the length of that phase at about three months. What eventually pushes it out is not decay or weakness, it is a brand new hair growing up underneath it and physically displacing it ([DermNet, Hair shedding](https://dermnetnz.org/topics/hair-shedding)).
+
+So follow the timeline. A large batch of hairs enters the resting phase at the summer peak. They sit there through the rest of the summer. Around three months later, new growth arrives underneath and evicts them, all at roughly the same time. That is September, October and November.
+
+Which leads to the genuinely counterintuitive fact at the heart of this. DermNet states it plainly: with this type of shedding, hair fall is a sign of hair regrowth. The hairs coming out are being pushed out by their replacements. Nothing is being lost that was not already finished.
+
+## How much shedding is normal in the first place?
+
+Both the NHS and DermNet give the same figure. It is normal to lose somewhere between 50 and 100 hairs a day, and the exact number depends on how much you comb, brush and wash ([NHS, Hair loss](https://www.nhs.uk/symptoms/hair-loss/)).
+
+That range is wider than most people assume, and the daily variation inside it is wider still. If you wash your hair every third day, the third day looks dramatic and the other two look fine, and nothing has changed except when the loose hairs came free.
+
+A more useful gauge than counting is comparing. Is the amount in the plughole different from what it was three months ago, or different from what you remember last October? Photographs help far more than counting does. Take one under the same light, from the same angle, once a month. Memory is unreliable about this and photographs are not.
+
+## What else pushes hair into the resting phase?
+
+Seasonal rhythm is one trigger. There are others, and it is worth ruling them out before settling on the calendar as the explanation. DermNet lists the common ones for telogen effluvium, which is the medical name for this kind of temporary shedding:
+
+- Illness, particularly anything involving a fever
+- Surgery or an accident
+- Psychological stress
+- Weight loss, an unusual diet, or a nutritional deficiency such as low iron
+- Certain medications
+- Thyroid problems, over or under active
+- Coming off the contraceptive pill
+- Childbirth
+- Excessive sun exposure
+
+Note the timing rule that goes with that list. The increase in hair fall shows up two to four months after the event that caused it, not at the time ([DermNet, Telogen effluvium](https://dermnetnz.org/topics/telogen-effluvium)). So if you had a rough June, an October shedding phase is not a coincidence and is not really seasonal at all.
+
+Notice how many of those are on the list, and that most of them resolve. Telogen effluvium is self correcting. The shedding reaches a peak, then tapers off and returns to normal over six to nine months in most cases.
+
+## How do you tell seasonal shedding from pattern hair loss?
+
+This is the question that actually matters, and there are four things that separate them.
+
+**Where it comes from.** Seasonal shedding is even. It comes from everywhere across the scalp at roughly the same rate, including the sides and the back. Male pattern hair loss has a shape to it, and DermNet describes that shape as a receding hairline with loss on the top and front of the head. The sides and back are largely spared. If the hair is going from specific places and holding elsewhere, the calendar is not your explanation.
+
+**Direction of travel.** Seasonal shedding is a wave. It builds, peaks and recedes, and your hair looks much as it did before. Pattern loss does not come back. It progresses, and it is caused by a genetically determined sensitivity to dihydrotestosterone that shortens the growing phase and gradually shrinks the follicles ([DermNet, Male pattern hair loss](https://dermnetnz.org/topics/male-pattern-hair-loss)).
+
+**What is coming back.** Look at the hairline in the mirror in a couple of months. With telogen effluvium you often get a fine fringe of short new hairs along the forehead, which is the replacement growth arriving. With pattern loss, what regrows is finer and shorter than what it replaced, over and over, until it stops appearing at all.
+
+**Whether it stops.** Six to nine months is the normal course. If you are still shedding heavily the following spring, it is not seasonal.
+
+There is a complication worth being straight about, because it is the reason so many people date the start of their hair loss to an autumn. A round of temporary shedding does not cause baldness on its own, but it can unmask a genetic tendency that was already there and had not yet become visible. The seasonal wave takes out a layer of hair, what is underneath turns out to be thinner than you realized, and the wave receding does not put it back the way it was.
+
+That is not the shedding causing the hair loss. It is the shedding revealing it. But it explains why September is such a common month for someone to book a first appointment.
+
+## What should you actually do?
+
+Start with the boring answer, because it is the right one. The NHS position is to see a GP to get an idea of what is causing your hair loss before thinking about going to a commercial hair clinic. A GP can check for the things on that trigger list, thyroid function and iron in particular, which are common, treatable, and nothing to do with genetics.
+
+Beyond that, DermNet's recommendations for telogen effluvium are unglamorous and sensible: handle the hair gently, avoid vigorous combing, brushing and scalp massage, eat properly with enough protein, and correct any deficiency that turns up on a blood test. There is no treatment that speeds it up, because there is nothing wrong to treat.
+
+What is worth doing meanwhile is establishing a baseline. Photographs, monthly, same light, same angles, including the crown. In six months those photographs will answer the question that no amount of worrying in September can.
+
+## What if it turns out not to be seasonal?
+
+Then you have options, and none of them need deciding today.
+
+If the thinning is diffuse and there is still hair to work with, [hair density treatment](/hair-density/thinning-hair-treatment) adds fullness into what you already have rather than replacing it. If the loss is more established, a [hair system](/hair-systems) gives an immediate result, and DermNet notes that this is the one advantage hairpieces have over everything else, since other treatments take months or years to show visible improvement. If you shave short or want the look of density on a close crop, [scalp micropigmentation](/scalp-micropigmentation) works differently again, and our [guide to how permanent SMP is](/blog/is-scalp-micropigmentation-permanent) covers what it does and does not do.
+
+A [free consultation](/blog/what-happens-at-a-free-hair-loss-consultation) is genuinely just an assessment. You will be told if what you have looks seasonal, and if it does, you will be told to go away and come back in six months. That is a real outcome of these appointments and it happens often.
+
+We see people from [Amersham](/areas/amersham), [Chesham](/areas/chesham), [Beaconsfield](/areas/beaconsfield) and across Buckinghamshire, and autumn is our busiest season for first appointments for exactly the reasons in this article.
+
+## Book a free confidential consultation
+
+Book a free confidential consultation at Men's Hair To Stay in Amersham. The studio is private, there is no signage on the door, and nothing you discuss is shared with anyone. Men and women, all hair types and backgrounds welcome.
+
+We serve Amersham, Chesham, Beaconsfield, High Wycombe, Rickmansworth, Watford, Harrow and across Buckinghamshire and South Bucks.
+
+Call 07947 878087 or [book your free consultation online](/book). Open Tuesday to Friday, 9:30 to 5.
+
+---
+
+**About the author.** Lexie is the hair replacement specialist at Men's Hair To Stay in Amersham, with around eight years of experience fitting custom hair systems and carrying out scalp micropigmentation for men and women across Buckinghamshire.`,
+  },
+  {
+    slug: "swimming-gym-showering-with-a-hair-system",
+    title: "Can You Swim, Shower and Go to the Gym With a Hair System?",
+    category: "Hair Systems",
+    excerpt:
+      "Yes to all three. What water, sweat and heat do to a hair system, how they affect your maintenance interval, and what to ask at your fitting.",
+    metaDescription:
+      "Yes to all three. What water, sweat and heat do to a hair system, how they affect your maintenance interval, and what to ask at your fitting.",
+    readTime: "8 min read",
+    date: "2026-09-21",
+    author: "Lexie, hair replacement specialist, Men's Hair To Stay",
+    image: mhtsHairSystemMaintenanceHero,
+    featuredImageAlt: "Gloved hands cleaning the underside of a hair system base with a cotton swab on a studio worktop",
+    faqs: [
+      { q: "Can I go underwater and dive with a hair system?", a: "Yes. A bonded system is attached with waterproof adhesive and is designed to stay on in water, including underwater. What repeated swimming does is work against the bond over time, particularly at the front edge, which usually means booking maintenance at the shorter end of your interval." },
+      { q: "Will chlorine ruin the hair?", a: "It is hard on it, in the same way it is hard on growing hair. The difference is that a system cannot replace what gets damaged, so it accumulates. Rinsing with clean water immediately after swimming, before the chlorine dries in, makes more difference than any product." },
+      { q: "Do I need to wear a swimming cap?", a: "It is optional and people go both ways. Some find a cap protects the hair from chlorine. Others find that pulling a tight cap on and off puts more strain on the perimeter than the swim itself. Try it and see which suits your bond." },
+      { q: "How soon after a fitting can I swim?", a: "Ask at your appointment, because it depends on the adhesive used and there is no single figure that covers every product. It is a short wait rather than a long one, and getting it right matters more for the first bond than for later ones." },
+      { q: "Does training regularly mean more frequent maintenance?", a: "Usually it moves you to the shorter end of the four to six week window rather than adding extra appointments. Sweat is produced directly under the base, so it works on the bond more than splashed water does. Tell us how often you train and we will plan the interval around it." },
+      { q: "Can I use a sauna or steam room?", a: "On a human hair system this is a question about your bond and your scalp, and it is worth discussing. On synthetic fibre it is a question about whether the hair survives, because DermNet notes synthetic is easily damaged by heat. Find out which you have before you go in." },
+    ],
+    content: `Yes to all three. A bonded hair system is attached with waterproof adhesive and is designed to stay on in water. Swimming, sweating and daily showering do not remove it, but they do shorten how long a bond holds cleanly, which usually means maintenance at the shorter end of the four to six week window.
+
+Nobody asks this question first. They ask about the hairline, and whether it looks natural, and how long it lasts. Then, usually near the end of the appointment and often slightly awkwardly, they ask whether they can still swim.
+
+It is a better question than it sounds, because it is really asking something bigger. Will this thing run my life, or will my life run as it did. Here is the honest version of the answer, including where the compromises actually are.
+
+## The short answer
+
+You can swim. You can shower every day. You can train hard, sweat properly, and get rained on walking back to the car.
+
+A bonded hair system is attached with adhesive designed for exactly this. DermNet's summary of attachment methods for partial hair additions lists adhesives applied to the skin including double sided tapes and waterproof liquids ([DermNet, Hairpieces and wigs](https://dermnetnz.org/topics/hair-pieces-and-wigs)). Waterproof is not marketing language, it is what the product is.
+
+What water and sweat do is not remove the system. What they do is work steadily against the bond, so that a bond which might have held cleanly for six weeks in a quiet month holds cleanly for four in an active one. That is the whole trade off, and it is a scheduling trade off rather than a lifestyle one.
+
+## Swimming, pools and the sea
+
+You can get in and swim normally. You can go underwater. The system stays on.
+
+Two things are worth knowing.
+
+Chlorine is hard on hair, and it is hard on your own hair too. The difference is that your own hair is attached to a scalp with a blood supply that keeps producing oil and replacing what gets damaged. A hair system is not. Every hair on it is the only version of that hair you are going to get, so damage accumulates rather than growing out. Rinsing with clean water straight after swimming, before the chlorine dries in, does more good than any product does.
+
+Salt water is drying in a similar way and is generally kinder than chlorine, but the same rinse rule applies.
+
+The second thing is mechanical rather than chemical. Repeated soaking and drying at the perimeter is where a bond starts to give, and the front hairline is both the most delicate part of the base and the part most exposed. If you swim several times a week, expect the front edge to be the first place that needs attention.
+
+A swimming cap is optional. Some people use one and find it makes no difference to how the hair looks afterwards. Others find that pulling one on and off is harder on the perimeter than the swim was.
+
+## The gym, sweat and heat
+
+Sweat is salt water with oils in it, produced directly underneath the base rather than splashed on top of it, which is why regular training tends to move your maintenance interval more than swimming does.
+
+None of this stops you training. It changes two habits.
+
+Wash properly rather than rinsing. Sweat left to dry under a base is the main cause of the scalp feeling less than fresh between appointments, and it is the main cause of a bond loosening early at the edges.
+
+Dry the perimeter deliberately. Not with heat necessarily, just properly. A perimeter that stays damp under a hat all day is the one that lifts.
+
+## Showering and washing every day
+
+You can wash your hair daily. There is no rule that says a system wearer showers less.
+
+What changes is what you wash with and how you handle it. DermNet's guidance on human hair pieces is that they need washing and conditioning with care, that colour can fade, and that depending on the make they may need professional cleaning around once a month. That last point is worth reading twice, because it explains something people find puzzling. Your maintenance appointment is not simply a reattachment. Part of what it is for is the cleaning that cannot be done properly while the system is on your head.
+
+Scrubbing at the roots the way you would with growing hair is the habit to break. The hair is knotted or injected into a base, and vigorous rubbing at the base is what loosens knots over time.
+
+## Does an active life mean a different base?
+
+Sometimes, and this is a real conversation to have rather than a sales one.
+
+The most undetectable bases are the thinnest, and the thinnest are the most fragile. There is a genuine trade off between how invisible the front edge is and how much it will tolerate. If you swim four times a week, the most delicate base available is not automatically your best option, even if you can have it.
+
+That is not an argument for the thickest base either. It is an argument for saying out loud at your consultation how you actually live, rather than how you would like to describe your week. A studio that knows you swim on Tuesdays and Thursdays will recommend something different from a studio that thinks you sit at a desk.
+
+The same applies to running two systems and alternating them, which most long term wearers end up doing. One is worn while the other is cleaned and rested. If your life is hard on hair, that rotation is doing more work than it would for someone else.
+
+## What about synthetic hair?
+
+If your system is acrylic or synthetic rather than human hair, the heat rules change and they are stricter than most people expect.
+
+DermNet is specific: synthetic fibre is easily damaged by electric styling tools, and also by the rush of heat from opening an oven door, from steaming pots, and from a barbecue. It is also hot to wear in summer, and lasts roughly six to nine months. Human hair by comparison gives a very natural appearance, tolerates a dryer or tongs on a low setting, is cooler to wear, and lasts up to two years if it is well cared for.
+
+The practical consequence for an active life is saunas, steam rooms and hot yoga. On human hair these are a question of what the heat does to your bond and your scalp. On synthetic fibre they are a question of whether the hair survives at all.
+
+Ask which you have. If nobody has told you, ask before your next gym session in the steam room.
+
+## One thing nobody should be offering you
+
+Because this article is about attachment holding up under real conditions, it is worth stating the boundary.
+
+DermNet is unambiguous that hairpieces should not be sutured to the scalp, because of the risk of scarring and infection. If anyone offers to stitch or surgically anchor a system to your head so that it never comes off, that is not a more secure option, it is a medical risk that a reputable studio will not go near.
+
+Adhesive bonds are designed to be removed and reapplied. That is a feature, not a limitation, and it is what allows the scalp underneath to be cleaned and inspected every few weeks.
+
+## Building a routine that holds
+
+Most of this reduces to five habits.
+
+1. Rinse after swimming, before the chlorine or salt dries.
+2. Wash properly after training rather than rinsing and hoping.
+3. Dry the perimeter, particularly the front, rather than leaving it damp under a hat.
+4. Be gentle at the base and vigorous nowhere.
+5. Keep the maintenance interval you were given, and shorten it rather than stretching it if you are training hard.
+
+That last one is the one that matters most. [Maintenance every four to six weeks](/blog/hair-system-maintenance-4-to-6-weeks) is the standard for a bonded system, and an active life pushes you toward the shorter end rather than allowing you the longer one. Stretching an overdue bond is a false economy, because a lifted bond looks obvious and is harder on the base when it finally comes off.
+
+If you want the detail on what an appointment involves, our [hair system maintenance service](/hair-system-maintenance) covers it, and our answer to [whether a hair system looks natural](/blog/does-a-hair-system-look-natural) covers the fitting side.
+
+Ask at your fitting how long to wait before your first swim, because it depends on which adhesive is used and there is no single number that applies to everyone.
+
+We fit and maintain systems for people across [Amersham](/areas/amersham), [Chesham](/areas/chesham), [High Wycombe](/areas/high-wycombe) and [Watford](/areas/watford), including plenty who swim and train several times a week.
+
+## Book a free confidential consultation
+
+Book a free confidential consultation at Men's Hair To Stay in Amersham. The studio is private, there is no signage on the door, and nothing you discuss is shared with anyone. Men and women, all hair types and backgrounds welcome.
+
+We serve Amersham, Chesham, Beaconsfield, High Wycombe, Rickmansworth, Watford, Harrow and across Buckinghamshire and South Bucks.
+
+Call 07947 878087 or [book your free consultation online](/book). Open Tuesday to Friday, 9:30 to 5.
+
+---
+
+**About the author.** Lexie is the hair replacement specialist at Men's Hair To Stay in Amersham, with around eight years of experience fitting custom hair systems and carrying out scalp micropigmentation for men and women across Buckinghamshire.`,
+  },
+  {
+    slug: "smp-for-hair-transplant-scars",
+    title: "Can SMP Cover a Hair Transplant Scar?",
+    category: "Scalp Micropigmentation",
+    excerpt:
+      "Camouflaging strip and FUE scars with SMP. What the clinical literature says works, why scar tissue behaves differently, and what to realistically expect.",
+    metaDescription:
+      "Camouflaging strip and FUE scars with SMP. What the clinical literature says works, why scar tissue behaves differently, and what to realistically expect.",
+    readTime: "9 min read",
+    date: "2026-09-28",
+    author: "Lexie, hair replacement specialist, Men's Hair To Stay",
+    image: mhtsSmpHealedResultBackHero,
+    featuredImageAlt: "Healed scalp micropigmentation on a closely shaved head, viewed from behind, showing even stippled density",
+    faqs: [
+      { q: "Can SMP cover a strip harvest scar?", a: "This is one of the applications the clinical literature lists explicitly, including wide or obvious scars from strip harvesting. It works by reducing the contrast between the pale hairless scar and the stubbled scalp around it, so the scar becomes minimally detectable rather than disappearing." },
+      { q: "What about the small dots left by FUE?", a: "Also listed explicitly. Follicular unit extraction leaves punctate scars, and the same stippling approach applies. Because they are scattered rather than linear, the work is usually about restoring an even overall impression across the donor area rather than treating one line." },
+      { q: "Will the scar disappear completely?", a: "No, and anyone promising that is overselling it. The clinical description is that deformities are made minimally detectable. At normal conversational distance the scar stops drawing the eye. At close range under bright light, it is still there." },
+      { q: "How many sessions will I need?", a: "The reference paper reports that many patients have between two and four sessions before the process is complete. Building it up gradually is deliberate, because it keeps the pigment in the upper dermis and reduces the risk of it spreading and blurring, which matters more on scar tissue." },
+      { q: "Can I have SMP if I still have hair on the rest of my head?", a: "Yes. The literature describes SMP as valuable in any effort to make hair appear more plentiful, not only on shaved heads. It can be used as density work underneath existing hair as well as for camouflage, and the two are often combined." },
+      { q: "Should a tattoo artist do this instead?", a: "The paper is direct that professional tattooists have no experience with the variables of a diseased or scarred scalp. It is a different skill from decorative tattooing. Ask to see healed results on scars specifically, not fresh work, before letting anyone near your donor area." },
+    ],
+    content: `Usually yes. The peer reviewed literature describes scalp micropigmentation as very effective at camouflaging scars, including wide strip harvest scars and the small punctate scars left by follicular unit extraction. Scar tissue holds pigment differently from normal scalp, so it takes more sessions and more skill than standard SMP.
+
+If you had a transplant that did not go the way you were promised, you are in a frustrating position. You paid for a solution, you went through a procedure, and what you are left with is a donor area you now have to think about every time you have your hair cut short.
+
+This is a more common situation than the hair restoration industry likes to discuss, and there is a well documented answer to it. Here is what the clinical literature actually says, including the parts that are less encouraging.
+
+## The short answer
+
+Scalp micropigmentation is described in the peer reviewed literature as very effective in camouflaging scars.
+
+The reference paper on the technique, published in the *Journal of Clinical and Aesthetic Dermatology*, was written specifically around this problem. Its stated background is that cosmetic deformities resulting from dermatologic diseases, or caused by hair restoration surgeries, have had few if any good permanent solutions, and that most patients have simply learned to live with them ([Rassman, Pak, Kim and Estrin, *JCAD*, 2015](https://jcadonline.com/scalp-micropigmentation-a-concealer-for-hair-and-scalp-deformities/)).
+
+The conclusion is that many of these deformities can be concealed with SMP, making them minimally detectable, and that patient satisfaction is very high.
+
+Note the word concealed. That is the correct word and it is used deliberately throughout the paper. Nothing here removes a scar or regrows hair in it.
+
+## Which scars is this actually for?
+
+The paper lists the clinical applications explicitly, and hair transplant damage takes up several of them:
+
+- Wide or obvious scars from donor strip harvesting techniques
+- Open donor scars from harvesting techniques used between the 1950s and the early 1990s
+- Punctate scars created by more modern follicular unit extraction
+- Donor area hair depletion and a see through donor area
+- The old pluggy or corn row look, with or without donor depletion
+- Neurosurgery scars, and scars from head trauma or other surgeries
+- Scalp scars from scarring alopecias
+
+The scale is worth knowing if you have been feeling like an unusual case. The authors estimate that the number of people living with a see through donor area, donor depletion or severe donor scarring runs into the hundreds of thousands, and they describe iatrogenic deformities in millions of men from procedures carried out between the 1950s and 1990s.
+
+There is also a pattern the paper identifies that is worth recognizing, because it may be your history. Patients who went back for corrective surgery often became donor depleted as the number of procedures increased, which created its own coverage and scarring problems at the back and sides. More surgery is not reliably the answer to unsuccessful surgery.
+
+## How does SMP hide a scar?
+
+SMP is a cosmetic tattoo applied in a stippling pattern, using individual deposits of pigment that mimic hair follicles cut close to the scalp.
+
+Against a scar, it works on contrast rather than concealment in the ordinary sense. A scar is visible mainly because it is a smooth, pale, hairless area sitting inside a textured, darker, stubbled one. Your eye finds the edge. SMP reduces that difference. The paper describes how the density of the stippling can be designed to produce shading and to create the illusion of texture and fullness, worked out between the practitioner and the patient.
+
+So the scar does not go. What goes is the thing that made your eye land on it.
+
+This matters for expectations, and the paper is direct about that too: establishing a realistic expectation is described as a critical goal of the first consultation. Anyone who tells you a scar will vanish is not describing this treatment.
+
+## Why scar tissue is harder than normal scalp
+
+This is the part that separates a practitioner who has done this from one who has not, and it is worth understanding before you book anything anywhere.
+
+**Scars hold pigment differently.** The paper states plainly that scars retain pigment very differently than the skin of an atrophic or normal scalp. The same needle, the same pigment and the same technique will not produce the same result inside a scar as it does two centimetres away.
+
+**Scarred skin feels different to work on.** A thicker scalp with more fat and supporting structure behaves differently under the needle from an atrophic or scarred one. That changes what the operator feels and sees while the work is happening, which is information they need to be reading correctly in real time.
+
+**The blending extends beyond the scar.** This is the subtle one. A white scar has to be blended into the tan or darker skin around it, so the artistic judgement carries out into the normal scalp rather than stopping at the edge of the scar. Treating only the scar itself produces a patch, which is a different visible problem rather than a solution.
+
+**Depth decides everything.** Pigment placed too shallow leaks out within days. Placed too deep it spreads beyond where it was put and the dot blurs, which the paper calls bleeding. Bleeding that occurs in a session has to be dealt with, possibly with a Q switched laser, before the next phase of treatment can go ahead. On scar tissue, where the skin behaves unpredictably, that margin is narrower.
+
+## How many sessions does it take?
+
+SMP is a course, not a single appointment. The authors usually recommend multiple sessions, and many of their patients have between two and four before the process is complete, specifically so that only the upper layer of the dermis is penetrated at each pass.
+
+Sessions are long. The paper describes them extending up to eight hours, with more than 40,000 individual deposits possible in a single session, though a scar camouflage case is a smaller area than full scalp coverage.
+
+The reason for building it up across sessions rather than doing it in one is directly relevant to scars. Going cautiously and slowly minimizes pigment bleeding. On tissue that holds pigment unpredictably, that caution is doing real work.
+
+## Who should be doing this?
+
+The paper is blunt in a way that is useful to quote: professional tattooists have no experience dealing with the many variables of the human disease or scarred scalp.
+
+That is not a slight on tattoo artists. It is a statement that scalp work on damaged tissue is a different skill from decorative tattooing, and that the variables involved are not ones a general tattoo practice encounters.
+
+The paper also notes a rise in problems caused by inexperienced operators, with pigment bleeding common and colour changes resulting from poor pigment choices. Colour matters more than people expect. A blue or green tint can develop through the same optical effect that makes veins under the skin look blue, and ultraviolet exposure can alter pigment colour over time.
+
+Practical questions to ask anyone before they touch your donor area:
+
+1. How many scar camouflage cases have you done, as opposed to standard SMP?
+2. Can I see healed results on scars, not fresh ones?
+3. How will you blend the edge into the skin around the scar?
+4. How many sessions are you planning, and how far apart?
+5. What happens if the scar tissue takes pigment differently from how you expect?
+
+That second question is the one that matters most. Fresh SMP always looks impressive. Healed SMP, months later, is the only fair test.
+
+## What SMP will not do
+
+Being clear about this is more useful than a sales pitch.
+
+It does not regrow hair. It does not treat the underlying condition. The paper describes it as a tattoo based, non medical cover up that merely covers the appearance of unsightly scars, deformities, and balding or thinning areas. It does not act chemically on the body and it does not diagnose, prevent or treat anything.
+
+It will not make a scar disappear at close range under bright light. It makes it minimally detectable, which is a different claim and an honest one.
+
+It also carries the risks that come with any tattoo, and the paper lists them: infection, including reported outbreaks of non tuberculous mycobacterial infection linked to contaminated tattoo inks, allergy to pigment components, and granuloma formation. These are uncommon and they are reasons to care about who does the work and under what conditions.
+
+And it is not permanent in the sense of unchanging. Touch ups are described as an important part of the follow up service, because the initially uniform appearance changes over time. Our article on [how permanent SMP actually is](/blog/is-scalp-micropigmentation-permanent) goes through that in detail.
+
+## Is it worth it after a transplant that did not work?
+
+For most people in that position, this is the treatment that finally closes the subject, and there are two reasons why.
+
+The first is that it addresses the actual complaint. What bothers people about a failed transplant is usually not the density on top. It is that they can no longer have their hair cut short without a conversation.
+
+The second is that it does not require anything further to be taken from a donor area that has already given up more than it should have. Where more surgery risks compounding the depletion, camouflage does not.
+
+If you still have hair elsewhere, SMP is not limited to bare scalps either. The paper describes it as having great value as part of any effort to make hair appear more plentiful, which means density work under existing hair as well as camouflage on shaved heads. Our comparison of [SMP and hair transplants](/blog/smp-vs-hair-transplant) covers how the two approaches differ, and if you would rather have length than a close crop, a [hair system](/hair-systems) is the other route, since DermNet notes hairpieces are also used where hair replacement surgery has not been successful.
+
+Bring photographs of the donor area in daylight to a consultation, and be prepared to have the scar looked at closely. You will get an honest assessment of what can be achieved on your tissue specifically, which is the only assessment worth having.
+
+We carry out [scalp micropigmentation](/scalp-micropigmentation) for people across [Amersham](/areas/amersham), [Beaconsfield](/areas/beaconsfield), [Gerrards Cross](/areas/gerrards-cross) and the surrounding area, including scar camouflage after surgery elsewhere.
 
 ## Book a free confidential consultation
 

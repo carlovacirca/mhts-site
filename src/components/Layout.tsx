@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import BrandHeader from "./BrandHeader";
+import HolidayBanner from "./HolidayBanner";
 import Footer from "./Footer";
 import CookieConsentBanner from "./CookieConsentBanner";
 import GoogleAnalytics from "./GoogleAnalytics";
@@ -8,6 +9,7 @@ const Layout = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <GoogleAnalytics />
+      <HolidayBanner />
       <BrandHeader />
       <main className="flex-1">
         <Outlet />

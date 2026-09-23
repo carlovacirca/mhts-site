@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "deploy": "npm run build && git add -A && git commit -m \"Publish August 2026 content\" && git push"
+    "deploy": "npm run build && npx wrangler pages deploy dist",
+    "push": "git add -A && git commit -m \"Update site content\" && git push"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

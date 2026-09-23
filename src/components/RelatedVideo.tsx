@@ -8,16 +8,20 @@ interface RelatedVideoProps {
   videoId?: string;
 }
 
-const DEFAULT_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-const DEFAULT_THUMB = "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg";
+// No default video. A placeholder default here once shipped a joke video onto
+// every blog post that did not pass an explicit url. If nothing is passed, the
+// component renders nothing.
 
 const RelatedVideo = ({
-  url = DEFAULT_URL,
-  thumbnail = DEFAULT_THUMB,
+  url,
+  thumbnail,
   title = "Watch on YouTube",
   videoId,
 }: RelatedVideoProps) => {
   const [playing, setPlaying] = useState(false);
+
+  // Nothing to show unless a real video is supplied.
+  if (!videoId && !url) return null;
 
   return (
     <section className="container mx-auto px-4 pb-12">

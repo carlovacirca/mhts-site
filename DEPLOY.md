@@ -1,65 +1,92 @@
 # Deploying Men's Hair To Stay
 
-## The one command
+## The site is on Cloudflare Pages, not Netlify
 
-From the `menshairtostay` folder, in the VS Code terminal:
+**Pushing to GitHub does not publish the site.** It only saves the source. Publishing needs a separate wrangler deploy.
+
+There is a `netlify.toml` in this repo, but it is not what serves the site. It is left over and it is misleading. The real signal is the `.wrangler` folder, and the fact that Georges Barbers behaves the same way.
+
+## To publish
+
+From the `menshairtostay` folder:
 
 ```
 npm run deploy
 ```
 
-That runs four steps in order and stops if any of them fails:
+That runs `vite build` then `npx wrangler pages deploy dist`. Wrangler will ask which Cloudflare Pages project to deploy to the first time.
 
-1. `npm run build` — compiles the site and catches any type error before it reaches the live site
-2. `git add -A` — stages everything
-3. `git commit` — commits with the message "Publish August 2026 content"
-4. `git push` — pushes to `origin/main`
+## To save the source to GitHub
 
-Netlify picks up the push and rebuilds. Give it a minute or two, then check the site.
-
-## If you want your own commit message
+Separate step, and it does not publish anything:
 
 ```
-npm run build
+npm run push
+```
+
+Or with your own message:
+
+```
 git add -A
-git commit -m "your message here"
+git commit -m "your message"
 git push
 ```
 
-## Things that will stop it, and what they mean
+## Doing both
 
-**"nothing to commit, working tree clean"** — everything is already committed. Run `git push` on its own to send it.
+Publish first, then save:
 
-**A TypeScript or build error** — the build failed, so nothing was committed or pushed. That is the point of running the build first. Fix the error and run it again.
+```
+npm run deploy
+npm run push
+```
 
-**`git push` asks for credentials** — GitHub needs a personal access token rather than a password. Once you save it, it will not ask again.
+## Things that go wrong, and what they mean
 
-## How the site actually goes live
+**`Unable to create '.git/index.lock': File exists`**
+A stale lock from an interrupted git operation. Check the date on `.git/index.lock`. If nothing is actually running, delete it and try again:
 
-`netlify.toml` in the repo root is the deploy config. It sets the build command, the publish directory, the single page app redirect, HTTPS enforcement, the content security policy and cache headers. The push triggers a Netlify build.
+```
+del .git\index.lock
+```
 
-There is a leftover empty `.wrangler` folder in the repo from a Cloudflare experiment. It has no config file in it and nothing uses it. Ignore it.
+**`LF will be replaced by CRLF`**
+Line endings on Windows. Harmless, ignore it.
 
-**Worth confirming once:** open the Netlify dashboard and check the site is connected to `github.com/carlovacirca/mhts-site` with automatic builds enabled. If it is not, the push will not publish and you would need to trigger a deploy manually. There is an old commit in the history called "Trigger redeploy", which suggests pushes do trigger builds, but check it once so you know for certain.
+**Build fails with a type error**
+Nothing was deployed. That is the point of building first. Fix the error and run again.
+
+**The site looks unchanged after deploying**
+Hard refresh, Ctrl+Shift+R. Cloudflare caches the old bundle aggressively.
 
 ## What happens to the August blogs when you deploy
 
-All five go up at once as URLs, but the blog listing only shows a post once its date has arrived. Today is 5 August, so:
+All five URLs go live at once, but the blog listing only shows a post once its date has arrived.
 
-| Post | Date | Visible in the listing after deploy |
+| Post | Date | In the listing after deploy |
 |---|---|---|
-| Does a hair system look natural | 3 Aug | Yes, its date has passed |
-| Is SMP permanent | 10 Aug | No, appears on 10 August |
-| SMP vs hair transplant | 17 Aug | No, appears on 17 August |
-| What affects the cost of hair restoration | 24 Aug | No, appears on 24 August |
-| What happens at a free consultation | 31 Aug | No, appears on 31 August |
+| Does a hair system look natural | 3 Aug | Yes, date has passed |
+| Is SMP permanent | 10 Aug | Appears 10 August |
+| SMP vs hair transplant | 17 Aug | Appears 17 August |
+| What affects the cost of hair restoration | 24 Aug | Appears 24 August |
+| What happens at a free consultation | 31 Aug | Appears 31 August |
 
-The date check runs in the browser on every visit, so **one deploy covers the whole month**. You do not need to push again each Monday.
+The date check runs in the browser on every visit, so **one deploy covers the whole month**. No need to deploy again each Monday.
 
 To see the scheduled posts before their date, visit `/blog?preview=1`.
 
-One thing to know: the scheduled post URLs do resolve if someone types them directly, and all five are in the sitemap from day one. Nothing links to them until their Monday, so no visitor will stumble on them, but Google could crawl one early. That trade off keeps the month hands off and avoids errors in Search Console.
+Post URLs do resolve if typed directly, and all five sit in the sitemap from day one. Nothing links to them until their Monday, so no visitor will find them early, but Google could crawl one ahead of time. That trade off keeps the month hands off.
 
-## Before you deploy
+## Worth doing at some point
 
-The five blog heroes are still placeholder images from the existing bank. The posts will publish and read correctly, but the pictures are not the ones the shot list calls for. You can either deploy now and update images later, which is a one line change per post, or wait until the photos are in.
+Delete `netlify.toml`, or rename it to `netlify.toml.unused`. It describes redirects, headers and a content security policy that are not being applied by anything, so it reads as live configuration when it is not. Anyone looking at this repo, including me, will draw the wrong conclusion from it.
+
+The redirects and headers it defines would need setting up in Cloudflare if they are not already there. Worth checking:
+
+- HTTP to HTTPS enforcement
+- The SPA catch-all so client-side routes resolve on a direct hit or refresh
+- The 301 from `/georges-barbers` to `georgesbarbers.co.uk`
+- Security headers and the content security policy
+- Long cache on `/assets/*`
+
+If the site is working correctly today, most of this is already configured in the Cloudflare dashboard and the file is simply redundant.

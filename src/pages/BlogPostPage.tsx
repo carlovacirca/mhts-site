@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import RelatedVideo from "@/components/RelatedVideo";
 import NewsletterSubscribeBar from "@/components/NewsletterSubscribeBar";
 import { useCanonical } from "@/lib/seo";
 import { blogPosts } from "@/data/blogPosts";
@@ -484,20 +483,7 @@ const BlogPostPage = () => {
 
       </div>
 
-      {/* Related Video */}
-      {post.slug === "non-surgical-hair-replacement-men-uk" ? (
-        <RelatedVideo
-          videoId="ZDSasEXYfGw"
-          thumbnail="https://i.ytimg.com/vi/ZDSasEXYfGw/maxresdefault.jpg"
-          title="Hair System | Pros & Cons | Top 8 Facts Hair Loss | Non-Surgical Hair Replacement System Men UK"
-          url="https://www.youtube.com/watch?v=ZDSasEXYfGw"
-        />
-      ) : post.slug === "best-hair-transplant-alternatives-non-surgical-solutions" ||
-        post.slug === "hair-system-maintenance-4-to-6-weeks" ||
-        post.slug === "hair-density-treatment-for-thinning-hair" ||
-        post.slug === "modern-hair-system-vs-surgery" ? null : (
-        <RelatedVideo title={post.title} />
-      )}
+
 
       {/* Related */}
       <section className="container mx-auto px-4 pb-12">
