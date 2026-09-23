@@ -8,7 +8,7 @@ Update and recommit it whenever a meaningful decision or change is made.
 |---|---|
 | **Client** | Men's Hair To Stay, menshairtostay.co.uk |
 | **Repo** | github.com/carlovacirca/mhts-site, branch `main` |
-| **Current phase** | Phase 1. 0a, 0b and 1 done. Task 2 built, awaiting deploy. **Deadline: first automated blog live for all four clients Monday 5 October 2026** |
+| **Current phase** | Phase 1. Tasks 0a, 0b, 1, 2 done. Next: task 3, Research Agent. **Deadline: first automated blog live for all four clients Monday 5 October 2026** |
 | **Last updated** | 23 September 2026 |
 | **Owner** | Carlo Vacirca |
 
@@ -93,7 +93,7 @@ interface BlogPost {
 
 ## 4. Data contracts
 
-> Status: **4.1 implemented in task 0a. 4.2 created in D1 in task 1 (`rank-automation` repo, `db/migrations/0001_init.sql`). 4.3 built in task 2, not yet deployed.** The dashboard should build against these shapes. Raise changes here before implementing them anywhere.
+> Status: **4.1 implemented in task 0a. 4.2 created in D1 in task 1 (`rank-automation` repo, `db/migrations/0001_init.sql`). 4.3 live since task 2.** The dashboard should build against these shapes. Raise changes here before implementing them anywhere.
 
 ### 4.1 Markdown frontmatter
 
@@ -232,7 +232,7 @@ Cost is computed in the runner from a pricing table in config, not hardcoded per
 
 ### 4.3 Worker API
 
-Base: `https://<worker>.workers.dev/api`. Bearer token for Actions and dashboard. Telegram webhook verified with `X-Telegram-Bot-Api-Secret-Token`.
+Base: `https://rank-automation.carlo-vacirca.workers.dev/api`. Bearer token for Actions and dashboard. Telegram webhook verified with `X-Telegram-Bot-Api-Secret-Token`.
 
 | Method | Path | Purpose |
 |---|---|---|
@@ -288,7 +288,7 @@ Reference implementations: `content staging/august-2026/` and `content staging/s
 | 0a | Markdown content layer in the Vite app, Zod schema, `import.meta.glob` loader | **Done 23 Sep.** Pushed as `6d0722a`. Not yet deployed, the first 0b run deploys it |
 | 0b | GitHub Action: build and `wrangler pages deploy` on merge to `main` | **Done 23 Sep.** Stage 1 deployed `f95b19e` to a preview URL. Stage 2 `901e79e` deploys `main` to production. Verified live: `menshairtostay.co.uk` serves bundle `index-ChM7DBzp.js`, the old `index-nQQevdLg.js` is gone |
 | 1 | D1 database, tables, seed `clients` and `agents` | **Done 23 Sep.** D1 `rank-automation` (region weur) created by the Database Action in `rank-automation` repo, commit `e91f735`. All 6 contract tables present plus `d1_migrations` (Wrangler's own tracking table). `clients` seeded with `mhts`. Agents are seeded in tasks 3 and 4 with their prompts |
-| 2 | Worker API | **Built 23 Sep**, `rank-automation` commit `b9c8473`. 35 of 35 local API checks pass. Awaiting first deploy (needs `WORKER_API_TOKEN` secret and Workers Scripts Edit on the Cloudflare token) |
+| 2 | Worker API | **Done 23 Sep.** `rank-automation` commit `b9c8473`, live at `https://rank-automation.carlo-vacirca.workers.dev`. 35 of 35 local checks pass. Deploy check: `/api/health` 200, `/api/tasks` 401 without token, 200 with token |
 | 3 | Research Agent script, Claude API with web search, proposes 2 to 3 topics | Not started |
 | 4 | Writer Agent script, full post as validated markdown | Not started |
 | 5 | Image generation, OpenAI, committed to `src/assets` in the same PR | Not started |
