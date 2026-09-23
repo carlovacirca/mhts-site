@@ -87,7 +87,7 @@ interface BlogPost {
 
 **Agent design:** each agent (Research, Writer, later Editor) stores its system prompt and memory in D1, not in code. Editable like an employee profile and chattable from the future dashboard. Every run logs tokens, cost in USD and duration to `agent_runs`.
 
-**Repos:** one per client, not a monorepo. Phase 1 is MHTS only.
+**Repos:** one repo per client site, plus one private repo, `carlovacirca/rank-automation`, holding the agents for all clients: D1 migrations, the Worker, and the research, writer, image and GBP scripts with their GitHub Actions. Client site repos hold only their content and deploy Action. (Changed 23 September 2026, see decisions log.)
 
 ---
 
@@ -354,6 +354,9 @@ Carlo has client photos and documents on his desktop that agents should draw on 
 
 **2026-09-23, report agent planned (after the blog and GBP agent).**
 Trigger: on the second-to-last day of each month Carlo uploads booking data and performance screenshots. The report agent then calls the GA4 and Search Console APIs, and the GBP Performance API once approved, and builds the reports. It runs on the automation system, not a Cowork chat. It will reuse the existing `_reporting` folder conventions. Booking exports contain customer personal data, so they never go into a client git repo.
+
+**2026-09-23, agents live in a separate `rank-automation` repo.**
+With four clients in scope, putting the agents inside `mhts-site` would make the other three sites depend on MHTS's repo. One private `rank-automation` repo holds the Worker, D1 migrations and agent scripts for every client. The agents open PRs against each client's site repo using a fine-grained PAT scoped to those repos. `client_id` on every table already supports this.
 
 ---
 
