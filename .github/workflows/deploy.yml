@@ -4,9 +4,8 @@
 #   which is what blocks a bad generated post from being merged.
 # - Push to main: build, test, then deploy.
 #
-# ROLLOUT STAGE 1: pushes to main deploy to a PREVIEW URL only, not the live
-# domain. Once the preview has been checked, DEPLOY_BRANCH changes to "main"
-# and deploys go to production. See AUTOMATION.md task 0b.
+# Pushes to main deploy to PRODUCTION (menshairtostay.co.uk). Stage 1 of the
+# rollout deployed to a preview URL first; see AUTOMATION.md task 0b.
 #
 # Needs repository secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID.
 
@@ -25,7 +24,7 @@ concurrency:
 
 env:
   # "main" = production (menshairtostay.co.uk). Anything else = preview URL.
-  DEPLOY_BRANCH: preview-0b
+  DEPLOY_BRANCH: main
 
 jobs:
   build:

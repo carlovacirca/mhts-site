@@ -1,92 +1,38 @@
 # Deploying Men's Hair To Stay
 
-## The site is on Cloudflare Pages, not Netlify
+## Deploys run from GitHub (since 23 September 2026)
 
-**Pushing to GitHub does not publish the site.** It only saves the source. Publishing needs a separate wrangler deploy.
+Every push to `main` on GitHub runs `.github/workflows/deploy.yml`, which installs, tests, builds and deploys to the Cloudflare Pages project `menshairtostay`. Watch it in the repo's **Actions** tab. Green means live, usually about 2 minutes after the push.
 
-There is a `netlify.toml` in this repo, but it is not what serves the site. It is left over and it is misleading. The real signal is the `.wrangler` folder, and the fact that Georges Barbers behaves the same way.
+**Do not deploy from your laptop.** `npm run deploy` now refuses on purpose. Laptop deploys build from files on disk, so they can publish work that never reached GitHub. That is how the September posts ended up live but missing from git.
 
-## To publish
-
-From the `menshairtostay` folder:
+## To publish a change
 
 ```
-npm run deploy
-```
-
-That runs `vite build` then `npx wrangler pages deploy dist`. Wrangler will ask which Cloudflare Pages project to deploy to the first time.
-
-## To save the source to GitHub
-
-Separate step, and it does not publish anything:
-
-```
-npm run push
-```
-
-Or with your own message:
-
-```
-git add -A
-git commit -m "your message"
+cd "C:\Users\0\1. Rank SEO\menshairtostay"
+git add <the files you changed>
+git commit -m "what changed"
 git push
 ```
 
-## Doing both
+Avoid `git add -A`. About 80 files show as modified only because of Windows line endings and have no real change.
 
-Publish first, then save:
+## If a run goes red
 
-```
-npm run deploy
-npm run push
-```
+Nothing was deployed. The live site stays on the last good version. Open the red run in the Actions tab, click the red step, and read the error. A blog post that fails validation names the file and the field.
 
-## Things that go wrong, and what they mean
+## To roll back
+
+Cloudflare dashboard, **Workers & Pages**, **menshairtostay**, **Deployments**. Find the last good deployment, click the three dots, **Rollback to this deployment**.
+
+## Things that go wrong
 
 **`Unable to create '.git/index.lock': File exists`**
-A stale lock from an interrupted git operation. Check the date on `.git/index.lock`. If nothing is actually running, delete it and try again:
-
-```
-del .git\index.lock
-```
-
-**`LF will be replaced by CRLF`**
-Line endings on Windows. Harmless, ignore it.
-
-**Build fails with a type error**
-Nothing was deployed. That is the point of building first. Fix the error and run again.
+A stale lock from an interrupted git operation. If nothing is running, `del .git\index.lock` and try again.
 
 **The site looks unchanged after deploying**
-Hard refresh, Ctrl+Shift+R. Cloudflare caches the old bundle aggressively.
+Hard refresh, Ctrl+Shift+R.
 
-## What happens to the August blogs when you deploy
+## Blog posts and dates
 
-All five URLs go live at once, but the blog listing only shows a post once its date has arrived.
-
-| Post | Date | In the listing after deploy |
-|---|---|---|
-| Does a hair system look natural | 3 Aug | Yes, date has passed |
-| Is SMP permanent | 10 Aug | Appears 10 August |
-| SMP vs hair transplant | 17 Aug | Appears 17 August |
-| What affects the cost of hair restoration | 24 Aug | Appears 24 August |
-| What happens at a free consultation | 31 Aug | Appears 31 August |
-
-The date check runs in the browser on every visit, so **one deploy covers the whole month**. No need to deploy again each Monday.
-
-To see the scheduled posts before their date, visit `/blog?preview=1`.
-
-Post URLs do resolve if typed directly, and all five sit in the sitemap from day one. Nothing links to them until their Monday, so no visitor will find them early, but Google could crawl one ahead of time. That trade off keeps the month hands off.
-
-## Worth doing at some point
-
-Delete `netlify.toml`, or rename it to `netlify.toml.unused`. It describes redirects, headers and a content security policy that are not being applied by anything, so it reads as live configuration when it is not. Anyone looking at this repo, including me, will draw the wrong conclusion from it.
-
-The redirects and headers it defines would need setting up in Cloudflare if they are not already there. Worth checking:
-
-- HTTP to HTTPS enforcement
-- The SPA catch-all so client-side routes resolve on a direct hit or refresh
-- The 301 from `/georges-barbers` to `georgesbarbers.co.uk`
-- Security headers and the content security policy
-- Long cache on `/assets/*`
-
-If the site is working correctly today, most of this is already configured in the Cloudflare dashboard and the file is simply redundant.
+Posts are markdown files in `src/content/blog/`. A post goes live with the deploy, but the `/blog` listing only shows it once its `publishDate` has arrived. See `/blog?preview=1` to see scheduled posts early. See AUTOMATION.md for the full format.

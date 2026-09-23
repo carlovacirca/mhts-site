@@ -8,7 +8,7 @@ Update and recommit it whenever a meaningful decision or change is made.
 |---|---|
 | **Client** | Men's Hair To Stay, menshairtostay.co.uk |
 | **Repo** | github.com/carlovacirca/mhts-site, branch `main` |
-| **Current phase** | Phase 1, blog automation. 0a done. 0b stage 1 (deploy to a preview URL) built, awaiting secrets |
+| **Current phase** | Phase 1, blog automation. 0a done. 0b stage 1 verified, stage 2 (production) committed, awaiting Carlo's push |
 | **Last updated** | 23 September 2026 |
 | **Owner** | Carlo Vacirca |
 
@@ -280,7 +280,7 @@ Reference implementations: `content staging/august-2026/` and `content staging/s
 | # | Item | Status |
 |---|---|---|
 | 0a | Markdown content layer in the Vite app, Zod schema, `import.meta.glob` loader | **Done 23 Sep.** Pushed as `6d0722a`. Not yet deployed, the first 0b run deploys it |
-| 0b | GitHub Action: build and `wrangler pages deploy` on merge to `main` | **Stage 1 built 23 Sep**: `.github/workflows/deploy.yml` deploys to preview branch `preview-0b` only. Stage 2, switch to production, after Carlo checks the preview |
+| 0b | GitHub Action: build and `wrangler pages deploy` on merge to `main` | **Stage 1 verified 23 Sep**: first Action run deployed `f95b19e` to `preview-0b.menshairtostay.pages.dev`. **Stage 2 committed**: `DEPLOY_BRANCH` set to `main`, goes live on Carlo's push |
 | 1 | D1 database, tables, seed `clients` and `agents` | Not started |
 | 2 | Worker API | Not started |
 | 3 | Research Agent script, Claude API with web search, proposes 2 to 3 topics | Not started |
@@ -337,6 +337,8 @@ Pushing the workflow file to `main` runs it straight away, so a workflow that de
 
 **Why the Cloudflare deployments list shows the August commit on September deploys.** A direct-upload deploy is labelled with whatever commit the laptop's git was on at the time, not with what was actually uploaded. September was deployed while git still pointed at the August commit `6894aab`, so every recent deployment carries the August message. The labels are misleading, not the deploys. From 0b onwards each deployment is labelled with the real commit it was built from.
 
+**2026-09-23, 0b stage 1 verified by bundle hash.** Vite names each bundle by a hash of its contents, so an identical filename means an identical build. The preview serves `assets/index-ChM7DBzp.js`, the exact bundle from the verified local build of `6d0722a`. The live domain serves `assets/index-nQQevdLg.js`, the exact bundle built from the committed pre-0a code, and does not have the new bundle (negative control). So the live site matched git before 0a, and the preview is byte-for-byte the build that passed the 0a field-by-field checks. `CLOUDFLARE_API_TOKEN` is scoped to Cloudflare Pages Edit and D1 Edit only, via a custom permission policy.
+
 ---
 
 ## 8. Open questions and next steps
@@ -358,6 +360,7 @@ Pushing the workflow file to `main` runs it straight away, so a workflow that de
 
   It matters for this project because **automated PRs branch from `main` on GitHub**. If `main` is missing a month of content that is live, a merged PR could rebuild the site from a stale base and silently regress it. Commit and push the working tree before the automation opens its first PR. Once the deploy Action is in place this class of drift disappears, because deploys will come from `main` rather than from a laptop.
 - **Future-dated posts show early in three places.** The date gate only applies to the `/blog` listing. The homepage's latest-posts strip, the related posts under each article, and the Blog structured data on `/blog` all include posts dated in the future, and a future post's URL works if visited directly. Existing behaviour, not caused by 0a, and left unchanged. Worth fixing before the automation starts scheduling posts ahead.
+- `npm run deploy` now refuses on purpose (task 0b). Deploys run only from GitHub. See DEPLOY.md.
 - `netlify.toml` is present but nothing reads it. It caused a wrong deploy-platform conclusion once already. Rename or delete it.
 
 ---

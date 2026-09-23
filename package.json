@@ -11,8 +11,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "deploy": "npm run build && npx wrangler pages deploy dist",
-    "push": "git add -A && git commit -m \"Update site content\" && git push"
+    "deploy": "echo Deploys run from GitHub now. Commit and git push to main instead. See DEPLOY.md && exit 1",
+    "push": "git push"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
