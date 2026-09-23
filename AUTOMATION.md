@@ -309,7 +309,11 @@ Claude's web search tool supplies trend and topic signal.
 
 ### Known issues, unrelated to this project but worth clearing
 
-- **95 files are modified and uncommitted** on `main`, including the whole September content pack and the removal of a placeholder YouTube component. The last commit is `6894aab`, the August pack. September is written but neither committed nor deployed. Sort this before the automation starts opening PRs against `main`, or the first PR will carry a month of unrelated changes.
+- **The live site is ahead of the GitHub repo.** Verified 23 September 2026: the September posts are live and rendering correctly, but they are **not in `main`**. `git show HEAD:src/data/blogPosts.ts` contains none of the three September slugs. The last content commit is `6894aab`, the August pack.
+
+  This is not a mistake, it is how the deploy works. `npm run deploy` runs `vite build && wrangler pages deploy dist`, which builds from **files on disk**, not from git. So a deploy publishes whatever is in the working folder whether or not it was ever committed.
+
+  It matters for this project because **automated PRs branch from `main` on GitHub**. If `main` is missing a month of content that is live, a merged PR could rebuild the site from a stale base and silently regress it. Commit and push the working tree before the automation opens its first PR. Once the deploy Action is in place this class of drift disappears, because deploys will come from `main` rather than from a laptop.
 - Four unused image imports remain in `blogPosts.ts`: `blogAug04`, `blogJul14`, `blogJul21`, `blogJul28`.
 - `netlify.toml` is present but nothing reads it. It caused a wrong deploy-platform conclusion once already. Rename or delete it.
 
