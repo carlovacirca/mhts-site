@@ -323,6 +323,74 @@ Verified in a browser: September is live. Verified in git: September is not comm
 - Four unused image imports remain in `blogPosts.ts`: `blogAug04`, `blogJul14`, `blogJul21`, `blogJul28`.
 - `netlify.toml` is present but nothing reads it. It caused a wrong deploy-platform conclusion once already. Rename or delete it.
 
+---
+
+## 9. Setup guide for Carlo
+
+Plain English. Work top to bottom. Nothing here needs a developer.
+
+### Jargon, once
+
+**PR, Pull Request.** GitHub's "propose a change" mechanism. Instead of editing the live branch directly, a change goes on a separate branch and you get a page showing exactly what would change, line by line, with a Merge button. Nothing takes effect until you merge. That is the whole reason it is in this design: every generated post becomes one reviewable PR, Approve in Telegram just presses Merge for you, and Reject closes it and throws the branch away. It is the undo button.
+
+**PAT, Personal Access Token.** A password substitute for scripts. It lets automation act on the repo without handing it your GitHub password. "Fine-grained" means scoped to one repo with only the permissions it needs, so a leaked token cannot touch anything else.
+
+**D1.** Cloudflare's database. **R2.** Cloudflare's file storage, not used in Phase 1. **Worker.** A small program that runs on Cloudflare's servers and answers web requests.
+
+### Step 1. Make GitHub match the live site
+
+The live site is ahead of the repo, see section 8. From the `menshairtostay` folder:
+
+```
+git add -A
+git commit -m "September 2026 content, remove placeholder video component"
+git push
+```
+
+**Do this before anything else.** Until it is done, an automated PR would branch from an August-era `main` and merging it could wipe September.
+
+### Step 2. Check how Cloudflare Pages deploys
+
+1. Go to **dash.cloudflare.com**
+2. **Workers & Pages**, click the Men's Hair To Stay project
+3. Open the **Deployments** tab and look at the most recent row
+
+If each deployment shows a **branch name and a commit hash**, the project is git-connected. If it says **"Direct Upload"** or mentions Wrangler, it is not. Cross-check under **Settings, Builds & deployments**: a git-connected project names the GitHub repo and production branch, a direct-upload one lists no repo at all.
+
+Expected answer is Direct Upload, since `npm run deploy` exists and pushing has never published. Either way, report what it says. If it turns out to be git-connected, task 0b disappears.
+
+### Step 3. Collect the credentials
+
+**Cloudflare Account ID.** Workers & Pages, right-hand sidebar. Also in the dashboard URL straight after `dash.cloudflare.com/`.
+
+**Cloudflare API token.** Top-right profile icon, **My Profile**, **API Tokens**, **Create Token**, **Create Custom Token**. Add these Account-level permissions: `Cloudflare Pages: Edit` and `D1: Edit`. Shown once only, copy it immediately.
+
+**GitHub PAT.** GitHub, **Settings**, **Developer settings**, **Personal access tokens**, **Fine-grained tokens**, **Generate new token**. Scope it to the `mhts-site` repository only. Permissions: **Contents: Read and write**, **Pull requests: Read and write**.
+
+**Telegram bot token.** Open Telegram, message **@BotFather**, send `/newbot`, give it a name. He replies with the token. Not needed until task 7.
+
+**Telegram chat ID.** Send your new bot any message, then open `https://api.telegram.org/bot<YOUR_TOKEN>/getUpdates` in a browser and find `"chat":{"id":` followed by a number. That number is it.
+
+### Step 4. Store them as GitHub secrets
+
+Repo, **Settings**, **Secrets and variables**, **Actions**, **New repository secret**. Never in a file, never in the repo.
+
+| Secret name | Needed by |
+|---|---|
+| `ANTHROPIC_API_KEY` | tasks 3 and 4 |
+| `OPENAI_API_KEY` | task 5 |
+| `CLOUDFLARE_API_TOKEN` | tasks 0b, 1, 2 |
+| `CLOUDFLARE_ACCOUNT_ID` | tasks 0b, 1, 2 |
+| `GH_PAT` | task 6 |
+| `TELEGRAM_BOT_TOKEN` | task 7 |
+| `TELEGRAM_CHAT_ID` | task 7 |
+
+Steps 1 and 2 unblock the build. The rest can follow.
+
+---
+
 ### Immediate next step
 
 Build 0a, the markdown content layer, and migrate the existing 20 posts into `src/content/blog/*.md` with the Zod schema. Everything else depends on it.
+
+**The migration must preserve `faqs`, `category`, `readTime`, `author` and the ISO `date` on every post.** `faqs` generates the FAQPage structured data and `date` drives the Monday gate. If a migration quietly drops either, the site loses rich results and scheduled publishing, and neither failure is visible by looking at the site. Verify post by post, not in aggregate.
