@@ -8,7 +8,7 @@ Update and recommit it whenever a meaningful decision or change is made.
 |---|---|
 | **Client** | Men's Hair To Stay, menshairtostay.co.uk |
 | **Repo** | github.com/carlovacirca/mhts-site, branch `main` |
-| **Current phase** | Phase 1. 0a, 0b and 1 done. Next: task 2, Worker API. **Deadline: first automated blog live for all four clients Monday 5 October 2026** |
+| **Current phase** | Phase 1. 0a, 0b and 1 done. Task 2 built, awaiting deploy. **Deadline: first automated blog live for all four clients Monday 5 October 2026** |
 | **Last updated** | 23 September 2026 |
 | **Owner** | Carlo Vacirca |
 
@@ -93,7 +93,7 @@ interface BlogPost {
 
 ## 4. Data contracts
 
-> Status: **4.1 implemented in task 0a. 4.2 created in D1 in task 1 (`rank-automation` repo, `db/migrations/0001_init.sql`). 4.3 drafted, not yet created.** The dashboard should build against these shapes. Raise changes here before implementing them anywhere.
+> Status: **4.1 implemented in task 0a. 4.2 created in D1 in task 1 (`rank-automation` repo, `db/migrations/0001_init.sql`). 4.3 built in task 2, not yet deployed.** The dashboard should build against these shapes. Raise changes here before implementing them anywhere.
 
 ### 4.1 Markdown frontmatter
 
@@ -240,17 +240,23 @@ Base: `https://<worker>.workers.dev/api`. Bearer token for Actions and dashboard
 | `GET` | `/tasks/:id` | Single task with payload |
 | `POST` | `/tasks` | Create a task, called by the runner |
 | `PATCH` | `/tasks/:id` | Update status or fields |
-| `POST` | `/tasks/:id/approve` | Merge the PR, set status `published` |
-| `POST` | `/tasks/:id/reject` | Close the PR, delete the branch, set `rejected` |
-| `GET` | `/topics?task_id=` | Research output |
-| `POST` | `/topics/:id/choose` | Mark chosen, dispatch the Writer workflow |
+| `POST` | `/tasks/:id/approve` | Set status `approved`. Does **not** merge: the Monday publish job (task 8) merges approved PRs on the post's date and sets `published`. Only `awaiting_approval` tasks can be approved, otherwise 409 |
+| `POST` | `/tasks/:id/reject` | Close the PR, delete the branch, set `rejected`. Allowed from `pending`, `awaiting_approval`, `approved`, otherwise 409 |
+| `GET` | `/topics?task_id=&client_id=` | Research output |
+| `POST` | `/topics` | Save a proposed topic, called by the Research Agent |
+| `POST` | `/topics/:id/choose` | Dispatch `writer.yml` in `rank-automation`, then mark chosen and discard sibling topics. If the dispatch fails the topic stays `proposed` |
 | `GET` | `/agents?client_id=` | Agent profiles |
 | `GET` `PATCH` | `/agents/:id` | Read and edit a system prompt |
 | `POST` | `/runs` | Log a run |
 | `GET` | `/runs?client_id=&month=` | Cost report |
-| `POST` | `/telegram/webhook` | Telegram updates, handles Approve and Reject callbacks |
+| `POST` | `/telegram/webhook` | Telegram updates, handles Approve and Reject callbacks (task 7, returns 501 until then) |
+| `GET` | `/health` | No auth. Liveness check |
 
 Telegram and the dashboard call the **same** endpoints. No logic lives only in the bot.
+
+**As implemented (task 2):** Worker `rank-automation` in the `rank-automation` repo, `worker/src/index.ts`. JSON in and out. Errors are `{ "error": "..." }` with 400 (bad input, including unknown `client_id` or foreign key), 401 (no or wrong token), 404, 409 (wrong state), 502 (GitHub refused). `payload` and `sources` are sent and returned as JSON, stored as text. CORS allows `ALLOWED_ORIGIN` (currently `*`). **Dashboard note:** a bearer token in browser code is visible to anyone who can load the page, so the dashboard should call the Worker from its own server side or sit behind Cloudflare Access. Raise this before the dashboard goes live.
+
+Values added beyond the 4.2 comments: task `type` also accepts `gbp`, agent `role` also accepts `gbp`, for the Monday GBP drafts. SQL comments only, no migration needed.
 
 ---
 
@@ -282,7 +288,7 @@ Reference implementations: `content staging/august-2026/` and `content staging/s
 | 0a | Markdown content layer in the Vite app, Zod schema, `import.meta.glob` loader | **Done 23 Sep.** Pushed as `6d0722a`. Not yet deployed, the first 0b run deploys it |
 | 0b | GitHub Action: build and `wrangler pages deploy` on merge to `main` | **Done 23 Sep.** Stage 1 deployed `f95b19e` to a preview URL. Stage 2 `901e79e` deploys `main` to production. Verified live: `menshairtostay.co.uk` serves bundle `index-ChM7DBzp.js`, the old `index-nQQevdLg.js` is gone |
 | 1 | D1 database, tables, seed `clients` and `agents` | **Done 23 Sep.** D1 `rank-automation` (region weur) created by the Database Action in `rank-automation` repo, commit `e91f735`. All 6 contract tables present plus `d1_migrations` (Wrangler's own tracking table). `clients` seeded with `mhts`. Agents are seeded in tasks 3 and 4 with their prompts |
-| 2 | Worker API | Not started |
+| 2 | Worker API | **Built 23 Sep**, `rank-automation` commit `b9c8473`. 35 of 35 local API checks pass. Awaiting first deploy (needs `WORKER_API_TOKEN` secret and Workers Scripts Edit on the Cloudflare token) |
 | 3 | Research Agent script, Claude API with web search, proposes 2 to 3 topics | Not started |
 | 4 | Writer Agent script, full post as validated markdown | Not started |
 | 5 | Image generation, OpenAI, committed to `src/assets` in the same PR | Not started |
