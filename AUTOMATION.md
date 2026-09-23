@@ -8,7 +8,7 @@ Update and recommit it whenever a meaningful decision or change is made.
 |---|---|
 | **Client** | Men's Hair To Stay, menshairtostay.co.uk |
 | **Repo** | github.com/carlovacirca/mhts-site, branch `main` |
-| **Current phase** | Phase 1, blog automation. 0a and 0b done. Next: task 1, D1 database |
+| **Current phase** | Phase 1. 0a and 0b done. Next: task 1, D1 database. **Deadline: first automated blog live for all four clients Monday 5 October 2026** |
 | **Last updated** | 23 September 2026 |
 | **Owner** | Carlo Vacirca |
 
@@ -288,8 +288,11 @@ Reference implementations: `content staging/august-2026/` and `content staging/s
 | 5 | Image generation, OpenAI, committed to `src/assets` in the same PR | Not started |
 | 6 | Commit and open PR | Not started |
 | 7 | Telegram bot, preview, cost, Approve and Reject | Not started |
-| 8 | Approve merges the PR, Action deploys | Not started |
+| 8 | Approve queues the PR; the Worker merges it on the post's Monday, Action deploys | Not started |
 | 9 | GitHub Actions schedules and triggers | Not started |
+| 10 | Client file library on Google Drive, agents pick real photos from it | Not started |
+| 11 | GBP post + image every Monday, sent to Carlo on Telegram for manual posting | Not started |
+| 12 | Roll out to Georges Barbers, BDB, PV Consulting: content layer + deploy Action per site, then agents | Not started |
 
 **0a and 0b are prerequisites.** Nothing downstream works without them.
 
@@ -339,6 +342,19 @@ Pushing the workflow file to `main` runs it straight away, so a workflow that de
 
 **2026-09-23, 0b stage 1 verified by bundle hash.** Vite names each bundle by a hash of its contents, so an identical filename means an identical build. The preview serves `assets/index-ChM7DBzp.js`, the exact bundle from the verified local build of `6d0722a`. The live domain serves `assets/index-nQQevdLg.js`, the exact bundle built from the committed pre-0a code, and does not have the new bundle (negative control). So the live site matched git before 0a, and the preview is byte-for-byte the build that passed the 0a field-by-field checks. `CLOUDFLARE_API_TOKEN` is scoped to Cloudflare Pages Edit and D1 Edit only, via a custom permission policy.
 
+**2026-09-23, scope and deadline set by Carlo.**
+- Deadline: first automated blog live for **all four clients** (MHTS, Georges Barbers, BDB, PV Consulting) on **Monday 5 October 2026**. Claude recommended MHTS fully automated plus Telegram drafts for the other three, because each of their sites has a different blog architecture needing its own content layer and deploy Action. Carlo chose all four fully automated, accepting the risk.
+- Cadence: the agent produces one blog per week per client, and only one is queued at a time, after approval.
+- **Approval no longer publishes immediately.** Approve can happen any day. The Worker merges the approved PR on the post's Monday, so the post never appears early. This removes the need to fix the future-dated-posts known issue for the automation, because nothing future-dated reaches the live site.
+- GBP is pulled into Phase 1 as drafts: every Monday the agent also produces a GBP post and image and sends them to Carlo on Telegram. Carlo posts manually until Google approves Business Profile API access. Posting uses the Business Profile API `localPosts` resource. The Performance API is read-only metrics and cannot post. Access approval applies per Google Cloud project, so one approval covers both. Carlo applied on 23 September; Google states about 14 days.
+- Order of work: blog agent, then the same agent does GBP drafts, then the report agent.
+
+**2026-09-23, client files on Google Drive. Revisits the R2 decision for images.**
+Carlo has client photos and documents on his desktop that agents should draw on for blog and GBP images. Stored in Google Drive, one folder per client, read by agents through the Drive API. Chosen over R2 because Carlo can drag or sync files from his desktop. R2 stays out. Generated hero images are still committed to `src/assets`. MHTS discretion rule applies: the agent never uses a photo that identifies a client.
+
+**2026-09-23, report agent planned (after the blog and GBP agent).**
+Trigger: on the second-to-last day of each month Carlo uploads booking data and performance screenshots. The report agent then calls the GA4 and Search Console APIs, and the GBP Performance API once approved, and builds the reports. It runs on the automation system, not a Cowork chat. It will reuse the existing `_reporting` folder conventions. Booking exports contain customer personal data, so they never go into a client git repo.
+
 ---
 
 ## 8. Open questions and next steps
@@ -349,6 +365,8 @@ Pushing the workflow file to `main` runs it straight away, so a workflow that de
 2. **Cloudflare account ID** and an **API token** with Pages edit and D1 edit permissions, stored as GitHub secrets. (R2 is not needed, see the decisions log.)
 3. **Telegram** bot token and the chat ID to send approvals to.
 4. **Anthropic and OpenAI API keys** as GitHub secrets. Names: `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`.
+7. **Google Drive**: one folder per client, shared with a service account the agents use (set up in task 10).
+8. **Georges Barbers, BDB and PV repos**: same GitHub secrets and Cloudflare project names per site (task 12).
 5. **Write access** for the automation to open PRs. A fine-grained PAT scoped to this repo, with Contents read and write and Pull requests read and write.
 6. **Push to GitHub.** Done locally 23 September 2026: September committed as `217cdbe`. **Awaiting `git push` from Carlo.** Until pushed, GitHub `main` is still `6894aab` (August).
 
@@ -432,6 +450,6 @@ Steps 1 and 2 unblock the build. The rest can follow.
 
 ### Immediate next step
 
-0a and 0b are done. Next is task 1, the D1 database, using the schema in section 4.2. Before task 9 schedules posts ahead, fix the known issue of future-dated posts showing early. Kept below for the record: the rule that applied to the 0a migration.
+0a and 0b are done. Next is task 1, the D1 database, using the schema in section 4.2. Kept below for the record: the rule that applied to the 0a migration.
 
 **The migration must preserve `faqs`, `category`, `readTime`, `author` and the ISO `date` on every post.** `faqs` generates the FAQPage structured data and `date` drives the Monday gate. If a migration quietly drops either, the site loses rich results and scheduled publishing, and neither failure is visible by looking at the site. Verify post by post, not in aggregate.
