@@ -8,7 +8,7 @@ Update and recommit it whenever a meaningful decision or change is made.
 |---|---|
 | **Client** | Men's Hair To Stay, menshairtostay.co.uk |
 | **Repo** | github.com/carlovacirca/mhts-site, branch `main` |
-| **Current phase** | Phase 1. 0a and 0b done. Next: task 1, D1 database. **Deadline: first automated blog live for all four clients Monday 5 October 2026** |
+| **Current phase** | Phase 1. 0a, 0b and 1 done. Next: task 2, Worker API. **Deadline: first automated blog live for all four clients Monday 5 October 2026** |
 | **Last updated** | 23 September 2026 |
 | **Owner** | Carlo Vacirca |
 
@@ -93,7 +93,7 @@ interface BlogPost {
 
 ## 4. Data contracts
 
-> Status: **4.1 implemented in task 0a. 4.2 and 4.3 drafted, not yet created.** The dashboard should build against these shapes. Raise changes here before implementing them anywhere.
+> Status: **4.1 implemented in task 0a. 4.2 created in D1 in task 1 (`rank-automation` repo, `db/migrations/0001_init.sql`). 4.3 drafted, not yet created.** The dashboard should build against these shapes. Raise changes here before implementing them anywhere.
 
 ### 4.1 Markdown frontmatter
 
@@ -281,7 +281,7 @@ Reference implementations: `content staging/august-2026/` and `content staging/s
 |---|---|---|
 | 0a | Markdown content layer in the Vite app, Zod schema, `import.meta.glob` loader | **Done 23 Sep.** Pushed as `6d0722a`. Not yet deployed, the first 0b run deploys it |
 | 0b | GitHub Action: build and `wrangler pages deploy` on merge to `main` | **Done 23 Sep.** Stage 1 deployed `f95b19e` to a preview URL. Stage 2 `901e79e` deploys `main` to production. Verified live: `menshairtostay.co.uk` serves bundle `index-ChM7DBzp.js`, the old `index-nQQevdLg.js` is gone |
-| 1 | D1 database, tables, seed `clients` and `agents` | Not started |
+| 1 | D1 database, tables, seed `clients` and `agents` | **Done 23 Sep.** D1 `rank-automation` (region weur) created by the Database Action in `rank-automation` repo, commit `e91f735`. All 6 contract tables present plus `d1_migrations` (Wrangler's own tracking table). `clients` seeded with `mhts`. Agents are seeded in tasks 3 and 4 with their prompts |
 | 2 | Worker API | Not started |
 | 3 | Research Agent script, Claude API with web search, proposes 2 to 3 topics | Not started |
 | 4 | Writer Agent script, full post as validated markdown | Not started |
