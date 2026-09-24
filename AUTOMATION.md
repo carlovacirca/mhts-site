@@ -130,7 +130,7 @@ Zod schema lives at `src/content/schema.ts`. A post failing validation fails the
 - Parsing and validation happen at build time in a Vite plugin, `vite/blog-markdown.ts`, using the `yaml` package. No YAML parser ships to the browser.
 - `heroImage` becomes a real import, so a missing image file also fails the build.
 - Rules beyond the example: unknown keys fail (a misspelt field cannot slip through); `slug` must equal the filename; `category` must be one of the six existing categories; `publishDate` must be a real calendar date; `readTime` must look like `8 min read`; `heroImage` must be `@/assets/<name>.jpg|jpeg|png|webp`; body cannot be empty.
-- Optional: `heroImage`, `featured` (added, the site uses it for one post), `faqs`, `tags` (default `[]`), `sources` (default `[]`), `draft` (default `false`, `true` hides the post entirely).
+- Optional: `author` (omitted = no byline; structured data falls back to the organization "Men's Hair To Stay"), `heroImage`, `featured` (added, the site uses it for one post), `faqs`, `tags` (default `[]`), `sources` (default `[]`, rendered by the site as a numbered Sources list with full URLs at the end of the post), `draft` (default `false`, `true` hides the post entirely).
 - Migrated posts have no `tags` or `sources`, because the old data had none and none were invented.
 
 Mapping onto the site's existing `BlogPost` fields:
@@ -389,6 +389,8 @@ With four clients in scope, putting the agents inside `mhts-site` would make the
 Every quote and key fact was checked against the GOV.UK and NHS pages. Three problems were fixed by hand and saved as `rank-automation/overrides/task-5.md`: an NHS misquote, an overstatement ("never been an NHS treatment", replaced with the MHRA's own wording that finasteride 1mg is only available privately), and an FAQ claiming hair systems have "nothing to maintain". The writer now checks quotes word for word against the pages it read, and its prompt carries the studio's service facts.
 
 **2026-09-24, every post PR gets a preview site.** The mhts-site deploy Action now deploys each same-repo pull request to `pr-<number>.menshairtostay.pages.dev` (a Pages preview, never production), so the post can be read in the real design before approval. The post URL works directly; the `/blog` listing hides it until its date, as live.
+
+**2026-09-24, posts have no author, and sources are listed with full URLs (Carlo's review of PR #1).** New posts carry no `author` and no author bio. The site shows a numbered "Sources" list at the end of every post that has `sources`, each with its title and full clickable URL. Existing posts keep their current author lines until Carlo decides otherwise.
 
 ---
 

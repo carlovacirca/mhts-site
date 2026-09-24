@@ -30,7 +30,7 @@ export const blogFrontmatterSchema = z
     metaDescription: nonEmpty,
     category: z.enum(BLOG_CATEGORIES),
     publishDate: isoDate, // drives date-gated publishing
-    author: nonEmpty,
+    author: nonEmpty.optional(), // omitted = no byline shown
     readTime: z.string().regex(/^\d+ min read$/, 'must look like "8 min read"'),
     heroImage: z
       .string()
@@ -56,7 +56,7 @@ export interface BlogFrontmatter {
   metaDescription: string;
   category: (typeof BLOG_CATEGORIES)[number];
   publishDate: string;
-  author: string;
+  author?: string;
   readTime: string;
   heroImage?: string;
   heroImageAlt: string;

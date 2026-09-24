@@ -40,7 +40,7 @@ const BlogPage = () => {
           "@type": "BlogPosting",
           headline: p.title,
           datePublished: p.date,
-          author: { "@type": "Organization", name: p.author },
+          author: { "@type": "Organization", name: p.author || "Men's Hair To Stay" },
           url: `https://menshairtostay.co.uk/blog/${p.slug}`,
         })),
       },

@@ -18,12 +18,13 @@ export interface BlogPost {
   metaDescription: string;
   readTime: string;
   date: string;
-  author: string;
+  author?: string; // no byline when absent
   featuredImageAlt: string;
   image?: string;
   content: string; // markdown-ish
   featured?: boolean;
   faqs?: BlogFAQ[];
+  sources?: { title: string; url: string }[];
 }
 
 export const categories = ["All Posts", ...BLOG_CATEGORIES];
@@ -50,11 +51,12 @@ export const blogPosts: BlogPost[] = Object.values(modules)
     metaDescription: f.metaDescription,
     readTime: f.readTime,
     date: f.publishDate,
-    author: f.author,
+    ...(f.author ? { author: f.author } : {}),
     featuredImageAlt: f.heroImageAlt,
     ...(heroImageUrl ? { image: heroImageUrl } : {}),
     content: body,
     ...(f.featured !== undefined ? { featured: f.featured } : {}),
     ...(f.faqs ? { faqs: f.faqs } : {}),
+    ...(f.sources.length ? { sources: f.sources } : {}),
   }))
   .sort((a, b) => rank(a.slug) - rank(b.slug) || a.date.localeCompare(b.date) || a.slug.localeCompare(b.slug));

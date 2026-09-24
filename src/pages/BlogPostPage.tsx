@@ -189,7 +189,7 @@ const BlogPostPage = () => {
       "@type": "Article",
       headline: post.title,
       description: post.metaDescription,
-      author: { "@type": "Organization", name: post.author },
+      author: { "@type": "Organization", name: post.author || "Men's Hair To Stay" },
       datePublished: post.date,
       mainEntityOfPage: window.location.href,
     });
@@ -295,7 +295,7 @@ const BlogPostPage = () => {
           <div className="flex flex-wrap items-center gap-5 text-sm text-muted-foreground mb-5">
             <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {formatDate(post.date)}</span>
             <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {post.readTime}</span>
-            <span>By {post.author}</span>
+            {post.author && <span>By {post.author}</span>}
           </div>
           <p className="italic text-lg text-muted-foreground leading-relaxed">
             {post.excerpt}
@@ -416,6 +416,22 @@ const BlogPostPage = () => {
             });
             return nodes;
           })()}
+
+          {post.sources && post.sources.length > 0 && (
+            <section aria-labelledby="sources" className="mt-12 border-t border-border pt-6">
+              <h2 id="sources" className="text-xl font-semibold mb-4 text-mhts-charcoal">Sources</h2>
+              <ol className="list-decimal pl-6 space-y-3 text-sm text-foreground/90">
+                {post.sources.map((s) => (
+                  <li key={s.url}>
+                    <span className="block">{s.title}</span>
+                    <a href={s.url} target="_blank" rel="noopener noreferrer" className="break-all text-mhts-charcoal underline hover:no-underline">
+                      {s.url}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          )}
         </article>
 
 
