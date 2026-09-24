@@ -254,7 +254,7 @@ Base: `https://rank-automation.carlo-vacirca.workers.dev/api`. Bearer token for 
 | `GET` | `/health` | No auth. Liveness check |
 | `PATCH` | `/clients/:id` | Set `telegram_chat_id` |
 | `GET` `POST` | `/telegram/chats` | Chats the bot has seen (used to link a client to its group) |
-| `POST` | `/cron` | Run a scheduled job by hand: `{"job":"research"|"autopick"|"writer"|"publish"}` |
+| `POST` | `/cron` | Run a scheduled job by hand: `{"job":"weekly"|"publish", "task_id"?: n}`; `task_id` publishes that approved post now |
 
 Telegram and the dashboard call the **same** endpoints. No logic lives only in the bot.
 
@@ -293,7 +293,7 @@ Reference implementations: `content staging/august-2026/` and `content staging/s
 | 0b | GitHub Action: build and `wrangler pages deploy` on merge to `main` | **Done 23 Sep.** Stage 1 deployed `f95b19e` to a preview URL. Stage 2 `901e79e` deploys `main` to production. Verified live: `menshairtostay.co.uk` serves bundle `index-ChM7DBzp.js`, the old `index-nQQevdLg.js` is gone |
 | 1 | D1 database, tables, seed `clients` and `agents` | **Done 23 Sep.** D1 `rank-automation` (region weur) created by the Database Action in `rank-automation` repo, commit `e91f735`. All 6 contract tables present plus `d1_migrations` (Wrangler's own tracking table). `clients` seeded with `mhts`. Agents are seeded in tasks 3 and 4 with their prompts |
 | 2 | Worker API | **Done 23 Sep.** `rank-automation` commit `b9c8473`, live at `https://rank-automation.carlo-vacirca.workers.dev`. 35 of 35 local checks pass. Deploy check: `/api/health` 200, `/api/tasks` 401 without token, 200 with token |
-| 3 | Research Agent script, Claude API with web search, proposes 2 to 3 topics | **Done 24 Sep.** First real run: 3 topics, all sources read, $0.33 |
+| 3 | Research Agent script, Claude API with web search, picks one topic (was 2 to 3 until 24 Sep) | **Done 24 Sep.** First real run: 3 topics, all sources read, $0.33 |
 | 4 | Writer Agent script, full post as validated markdown | **Done 24 Sep.** Real runs on the finasteride topic; code checks now also cover inline source links, suicide statistics, and word-for-word quotes |
 | 5 | Image generation, OpenAI, committed to `src/assets` in the same PR | **Done 24 Sep.** gpt-image-2, 1536x1024, medium, about $0.04. First image reviewed and approved |
 | 6 | Commit and open PR | **Done 24 Sep.** PR #1 (finasteride post, publish 5 Oct) opened with preview at `pr-1.menshairtostay.pages.dev`; checks green; Carlo reviewed the preview: approved as is |
@@ -382,7 +382,7 @@ With four clients in scope, putting the agents inside `mhts-site` would make the
 - Publish date is the next Monday not taken by a live or queued post.
 - Research topic review, 24 Sep: topic about traction alopecia wrongly linked it to tight fades. Traction alopecia comes from pulling tension, not clipper cuts, and blaming fades is also bad for Georges Barbers, where MHTS is based. Topic about NHS wigs must not quote NHS charges (no-pricing rule).
 
-**2026-09-24, weekly cycle and topic choice (Carlo chose option A).**
+**2026-09-24, weekly cycle and topic choice (Carlo chose option A). Replaced the same day, see "one topic, one approval" below.**
 - Wednesday: Research Agent runs; Telegram sends Carlo the 2 to 3 topics with buttons. He taps one. If he has not chosen by Thursday 08:00, the agent picks the first topic.
 - Thursday: Writer Agent and image generation run for the chosen topic.
 - Friday: Telegram sends the finished post (title, hero image, preview, link to the full post, cost) with Approve and Reject.
@@ -398,6 +398,8 @@ Every quote and key fact was checked against the GOV.UK and NHS pages. Three pro
 **2026-09-24, Telegram: one bot, one group per client (Carlo chose option A).** Each client's topics and posts go only to that client's group (`clients.telegram_chat_id`). A group is linked by name with the "Telegram setup" workflow. The weekly cycle runs from Worker cron triggers (UTC): Wednesday 07:00 research, Thursday 07:00 auto-pick topic 1 if none chosen, Friday 06:00 writer (post, image, PR, approval message), Monday 05:00 merge approved PRs whose date has arrived. A post not approved by its Monday is flagged in the group; approving it later publishes it the following Monday with its original date.
 
 **2026-09-24, manual controls for testing and takedowns.** rank-automation has a "Run weekly step now" workflow (research, autopick, writer or publish on demand; publish can take a task id to publish that one approved post immediately, whatever its date) and an "Unpublish" workflow (deletes a post's file and image from main in one commit, marks the task rejected, tells the Telegram group). A new research run closes any unanswered topic picker from the week before, so auto-pick never picks stale topics.
+
+**2026-09-24, one topic, one approval (Carlo replaced the 3-topic cycle).** No topic picker. Every Friday 06:00 UTC the Worker starts the "Weekly blog" workflow per client: the Research Agent picks one topic, the Writer writes it, the image is made, the PR and preview are opened, and Telegram gets one message: title, 3 to 5 bullet summary, hero image, preview link, Approve and Reject. Approve schedules it for the next Monday (merged Monday 05:00 UTC). Reject asks for a reason as a Telegram reply; the reason closes the PR and starts a new run with the reason as feedback (research decides whether to change topic or rewrite). Replying "skip" rejects with no new post. The Wednesday research and Thursday auto-pick jobs are removed. A failed run posts a message with the run link in the client's group.
 
 ---
 
@@ -497,3 +499,44 @@ Steps 1 and 2 unblock the build. The rest can follow.
 0a and 0b are done. Next is task 1, the D1 database, using the schema in section 4.2. Kept below for the record: the rule that applied to the 0a migration.
 
 **The migration must preserve `faqs`, `category`, `readTime`, `author` and the ISO `date` on every post.** `faqs` generates the FAQPage structured data and `date` drives the Monday gate. If a migration quietly drops either, the site loses rich results and scheduled publishing, and neither failure is visible by looking at the site. Verify post by post, not in aggregate.
+
+## 10. How the blog automation works
+
+### Every week, per client
+
+1. **Friday 06:00 UTC.** The Worker (Cloudflare) wakes on its schedule and starts the "Weekly blog" workflow in GitHub Actions for every client with a Telegram group.
+2. **Research (about 4 minutes, about $0.30).** Claude searches the web (max 4 searches, 5 page reads), picks one topic for the least recently covered service, and cites only pages it actually opened. Code throws out any source it did not read.
+3. **Write (about 8 minutes, about $0.50).** Claude writes the full post from those sources, the client's rules and a reference post from the site. Code checks every rule below; one automatic repair pass if anything fails, otherwise the run fails and Telegram says so.
+4. **Image (about 1 minute, $0.04).** OpenAI gpt-image-2 makes the hero photo from the writer's image brief plus the client's image style.
+5. **Pull request.** The post and image are committed to a branch in the site repo, a PR is opened, and the site builds a private preview at `pr-<n>.menshairtostay.pages.dev`.
+6. **Telegram.** Carlo gets title, 3 to 5 bullets, image, preview link, Approve and Reject.
+7. **Approve.** The post is queued. **Monday 05:00 UTC** the Worker merges the PR; the deploy Action puts it live in about 2 minutes and Telegram says "Live now".
+8. **Reject.** The bot asks why. The reply closes the PR and restarts from step 2 with the reason as feedback ("skip" = no post this week).
+
+### Blog rules the Writer must pass (checked in code, not trusted)
+
+- Frontmatter: title max 70 characters, meta description max 160, valid category, unique slug, 2 to 6 tags, 4 to 8 FAQs, 3 to 5 summary bullets, at least 2 sources.
+- Structure: 1,400 to 2,800 words, at least 5 "##" sections written as the questions people ask, answer-first intro, closing "Book a free confidential consultation" section with service areas, phone, /book link and exact opening hours.
+- Markdown the site can render only: ##, ###, lists, **bold**, links. No italics, tables, quotes, HTML, "---", author bio or sources section (the site lists sources itself).
+- Evidence: every source opened this run and linked inline; quotes must match the source word for word; no invented stats, studies, prices or credentials; internal links only to real sitemap pages.
+- Style: UK English with -ize spelling, no em or en dashes, no pricing, no author, no client details, no medical advice or cure claims, no "never/always/only" beyond the source, no suicide or death statistics.
+- Studio facts: hair systems need maintenance every few weeks, SMP needs occasional touch-ups, hair density works with existing hair.
+
+### Image rules
+
+- gpt-image-2, 1536x1024 landscape, medium quality, JPEG.
+- Style (config/clients.json): photorealistic editorial photo, natural light, charcoal, warm neutral and soft white palette, discreet premium studio feel, space around the subject.
+- No faces or identifiable people (from behind or cropped only), no text, logos, labels, watermarks or brand names, no red dots, marks or blood on any scalp.
+- The photo must literally show the alt text the Writer wrote.
+
+### How it was built (Phase 1, 23 to 24 Sep 2026)
+
+1. Site blog moved from code to markdown files with a schema check at build (0a).
+2. GitHub deploy Action: main goes live, every PR gets a preview (0b).
+3. Cloudflare D1 database for clients, agents, tasks, topics and run costs (1).
+4. Cloudflare Worker API in front of the database, token protected, with the weekly schedule (2, 9).
+5. Research Agent, then Writer Agent, as Node scripts run by GitHub Actions (3, 4).
+6. Image step with OpenAI (5), PR step with preview (6).
+7. Telegram bot, one group per client, buttons handled by the Worker (7), Monday merge job (8).
+8. Manual controls: "Run weekly step now", "Unpublish", "Weekly blog" by hand.
+
