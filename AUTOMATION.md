@@ -290,8 +290,8 @@ Reference implementations: `content staging/august-2026/` and `content staging/s
 | 0b | GitHub Action: build and `wrangler pages deploy` on merge to `main` | **Done 23 Sep.** Stage 1 deployed `f95b19e` to a preview URL. Stage 2 `901e79e` deploys `main` to production. Verified live: `menshairtostay.co.uk` serves bundle `index-ChM7DBzp.js`, the old `index-nQQevdLg.js` is gone |
 | 1 | D1 database, tables, seed `clients` and `agents` | **Done 23 Sep.** D1 `rank-automation` (region weur) created by the Database Action in `rank-automation` repo, commit `e91f735`. All 6 contract tables present plus `d1_migrations` (Wrangler's own tracking table). `clients` seeded with `mhts`. Agents are seeded in tasks 3 and 4 with their prompts |
 | 2 | Worker API | **Done 23 Sep.** `rank-automation` commit `b9c8473`, live at `https://rank-automation.carlo-vacirca.workers.dev`. 35 of 35 local checks pass. Deploy check: `/api/health` 200, `/api/tasks` 401 without token, 200 with token |
-| 3 | Research Agent script, Claude API with web search, proposes 2 to 3 topics | **Built 23 Sep**, `rank-automation` commit `da9ce3c`. Unit tests and a full local run against a mock API pass. Awaiting first real run |
-| 4 | Writer Agent script, full post as validated markdown | Not started |
+| 3 | Research Agent script, Claude API with web search, proposes 2 to 3 topics | **Done 24 Sep.** First real run: 3 topics, all sources read, $0.33 |
+| 4 | Writer Agent script, full post as validated markdown | **Built 24 Sep**, `rank-automation` commit after `9904b0a`. Awaiting first real run |
 | 5 | Image generation, OpenAI, committed to `src/assets` in the same PR | Not started |
 | 6 | Commit and open PR | Not started |
 | 7 | Telegram bot, preview, cost, Approve and Reject | Not started |
@@ -371,6 +371,13 @@ With four clients in scope, putting the agents inside `mhts-site` would make the
 - Service rotation: the service least recently chosen leads the week.
 - System prompts live in `agents/prompts/<agent-id>.md` only as the starting version. They are seeded into D1 with INSERT OR IGNORE, so once an agent exists its prompt is edited in D1 (dashboard or API), never overwritten by a deploy.
 - Runners talk only to the Worker API, never to D1 directly, so the dashboard and the agents share one set of rules.
+
+**2026-09-24, Writer Agent design and real costs.**
+- The research run costs about $0.33 (117k input tokens, 4 searches). Estimated writer run $0.25 to $0.45. About $0.80 per client per week, roughly $13 a month for four clients. Carlo's budget is tight, so tool budgets are kept small.
+- The writer opens the topic's sources with plain HTTP in our own code (free) and passes the text to the model, instead of paying the model to fetch them. It may still search twice and read 3 more pages.
+- Every draft is checked in code, not trusted: section 5 rules (dashes, pricing, -ize spelling, hours), renderer-supported markdown only (the site renders ##, ###, lists, **bold** and links; no italics, tables or quotes), word count, closing CTA, internal links only to real sitemap pages, external links and sources only to pages read in the run. One repair pass without tools; if it still fails, the task is saved as failed with the reasons.
+- Publish date is the next Monday not taken by a live or queued post.
+- Research topic review, 24 Sep: topic about traction alopecia wrongly linked it to tight fades. Traction alopecia comes from pulling tension, not clipper cuts, and blaming fades is also bad for Georges Barbers, where MHTS is based. Topic about NHS wigs must not quote NHS charges (no-pricing rule).
 
 ---
 
