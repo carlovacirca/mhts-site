@@ -379,6 +379,12 @@ With four clients in scope, putting the agents inside `mhts-site` would make the
 - Publish date is the next Monday not taken by a live or queued post.
 - Research topic review, 24 Sep: topic about traction alopecia wrongly linked it to tight fades. Traction alopecia comes from pulling tension, not clipper cuts, and blaming fades is also bad for Georges Barbers, where MHTS is based. Topic about NHS wigs must not quote NHS charges (no-pricing rule).
 
+**2026-09-24, weekly cycle and topic choice (Carlo chose option A).**
+- Wednesday: Research Agent runs; Telegram sends Carlo the 2 to 3 topics with buttons. He taps one. If he has not chosen by Thursday 08:00, the agent picks the first topic.
+- Thursday: Writer Agent and image generation run for the chosen topic.
+- Friday: Telegram sends the finished post (title, hero image, preview, link to the full post, cost) with Approve and Reject.
+- Approve queues it; the Worker merges it on the post's Monday and the deploy Action publishes it. Reject closes it.
+
 ---
 
 ## 8. Open questions and next steps
