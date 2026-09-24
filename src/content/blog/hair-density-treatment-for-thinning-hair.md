@@ -5,7 +5,6 @@ description: Thinning hair but not ready for a full hair system? Discover how ha
 metaDescription: Thinning hair but not ready for a full hair system? Discover how hair density treatment works as a non-surgical solution for men and women in Amersham.
 category: Hair Loss Solutions
 publishDate: 2026-07-20
-author: Men's Hair To Stay Team
 readTime: 6 min read
 heroImage: "@/assets/blog-hair-density-treatment-hero.jpg"
 heroImageAlt: Close-up of thinning hair at the crown treated at Men's Hair To Stay in Amersham

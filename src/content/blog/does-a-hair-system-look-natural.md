@@ -5,7 +5,6 @@ description: Yes, when it is fitted properly. What makes a hair system look natu
 metaDescription: Yes, when it is fitted properly. What makes a hair system look natural, what gives a bad one away, and how to judge a studio before you commit.
 category: Hair Systems
 publishDate: 2026-08-03
-author: Lexie, hair replacement specialist, Men's Hair To Stay
 readTime: 8 min read
 heroImage: "@/assets/mhts-hair-system-hairline-hero.jpg"
 heroImageAlt: Close detail of a natural hairline on a fitted hair system, cropped above the eyebrows
@@ -125,7 +124,3 @@ Book a free confidential consultation at Men's Hair To Stay in Amersham. The stu
 We serve Amersham, Chesham, Beaconsfield, High Wycombe, Rickmansworth, Watford, Harrow and across Buckinghamshire and South Bucks.
 
 Call 07947 878087 or [book your free consultation online](/book). Open Tuesday to Friday, 9:30 to 5.
-
----
-
-**About the author.** Lexie is the hair replacement specialist at Men's Hair To Stay in Amersham, with around eight years of experience fitting custom hair systems and carrying out scalp micropigmentation for men and women across Buckinghamshire.

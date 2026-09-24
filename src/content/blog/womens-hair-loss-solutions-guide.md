@@ -5,7 +5,6 @@ description: Discover comprehensive hair loss solutions designed for women in Am
 metaDescription: Discover comprehensive hair loss solutions designed for women in Amersham and Buckinghamshire. From hair systems to scalp micropigmentation, explore all your non-surgical restoration options.
 category: Hair Loss Solutions
 publishDate: 2026-04-02
-author: Men's Hair To Stay Team
 readTime: 28 min read
 heroImage: "@/assets/blog-aug11.jpg"
 heroImageAlt: Woman exploring hair restoration options during consultation

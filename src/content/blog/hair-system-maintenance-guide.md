@@ -5,7 +5,6 @@ description: Master hair system maintenance with our complete care guide. Learn 
 metaDescription: Master hair system maintenance with our complete care guide. Learn daily routines, product recommendations, professional care schedules, and expert tips to extend your system's lifespan in Amersham and Buckinghamshire.
 category: Maintenance & Care
 publishDate: 2026-04-16
-author: Men's Hair To Stay Team
 readTime: 25 min read
 heroImage: "@/assets/blog-aug25.jpg"
 heroImageAlt: Hair system being cleaned and conditioned

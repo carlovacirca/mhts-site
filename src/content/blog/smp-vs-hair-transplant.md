@@ -5,7 +5,6 @@ description: "A straight comparison of scalp micropigmentation and hair transpla
 metaDescription: "A straight comparison of scalp micropigmentation and hair transplant surgery: results, recovery, donor hair, upkeep and who each one genuinely suits."
 category: Hair Loss Solutions
 publishDate: 2026-08-17
-author: Lexie, hair replacement specialist, Men's Hair To Stay
 readTime: 9 min read
 heroImage: "@/assets/mhts-consultation-room-hero.jpg"
 heroImageAlt: The private consultation room at the Men's Hair To Stay studio in Amersham, with barber chair, mirror and branded banner
@@ -133,7 +132,3 @@ Book a free confidential consultation at Men's Hair To Stay in Amersham. The stu
 We serve Amersham, Chesham, Beaconsfield, High Wycombe, Rickmansworth, Watford, Harrow and across Buckinghamshire and South Bucks.
 
 Call 07947 878087 or [book your free consultation online](/book). Open Tuesday to Friday, 9:30 to 5.
-
----
-
-**About the author.** Lexie is the hair replacement specialist at Men's Hair To Stay in Amersham, with around eight years of experience fitting custom hair systems and carrying out scalp micropigmentation for men and women across Buckinghamshire.

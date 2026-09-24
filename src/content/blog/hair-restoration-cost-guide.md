@@ -5,7 +5,6 @@ description: What actually changes the cost of a hair system or SMP, why a singl
 metaDescription: What actually changes the cost of a hair system or SMP, why a single published figure would mislead you, and six questions to ask before comparing quotes.
 category: Expert Tips
 publishDate: 2026-09-07
-author: Lexie, hair replacement specialist, Men's Hair To Stay
 readTime: 8 min read
 heroImage: "@/assets/mhts-hair-system-base-materials-hero.jpg"
 heroImageAlt: Three hair system bases in lace, skin and monofilament laid flat beside hair samples in three shades, with scissors and a comb
@@ -128,7 +127,3 @@ Book a free confidential consultation at Men's Hair To Stay in Amersham. The stu
 We serve Amersham, Chesham, Beaconsfield, High Wycombe, Rickmansworth, Watford, Harrow and across Buckinghamshire and South Bucks.
 
 Call 07947 878087 or [book your free consultation online](/book). Open Tuesday to Friday, 9:30 to 5.
-
----
-
-**About the author.** Lexie is the hair replacement specialist at Men's Hair To Stay in Amersham, with around eight years of experience fitting custom hair systems and carrying out scalp micropigmentation for men and women across Buckinghamshire.

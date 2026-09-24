@@ -5,7 +5,6 @@ description: Discover how a modern hair system works, why men choose it over sur
 metaDescription: Discover how a modern hair system works, why men choose it over surgery, and what to expect. Book your free consultation at Men's Hair To Stay in Amersham.
 category: Hair Systems
 publishDate: 2026-07-27
-author: Men's Hair To Stay Team
 readTime: 6 min read
 heroImage: "@/assets/blog-hair-system-fitting-hero.jpg"
 heroImageAlt: Man with a full natural hairline after a hair system fitting at Men's Hair To Stay in Amersham

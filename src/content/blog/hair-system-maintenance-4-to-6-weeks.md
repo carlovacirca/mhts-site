@@ -5,7 +5,6 @@ description: Learn why professional hair system maintenance matters, backed by d
 metaDescription: Learn why professional hair system maintenance matters, backed by dermatology research on adhesive skin reactions. Book your free consultation in Amersham.
 category: Maintenance & Care
 publishDate: 2026-07-14
-author: Men's Hair To Stay Team
 readTime: 8 min read
 heroImage: "@/assets/blog-hair-system-maintenance-studio.jpg"
 heroImageAlt: Private hair replacement studio at Men's Hair To Stay in Amersham

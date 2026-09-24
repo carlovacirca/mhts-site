@@ -5,7 +5,6 @@ description: The Amersham studio is closed for a short summer break and reopens 
 metaDescription: Men's Hair To Stay is closed until Friday 28 August. Online booking stays open, so you can reserve an appointment for the week we return.
 category: Expert Tips
 publishDate: 2026-08-23
-author: Lexie, hair replacement specialist, Men's Hair To Stay
 readTime: 2 min read
 heroImage: "@/assets/mhts-studio-wide-hero.jpg"
 heroImageAlt: The Men's Hair To Stay studio in Amersham, showing the chair, workstation and basin

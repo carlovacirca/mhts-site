@@ -5,7 +5,6 @@ description: Comparing hair systems and scalp micropigmentation in Amersham? Dis
 metaDescription: Comparing hair systems and scalp micropigmentation in Amersham? Discover the pros, cons, costs, and results of both non-surgical hair loss solutions to make the right choice for your lifestyle.
 category: Hair Loss Solutions
 publishDate: 2026-04-23
-author: Men's Hair To Stay Team
 readTime: 22 min read
 heroImage: "@/assets/blog-before-after.jpg"
 heroImageAlt: Side-by-side comparison of hair system results and scalp micropigmentation treatment

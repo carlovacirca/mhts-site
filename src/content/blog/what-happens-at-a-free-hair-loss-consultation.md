@@ -5,7 +5,6 @@ description: Nervous about booking? Exactly what happens at a free confidential 
 metaDescription: Nervous about booking? Exactly what happens at a free confidential hair loss consultation in Amersham, from the unsigned door to the questions asked.
 category: Expert Tips
 publishDate: 2026-08-31
-author: Lexie, hair replacement specialist, Men's Hair To Stay
 readTime: 8 min read
 heroImage: "@/assets/mhts-studio-wide-hero.jpg"
 heroImageAlt: The Men's Hair To Stay studio in Amersham, showing the chair, workstation and basin
@@ -136,7 +135,3 @@ Book a free confidential consultation at Men's Hair To Stay in Amersham. The stu
 We serve Amersham, Chesham, Beaconsfield, High Wycombe, Rickmansworth, Watford, Harrow and across Buckinghamshire and South Bucks.
 
 Call 07947 878087 or [book your free consultation online](/book). Open Tuesday to Friday, 9:30 to 5.
-
----
-
-**About the author.** Lexie is the hair replacement specialist at Men's Hair To Stay in Amersham, with around eight years of experience fitting custom hair systems and carrying out scalp micropigmentation for men and women across Buckinghamshire.

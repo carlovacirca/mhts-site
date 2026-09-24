@@ -5,7 +5,6 @@ description: Considering non-surgical hair replacement? Discover how modern men'
 metaDescription: Considering non-surgical hair replacement? Discover how modern men's hair systems work, what to expect from your first fitting, and how to keep your system looking natural, all from the specialists at Men's Hair To Stay, Amersham.
 category: Hair Systems
 publishDate: 2026-05-25
-author: Men's Hair To Stay Team
 readTime: 12 min read
 heroImage: "@/assets/blog-non-surgical-hair-replacement.jpg"
 heroImageAlt: Confident smiling man with full natural-looking hair on the beach after non-surgical hair replacement at Men's Hair To Stay Amersham

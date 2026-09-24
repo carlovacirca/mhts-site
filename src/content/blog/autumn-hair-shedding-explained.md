@@ -5,7 +5,6 @@ description: Autumn shedding is real and there is research behind it. How to tel
 metaDescription: Autumn shedding is real and there is research behind it. How to tell seasonal shedding from the start of pattern hair loss, and what to do about either.
 category: Hair Loss Solutions
 publishDate: 2026-09-14
-author: Lexie, hair replacement specialist, Men's Hair To Stay
 readTime: 8 min read
 heroImage: "@/assets/mhts-hair-shedding-brush-hero.jpg"
 heroImageAlt: A men's hairbrush on a dark grey surface with a noticeable amount of loose brown hair caught in the bristles
@@ -117,7 +116,3 @@ Book a free confidential consultation at Men's Hair To Stay in Amersham. The stu
 We serve Amersham, Chesham, Beaconsfield, High Wycombe, Rickmansworth, Watford, Harrow and across Buckinghamshire and South Bucks.
 
 Call 07947 878087 or [book your free consultation online](/book). Open Tuesday to Friday, 9:30 to 5.
-
----
-
-**About the author.** Lexie is the hair replacement specialist at Men's Hair To Stay in Amersham, with around eight years of experience fitting custom hair systems and carrying out scalp micropigmentation for men and women across Buckinghamshire.

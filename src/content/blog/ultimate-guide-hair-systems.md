@@ -5,7 +5,6 @@ description: Discover everything about modern hair systems in 2026. From types a
 metaDescription: Discover everything about modern hair systems in 2026. From types and costs to maintenance tips, this comprehensive guide helps Amersham residents find the perfect non-surgical hair loss solution.
 category: Hair Systems
 publishDate: 2026-05-07
-author: Men's Hair To Stay Team
 readTime: 15 min read
 heroImage: "@/assets/blog-hair-systems-guide.jpg"
 heroImageAlt: Professional hair system fitting consultation showing natural-looking hair replacement

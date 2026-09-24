@@ -5,7 +5,6 @@ description: Amazing before and after photos of hair systems and SMP showing rea
 metaDescription: Amazing before and after photos of hair systems and scalp micropigmentation. Real client transformations showing life-changing hair restoration results.
 category: Before & After
 publishDate: 2026-04-09
-author: Men's Hair To Stay Team
 readTime: 6 min read
 heroImage: "@/assets/blog-aug18.jpg"
 heroImageAlt: Before and after hair restoration transformation

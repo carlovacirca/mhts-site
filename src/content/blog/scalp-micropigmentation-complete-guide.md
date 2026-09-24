@@ -5,7 +5,6 @@ description: Discover how scalp micropigmentation (SMP) works in 2026. From the 
 metaDescription: Discover how scalp micropigmentation (SMP) works in 2026. From the procedure to costs and results, this complete guide helps Amersham residents explore this revolutionary non-surgical hair loss solution.
 category: Scalp Micropigmentation
 publishDate: 2026-04-30
-author: Men's Hair To Stay Team
 readTime: 18 min read
 heroImage: "@/assets/blog-smp-procedure.jpg"
 heroImageAlt: Close-up of scalp micropigmentation treatment showing realistic hair follicle impressions

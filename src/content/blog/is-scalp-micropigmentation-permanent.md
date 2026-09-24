@@ -5,7 +5,6 @@ description: SMP is described in the literature as a permanent concealer, but th
 metaDescription: SMP is described in the literature as a permanent concealer, but the pigment does change. Here is how it behaves over the years and when a top up is due.
 category: Scalp Micropigmentation
 publishDate: 2026-08-10
-author: Lexie, hair replacement specialist, Men's Hair To Stay
 readTime: 8 min read
 heroImage: "@/assets/mhts-smp-healed-result-hero.jpg"
 heroImageAlt: Close detail of a scalp with completed scalp micropigmentation, individual pigment dots reading as short stubble
@@ -118,7 +117,3 @@ Book a free confidential consultation at Men's Hair To Stay in Amersham. The stu
 We serve Amersham, Chesham, Beaconsfield, High Wycombe, Rickmansworth, Watford, Harrow and across Buckinghamshire and South Bucks.
 
 Call 07947 878087 or [book your free consultation online](/book). Open Tuesday to Friday, 9:30 to 5.
-
----
-
-**About the author.** Lexie is the hair replacement specialist at Men's Hair To Stay in Amersham, with around eight years of experience fitting custom hair systems and carrying out scalp micropigmentation for men and women across Buckinghamshire.
