@@ -291,9 +291,9 @@ Reference implementations: `content staging/august-2026/` and `content staging/s
 | 1 | D1 database, tables, seed `clients` and `agents` | **Done 23 Sep.** D1 `rank-automation` (region weur) created by the Database Action in `rank-automation` repo, commit `e91f735`. All 6 contract tables present plus `d1_migrations` (Wrangler's own tracking table). `clients` seeded with `mhts`. Agents are seeded in tasks 3 and 4 with their prompts |
 | 2 | Worker API | **Done 23 Sep.** `rank-automation` commit `b9c8473`, live at `https://rank-automation.carlo-vacirca.workers.dev`. 35 of 35 local checks pass. Deploy check: `/api/health` 200, `/api/tasks` 401 without token, 200 with token |
 | 3 | Research Agent script, Claude API with web search, proposes 2 to 3 topics | **Done 24 Sep.** First real run: 3 topics, all sources read, $0.33 |
-| 4 | Writer Agent script, full post as validated markdown | **Built 24 Sep**, `rank-automation` commit after `9904b0a`. Awaiting first real run |
-| 5 | Image generation, OpenAI, committed to `src/assets` in the same PR | Not started |
-| 6 | Commit and open PR | Not started |
+| 4 | Writer Agent script, full post as validated markdown | **Done 24 Sep.** Real runs on the finasteride topic; code checks now also cover inline source links, suicide statistics, and word-for-word quotes |
+| 5 | Image generation, OpenAI, committed to `src/assets` in the same PR | **Done 24 Sep.** gpt-image-2, 1536x1024, medium, about $0.04. First image reviewed and approved |
+| 6 | Commit and open PR | **Built 24 Sep**, `rank-automation` `1148e39`. PRs also get a preview site at `pr-<number>.menshairtostay.pages.dev`. Awaiting first real run |
 | 7 | Telegram bot, preview, cost, Approve and Reject | Not started |
 | 8 | Approve queues the PR; the Worker merges it on the post's Monday, Action deploys | Not started |
 | 9 | GitHub Actions schedules and triggers | Not started |
@@ -384,6 +384,11 @@ With four clients in scope, putting the agents inside `mhts-site` would make the
 - Thursday: Writer Agent and image generation run for the chosen topic.
 - Friday: Telegram sends the finished post (title, hero image, preview, link to the full post, cost) with Approve and Reject.
 - Approve queues it; the Worker merges it on the post's Monday and the deploy Action publishes it. Reject closes it.
+
+**2026-09-24, first post reviewed by Claude before it can go live (task 5, finasteride).**
+Every quote and key fact was checked against the GOV.UK and NHS pages. Three problems were fixed by hand and saved as `rank-automation/overrides/task-5.md`: an NHS misquote, an overstatement ("never been an NHS treatment", replaced with the MHRA's own wording that finasteride 1mg is only available privately), and an FAQ claiming hair systems have "nothing to maintain". The writer now checks quotes word for word against the pages it read, and its prompt carries the studio's service facts.
+
+**2026-09-24, every post PR gets a preview site.** The mhts-site deploy Action now deploys each same-repo pull request to `pr-<number>.menshairtostay.pages.dev` (a Pages preview, never production), so the post can be read in the real design before approval. The post URL works directly; the `/blog` listing hides it until its date, as live.
 
 ---
 
