@@ -8,7 +8,7 @@ Update and recommit it whenever a meaningful decision or change is made.
 |---|---|
 | **Client** | Men's Hair To Stay, menshairtostay.co.uk |
 | **Repo** | github.com/carlovacirca/mhts-site, branch `main` |
-| **Current phase** | Phase 1. Tasks 0a, 0b, 1, 2 done. Next: task 3 first real run, then task 4, Writer Agent. **Deadline: first automated blog live for all four clients Monday 5 October 2026** |
+| **Current phase** | Phase 1. Tasks 0a to 6 done. Next: tasks 7 to 9, Telegram approval, Monday publishing, schedules. **Deadline: first automated blog live for all four clients Monday 5 October 2026** |
 | **Last updated** | 23 September 2026 |
 | **Owner** | Carlo Vacirca |
 
@@ -293,7 +293,7 @@ Reference implementations: `content staging/august-2026/` and `content staging/s
 | 3 | Research Agent script, Claude API with web search, proposes 2 to 3 topics | **Done 24 Sep.** First real run: 3 topics, all sources read, $0.33 |
 | 4 | Writer Agent script, full post as validated markdown | **Done 24 Sep.** Real runs on the finasteride topic; code checks now also cover inline source links, suicide statistics, and word-for-word quotes |
 | 5 | Image generation, OpenAI, committed to `src/assets` in the same PR | **Done 24 Sep.** gpt-image-2, 1536x1024, medium, about $0.04. First image reviewed and approved |
-| 6 | Commit and open PR | **Built 24 Sep**, `rank-automation` `1148e39`. PRs also get a preview site at `pr-<number>.menshairtostay.pages.dev`. Awaiting first real run |
+| 6 | Commit and open PR | **Done 24 Sep.** PR #1 (finasteride post, publish 5 Oct) opened with preview at `pr-1.menshairtostay.pages.dev`; checks green; Carlo reviewed the preview: approved as is |
 | 7 | Telegram bot, preview, cost, Approve and Reject | Not started |
 | 8 | Approve queues the PR; the Worker merges it on the post's Monday, Action deploys | Not started |
 | 9 | GitHub Actions schedules and triggers | Not started |
