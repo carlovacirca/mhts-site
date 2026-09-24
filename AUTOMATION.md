@@ -8,7 +8,7 @@ Update and recommit it whenever a meaningful decision or change is made.
 |---|---|
 | **Client** | Men's Hair To Stay, menshairtostay.co.uk |
 | **Repo** | github.com/carlovacirca/mhts-site, branch `main` |
-| **Current phase** | Phase 1. Tasks 0a to 6 done. Next: tasks 7 to 9, Telegram approval, Monday publishing, schedules. **Deadline: first automated blog live for all four clients Monday 5 October 2026** |
+| **Current phase** | Phase 1. Tasks 0a to 6 done. Tasks 7 to 9 built, awaiting Telegram setup. **Deadline: first automated blog live for all four clients Monday 5 October 2026** |
 | **Last updated** | 23 September 2026 |
 | **Owner** | Carlo Vacirca |
 
@@ -244,14 +244,17 @@ Base: `https://rank-automation.carlo-vacirca.workers.dev/api`. Bearer token for 
 | `POST` | `/tasks/:id/reject` | Close the PR, delete the branch, set `rejected`. Allowed from `pending`, `awaiting_approval`, `approved`, otherwise 409 |
 | `GET` | `/topics?task_id=&client_id=` | Research output |
 | `POST` | `/topics` | Save a proposed topic, called by the Research Agent |
-| `POST` | `/topics/:id/choose` | Dispatch `writer.yml` in `rank-automation`, then mark chosen and discard sibling topics. If the dispatch fails the topic stays `proposed` |
+| `POST` | `/topics/:id/choose` | Mark chosen, discard sibling topics, set the research task `approved`. The Writer runs from the Friday job, not immediately |
 | `GET` | `/clients`, `/clients/:id` | Client rows |
 | `GET` | `/agents?client_id=` | Agent profiles |
 | `GET` `PATCH` | `/agents/:id` | Read and edit a system prompt |
 | `POST` | `/runs` | Log a run |
 | `GET` | `/runs?client_id=&month=` | Cost report |
-| `POST` | `/telegram/webhook` | Telegram updates, handles Approve and Reject callbacks (task 7, returns 501 until then) |
+| `POST` | `/telegram/webhook` | Telegram updates. Verified by `X-Telegram-Bot-Api-Secret-Token` = sha256("telegram:" + API_TOKEN). Buttons: `t:<topic>` choose, `a:<task>` approve, `r:<task>` reject; only accepted from the task's own client group |
 | `GET` | `/health` | No auth. Liveness check |
+| `PATCH` | `/clients/:id` | Set `telegram_chat_id` |
+| `GET` `POST` | `/telegram/chats` | Chats the bot has seen (used to link a client to its group) |
+| `POST` | `/cron` | Run a scheduled job by hand: `{"job":"research"|"autopick"|"writer"|"publish"}` |
 
 Telegram and the dashboard call the **same** endpoints. No logic lives only in the bot.
 
@@ -294,9 +297,9 @@ Reference implementations: `content staging/august-2026/` and `content staging/s
 | 4 | Writer Agent script, full post as validated markdown | **Done 24 Sep.** Real runs on the finasteride topic; code checks now also cover inline source links, suicide statistics, and word-for-word quotes |
 | 5 | Image generation, OpenAI, committed to `src/assets` in the same PR | **Done 24 Sep.** gpt-image-2, 1536x1024, medium, about $0.04. First image reviewed and approved |
 | 6 | Commit and open PR | **Done 24 Sep.** PR #1 (finasteride post, publish 5 Oct) opened with preview at `pr-1.menshairtostay.pages.dev`; checks green; Carlo reviewed the preview: approved as is |
-| 7 | Telegram bot, preview, cost, Approve and Reject | Not started |
-| 8 | Approve queues the PR; the Worker merges it on the post's Monday, Action deploys | Not started |
-| 9 | GitHub Actions schedules and triggers | Not started |
+| 7 | Telegram bot, preview, cost, Approve and Reject | **Built 24 Sep**, `rank-automation` `8d4d259`. Awaiting bot token and group link |
+| 8 | Approve queues the PR; the Worker merges it on the post's Monday, Action deploys | **Built 24 Sep** (Monday 05:00 UTC job) |
+| 9 | GitHub Actions schedules and triggers | **Built 24 Sep** as Worker cron triggers (one place for the whole weekly cycle) |
 | 10 | Client file library on Google Drive, agents pick real photos from it | Not started |
 | 11 | GBP post + image every Monday, sent to Carlo on Telegram for manual posting | Not started |
 | 12 | Roll out to Georges Barbers, BDB, PV Consulting: content layer + deploy Action per site, then agents | Not started |
@@ -391,6 +394,8 @@ Every quote and key fact was checked against the GOV.UK and NHS pages. Three pro
 **2026-09-24, every post PR gets a preview site.** The mhts-site deploy Action now deploys each same-repo pull request to `pr-<number>.menshairtostay.pages.dev` (a Pages preview, never production), so the post can be read in the real design before approval. The post URL works directly; the `/blog` listing hides it until its date, as live.
 
 **2026-09-24, posts have no author, and sources are listed with full URLs (Carlo's review of PR #1).** New posts carry no `author` and no author bio. The site shows a numbered "Sources" list at the end of every post that has `sources`, each with its title and full clickable URL. Existing posts keep their current author lines until Carlo decides otherwise.
+
+**2026-09-24, Telegram: one bot, one group per client (Carlo chose option A).** Each client's topics and posts go only to that client's group (`clients.telegram_chat_id`). A group is linked by name with the "Telegram setup" workflow. The weekly cycle runs from Worker cron triggers (UTC): Wednesday 07:00 research, Thursday 07:00 auto-pick topic 1 if none chosen, Friday 06:00 writer (post, image, PR, approval message), Monday 05:00 merge approved PRs whose date has arrived. A post not approved by its Monday is flagged in the group; approving it later publishes it the following Monday with its original date.
 
 ---
 
