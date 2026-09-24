@@ -397,6 +397,8 @@ Every quote and key fact was checked against the GOV.UK and NHS pages. Three pro
 
 **2026-09-24, Telegram: one bot, one group per client (Carlo chose option A).** Each client's topics and posts go only to that client's group (`clients.telegram_chat_id`). A group is linked by name with the "Telegram setup" workflow. The weekly cycle runs from Worker cron triggers (UTC): Wednesday 07:00 research, Thursday 07:00 auto-pick topic 1 if none chosen, Friday 06:00 writer (post, image, PR, approval message), Monday 05:00 merge approved PRs whose date has arrived. A post not approved by its Monday is flagged in the group; approving it later publishes it the following Monday with its original date.
 
+**2026-09-24, manual controls for testing and takedowns.** rank-automation has a "Run weekly step now" workflow (research, autopick, writer or publish on demand; publish can take a task id to publish that one approved post immediately, whatever its date) and an "Unpublish" workflow (deletes a post's file and image from main in one commit, marks the task rejected, tells the Telegram group). A new research run closes any unanswered topic picker from the week before, so auto-pick never picks stale topics.
+
 ---
 
 ## 8. Open questions and next steps
