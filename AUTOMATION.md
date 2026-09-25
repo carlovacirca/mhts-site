@@ -421,6 +421,14 @@ The three largest findings: every URL serves byte-identical raw HTML with the ho
 
 Fixes happen one at a time, each on its own `fix/<short-name>` branch, shown to Carlo at 390px before and after, then pushed as a PR so he can check `pr-<n>.menshairtostay.pages.dev` before anything reaches production. This file gets updated after each merged fix.
 
+**2026-09-25, health check reviewed; fix plan (Carlo chose).**
+- Report `docs/HEALTH-CHECK.md` (39 findings) reviewed in Cowork. Spot-checked against the repo and confirmed: no `public/_headers` (so `netlify.toml` headers, caching and the `/georges-barbers` redirect do nothing on Cloudflare), bad blog slugs redirect to `/blog`, 14 sub-service routes missing from the sitemap, hours text "9:30am, 5pm".
+- Corrections to the report: #31 domain-level redirects (www, pages.dev) cannot be done in `_redirects` on Cloudflare Pages, they need a dashboard Redirect Rule; #3 a real 404 status needs pre-rendering, so it moves with #1; #14 preview noindex not yet confirmed by a header check.
+- New, found in review: a Netlify project `menshairtostay` is still connected to the GitHub repo and builds a public deploy preview for every PR (netlify[bot] comments on PR #1 and #2). The default share image (`og:image` in `index.html`) is a Lovable preview screenshot on a third-party bucket, and link previews cannot show per-page titles or images until pages are pre-rendered.
+- Order: batch 1 invisible technical fixes plus default share image, batch 2 future-dated post leak, batch 3 images, then Carlo's content decisions, then pre-rendering (#1, #3, #5 and per-page share previews) on its own PR. One Claude Code prompt per batch, one PR per batch, checked on the PR preview at 390px before merging.
+- The remaining "Lexie" mention in `does-a-hair-system-look-natural` becomes "our specialist".
+- Search Console automation is built in parallel in rank-automation.
+
 ---
 
 ## 8. Open questions and next steps
