@@ -8,8 +8,8 @@ Update and recommit it whenever a meaningful decision or change is made.
 |---|---|
 | **Client** | Men's Hair To Stay, menshairtostay.co.uk |
 | **Repo** | github.com/carlovacirca/mhts-site, branch `main` |
-| **Current phase** | Phase 1. Tasks 0a to 6 done. Tasks 7 to 9 built, awaiting Telegram setup. **Deadline: first automated blog live for all four clients Monday 5 October 2026** |
-| **Last updated** | 23 September 2026 |
+| **Current phase** | Phase 1, MHTS only (other clients paused 25 Sep). Tasks 0a to 9 built; first real Monday publish Mon 5 Oct 2026 05:00 UTC. Then MHTS health check, then Search Console automation |
+| **Last updated** | 25 September 2026 |
 | **Owner** | Carlo Vacirca |
 
 ---
@@ -302,7 +302,7 @@ Reference implementations: `content staging/august-2026/` and `content staging/s
 | 9 | GitHub Actions schedules and triggers | **Built 24 Sep** as Worker cron triggers (one place for the whole weekly cycle) |
 | 10 | Client file library on Google Drive, agents pick real photos from it | Not started |
 | 11 | GBP post + image every Monday, sent to Carlo on Telegram for manual posting | Not started |
-| 12 | Roll out to Georges Barbers, BDB, PV Consulting: content layer + deploy Action per site, then agents | **Built 25 Sep.** Sites: georges-barbers `8cd17ea`, billion-dollar-cuts `5345bb4`, pv-cosulting `ec63058` (tests and build pass, rendered checked in each design). Agents: rank-automation `ff583fd`. Waiting on repo secrets, pushes, Telegram groups, first run |
+| 12 | Roll out to Georges Barbers, BDB, PV Consulting: content layer + deploy Action per site, then agents | **Built 25 Sep.** Sites: georges-barbers `8cd17ea`, billion-dollar-cuts `5345bb4`, pv-cosulting `ec63058` (tests and build pass, rendered checked in each design). Agents: rank-automation `838fc8c` (was `ff583fd`, split 25 Sep, see decisions log). **Paused, not pushed.** Waiting on Carlo's go, repo secrets, Telegram groups |
 
 **0a and 0b are prerequisites.** Nothing downstream works without them.
 
@@ -404,6 +404,12 @@ Every quote and key fact was checked against the GOV.UK and NHS pages. Three pro
 **2026-09-25, rollout to Georges, BDB and PV: new posts only (Carlo chose).** The three sites keep every existing hand-built post page untouched. Only automated posts use markdown (`src/content/blog`, same schema and Vite plugin as MHTS, per-site categories) and render at `/blog/<slug>` in each site's existing post design, with FAQs and a Sources list, no author. Each site got the same deploy Action as MHTS (Pages projects `georgesbarbers`, `bdb`, `pv-consulting`; PV builds with `build:prerender`). Before this, September posts on all three existed only on Carlo's machine (deployed directly); they were committed first so GitHub matches the live sites (sitemaps: 15, 12, 16 blog URLs, matching live). Content rules are per client in `config/clients.json` (`rules`); no pricing for all four. First automated publish date for the three new clients: Mon 5 Oct. After each merge the Monday job adds the post to `public/sitemap.xml` (needed for PV prerendering and for all four sitemaps).
 
 **2026-09-25, MHTS first (Carlo).** Finish the full MHTS workflow and a complete MHTS site health check (SEO, UX/UI, structure, design, blog index, sitemap, security) before any other client. The Georges, BDB and PV rollout stays committed locally and unpushed until he says so. Handover for the next session: `docs/HANDOVER.md`.
+
+**2026-09-25, rank-automation push split; 12 Oct post kept; Search Console in the GBP API project (Carlo chose).**
+- The rollout commit `ff583fd` mixed the MHTS sitemap fix with the paused Georges, BDB and PV work. Split into `dc6a92b` (Worker only: after the Monday merge, add the post to `public/sitemap.xml` on main in a second commit) and `838fc8c` (the paused rollout, local only, backup branch `rollout-backup`). Only `dc6a92b` gets pushed, so the paused clients get no database rows yet. The two new commits together are byte-identical to `ff583fd`.
+- `dc6a92b` checked: Worker type-check passes; the sitemap function run against the real MHTS sitemap adds exactly one line (44 to 45 URLs, rest of the file unchanged) and a second run is a no-op. The sitemap commit to main triggers a second production deploy about 2 minutes after the post's own deploy.
+- The traction alopecia test post (branch `post/can-a-hair-system-cause-traction-alopecia`, PR #2) stays approved and goes live Mon 12 Oct. Reviewed 25 Sep: no fades or barber blame, no pricing, no dashes, 3 sources, every internal link is a real sitemap page.
+- Search Console automation will use a service account in the same Google Cloud project as the Business Profile API application.
 
 ---
 
