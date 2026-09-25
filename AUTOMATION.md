@@ -254,7 +254,8 @@ Base: `https://rank-automation.carlo-vacirca.workers.dev/api`. Bearer token for 
 | `GET` | `/health` | No auth. Liveness check |
 | `PATCH` | `/clients/:id` | Set `telegram_chat_id` |
 | `GET` `POST` | `/telegram/chats` | Chats the bot has seen (used to link a client to its group) |
-| `POST` | `/cron` | Run a scheduled job by hand: `{"job":"weekly"|"publish", "task_id"?: n}`; `task_id` publishes that approved post now |
+| `POST` | `/cron` | Run a scheduled job by hand: `{"job":"weekly"|"publish"|"seo", "task_id"?: n}`; `task_id` publishes that approved post now |
+| `GET` | `/index-checks?client_id=` | Search engine submissions and Google index results per published post (latest 100) |
 
 Telegram and the dashboard call the **same** endpoints. No logic lives only in the bot.
 
@@ -302,7 +303,8 @@ Reference implementations: `content staging/august-2026/` and `content staging/s
 | 9 | GitHub Actions schedules and triggers | **Built 24 Sep** as Worker cron triggers (one place for the whole weekly cycle) |
 | 10 | Client file library on Google Drive, agents pick real photos from it | Not started |
 | 11 | GBP post + image every Monday, sent to Carlo on Telegram for manual posting | Not started |
-| 12 | Roll out to Georges Barbers, BDB, PV Consulting: content layer + deploy Action per site, then agents | **Built 25 Sep.** Sites: georges-barbers `8cd17ea`, billion-dollar-cuts `5345bb4`, pv-cosulting `ec63058` (tests and build pass, rendered checked in each design). Agents: rank-automation `838fc8c` (was `ff583fd`, split 25 Sep, see decisions log). **Paused, not pushed.** Waiting on Carlo's go, repo secrets, Telegram groups |
+| 13 | Search engines: resubmit sitemap to Google, IndexNow for Bing, index check to Telegram on day 3 and 7 | **Built 25 Sep**, rank-automation `3c8533c`, not pushed. Local tests pass (9 scenarios, mock Google, IndexNow and Telegram). Waiting on: Google Cloud setup and `GOOGLE_SA_KEY` secret, IndexNow key file on the site |
+| 12 | Roll out to Georges Barbers, BDB, PV Consulting: content layer + deploy Action per site, then agents | **Built 25 Sep.** Sites: georges-barbers `8cd17ea`, billion-dollar-cuts `5345bb4`, pv-cosulting `ec63058` (tests and build pass, rendered checked in each design). Agents: rank-automation `d1b3e48` (was `ff583fd`, then `838fc8c`; split and rebased 25 Sep, see decisions log). **Paused, not pushed.** Waiting on Carlo's go, repo secrets, Telegram groups |
 
 | Health check | Full MHTS site health check: technical and on-page SEO, sitemap, robots, structured data, blog index, internal linking, UX, UI, design, mobile, performance, accessibility, security | **Done 25 Sep.** Report at `docs/HEALTH-CHECK.md`. 63 live pages crawled rendered and raw, Lighthouse mobile on 4 pages, `npm audit`, secret scan of all 700 commits, screenshots at 390px and 1280px. 39 findings ranked by impact. **Nothing on the site was changed.** Fixes are approved by Carlo one at a time, each on its own `fix/<name>` branch with a PR preview |
 
@@ -428,6 +430,16 @@ Fixes happen one at a time, each on its own `fix/<short-name>` branch, shown to 
 - Order: batch 1 invisible technical fixes plus default share image, batch 2 future-dated post leak, batch 3 images, then Carlo's content decisions, then pre-rendering (#1, #3, #5 and per-page share previews) on its own PR. One Claude Code prompt per batch, one PR per batch, checked on the PR preview at 390px before merging.
 - The remaining "Lexie" mention in `does-a-hair-system-look-natural` becomes "our specialist".
 - Search Console automation is built in parallel in rank-automation.
+
+**2026-09-25, Search Console automation built (task 13).**
+- Runs in the Worker as a daily 07:00 UTC job (`seo`), also by hand from "Run weekly step now". No paid API, no Anthropic cost.
+- After the Monday merge, once the post is in the LIVE sitemap: the sitemap is resubmitted with the Search Console API and the URL is sent to IndexNow (Bing, Yandex and others). Telegram: "Sent to search engines" with the result of each.
+- Day 3: URL Inspection API. Indexed: Telegram says so. Not indexed: Telegram shows Google's reason and an "Open in Search Console" button; one tap on REQUEST INDEXING there. Checked once more on day 7, then stops. Request indexing itself has no API (the Indexing API is only for job postings and livestreams).
+- Google login: a service account key, GitHub secret `GOOGLE_SA_KEY`, copied to the Worker by the Worker workflow. The account needs **Full** permission on the property (enough for inspection and sitemaps). The property is found automatically; a domain property wins over a URL-prefix one. Service account lives in the same Google Cloud project as the Business Profile API application.
+- IndexNow key for MHTS is public by design and stored in `clients.indexnow_key` (seeded). The site must serve `https://menshairtostay.co.uk/<key>.txt` containing the key; the job checks the file body before using IndexNow, because the SPA answers every path with 200.
+- New migration `0003_search_console.sql`: `clients.indexnow_key`, table `index_checks` (url, submit_log, checks, check_after, verdict, coverage_state, last_crawl, result). Dashboard reads it with `GET /api/index-checks`.
+- Tested locally with `wrangler dev --local` and a mock of Google, IndexNow, the live site and Telegram: not in sitemap yet (retries next day), key file missing (IndexNow skipped), submit, rerun (no duplicate), day 3 not indexed with button, day 7 indexed, same slug twice, bad key (Telegram warning), no Google key (IndexNow only). The JWT signature was verified by the mock against the key. The existing API smoke test gives the same result as before the change (3 known-stale checks).
+- rank-automation now: `dc6a92b` pushed; `3c8533c` Search Console, to push next; `d1b3e48` paused rollout (rebased, was `838fc8c`), not pushed.
 
 ---
 
