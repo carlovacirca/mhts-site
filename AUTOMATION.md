@@ -302,7 +302,7 @@ Reference implementations: `content staging/august-2026/` and `content staging/s
 | 9 | GitHub Actions schedules and triggers | **Built 24 Sep** as Worker cron triggers (one place for the whole weekly cycle) |
 | 10 | Client file library on Google Drive, agents pick real photos from it | Not started |
 | 11 | GBP post + image every Monday, sent to Carlo on Telegram for manual posting | Not started |
-| 12 | Roll out to Georges Barbers, BDB, PV Consulting: content layer + deploy Action per site, then agents | Not started |
+| 12 | Roll out to Georges Barbers, BDB, PV Consulting: content layer + deploy Action per site, then agents | **Built 25 Sep.** Sites: georges-barbers `8cd17ea`, billion-dollar-cuts `5345bb4`, pv-cosulting `ec63058` (tests and build pass, rendered checked in each design). Agents: rank-automation `ff583fd`. Waiting on repo secrets, pushes, Telegram groups, first run |
 
 **0a and 0b are prerequisites.** Nothing downstream works without them.
 
@@ -400,6 +400,8 @@ Every quote and key fact was checked against the GOV.UK and NHS pages. Three pro
 **2026-09-24, manual controls for testing and takedowns.** rank-automation has a "Run weekly step now" workflow (research, autopick, writer or publish on demand; publish can take a task id to publish that one approved post immediately, whatever its date) and an "Unpublish" workflow (deletes a post's file and image from main in one commit, marks the task rejected, tells the Telegram group). A new research run closes any unanswered topic picker from the week before, so auto-pick never picks stale topics.
 
 **2026-09-24, one topic, one approval (Carlo replaced the 3-topic cycle).** No topic picker. Every Friday 06:00 UTC the Worker starts the "Weekly blog" workflow per client: the Research Agent picks one topic, the Writer writes it, the image is made, the PR and preview are opened, and Telegram gets one message: title, 3 to 5 bullet summary, hero image, preview link, Approve and Reject. Approve schedules it for the next Monday (merged Monday 05:00 UTC). Reject asks for a reason as a Telegram reply; the reason closes the PR and starts a new run with the reason as feedback (research decides whether to change topic or rewrite). Replying "skip" rejects with no new post. The Wednesday research and Thursday auto-pick jobs are removed. A failed run posts a message with the run link in the client's group.
+
+**2026-09-25, rollout to Georges, BDB and PV: new posts only (Carlo chose).** The three sites keep every existing hand-built post page untouched. Only automated posts use markdown (`src/content/blog`, same schema and Vite plugin as MHTS, per-site categories) and render at `/blog/<slug>` in each site's existing post design, with FAQs and a Sources list, no author. Each site got the same deploy Action as MHTS (Pages projects `georgesbarbers`, `bdb`, `pv-consulting`; PV builds with `build:prerender`). Before this, September posts on all three existed only on Carlo's machine (deployed directly); they were committed first so GitHub matches the live sites (sitemaps: 15, 12, 16 blog URLs, matching live). Content rules are per client in `config/clients.json` (`rules`); no pricing for all four. First automated publish date for the three new clients: Mon 5 Oct. After each merge the Monday job adds the post to `public/sitemap.xml` (needed for PV prerendering and for all four sitemaps).
 
 ---
 
