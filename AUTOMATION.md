@@ -304,6 +304,8 @@ Reference implementations: `content staging/august-2026/` and `content staging/s
 | 11 | GBP post + image every Monday, sent to Carlo on Telegram for manual posting | Not started |
 | 12 | Roll out to Georges Barbers, BDB, PV Consulting: content layer + deploy Action per site, then agents | **Built 25 Sep.** Sites: georges-barbers `8cd17ea`, billion-dollar-cuts `5345bb4`, pv-cosulting `ec63058` (tests and build pass, rendered checked in each design). Agents: rank-automation `838fc8c` (was `ff583fd`, split 25 Sep, see decisions log). **Paused, not pushed.** Waiting on Carlo's go, repo secrets, Telegram groups |
 
+| Health check | Full MHTS site health check: technical and on-page SEO, sitemap, robots, structured data, blog index, internal linking, UX, UI, design, mobile, performance, accessibility, security | **Done 25 Sep.** Report at `docs/HEALTH-CHECK.md`. 63 live pages crawled rendered and raw, Lighthouse mobile on 4 pages, `npm audit`, secret scan of all 700 commits, screenshots at 390px and 1280px. 39 findings ranked by impact. **Nothing on the site was changed.** Fixes are approved by Carlo one at a time, each on its own `fix/<name>` branch with a PR preview |
+
 **0a and 0b are prerequisites.** Nothing downstream works without them.
 
 ### Later phases, not in scope now
@@ -410,6 +412,14 @@ Every quote and key fact was checked against the GOV.UK and NHS pages. Three pro
 - `dc6a92b` checked: Worker type-check passes; the sitemap function run against the real MHTS sitemap adds exactly one line (44 to 45 URLs, rest of the file unchanged) and a second run is a no-op. The sitemap commit to main triggers a second production deploy about 2 minutes after the post's own deploy.
 - The traction alopecia test post (branch `post/can-a-hair-system-cause-traction-alopecia`, PR #2) stays approved and goes live Mon 12 Oct. Reviewed 25 Sep: no fades or barber blame, no pricing, no dashes, 3 sources, every internal link is a real sitemap page.
 - Search Console automation will use a service account in the same Google Cloud project as the Business Profile API application.
+
+**2026-09-25, MHTS site health check done, nothing changed.** The full health check Carlo asked for is written up at `docs/HEALTH-CHECK.md`: 63 live pages crawled both raw and rendered, all 44 sitemap URLs verified, every structured data block parsed, Lighthouse mobile on 4 live pages, `npm audit`, a secret scan of the working tree and all 700 commits, and screenshots at 390px and 1280px. 39 findings, ranked High to Low with the command or file and line number behind each one, plus a list of what already passes.
+
+**No site code was changed, committed, pushed or deployed for this report.** Only `docs/HEALTH-CHECK.md` and this file were committed.
+
+The three largest findings: every URL serves byte-identical raw HTML with the homepage title, meta and canonical before JavaScript runs; a bad blog URL returns the /blog listing with a 200 instead of a 404; and `netlify.toml` is dead on Cloudflare Pages, so the site has no CSP, HSTS, X-Frame-Options or Permissions-Policy, and hashed assets are cached for 4 hours instead of a year. The known future-dated-posts issue in section 8 is confirmed with evidence in four places, and the one remaining Lexie mention is reported and left in place.
+
+Fixes happen one at a time, each on its own `fix/<short-name>` branch, shown to Carlo at 390px before and after, then pushed as a PR so he can check `pr-<n>.menshairtostay.pages.dev` before anything reaches production. This file gets updated after each merged fix.
 
 ---
 
