@@ -403,6 +403,8 @@ Every quote and key fact was checked against the GOV.UK and NHS pages. Three pro
 
 **2026-09-25, rollout to Georges, BDB and PV: new posts only (Carlo chose).** The three sites keep every existing hand-built post page untouched. Only automated posts use markdown (`src/content/blog`, same schema and Vite plugin as MHTS, per-site categories) and render at `/blog/<slug>` in each site's existing post design, with FAQs and a Sources list, no author. Each site got the same deploy Action as MHTS (Pages projects `georgesbarbers`, `bdb`, `pv-consulting`; PV builds with `build:prerender`). Before this, September posts on all three existed only on Carlo's machine (deployed directly); they were committed first so GitHub matches the live sites (sitemaps: 15, 12, 16 blog URLs, matching live). Content rules are per client in `config/clients.json` (`rules`); no pricing for all four. First automated publish date for the three new clients: Mon 5 Oct. After each merge the Monday job adds the post to `public/sitemap.xml` (needed for PV prerendering and for all four sitemaps).
 
+**2026-09-25, MHTS first (Carlo).** Finish the full MHTS workflow and a complete MHTS site health check (SEO, UX/UI, structure, design, blog index, sitemap, security) before any other client. The Georges, BDB and PV rollout stays committed locally and unpushed until he says so. Handover for the next session: `docs/HANDOVER.md`.
+
 ---
 
 ## 8. Open questions and next steps
