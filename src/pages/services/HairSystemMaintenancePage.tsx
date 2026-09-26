@@ -13,7 +13,7 @@ import {
   Users,
 } from "lucide-react";
 import { findCategory } from "@/data/services";
-import { useJsonLd, useCanonical, useOpenGraph } from "@/lib/seo";
+import { useJsonLd, useCanonical, useOpenGraph, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 import ServicePricing from "@/components/ServicePricing";
 import hairSystemMaintenanceHero from "@/assets/hair-system-maintenance-hero.jpg";
 
@@ -23,22 +23,6 @@ const pricingRows = [
   { name: "Hair System Full Maintenance Package", price: "Contact us for pricing" },
 ];
 
-const pricingJsonLd = [
-  {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    serviceType: "Hair System Reattachment & Restyling (Regroom, 1x Adhesive)",
-    provider: { "@type": "LocalBusiness", name: "Men's Hair To Stay" },
-    areaServed: "Amersham",
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    serviceType: "Hair System Base Clean & Reattach (Regroom, 2x Adhesive)",
-    provider: { "@type": "LocalBusiness", name: "Men's Hair To Stay" },
-    areaServed: "Amersham",
-  },
-];
 
 const benefits = [
   { icon: Clock, text: "Extends the lifespan of your hair system" },
@@ -100,7 +84,18 @@ const faqs = [
 const HairSystemMaintenancePage = () => {
   const category = findCategory("hair-system-maintenance")!;
 
-  useJsonLd(pricingJsonLd);
+  useJsonLd([
+    serviceSchema({
+      name: category.name,
+      description: category.intro,
+      path: "/hair-system-maintenance",
+    }),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+      { name: "Hair System Maintenance", path: "/hair-system-maintenance" },
+    ]),
+  ]);
   useCanonical("/hair-system-maintenance");
   useOpenGraph(
     "Hair System Maintenance Amersham | Hair System Aftercare | Men's Hair to Stay",

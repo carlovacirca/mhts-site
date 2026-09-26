@@ -15,7 +15,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { findCategory } from "@/data/services";
-import { useJsonLd, useCanonical, useOpenGraph } from "@/lib/seo";
+import { useJsonLd, useCanonical, useOpenGraph, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 import ServicePricing from "@/components/ServicePricing";
 import hairSystemsHero from "@/assets/hair-systems-hero.jpg";
 
@@ -27,16 +27,6 @@ const pricingRows = [
   { name: "Hair System Styling", price: "Contact us for pricing" },
 ];
 
-const pricingJsonLd = [
-  {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    serviceType: "Initial Consultation & Fitting",
-    provider: { "@type": "LocalBusiness", name: "Men's Hair To Stay" },
-    areaServed: "Amersham",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "GBP", description: "Free initial consultation" },
-  },
-];
 
 const benefits = [
   { icon: Sparkles, text: "100% human hair for a completely natural look and feel" },
@@ -98,7 +88,18 @@ const faqs = [
 const HairSystemsPage = () => {
   const category = findCategory("hair-systems")!;
 
-  useJsonLd(pricingJsonLd);
+  useJsonLd([
+    serviceSchema({
+      name: category.name,
+      description: category.intro,
+      path: "/hair-systems",
+    }),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+      { name: "Hair Systems", path: "/hair-systems" },
+    ]),
+  ]);
   useCanonical("/hair-systems");
   useOpenGraph(
     "Hair Systems Amersham | Non-Surgical Hair Replacement | Men's Hair to Stay",

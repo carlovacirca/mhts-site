@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { MapPin, ArrowRight, ChevronRight } from "lucide-react";
-import { useSeo } from "@/lib/seo";
+import { useSeo, breadcrumbSchema } from "@/lib/seo";
 
 const areas = [
   { name: "Amersham", slug: "amersham", desc: "Our home base, 11 Chesham Road, HP6 5HN. Specialist hair replacement and SMP." },
@@ -23,6 +23,10 @@ const AreasServicedPage = () => {
     description:
       "Men's Hair To Stay serves Amersham, Chesham, High Wycombe, Beaconsfield, Rickmansworth, Watford and across Buckinghamshire and Hertfordshire.",
     canonicalPath: "/areas-serviced",
+    jsonLd: breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Areas Serviced", path: "/areas-serviced" },
+    ]),
   });
 
   return (

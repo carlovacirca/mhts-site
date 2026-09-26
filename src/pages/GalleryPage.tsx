@@ -130,9 +130,11 @@ const GalleryPage = () => {
                     </div>
                   </div>
                   <div className="p-5">
-                    <h3 className="text-mhts-charcoal font-medium tracking-wide">
+                    {/* A <p>, not a heading: a card label inside a button, and as an
+                        h3 it skipped a level after the h1. HEALTH-CHECK.md finding 24. */}
+                    <p className="text-mhts-charcoal font-medium tracking-wide">
                       {item.service}
-                    </h3>
+                    </p>
                     <p className="text-mhts-slate text-xs mt-1 font-body uppercase tracking-[0.2em]">
                       Click to enlarge
                     </p>

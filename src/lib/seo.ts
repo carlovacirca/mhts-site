@@ -5,6 +5,8 @@ export interface SeoOptions {
   description: string;
   canonicalPath?: string;
   jsonLd?: object | object[];
+  /** Adds <meta name="robots" content="noindex, follow">. Used by the 404 page. */
+  noindex?: boolean;
 }
 
 export const SITE_URL = "https://menshairtostay.co.uk";
@@ -53,7 +55,7 @@ const upsertCanonical = (href: string) => {
   };
 };
 
-export const useSeo = ({ title, description, canonicalPath, jsonLd }: SeoOptions) => {
+export const useSeo = ({ title, description, canonicalPath, jsonLd, noindex }: SeoOptions) => {
   useEffect(() => {
     const prevTitle = document.title;
     document.title = title;
@@ -61,6 +63,16 @@ export const useSeo = ({ title, description, canonicalPath, jsonLd }: SeoOptions
     const restoreDesc = upsertMeta("description", description);
     const path = canonicalPath ?? window.location.pathname;
     const restoreCanonical = upsertCanonical(SITE_URL + path);
+
+    // Only added when asked for, and always removed on unmount, so a noindex
+    // can never leak onto a real page during client-side navigation.
+    let robotsEl: HTMLMetaElement | null = null;
+    if (noindex) {
+      robotsEl = document.createElement("meta");
+      robotsEl.name = "robots";
+      robotsEl.content = "noindex, follow";
+      document.head.appendChild(robotsEl);
+    }
 
     const scripts: HTMLScriptElement[] = [];
     if (jsonLd) {
@@ -78,13 +90,17 @@ export const useSeo = ({ title, description, canonicalPath, jsonLd }: SeoOptions
       document.title = prevTitle;
       restoreDesc();
       restoreCanonical();
+      robotsEl?.remove();
       scripts.forEach((s) => s.remove());
     };
-  }, [title, description, canonicalPath, JSON.stringify(jsonLd)]);
+  }, [title, description, canonicalPath, noindex, JSON.stringify(jsonLd)]);
 };
 
-export const useCanonical = (path: string) => {
+// Pass null to leave the canonical alone, so a page that renders something else
+// (a blog slug that matches no post) does not claim a canonical that is not its own.
+export const useCanonical = (path: string | null) => {
   useEffect(() => {
+    if (path === null) return;
     const restore = upsertCanonical(SITE_URL + path);
     return restore;
   }, [path]);
@@ -117,6 +133,44 @@ export const useJsonLd = (data: object | object[]) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(data)]);
 };
+
+// A Service block describing the page's own service. Previously each money page
+// published its first pricing row instead, so /hair-systems told Google it was a
+// page about "Initial Consultation & Fitting". See docs/HEALTH-CHECK.md finding 11.
+export const serviceSchema = ({
+  name,
+  description,
+  path,
+  areaServed = "Amersham",
+}: {
+  name: string;
+  description: string;
+  path: string;
+  areaServed?: string;
+}) => ({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": SITE_URL + path + "#service",
+  serviceType: name,
+  name,
+  description,
+  url: SITE_URL + path,
+  areaServed,
+  provider: {
+    "@type": "LocalBusiness",
+    name: "Men's Hair To Stay",
+    url: SITE_URL,
+    telephone: "+44 7947 878087",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "11 Chesham Road",
+      addressLocality: "Amersham",
+      postalCode: "HP6 5HN",
+      addressRegion: "Buckinghamshire",
+      addressCountry: "GB",
+    },
+  },
+});
 
 export const breadcrumbSchema = (items: { name: string; path: string }[]) => ({
   "@context": "https://schema.org",

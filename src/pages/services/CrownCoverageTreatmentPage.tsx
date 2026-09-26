@@ -13,8 +13,8 @@ import {
   UserCheck,
   MapPin,
 } from "lucide-react";
-import { findCategory } from "@/data/services";
-import { useCanonical, useOpenGraph } from "@/lib/seo";
+import { findCategory, findSubService } from "@/data/services";
+import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 
 const benefits = [
   { icon: Crosshair, text: "Specifically targets crown thinning and coverage" },
@@ -66,6 +66,20 @@ const faqs = [
 
 const CrownCoverageTreatmentPage = () => {
   const category = findCategory("hair-density")!;
+  const sub = findSubService("hair-density", "crown-coverage-treatment")!;
+  useJsonLd([
+    serviceSchema({
+      name: sub.subService.name,
+      description: sub.subService.blurb,
+      path: "/hair-density/crown-coverage-treatment",
+    }),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+      { name: "Hair Density", path: "/hair-density" },
+      { name: sub.subService.name, path: "/hair-density/crown-coverage-treatment" },
+    ]),
+  ]);
   useCanonical("/hair-density/crown-coverage-treatment");
   useOpenGraph(
     "Crown Coverage Treatment Amersham | Crown Hair Loss Solutions | Men's Hair to Stay",

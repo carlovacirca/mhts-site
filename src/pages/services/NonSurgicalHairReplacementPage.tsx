@@ -14,8 +14,8 @@ import {
   Palette,
   MapPin,
 } from "lucide-react";
-import { findCategory } from "@/data/services";
-import { useCanonical, useOpenGraph } from "@/lib/seo";
+import { findCategory, findSubService } from "@/data/services";
+import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 
 const benefits = [
   { icon: Zap, text: "Immediate results, walk in, walk out with a full head of hair" },
@@ -72,6 +72,20 @@ const faqs = [
 
 const NonSurgicalHairReplacementPage = () => {
   const category = findCategory("hair-systems")!;
+  const sub = findSubService("hair-systems", "non-surgical-hair-replacement")!;
+  useJsonLd([
+    serviceSchema({
+      name: sub.subService.name,
+      description: sub.subService.blurb,
+      path: "/hair-systems/non-surgical-hair-replacement",
+    }),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+      { name: "Hair Systems", path: "/hair-systems" },
+      { name: sub.subService.name, path: "/hair-systems/non-surgical-hair-replacement" },
+    ]),
+  ]);
   useCanonical("/hair-systems/non-surgical-hair-replacement");
   useOpenGraph(
     "Non-Surgical Hair Replacement Amersham | Men's Hair to Stay",

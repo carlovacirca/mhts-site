@@ -13,8 +13,8 @@ import {
   BookOpen,
   MapPin,
 } from "lucide-react";
-import { findCategory } from "@/data/services";
-import { useCanonical, useOpenGraph } from "@/lib/seo";
+import { findCategory, findSubService } from "@/data/services";
+import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 
 const benefits = [
   { icon: MessageCircle, text: "Completely free, no-obligation consultation" },
@@ -70,6 +70,20 @@ const faqs = [
 
 const InitialConsultationFittingPage = () => {
   const category = findCategory("hair-systems")!;
+  const sub = findSubService("hair-systems", "initial-consultation-and-fitting")!;
+  useJsonLd([
+    serviceSchema({
+      name: sub.subService.name,
+      description: sub.subService.blurb,
+      path: "/hair-systems/initial-consultation-and-fitting",
+    }),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+      { name: "Hair Systems", path: "/hair-systems" },
+      { name: sub.subService.name, path: "/hair-systems/initial-consultation-and-fitting" },
+    ]),
+  ]);
   useCanonical("/hair-systems/initial-consultation-and-fitting");
   useOpenGraph(
     "Hair System Consultation & Fitting Amersham | Men's Hair to Stay",

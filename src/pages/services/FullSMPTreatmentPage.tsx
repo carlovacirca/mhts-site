@@ -13,8 +13,8 @@ import {
   Scissors,
   MapPin,
 } from "lucide-react";
-import { findCategory } from "@/data/services";
-import { useCanonical, useOpenGraph } from "@/lib/seo";
+import { findCategory, findSubService } from "@/data/services";
+import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 
 const benefits = [
   { icon: Sparkles, text: "Creates the look of natural hair follicles" },
@@ -74,6 +74,20 @@ const faqs = [
 
 const FullSMPTreatmentPage = () => {
   const category = findCategory("scalp-micropigmentation")!;
+  const sub = findSubService("scalp-micropigmentation", "full-smp-treatment")!;
+  useJsonLd([
+    serviceSchema({
+      name: sub.subService.name,
+      description: sub.subService.blurb,
+      path: "/scalp-micropigmentation/full-smp-treatment",
+    }),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+      { name: "Scalp Micropigmentation", path: "/scalp-micropigmentation" },
+      { name: sub.subService.name, path: "/scalp-micropigmentation/full-smp-treatment" },
+    ]),
+  ]);
   useCanonical("/scalp-micropigmentation/full-smp-treatment");
   useOpenGraph(
     "Full SMP Treatment Amersham | Scalp Micropigmentation | Men's Hair to Stay",

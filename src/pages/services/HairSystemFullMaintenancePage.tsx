@@ -14,8 +14,8 @@ import {
   MapPin,
   Check,
 } from "lucide-react";
-import { findCategory } from "@/data/services";
-import { useCanonical, useOpenGraph } from "@/lib/seo";
+import { findCategory, findSubService } from "@/data/services";
+import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 
 const benefits = [
   { icon: Droplets, text: "Full base clean and deep treatment" },
@@ -86,6 +86,20 @@ const faqs = [
 
 const HairSystemFullMaintenancePage = () => {
   const category = findCategory("hair-system-maintenance")!;
+  const sub = findSubService("hair-system-maintenance", "hair-system-full-maintenance-package")!;
+  useJsonLd([
+    serviceSchema({
+      name: sub.subService.name,
+      description: sub.subService.blurb,
+      path: "/hair-system-maintenance/hair-system-full-maintenance-package",
+    }),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+      { name: "Hair System Maintenance", path: "/hair-system-maintenance" },
+      { name: sub.subService.name, path: "/hair-system-maintenance/hair-system-full-maintenance-package" },
+    ]),
+  ]);
   useCanonical("/hair-system-maintenance/hair-system-full-maintenance-package");
   useOpenGraph(
     "Hair System Full Maintenance Package Amersham | Men's Hair to Stay",

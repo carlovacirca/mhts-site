@@ -14,7 +14,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { findCategory } from "@/data/services";
-import { useJsonLd, useCanonical, useOpenGraph } from "@/lib/seo";
+import { useJsonLd, useCanonical, useOpenGraph, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 import ServicePricing from "@/components/ServicePricing";
 import smpHero from "@/assets/smp-hero.jpg";
 
@@ -24,16 +24,6 @@ const pricingRows = [
   { name: "SMP Touch-Up Session", price: "Contact us for pricing" },
 ];
 
-const pricingJsonLd = [
-  {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    serviceType: "SMP Consultation",
-    provider: { "@type": "LocalBusiness", name: "Men's Hair To Stay" },
-    areaServed: "Amersham",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "GBP", description: "Free initial consultation" },
-  },
-];
 
 const benefits = [
   { icon: InfinityIcon, text: "Permanent solution with minimal top-up maintenance" },
@@ -99,7 +89,18 @@ const faqs = [
 const ScalpMicropigmentationPage = () => {
   const category = findCategory("scalp-micropigmentation")!;
 
-  useJsonLd(pricingJsonLd);
+  useJsonLd([
+    serviceSchema({
+      name: category.name,
+      description: category.intro,
+      path: "/scalp-micropigmentation",
+    }),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+      { name: "Scalp Micropigmentation", path: "/scalp-micropigmentation" },
+    ]),
+  ]);
   useCanonical("/scalp-micropigmentation");
   useOpenGraph(
     "Scalp Micropigmentation Amersham | SMP Treatment | Men's Hair to Stay",

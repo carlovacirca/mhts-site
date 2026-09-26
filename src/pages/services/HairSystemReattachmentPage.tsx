@@ -13,8 +13,8 @@ import {
   Clock,
   MapPin,
 } from "lucide-react";
-import { findCategory } from "@/data/services";
-import { useCanonical, useOpenGraph } from "@/lib/seo";
+import { findCategory, findSubService } from "@/data/services";
+import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 
 const benefits = [
   { icon: ShieldCheck, text: "Safe, professional adhesive removal" },
@@ -66,6 +66,20 @@ const faqs = [
 
 const HairSystemReattachmentPage = () => {
   const category = findCategory("hair-system-maintenance")!;
+  const sub = findSubService("hair-system-maintenance", "hair-system-reattachment-and-restyling")!;
+  useJsonLd([
+    serviceSchema({
+      name: sub.subService.name,
+      description: sub.subService.blurb,
+      path: "/hair-system-maintenance/hair-system-reattachment-and-restyling",
+    }),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+      { name: "Hair System Maintenance", path: "/hair-system-maintenance" },
+      { name: sub.subService.name, path: "/hair-system-maintenance/hair-system-reattachment-and-restyling" },
+    ]),
+  ]);
   useCanonical("/hair-system-maintenance/hair-system-reattachment-and-restyling");
   useOpenGraph(
     "Hair System Reattachment & Restyling Amersham | Men's Hair to Stay",

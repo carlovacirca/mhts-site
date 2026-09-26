@@ -13,8 +13,8 @@ import {
   CalendarClock,
   MapPin,
 } from "lucide-react";
-import { findCategory } from "@/data/services";
-import { useCanonical, useOpenGraph } from "@/lib/seo";
+import { findCategory, findSubService } from "@/data/services";
+import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 
 const benefits = [
   { icon: Sparkles, text: "Works with your natural hair" },
@@ -70,6 +70,20 @@ const faqs = [
 
 const ThinningHairTreatmentPage = () => {
   const category = findCategory("hair-density")!;
+  const sub = findSubService("hair-density", "thinning-hair-treatment")!;
+  useJsonLd([
+    serviceSchema({
+      name: sub.subService.name,
+      description: sub.subService.blurb,
+      path: "/hair-density/thinning-hair-treatment",
+    }),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+      { name: "Hair Density", path: "/hair-density" },
+      { name: sub.subService.name, path: "/hair-density/thinning-hair-treatment" },
+    ]),
+  ]);
   useCanonical("/hair-density/thinning-hair-treatment");
   useOpenGraph(
     "Thinning Hair Treatment Amersham | Hair Density Solutions for Men | Men's Hair to Stay",

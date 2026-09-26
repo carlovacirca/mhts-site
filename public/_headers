@@ -1,0 +1,27 @@
+# Cloudflare Pages reads this file. netlify.toml never applied here, which is why
+# the live site had no security headers and cached hashed assets for only 4 hours.
+# See docs/HEALTH-CHECK.md findings 4, 7 and 14.
+
+/*
+  Strict-Transport-Security: max-age=31536000
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(self "https://menshairtostay.trafft.com")
+  # Report only for now: violations appear in the browser console, nothing is blocked.
+  # Sources below were measured on the live site with cookies accepted, not guessed.
+  # Stripe and doubleclick arrive via the Trafft booking widget.
+  Content-Security-Policy-Report-Only: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' https://menshairtostay.trafft.com https://www.googletagmanager.com https://js.stripe.com https://m.stripe.network https://maps.googleapis.com https://maps.gstatic.com https://googleads.g.doubleclick.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://menshairtostay.trafft.com; font-src 'self' data: https://fonts.gstatic.com https://menshairtostay.trafft.com; img-src 'self' data: blob: https://menshairtostay.trafft.com https://www.google.com https://www.google.co.uk https://maps.gstatic.com https://maps.googleapis.com https://www.google-analytics.com https://i.ytimg.com https://img.youtube.com; connect-src 'self' https://menshairtostay.trafft.com https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com https://www.google.com https://maps.googleapis.com https://js.stripe.com https://m.stripe.com; frame-src https://menshairtostay.trafft.com https://www.google.com https://www.youtube.com https://js.stripe.com https://m.stripe.network
+
+# Hashed build assets. The filename changes whenever the contents change,
+# so a one year cache is safe and never serves a stale file.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Keep Cloudflare Pages preview URLs out of Google. Host patterns only match
+# *.pages.dev, so menshairtostay.co.uk and www are never affected.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex

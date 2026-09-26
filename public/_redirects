@@ -1,0 +1,10 @@
+# Cloudflare Pages reads this file. Path rules only.
+# Domain level redirects (www to apex, pages.dev to apex) cannot be done here.
+# They need a Redirect Rule in the Cloudflare dashboard. See AUTOMATION.md.
+#
+# No SPA fallback line is needed: Cloudflare Pages already serves index.html
+# for any path that is not a real file.
+
+# The old Georges Barbers section of this site moved to its own domain.
+/georges-barbers    https://georgesbarbers.co.uk    301
+/georges-barbers/*  https://georgesbarbers.co.uk    301

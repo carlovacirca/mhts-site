@@ -13,8 +13,8 @@ import {
   BookOpen,
   MapPin,
 } from "lucide-react";
-import { findCategory } from "@/data/services";
-import { useCanonical, useOpenGraph } from "@/lib/seo";
+import { findCategory, findSubService } from "@/data/services";
+import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 
 const benefits = [
   { icon: Scissors, text: "Expert cutting and styling to suit your face shape" },
@@ -62,6 +62,20 @@ const faqs = [
 
 const HairSystemStylingPage = () => {
   const category = findCategory("hair-systems")!;
+  const sub = findSubService("hair-systems", "hair-system-styling")!;
+  useJsonLd([
+    serviceSchema({
+      name: sub.subService.name,
+      description: sub.subService.blurb,
+      path: "/hair-systems/hair-system-styling",
+    }),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+      { name: "Hair Systems", path: "/hair-systems" },
+      { name: sub.subService.name, path: "/hair-systems/hair-system-styling" },
+    ]),
+  ]);
   useCanonical("/hair-systems/hair-system-styling");
   useOpenGraph(
     "Hair System Styling Amersham | Hair Unit Styling Service | Men's Hair to Stay",

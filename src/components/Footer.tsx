@@ -19,9 +19,18 @@ const quickLinks = [
   { to: "/contact", label: "Contact" },
 ];
 
+// The four money pages had no footer link at all, so the only site-wide route to
+// them was the top nav. See docs/HEALTH-CHECK.md finding 26.
+const serviceLinks = [
+  { to: "/hair-systems", label: "Hair Systems" },
+  { to: "/scalp-micropigmentation", label: "Scalp Micropigmentation" },
+  { to: "/hair-density", label: "Hair Density" },
+  { to: "/hair-system-maintenance", label: "Hair System Maintenance" },
+];
+
 const Footer = () => (
   <footer>
-    <div className="grid grid-cols-1 md:grid-cols-2">
+    <div className="grid grid-cols-1 md:grid-cols-3">
       {/* Men's Hair To Stay - white background */}
       <div className="bg-background text-foreground p-8">
         <div className="mb-4">
@@ -29,7 +38,7 @@ const Footer = () => (
         </div>
         <nav className="flex flex-col gap-1 text-sm mb-4">
           {quickLinks.map((l) => (
-            <Link key={l.to} to={l.to} className="hover:text-mhts-slate transition-colors">
+            <Link key={l.to} to={l.to} className="py-1 hover:text-mhts-slate transition-colors">
               {l.label}
             </Link>
           ))}
@@ -45,6 +54,19 @@ const Footer = () => (
             <TikTokIcon />
           </a>
         </div>
+      </div>
+
+      {/* Services - white background. The top border only shows when the grid is
+          stacked, so the two white blocks do not merge into one on a phone. */}
+      <div className="bg-background text-foreground p-8 border-t border-border md:border-t-0">
+        <h3 className="text-xl font-semibold mb-4">Services</h3>
+        <nav className="flex flex-col gap-1 text-sm">
+          {serviceLinks.map((l) => (
+            <Link key={l.to} to={l.to} className="py-1 hover:text-mhts-slate transition-colors">
+              {l.label}
+            </Link>
+          ))}
+        </nav>
       </div>
 
       {/* Visit Us - dark background */}

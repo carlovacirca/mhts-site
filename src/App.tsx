@@ -100,8 +100,9 @@ const App = () => (
             <Route path="/hair-system-maintenance/hair-system-reattachment-and-restyling" element={<HairSystemReattachmentPage />} />
             <Route path="/hair-system-maintenance/hair-system-base-clean-and-reattach" element={<HairSystemBaseCleanPage />} />
             <Route path="/hair-system-maintenance/hair-system-full-maintenance-package" element={<HairSystemFullMaintenancePage />} />
+            {/* Inside <Layout> so a wrong URL still gets the header, footer and nav. */}
+            <Route path="*" element={<NotFound />} />
           </Route>
-          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

@@ -97,7 +97,7 @@ Since fitting decides the result, judging the fitter is the real task. Five ques
 4. How long have you been fitting systems, and what do you fit most?
 5. What does the maintenance schedule actually look like, week to week?
 
-A studio comfortable being asked these will answer them plainly. At Men's Hair To Stay, Lexie has around eight years of experience fitting systems and carrying out scalp micropigmentation, and the consultation is set up so you can ask all five without any pressure to book.
+A studio comfortable being asked these will answer them plainly. At Men's Hair To Stay, our specialist has around eight years of experience fitting systems and carrying out scalp micropigmentation, and the consultation is set up so you can ask all five without any pressure to book.
 
 It is also worth saying that the consultation happens in a private studio with no signage on the door. For a lot of men, being seen walking in is a bigger worry than the treatment itself.
 

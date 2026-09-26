@@ -13,8 +13,8 @@ import {
   ShieldCheck,
   MapPin,
 } from "lucide-react";
-import { findCategory } from "@/data/services";
-import { useCanonical, useOpenGraph } from "@/lib/seo";
+import { findCategory, findSubService } from "@/data/services";
+import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 
 const benefits = [
   { icon: MessageCircle, text: "Completely free with no obligation" },
@@ -70,6 +70,20 @@ const faqs = [
 
 const SMPConsultationPage = () => {
   const category = findCategory("scalp-micropigmentation")!;
+  const sub = findSubService("scalp-micropigmentation", "smp-consultation")!;
+  useJsonLd([
+    serviceSchema({
+      name: sub.subService.name,
+      description: sub.subService.blurb,
+      path: "/scalp-micropigmentation/smp-consultation",
+    }),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+      { name: "Scalp Micropigmentation", path: "/scalp-micropigmentation" },
+      { name: sub.subService.name, path: "/scalp-micropigmentation/smp-consultation" },
+    ]),
+  ]);
   useCanonical("/scalp-micropigmentation/smp-consultation");
   useOpenGraph(
     "SMP Consultation Amersham | Free Scalp Micropigmentation Consultation | Men's Hair to Stay",

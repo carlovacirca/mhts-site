@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useParams, Navigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Calendar, Clock, ChevronRight, Share2, Facebook, Twitter, Linkedin, Mail, ArrowLeft, ChevronDown, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,8 +7,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import NewsletterSubscribeBar from "@/components/NewsletterSubscribeBar";
-import { useCanonical } from "@/lib/seo";
+import { useCanonical, breadcrumbSchema, SITE_URL } from "@/lib/seo";
 import { blogPosts } from "@/data/blogPosts";
+import NotFound from "@/pages/NotFound";
 import { computeImageSlots } from "@/lib/blogImageSlots";
 import blogPlaceholderIllustration from "@/assets/blog-placeholder-illustration.jpg";
 import blogNonSurgicalInline1 from "@/assets/blog-non-surgical-inline-1.jpg";
@@ -153,7 +154,7 @@ const BlogPostPage = () => {
   const blocks = useMemo(() => (post ? parseContent(post.content) : []), [post]);
   const toc = blocks.filter((b) => b.type === "h2") as Required<Pick<Block, "text" | "id">>[];
 
-  useCanonical(post ? `/blog/${post.slug}` : "/blog");
+  useCanonical(post ? `/blog/${post.slug}` : null);
 
   useEffect(() => {
     if (!post) return;
@@ -180,21 +181,49 @@ const BlogPostPage = () => {
     setOg("og:url", window.location.href);
     if (post.image) setOg("og:image", new URL(post.image, window.location.origin).href);
 
-    // Article schema
+    // BlogPosting schema. Was "Article" with no image and no dateModified, which
+    // the /blog listing already contradicted by calling the same posts BlogPosting.
+    // See docs/HEALTH-CHECK.md finding 33.
+    const postUrl = `${SITE_URL}/blog/${post.slug}`;
     const ld = document.createElement("script");
     ld.type = "application/ld+json";
     ld.id = "article-jsonld";
     ld.text = JSON.stringify({
       "@context": "https://schema.org",
-      "@type": "Article",
+      "@type": "BlogPosting",
       headline: post.title,
       description: post.metaDescription,
       author: { "@type": "Organization", name: post.author || "Men's Hair To Stay" },
+      publisher: {
+        "@type": "Organization",
+        name: "Men's Hair To Stay",
+        logo: { "@type": "ImageObject", url: `${SITE_URL}/og-image.jpg` },
+      },
       datePublished: post.date,
-      mainEntityOfPage: window.location.href,
+      // No post has been edited since publication, so modified equals published.
+      // A made up date here would be worse than an honest one.
+      dateModified: post.date,
+      ...(post.image ? { image: new URL(post.image, SITE_URL).href } : {}),
+      url: postUrl,
+      mainEntityOfPage: { "@type": "WebPage", "@id": postUrl },
     });
     document.getElementById("article-jsonld")?.remove();
     document.head.appendChild(ld);
+
+    // BreadcrumbList. The page has always shown visible breadcrumbs but never
+    // published them as structured data. See docs/HEALTH-CHECK.md finding 12.
+    const crumbLd = document.createElement("script");
+    crumbLd.type = "application/ld+json";
+    crumbLd.id = "breadcrumb-jsonld";
+    crumbLd.text = JSON.stringify(
+      breadcrumbSchema([
+        { name: "Home", path: "/" },
+        { name: "Blog", path: "/blog" },
+        { name: post.title, path: `/blog/${post.slug}` },
+      ])
+    );
+    document.getElementById("breadcrumb-jsonld")?.remove();
+    document.head.appendChild(crumbLd);
 
     // FAQPage schema
     let faqLd: HTMLScriptElement | null = null;
@@ -218,6 +247,7 @@ const BlogPostPage = () => {
     return () => {
       document.getElementById("article-jsonld")?.remove();
       document.getElementById("faq-jsonld")?.remove();
+      document.getElementById("breadcrumb-jsonld")?.remove();
     };
   }, [post]);
 
@@ -231,7 +261,9 @@ const BlogPostPage = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  if (!post) return <Navigate to="/blog" replace />;
+  // A slug that matches no post used to fall through to the /blog listing with a
+  // 200, which created unlimited duplicate URLs. See docs/HEALTH-CHECK.md finding 2.
+  if (!post) return <NotFound />;
 
   const related = blogPosts
     .filter((p) => p.slug !== post.slug && p.category === post.category)

@@ -13,8 +13,8 @@ import {
   UserCheck,
   MapPin,
 } from "lucide-react";
-import { findCategory } from "@/data/services";
-import { useCanonical, useOpenGraph } from "@/lib/seo";
+import { findCategory, findSubService } from "@/data/services";
+import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 
 const benefits = [
   { icon: Palette, text: "Precise colour matching to your natural hair" },
@@ -66,6 +66,20 @@ const faqs = [
 
 const HairSystemColouringPage = () => {
   const category = findCategory("hair-systems")!;
+  const sub = findSubService("hair-systems", "hair-system-colouring")!;
+  useJsonLd([
+    serviceSchema({
+      name: sub.subService.name,
+      description: sub.subService.blurb,
+      path: "/hair-systems/hair-system-colouring",
+    }),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+      { name: "Hair Systems", path: "/hair-systems" },
+      { name: sub.subService.name, path: "/hair-systems/hair-system-colouring" },
+    ]),
+  ]);
   useCanonical("/hair-systems/hair-system-colouring");
   useOpenGraph(
     "Hair System Colouring Amersham | Hair Unit Colour Matching | Men's Hair to Stay",

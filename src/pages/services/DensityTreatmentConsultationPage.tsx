@@ -13,8 +13,8 @@ import {
   BookOpen,
   MapPin,
 } from "lucide-react";
-import { findCategory } from "@/data/services";
-import { useCanonical, useOpenGraph } from "@/lib/seo";
+import { findCategory, findSubService } from "@/data/services";
+import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 
 const benefits = [
   { icon: MessageCircle, text: "Free and completely no-obligation" },
@@ -66,6 +66,20 @@ const faqs = [
 
 const DensityTreatmentConsultationPage = () => {
   const category = findCategory("hair-density")!;
+  const sub = findSubService("hair-density", "density-treatment-consultation")!;
+  useJsonLd([
+    serviceSchema({
+      name: sub.subService.name,
+      description: sub.subService.blurb,
+      path: "/hair-density/density-treatment-consultation",
+    }),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+      { name: "Hair Density", path: "/hair-density" },
+      { name: sub.subService.name, path: "/hair-density/density-treatment-consultation" },
+    ]),
+  ]);
   useCanonical("/hair-density/density-treatment-consultation");
   useOpenGraph(
     "Hair Density Consultation Amersham | Thinning Hair Assessment | Men's Hair to Stay",

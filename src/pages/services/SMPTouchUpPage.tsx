@@ -13,8 +13,8 @@ import {
   Zap,
   MapPin,
 } from "lucide-react";
-import { findCategory } from "@/data/services";
-import { useCanonical, useOpenGraph } from "@/lib/seo";
+import { findCategory, findSubService } from "@/data/services";
+import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 
 const benefits = [
   { icon: Sparkles, text: "Restores pigment density and definition" },
@@ -66,6 +66,20 @@ const faqs = [
 
 const SMPTouchUpPage = () => {
   const category = findCategory("scalp-micropigmentation")!;
+  const sub = findSubService("scalp-micropigmentation", "smp-touch-up-session")!;
+  useJsonLd([
+    serviceSchema({
+      name: sub.subService.name,
+      description: sub.subService.blurb,
+      path: "/scalp-micropigmentation/smp-touch-up-session",
+    }),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+      { name: "Scalp Micropigmentation", path: "/scalp-micropigmentation" },
+      { name: sub.subService.name, path: "/scalp-micropigmentation/smp-touch-up-session" },
+    ]),
+  ]);
   useCanonical("/scalp-micropigmentation/smp-touch-up-session");
   useOpenGraph(
     "SMP Touch Up Session Amersham | Scalp Micropigmentation Refresh | Men's Hair to Stay",

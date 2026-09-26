@@ -12,8 +12,8 @@ import {
   Sparkles,
   MapPin,
 } from "lucide-react";
-import { findCategory } from "@/data/services";
-import { useCanonical, useOpenGraph } from "@/lib/seo";
+import { findCategory, findSubService } from "@/data/services";
+import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 
 const benefits = [
   { icon: Droplets, text: "Thorough removal of adhesive and product build-up" },
@@ -64,6 +64,20 @@ const faqs = [
 
 const HairSystemBaseCleanPage = () => {
   const category = findCategory("hair-system-maintenance")!;
+  const sub = findSubService("hair-system-maintenance", "hair-system-base-clean-and-reattach")!;
+  useJsonLd([
+    serviceSchema({
+      name: sub.subService.name,
+      description: sub.subService.blurb,
+      path: "/hair-system-maintenance/hair-system-base-clean-and-reattach",
+    }),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+      { name: "Hair System Maintenance", path: "/hair-system-maintenance" },
+      { name: sub.subService.name, path: "/hair-system-maintenance/hair-system-base-clean-and-reattach" },
+    ]),
+  ]);
   useCanonical("/hair-system-maintenance/hair-system-base-clean-and-reattach");
   useOpenGraph(
     "Hair System Base Clean & Reattach Amersham | Men's Hair to Stay",

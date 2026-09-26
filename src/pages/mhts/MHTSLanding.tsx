@@ -218,9 +218,11 @@ const MHTSLanding = () => {
               className="bg-mhts-charcoal/40 border border-mhts-white/10 rounded-sm p-5 text-center md:text-left"
             >
               <item.icon className="w-6 h-6 text-mhts-white/70 mb-3 mx-auto md:mx-0" />
-              <h3 className="text-mhts-white text-sm font-medium tracking-wide font-body mb-2">
+              {/* A <p>, not a heading: these are trust badges, and as h3s they
+                  skipped a level straight after the h1. See HEALTH-CHECK.md finding 24. */}
+              <p className="text-mhts-white text-sm font-medium tracking-wide font-body mb-2">
                 {item.title}
-              </h3>
+              </p>
               <p className="text-mhts-white/60 text-xs font-body leading-relaxed">{item.desc}</p>
             </div>
           ))}
@@ -467,8 +469,12 @@ const MHTSLanding = () => {
                   <p className="text-muted-foreground text-sm font-body leading-relaxed flex-1 line-clamp-3">
                     {post.excerpt}
                   </p>
+                  {/* aria-label carries the post title so the link is not three
+                      identical "Read More" links to a screen reader or to Google,
+                      while the visible wording stays the same. Finding 25. */}
                   <Link
                     to={`/blog/${post.slug}`}
+                    aria-label={`Read more: ${post.title}`}
                     className="inline-flex items-center gap-1 text-mhts-charcoal text-sm font-body mt-5 hover:gap-2 transition-all"
                   >
                     Read More <ChevronRight className="w-4 h-4" />

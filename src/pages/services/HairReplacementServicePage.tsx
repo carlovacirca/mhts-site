@@ -14,8 +14,8 @@ import {
   MapPin,
   Award,
 } from "lucide-react";
-import { findCategory } from "@/data/services";
-import { useCanonical, useOpenGraph } from "@/lib/seo";
+import { findCategory, findSubService } from "@/data/services";
+import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 
 const benefits = [
   { icon: Route, text: "Complete end-to-end hair replacement service" },
@@ -72,6 +72,20 @@ const faqs = [
 
 const HairReplacementServicePage = () => {
   const category = findCategory("hair-systems")!;
+  const sub = findSubService("hair-systems", "hair-replacement-service")!;
+  useJsonLd([
+    serviceSchema({
+      name: sub.subService.name,
+      description: sub.subService.blurb,
+      path: "/hair-systems/hair-replacement-service",
+    }),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+      { name: "Hair Systems", path: "/hair-systems" },
+      { name: sub.subService.name, path: "/hair-systems/hair-replacement-service" },
+    ]),
+  ]);
   useCanonical("/hair-systems/hair-replacement-service");
   useOpenGraph(
     "Hair Replacement Service Amersham | Men's Hair to Stay",

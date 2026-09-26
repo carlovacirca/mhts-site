@@ -14,7 +14,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { findCategory } from "@/data/services";
-import { useJsonLd, useCanonical, useOpenGraph } from "@/lib/seo";
+import { useJsonLd, useCanonical, useOpenGraph, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 import ServicePricing from "@/components/ServicePricing";
 import hairDensityHero from "@/assets/hair-density-hero.jpg";
 
@@ -24,16 +24,6 @@ const pricingRows = [
   { name: "Crown Coverage Treatment", price: "Contact us for pricing" },
 ];
 
-const pricingJsonLd = [
-  {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    serviceType: "Density Treatment Consultation",
-    provider: { "@type": "LocalBusiness", name: "Men's Hair To Stay" },
-    areaServed: "Amersham",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "GBP", description: "Free initial consultation" },
-  },
-];
 
 const benefits = [
   { icon: Leaf, text: "Works with your existing natural hair" },
@@ -95,7 +85,18 @@ const faqs = [
 const HairDensityPage = () => {
   const category = findCategory("hair-density")!;
 
-  useJsonLd(pricingJsonLd);
+  useJsonLd([
+    serviceSchema({
+      name: category.name,
+      description: category.intro,
+      path: "/hair-density",
+    }),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+      { name: "Hair Density", path: "/hair-density" },
+    ]),
+  ]);
   useCanonical("/hair-density");
   useOpenGraph(
     "Hair Density Treatment Amersham | Thinning Hair Solutions | Men's Hair to Stay",

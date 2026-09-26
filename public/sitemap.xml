@@ -7,9 +7,9 @@
   <url><loc>https://menshairtostay.co.uk/book</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://menshairtostay.co.uk/faq</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://menshairtostay.co.uk/blog</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://menshairtostay.co.uk/blog/hair-system-maintenance-4-to-6-weeks</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://menshairtostay.co.uk/blog/hair-density-treatment-for-thinning-hair</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://menshairtostay.co.uk/blog/modern-hair-system-vs-surgery</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://menshairtostay.co.uk/blog/hair-system-maintenance-4-to-6-weeks</loc><lastmod>2026-07-14</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://menshairtostay.co.uk/blog/hair-density-treatment-for-thinning-hair</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://menshairtostay.co.uk/blog/modern-hair-system-vs-surgery</loc><lastmod>2026-07-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://menshairtostay.co.uk/blog/ultimate-guide-hair-systems</loc><lastmod>2026-05-07</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://menshairtostay.co.uk/blog/scalp-micropigmentation-complete-guide</loc><lastmod>2026-04-30</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://menshairtostay.co.uk/blog/hair-systems-vs-scalp-micropigmentation</loc><lastmod>2026-04-23</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -29,9 +29,24 @@
   <url><loc>https://menshairtostay.co.uk/blog/autumn-hair-shedding-explained</loc><lastmod>2026-09-14</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://menshairtostay.co.uk/contact</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://menshairtostay.co.uk/hair-systems</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://menshairtostay.co.uk/hair-systems/non-surgical-hair-replacement</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://menshairtostay.co.uk/hair-systems/hair-replacement-service</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://menshairtostay.co.uk/hair-systems/initial-consultation-and-fitting</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://menshairtostay.co.uk/hair-systems/hair-system-colouring</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://menshairtostay.co.uk/hair-systems/hair-system-styling</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://menshairtostay.co.uk/scalp-micropigmentation</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://menshairtostay.co.uk/scalp-micropigmentation/full-smp-treatment</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://menshairtostay.co.uk/scalp-micropigmentation/smp-touch-up-session</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://menshairtostay.co.uk/scalp-micropigmentation/smp-consultation</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://menshairtostay.co.uk/hair-density</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://menshairtostay.co.uk/hair-density/density-treatment-consultation</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://menshairtostay.co.uk/hair-density/thinning-hair-treatment</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://menshairtostay.co.uk/hair-density/crown-coverage-treatment</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://menshairtostay.co.uk/hair-system-maintenance</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://menshairtostay.co.uk/hair-system-maintenance/hair-system-reattachment-and-restyling</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://menshairtostay.co.uk/hair-system-maintenance/hair-system-base-clean-and-reattach</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://menshairtostay.co.uk/hair-system-maintenance/hair-system-full-maintenance-package</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://menshairtostay.co.uk/areas-serviced</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://menshairtostay.co.uk/areas/amersham</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://menshairtostay.co.uk/areas/chesham</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://menshairtostay.co.uk/areas/little-chalfont</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -44,4 +59,5 @@
   <url><loc>https://menshairtostay.co.uk/areas/chorleywood</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://menshairtostay.co.uk/areas/watford</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://menshairtostay.co.uk/areas/berkhamsted</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://menshairtostay.co.uk/privacy-policy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>
