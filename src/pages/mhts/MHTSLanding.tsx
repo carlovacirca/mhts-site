@@ -5,6 +5,7 @@ import { Shield, Award, Clock, Phone, Mail, MapPin, Star, Quote, AlertCircle, Ca
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import OpeningHours from "@/components/OpeningHours";
 import { blogPosts } from "@/data/blogPosts";
+import { latestPosts } from "@/lib/publishing";
 import { useSeo, useJsonLd, localBusinessSchema } from "@/lib/seo";
 import { useCookieConsent, setCookieConsent } from "@/lib/cookieConsent";
 import mhtsHero from "@/assets/mhts-hero.jpg";
@@ -435,10 +436,8 @@ const MHTSLanding = () => {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {[...blogPosts]
-            .sort((a, b) => b.date.localeCompare(a.date))
-            .slice(0, 3)
-            .map((post, i) => (
+          {/* Live posts only. This strip showed future-dated posts early. */}
+          {latestPosts(blogPosts, 3).map((post, i) => (
               <motion.article
                 key={post.slug}
                 initial={{ opacity: 0, y: 20 }}

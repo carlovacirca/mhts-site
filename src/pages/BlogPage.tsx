@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { blogPosts, categories } from "@/data/blogPosts";
+import { visiblePosts, isPreviewRequest } from "@/lib/publishing";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
 
 const POSTS_PER_PAGE = 9;
@@ -13,14 +14,8 @@ const POSTS_PER_PAGE = 9;
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" });
 
-const isPublished = (isoDate: string) => {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const publish = new Date(`${isoDate}T00:00:00`);
-  return publish.getTime() <= today.getTime();
-};
-
 const BlogPage = () => {
+  const previewMode = isPreviewRequest();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All Posts");
   const [page, setPage] = useState(1);
@@ -36,7 +31,8 @@ const BlogPage = () => {
         "@context": "https://schema.org",
         "@type": "Blog",
         name: "Men's Hair To Stay, Hair Restoration Blog",
-        blogPost: blogPosts.map((p) => ({
+        // Live posts only. This listed every post including future ones.
+        blogPost: visiblePosts(blogPosts, { preview: previewMode }).map((p) => ({
           "@type": "BlogPosting",
           headline: p.title,
           datePublished: p.date,
@@ -51,14 +47,7 @@ const BlogPage = () => {
     ],
   });
 
-  const previewMode =
-    typeof window !== "undefined" &&
-    new URLSearchParams(window.location.search).get("preview") === "1";
-
-  const livePosts = useMemo(
-    () => (previewMode ? blogPosts : blogPosts.filter((p) => isPublished(p.date))),
-    [previewMode]
-  );
+  const livePosts = useMemo(() => visiblePosts(blogPosts, { preview: previewMode }), [previewMode]);
 
   const sortedPosts = useMemo(
     () => [...livePosts].sort((a, b) => b.date.localeCompare(a.date)),
@@ -83,7 +72,7 @@ const BlogPage = () => {
   }, [search, category, featured.slug, sortedPosts]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / POSTS_PER_PAGE));
-  const visiblePosts = filtered.slice((page - 1) * POSTS_PER_PAGE, page * POSTS_PER_PAGE);
+  const pagePosts = filtered.slice((page - 1) * POSTS_PER_PAGE, page * POSTS_PER_PAGE);
 
   const popularPosts = livePosts.slice(0, 4);
   const recentPosts = [...livePosts].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 4);
@@ -189,11 +178,11 @@ const BlogPage = () => {
       <section className="container mx-auto px-4 pb-20 grid lg:grid-cols-[1fr_320px] gap-10">
         {/* Posts */}
         <div>
-          {visiblePosts.length === 0 ? (
+          {pagePosts.length === 0 ? (
             <p className="text-muted-foreground py-12 text-center">No articles found.</p>
           ) : (
             <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {visiblePosts.map((post, i) => (
+              {pagePosts.map((post, i) => (
                 <motion.div
                   key={post.slug}
                   initial={{ opacity: 0, y: 20 }}

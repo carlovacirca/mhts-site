@@ -9,6 +9,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import NewsletterSubscribeBar from "@/components/NewsletterSubscribeBar";
 import { useCanonical, breadcrumbSchema, SITE_URL } from "@/lib/seo";
 import { blogPosts } from "@/data/blogPosts";
+import { relatedPosts, isPublished, isPreviewRequest } from "@/lib/publishing";
 import NotFound from "@/pages/NotFound";
 import { computeImageSlots } from "@/lib/blogImageSlots";
 import blogPlaceholderIllustration from "@/assets/blog-placeholder-illustration.jpg";
@@ -147,7 +148,13 @@ const parseContent = (md: string): Block[] => {
 
 const BlogPostPage = () => {
   const { slug } = useParams();
-  const post = blogPosts.find((p) => p.slug === slug);
+  const previewMode = isPreviewRequest();
+  const match = blogPosts.find((p) => p.slug === slug);
+  // A post scheduled for a future date is treated exactly like a slug that does
+  // not exist: 404, noindex, nothing rendered. Its URL used to work the moment
+  // it was merged, days before its date. See docs/HEALTH-CHECK.md finding 8.
+  // ?preview=1 still opens it, which is what the PR preview approval step uses.
+  const post = match && (previewMode || isPublished(match.date)) ? match : undefined;
   const [progress, setProgress] = useState(0);
 
 
@@ -261,17 +268,14 @@ const BlogPostPage = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // A slug that matches no post used to fall through to the /blog listing with a
-  // 200, which created unlimited duplicate URLs. See docs/HEALTH-CHECK.md finding 2.
+  // No such slug, or the post is not published yet. Both render the 404 page,
+  // which carries noindex. A bad slug used to fall through to the /blog listing
+  // with a 200. See docs/HEALTH-CHECK.md findings 2 and 8.
   if (!post) return <NotFound />;
 
-  const related = blogPosts
-    .filter((p) => p.slug !== post.slug && p.category === post.category)
-    .slice(0, 3);
-  const fallbackRelated =
-    related.length < 3
-      ? [...related, ...blogPosts.filter((p) => p.slug !== post.slug && !related.includes(p))].slice(0, 3)
-      : related;
+  // Live posts only. Related posts used to link to articles that were not
+  // published yet, which is how a future post leaked out of /blog.
+  const fallbackRelated = relatedPosts(blogPosts, post, 3, { preview: previewMode });
 
   const shareUrl = typeof window !== "undefined" ? window.location.href : "";
 
