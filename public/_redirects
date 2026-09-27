@@ -1,4 +1,6 @@
-# Cloudflare Pages reads this file. Path rules only.
+# Cloudflare Pages reads this file. Path rules only, first match wins, so the
+# most specific rule has to come first.
+#
 # Domain level redirects (www to apex, pages.dev to apex) cannot be done here.
 # They need a Redirect Rule in the Cloudflare dashboard. See AUTOMATION.md.
 #
@@ -6,5 +8,15 @@
 # for any path that is not a real file.
 
 # The old Georges Barbers section of this site moved to its own domain.
-/georges-barbers    https://georgesbarbers.co.uk    301
-/georges-barbers/*  https://georgesbarbers.co.uk    301
+# Search Console reported these as Soft 404s in September 2026.
+#
+# Blog posts keep their slug, so each old address lands on its own post rather
+# than the homepage. Both targets were checked: they render their own title,
+# h1 and about 1,850 words, and both are in georgesbarbers.co.uk/sitemap.xml.
+/georges-barbers/blog/*  https://georgesbarbers.co.uk/blog/:splat  301
+/georges-barbers         https://georgesbarbers.co.uk              301
+/georges-barbers/*       https://georgesbarbers.co.uk              301
+
+# Old contact address, still linked from elsewhere. Applies to the apex and to
+# www, because both are served by this same Pages project.
+/contact-us              /contact                                  301
