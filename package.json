@@ -67,7 +67,6 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
-    "yaml": "^2.9.0",
     "@eslint/js": "^9.32.0",
     "@playwright/test": "^1.57.0",
     "@tailwindcss/typography": "^0.5.16",
@@ -89,6 +88,8 @@
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0",
     "vite": "^5.4.19",
-    "vitest": "^3.2.4"
+    "vite-imagetools": "^7.1.1",
+    "vitest": "^3.2.4",
+    "yaml": "^2.9.0"
   }
 }

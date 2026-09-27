@@ -15,6 +15,7 @@ import {
 import { findCategory } from "@/data/services";
 import { useJsonLd, useCanonical, useOpenGraph, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 import ServicePricing from "@/components/ServicePricing";
+import ResponsiveImage from "@/components/ResponsiveImage";
 import hairSystemMaintenanceHero from "@/assets/hair-system-maintenance-hero.jpg";
 
 const pricingRows = [
@@ -129,10 +130,12 @@ const HairSystemMaintenancePage = () => {
     <div className="mhts-theme">
       {/* HERO */}
       <section className="relative min-h-[60vh] flex items-center bg-mhts-charcoal overflow-hidden">
-        <img
+        <ResponsiveImage
           src={hairSystemMaintenanceHero}
           alt="Stylist performing hair system maintenance on a client"
           className="absolute inset-0 w-full h-full object-cover object-left"
+          sizes="100vw"
+          priority
         />
         <div className="absolute inset-0 bg-gradient-to-r from-mhts-charcoal/85 via-mhts-charcoal/60 to-transparent" />
         <div className="container mx-auto px-4 relative z-10 py-20">

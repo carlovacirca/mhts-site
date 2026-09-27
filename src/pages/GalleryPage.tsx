@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { CalendarCheck, Phone, X, Shield, Award, Sparkles } from "lucide-react";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
+import ResponsiveImage from "@/components/ResponsiveImage";
 import before1 from "@/assets/mhts-before-1.jpg";
 import before2 from "@/assets/mhts-before-2.jpg";
 import before3 from "@/assets/mhts-before-3.jpg";
@@ -107,22 +108,22 @@ const GalleryPage = () => {
                 >
                   <div className="grid grid-cols-2">
                     <div className="relative">
-                      <img
+                      <ResponsiveImage
                         src={item.before}
                         alt={`Before, ${item.service}`}
-                        loading="lazy"
                         className="w-full h-64 object-cover object-top"
+                        sizes="(max-width: 768px) 50vw, 260px"
                       />
                       <span className="absolute top-2 left-2 bg-mhts-charcoal/90 text-mhts-white text-[10px] uppercase tracking-widest px-2 py-1 rounded-sm font-body">
                         Before
                       </span>
                     </div>
                     <div className="relative">
-                      <img
+                      <ResponsiveImage
                         src={item.after}
                         alt={`After, ${item.service}`}
-                        loading="lazy"
                         className="w-full h-64 object-cover object-top"
+                        sizes="(max-width: 768px) 50vw, 260px"
                       />
                       <span className="absolute top-2 left-2 bg-mhts-white/95 text-mhts-charcoal text-[10px] uppercase tracking-widest px-2 py-1 rounded-sm font-body">
                         After
@@ -273,13 +274,13 @@ const GalleryPage = () => {
           <div className="max-w-5xl w-full" onClick={(e) => e.stopPropagation()}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               <div className="relative">
-                <img src={lightbox.before} alt={`Before, ${lightbox.service}`} className="w-full max-h-[80vh] object-contain bg-black" />
+                <ResponsiveImage src={lightbox.before} alt={`Before, ${lightbox.service}`} className="w-full max-h-[80vh] object-contain bg-black" sizes="(max-width: 768px) 100vw, 50vw" />
                 <span className="absolute top-3 left-3 bg-mhts-charcoal/90 text-mhts-white text-xs uppercase tracking-widest px-3 py-1 rounded-sm font-body">
                   Before
                 </span>
               </div>
               <div className="relative">
-                <img src={lightbox.after} alt={`After, ${lightbox.service}`} className="w-full max-h-[80vh] object-contain bg-black" />
+                <ResponsiveImage src={lightbox.after} alt={`After, ${lightbox.service}`} className="w-full max-h-[80vh] object-contain bg-black" sizes="(max-width: 768px) 100vw, 50vw" />
                 <span className="absolute top-3 left-3 bg-mhts-white/95 text-mhts-charcoal text-xs uppercase tracking-widest px-3 py-1 rounded-sm font-body">
                   After
                 </span>

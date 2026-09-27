@@ -9,6 +9,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import NewsletterSubscribeBar from "@/components/NewsletterSubscribeBar";
 import { useCanonical, breadcrumbSchema, SITE_URL } from "@/lib/seo";
 import { blogPosts } from "@/data/blogPosts";
+import ResponsiveImage from "@/components/ResponsiveImage";
 import { relatedPosts, isPublished, isPreviewRequest } from "@/lib/publishing";
 import NotFound from "@/pages/NotFound";
 import { computeImageSlots } from "@/lib/blogImageSlots";
@@ -292,10 +293,12 @@ const BlogPostPage = () => {
       {/* Hero image */}
       <section className="bg-background">
         {post.image ? (
-          <img
+          <ResponsiveImage
             src={post.image}
             alt={post.featuredImageAlt}
             className="w-full h-[40vh] md:h-[60vh] object-cover"
+            sizes="100vw"
+            priority
           />
         ) : (
           <div className="w-full h-[40vh] md:h-[60vh] bg-gradient-to-br from-mhts-navy to-mhts-charcoal flex items-center justify-center">
@@ -404,11 +407,11 @@ const BlogPostPage = () => {
                     key={key}
                     className="not-prose my-8 aspect-[16/9] w-full rounded-lg border border-border bg-muted flex items-center justify-center overflow-hidden"
                   >
-                    <img
+                    <ResponsiveImage
                       src={explicit.src}
                       alt={explicit.alt}
                       className="h-full w-full object-cover"
-                      loading="lazy"
+                      sizes="(max-width: 768px) 100vw, 768px"
                     />
                   </div>
                 );
@@ -425,11 +428,11 @@ const BlogPostPage = () => {
                 key={k}
                 className="not-prose my-8 aspect-[16/9] w-full rounded-lg border border-border bg-muted flex items-center justify-center overflow-hidden"
               >
-                <img
+                <ResponsiveImage
                   src={src}
                   alt="Illustration"
                   className="h-full w-full object-cover"
-                  loading="lazy"
+                  sizes="(max-width: 768px) 100vw, 768px"
                 />
               </div>
             );
@@ -545,7 +548,7 @@ const BlogPostPage = () => {
             <Link key={p.slug} to={`/blog/${p.slug}`}>
               <Card className="h-full hover:shadow-lg transition-shadow overflow-hidden">
                 {p.image ? (
-                  <img src={p.image} alt={p.featuredImageAlt} className="aspect-[16/10] w-full object-cover" loading="lazy" />
+                  <ResponsiveImage src={p.image} alt={p.featuredImageAlt} className="aspect-[16/10] w-full object-cover" sizes="(max-width: 768px) 100vw, 300px" />
                 ) : (
                   <div className="aspect-[16/10] bg-gradient-to-br from-mhts-navy to-mhts-charcoal flex items-center justify-center">
                     <span className="text-mhts-white/20 text-2xl font-bold">MHTS</span>

@@ -5,6 +5,7 @@ import { Shield, Award, Clock, Phone, Mail, MapPin, Star, Quote, AlertCircle, Ca
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import OpeningHours from "@/components/OpeningHours";
 import { blogPosts } from "@/data/blogPosts";
+import ResponsiveImage from "@/components/ResponsiveImage";
 import { latestPosts } from "@/lib/publishing";
 import { useSeo, useJsonLd, localBusinessSchema } from "@/lib/seo";
 import { useCookieConsent, setCookieConsent } from "@/lib/cookieConsent";
@@ -153,7 +154,13 @@ const MHTSLanding = () => {
     <div className="mhts-theme">
     {/* ─── HERO ─── */}
     <section className="relative min-h-[70vh] flex items-center overflow-hidden">
-      <img src={mhtsHero} alt="Men's Hair To Stay studio" className="absolute inset-0 w-full h-full object-cover" />
+      <ResponsiveImage
+        src={mhtsHero}
+        alt="Men's Hair To Stay studio"
+        className="absolute inset-0 w-full h-full object-cover"
+        sizes="100vw"
+        priority
+      />
       <div className="absolute inset-0 bg-gradient-to-r from-mhts-charcoal/90 via-mhts-charcoal/70 to-mhts-charcoal/40" />
       <div className="container mx-auto px-4 relative z-10 py-20">
         <motion.div
@@ -318,10 +325,10 @@ const MHTSLanding = () => {
           <div className="bg-mhts-light rounded-sm overflow-hidden border border-border">
             <div className="grid grid-cols-2">
               <div className="aspect-square overflow-hidden">
-                <img src={mhtsBefore2} alt="Before hair system" className="w-full h-full object-cover object-top" />
+                <ResponsiveImage src={mhtsBefore2} alt="Before hair system" className="w-full h-full object-cover object-top" sizes="(max-width: 768px) 45vw, 200px" />
               </div>
               <div className="aspect-square overflow-hidden border-l border-border">
-                <img src={mhtsAfter2} alt="After hair system" className="w-full h-full object-cover object-top" />
+                <ResponsiveImage src={mhtsAfter2} alt="After hair system" className="w-full h-full object-cover object-top" sizes="(max-width: 768px) 45vw, 200px" />
               </div>
             </div>
             <div className="p-3 text-center grid grid-cols-2">
@@ -333,10 +340,10 @@ const MHTSLanding = () => {
           <div className="bg-mhts-light rounded-sm overflow-hidden border border-border">
             <div className="grid grid-cols-2">
               <div className="aspect-square overflow-hidden">
-                <img src={mhtsBefore1} alt="Before hair system" className="w-full h-full object-cover object-top" />
+                <ResponsiveImage src={mhtsBefore1} alt="Before hair system" className="w-full h-full object-cover object-top" sizes="(max-width: 768px) 45vw, 200px" />
               </div>
               <div className="aspect-square overflow-hidden border-l border-border">
-                <img src={mhtsAfter1} alt="After hair system" className="w-full h-full object-cover object-top" />
+                <ResponsiveImage src={mhtsAfter1} alt="After hair system" className="w-full h-full object-cover object-top" sizes="(max-width: 768px) 45vw, 200px" />
               </div>
             </div>
             <div className="p-3 text-center grid grid-cols-2">
@@ -348,10 +355,10 @@ const MHTSLanding = () => {
           <div className="bg-mhts-light rounded-sm overflow-hidden border border-border">
             <div className="grid grid-cols-2">
               <div className="aspect-square overflow-hidden">
-                <img src={mhtsBefore3} alt="Before hair system" className="w-full h-full object-cover object-top" />
+                <ResponsiveImage src={mhtsBefore3} alt="Before hair system" className="w-full h-full object-cover object-top" sizes="(max-width: 768px) 45vw, 200px" />
               </div>
               <div className="aspect-square overflow-hidden border-l border-border">
-                <img src={mhtsAfter3} alt="After hair system" className="w-full h-full object-cover object-top" />
+                <ResponsiveImage src={mhtsAfter3} alt="After hair system" className="w-full h-full object-cover object-top" sizes="(max-width: 768px) 45vw, 200px" />
               </div>
             </div>
             <div className="p-3 text-center grid grid-cols-2">
@@ -448,11 +455,11 @@ const MHTSLanding = () => {
               >
                 {post.image && (
                   <Link to={`/blog/${post.slug}`} className="block aspect-[16/10] overflow-hidden">
-                    <img
+                    <ResponsiveImage
                       src={post.image}
                       alt={post.title}
-                      loading="lazy"
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, 380px"
                     />
                   </Link>
                 )}

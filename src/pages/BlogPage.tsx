@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { blogPosts, categories } from "@/data/blogPosts";
+import ResponsiveImage from "@/components/ResponsiveImage";
 import { visiblePosts, isPreviewRequest } from "@/lib/publishing";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
 
@@ -145,11 +146,11 @@ const BlogPage = () => {
               className="grid md:grid-cols-2 gap-8 bg-card rounded-2xl overflow-hidden border border-border shadow-sm"
             >
               {featured.image ? (
-                <img
+                <ResponsiveImage
                   src={featured.image}
                   alt={featured.featuredImageAlt}
                   className="aspect-[16/10] md:aspect-auto w-full h-full object-cover"
-                  loading="lazy"
+                  sizes="(max-width: 768px) 100vw, 620px"
                 />
               ) : (
                 <div className="aspect-[16/10] md:aspect-auto bg-gradient-to-br from-mhts-navy to-mhts-charcoal flex items-center justify-center">
@@ -194,11 +195,11 @@ const BlogPage = () => {
                   <Link to={`/blog/${post.slug}`}>
                     <Card className="overflow-hidden h-full hover:shadow-lg transition-shadow">
                       {post.image ? (
-                        <img
+                        <ResponsiveImage
                           src={post.image}
                           alt={post.featuredImageAlt}
                           className="aspect-[16/10] w-full object-cover"
-                          loading="lazy"
+                          sizes="(max-width: 768px) 100vw, 300px"
                         />
                       ) : (
                         <div className="aspect-[16/10] bg-gradient-to-br from-mhts-navy to-mhts-charcoal flex items-center justify-center">

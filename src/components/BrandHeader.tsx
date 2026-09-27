@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, Phone, Mail, MapPin, Home, ChevronDown, CalendarCheck } from "lucide-react";
 import { serviceCategories } from "@/data/services";
 import mhtsLogoFull from "@/assets/mhts-logo-full.jpeg";
+import ResponsiveImage from "@/components/ResponsiveImage";
 
 const primaryLinks = [
   { to: "/services", label: "Services" },
@@ -147,7 +148,7 @@ const BrandHeader = () => {
                 className="flex items-center gap-2"
                 aria-label="Men's Hair To Stay home"
               >
-                <img src={mhtsLogoFull} alt="Men's Hair To Stay" className="h-14 md:h-20 object-contain" />
+                <ResponsiveImage src={mhtsLogoFull} alt="Men's Hair To Stay" className="h-14 md:h-20 object-contain" sizes="160px" priority />
               </Link>
             </div>
 

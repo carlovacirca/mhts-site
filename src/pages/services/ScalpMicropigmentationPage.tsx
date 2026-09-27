@@ -16,6 +16,7 @@ import {
 import { findCategory } from "@/data/services";
 import { useJsonLd, useCanonical, useOpenGraph, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 import ServicePricing from "@/components/ServicePricing";
+import ResponsiveImage from "@/components/ResponsiveImage";
 import smpHero from "@/assets/smp-hero.jpg";
 
 const pricingRows = [
@@ -134,10 +135,12 @@ const ScalpMicropigmentationPage = () => {
     <div className="mhts-theme">
       {/* HERO */}
       <section className="relative min-h-[60vh] flex items-center bg-mhts-charcoal overflow-hidden">
-        <img
+        <ResponsiveImage
           src={smpHero}
           alt="Close-up of scalp micropigmentation result showing a defined hairline"
           className="absolute inset-0 w-full h-full object-cover object-left"
+          sizes="100vw"
+          priority
         />
         <div className="absolute inset-0 bg-gradient-to-r from-mhts-charcoal/85 via-mhts-charcoal/60 to-transparent" />
 

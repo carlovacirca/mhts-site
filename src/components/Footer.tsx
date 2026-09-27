@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Instagram, Facebook, MapPin, Phone, Mail } from "lucide-react";
 import mhtsLogoFull from "@/assets/mhts-logo-full.jpeg";
+import ResponsiveImage from "@/components/ResponsiveImage";
 
 const TikTokIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
@@ -34,7 +35,7 @@ const Footer = () => (
       {/* Men's Hair To Stay - white background */}
       <div className="bg-background text-foreground p-8">
         <div className="mb-4">
-          <img src={mhtsLogoFull} alt="Men's Hair To Stay" className="h-20 md:h-24 object-contain" />
+          <ResponsiveImage src={mhtsLogoFull} alt="Men's Hair To Stay" className="h-20 md:h-24 object-contain" sizes="200px" />
         </div>
         <nav className="flex flex-col gap-1 text-sm mb-4">
           {quickLinks.map((l) => (
