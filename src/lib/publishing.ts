@@ -83,8 +83,33 @@ export const relatedPosts = (
   return [...sameCategory, ...rest].slice(0, count);
 };
 
-/** Is the ?preview=1 escape hatch on for this request? */
-export const isPreviewRequest = (): boolean => {
-  if (typeof window === "undefined") return false;
-  return new URLSearchParams(window.location.search).get("preview") === "1";
+/**
+ * Hosts where the ?preview=1 escape hatch is allowed: Cloudflare Pages preview
+ * deployments and local development.
+ *
+ * Deliberately excludes the live domain. Otherwise anyone who knew to add
+ * ?preview=1 could read a post days before it is meant to go out, and could
+ * share that URL, which defeats the whole date gate.
+ */
+export const isPreviewHost = (hostname: string): boolean =>
+  hostname === "localhost" ||
+  hostname === "127.0.0.1" ||
+  hostname === "[::1]" ||
+  hostname === "::1" ||
+  hostname.endsWith(".pages.dev");
+
+/**
+ * Is the ?preview=1 escape hatch on for this request?
+ *
+ * Needs both the query string and an allowed host. On menshairtostay.co.uk and
+ * www.menshairtostay.co.uk it always returns false, whatever the URL says.
+ */
+export const isPreviewRequest = (
+  loc: { hostname: string; search: string } | undefined = typeof window === "undefined"
+    ? undefined
+    : window.location
+): boolean => {
+  if (!loc) return false;
+  if (!isPreviewHost(loc.hostname)) return false;
+  return new URLSearchParams(loc.search).get("preview") === "1";
 };

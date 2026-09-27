@@ -8,6 +8,8 @@
 import { describe, expect, test } from "vitest";
 import { blogPosts, type BlogPost } from "@/data/blogPosts";
 import {
+  isPreviewHost,
+  isPreviewRequest,
   isPublished,
   latestPosts,
   relatedPosts,
@@ -135,6 +137,57 @@ describe("the post's own URL guard", () => {
 
   test("?preview=1 opens a scheduled post, which the PR approval step needs", () => {
     expect(resolve(TOMORROW_POST, true)).toBe(TOMORROW_POST);
+  });
+});
+
+describe("?preview=1 is limited to preview hosts", () => {
+  const at = (hostname: string, search = "?preview=1") => isPreviewRequest({ hostname, search });
+
+  test("does nothing on the live domain", () => {
+    expect(at("menshairtostay.co.uk")).toBe(false);
+  });
+
+  test("does nothing on www", () => {
+    expect(at("www.menshairtostay.co.uk")).toBe(false);
+  });
+
+  test("works on a Cloudflare Pages preview deployment", () => {
+    expect(at("pr-3.menshairtostay.pages.dev")).toBe(true);
+    expect(at("menshairtostay.pages.dev")).toBe(true);
+  });
+
+  test("works on localhost and 127.0.0.1", () => {
+    expect(at("localhost")).toBe(true);
+    expect(at("127.0.0.1")).toBe(true);
+  });
+
+  test("a lookalike domain is not a preview host", () => {
+    // Must be a real *.pages.dev subdomain, not a name that merely ends that way.
+    expect(isPreviewHost("evilpages.dev")).toBe(false);
+    expect(isPreviewHost("menshairtostay.co.uk.attacker.com")).toBe(false);
+    expect(isPreviewHost("notpages.dev")).toBe(false);
+    expect(isPreviewHost("pages.dev.attacker.com")).toBe(false);
+  });
+
+  test("an allowed host without the query string is still not preview mode", () => {
+    expect(at("pr-3.menshairtostay.pages.dev", "")).toBe(false);
+    expect(at("pr-3.menshairtostay.pages.dev", "?preview=0")).toBe(false);
+    expect(at("localhost", "?preview=yes")).toBe(false);
+  });
+
+  test("a scheduled post stays hidden on the live domain even with ?preview=1", () => {
+    const preview = isPreviewRequest({ hostname: "menshairtostay.co.uk", search: "?preview=1" });
+    const out = slugs(visiblePosts(ALL, { now: NOW, preview }));
+    expect(out).not.toContain("tomorrow-post");
+  });
+
+  test("the same post is visible on a preview host with ?preview=1", () => {
+    const preview = isPreviewRequest({
+      hostname: "pr-3.menshairtostay.pages.dev",
+      search: "?preview=1",
+    });
+    const out = slugs(visiblePosts(ALL, { now: NOW, preview }));
+    expect(out).toContain("tomorrow-post");
   });
 });
 
