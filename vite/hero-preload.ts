@@ -1,90 +1,104 @@
-// Vite plugin: injects a <link rel="preload"> for the homepage hero image.
+// Vite plugin: preloads the homepage hero image, on the homepage only.
 //
 // The hero is the LCP element on the homepage. In a single page app the browser
 // cannot discover it from the HTML at all, because the <img> only exists once
-// React has mounted. On the live site that showed up as 2.4s of "load delay"
-// inside a 6.9s LCP. See docs/HEALTH-CHECK.md finding 5.
+// React has mounted. See docs/HEALTH-CHECK.md finding 5.
 //
-// Writing the preload by hand in index.html does not work: Vite copies the
-// asset and leaves the imagetools query string on the URL, so the browser would
-// fetch a different file from the one the <img> srcset asks for and the preload
-// would be wasted. This plugin instead reads the real emitted WebP variants out
-// of the bundle and builds an imagesrcset that matches the <img> exactly.
-import type { IndexHtmlTransformResult, Plugin } from "vite";
+// Two approaches were tried and rejected:
+//
+//  1. A hand written <link rel="preload"> in index.html. Vite copies the asset
+//     and leaves the imagetools query string on the URL, so the browser fetches
+//     a different file from the one the <img> srcset asks for. Wasted download,
+//     no benefit.
+//  2. Injecting the <link> into index.html from this plugin with the real
+//     variants. That works, but index.html is shared by every route in a single
+//     page app, so /blog and every post also fetched the homepage hero: measured
+//     at 47 KB downloaded at high priority on a page that never displays it,
+//     competing with that page's own LCP image.
+//
+// So the preload is emitted as a path scoped `Link:` header for `/` only, which
+// Cloudflare Pages reads from _headers. Nothing else on the site pays for it.
+// If a browser does not understand imagesrcset in a Link header it falls back to
+// the URL in angle brackets, which is the 800w variant a phone would pick anyway.
+import fs from "fs";
+import path from "path";
+import type { Plugin } from "vite";
 
 const HERO_BASENAME = "mhts-hero";
+/** The variant a phone picks at sizes="100vw". Used as the Link header fallback. */
+const FALLBACK_WIDTH = 800;
 
 /** Width in pixels from a WebP header, or 0 if it is not a shape we know. */
 const webpWidth = (buf: Buffer): number => {
   if (buf.length < 30) return 0;
   if (buf.toString("ascii", 0, 4) !== "RIFF" || buf.toString("ascii", 8, 12) !== "WEBP") return 0;
   const chunk = buf.toString("ascii", 12, 16);
-  if (chunk === "VP8 ") {
-    // Lossy. 14-bit width just after the 3 byte sync code.
-    return buf.readUInt16LE(26) & 0x3fff;
-  }
-  if (chunk === "VP8L") {
-    // Lossless. width - 1 is the low 14 bits of a 32 bit little endian field.
-    return (buf.readUInt32LE(21) & 0x3fff) + 1;
-  }
-  if (chunk === "VP8X") {
-    // Extended. Canvas width - 1 as 24 bit little endian.
-    return (buf[24] | (buf[25] << 8) | (buf[26] << 16)) + 1;
-  }
+  if (chunk === "VP8 ") return buf.readUInt16LE(26) & 0x3fff;
+  if (chunk === "VP8L") return (buf.readUInt32LE(21) & 0x3fff) + 1;
+  if (chunk === "VP8X") return (buf[24] | (buf[25] << 8) | (buf[26] << 16)) + 1;
   return 0;
 };
 
 export default function heroPreload(): Plugin {
+  let variants: { url: string; width: number }[] = [];
+  let outDir = "dist";
+
   return {
     name: "mhts-hero-preload",
     apply: "build",
-    transformIndexHtml: {
-      order: "post",
-      handler(_html, ctx): IndexHtmlTransformResult {
-        const bundle = ctx.bundle;
-        if (!bundle) return [];
 
-        const variants: { url: string; width: number }[] = [];
-        for (const [fileName, output] of Object.entries(bundle)) {
-          if (output.type !== "asset") continue;
-          if (!fileName.endsWith(".webp")) continue;
-          if (!fileName.split("/").pop()?.startsWith(HERO_BASENAME + "-")) continue;
-          const source = output.source;
-          const buf = Buffer.isBuffer(source)
-            ? source
-            : typeof source === "string"
-              ? Buffer.from(source)
-              : Buffer.from(source);
-          const width = webpWidth(buf);
-          if (width > 0) variants.push({ url: "/" + fileName, width });
-        }
+    configResolved(config) {
+      outDir = config.build.outDir;
+    },
 
-        if (variants.length === 0) {
-          // Never fail the build over a preload. Worst case we lose the hint.
-          this.warn(`hero preload: no ${HERO_BASENAME}-*.webp variants found in the bundle`);
-          return [];
-        }
+    // The bundle is only available here, so collect the variants now and write
+    // them in closeBundle, which runs after the public folder has been copied.
+    generateBundle(_options, bundle) {
+      variants = [];
+      for (const [fileName, output] of Object.entries(bundle)) {
+        if (output.type !== "asset") continue;
+        if (!fileName.endsWith(".webp")) continue;
+        if (!fileName.split("/").pop()?.startsWith(HERO_BASENAME + "-")) continue;
+        const src = output.source;
+        const buf = Buffer.isBuffer(src) ? src : Buffer.from(src as string | Uint8Array);
+        const width = webpWidth(buf);
+        if (width > 0) variants.push({ url: "/" + fileName, width });
+      }
+      variants.sort((a, b) => a.width - b.width);
+    },
 
-        variants.sort((a, b) => a.width - b.width);
-        const imagesrcset = variants.map((v) => `${v.url} ${v.width}w`).join(", ");
+    closeBundle() {
+      // Never fail the build over a preload hint.
+      if (variants.length === 0) {
+        this.warn(`hero preload: no ${HERO_BASENAME}-*.webp variants found, skipping`);
+        return;
+      }
+      const headersPath = path.resolve(outDir, "_headers");
+      if (!fs.existsSync(headersPath)) {
+        this.warn(`hero preload: ${headersPath} not found, skipping`);
+        return;
+      }
 
-        return [
-          {
-            tag: "link",
-            attrs: {
-              rel: "preload",
-              as: "image",
-              type: "image/webp",
-              imagesrcset,
-              // Matches sizes="100vw" on the hero <img>, so the browser picks the
-              // same variant here as it does there and the preload is always used.
-              imagesizes: "100vw",
-              fetchpriority: "high",
-            },
-            injectTo: "head",
-          },
-        ];
-      },
+      const imagesrcset = variants.map((v) => `${v.url} ${v.width}w`).join(", ");
+      const base = (variants.find((v) => v.width === FALLBACK_WIDTH) ?? variants[variants.length - 1]).url;
+      // imagesrcset is quoted because its value contains commas, which would
+      // otherwise be read as separators between several Link values.
+      const link =
+        `<${base}>; rel=preload; as=image; type=image/webp; fetchpriority=high; ` +
+        `imagesrcset="${imagesrcset}"; imagesizes="100vw"`;
+
+      const block = [
+        "",
+        "# Added at build time by vite/hero-preload.ts. Homepage only, because",
+        "# index.html is shared by every route and preloading this everywhere cost",
+        "# 47 KB at high priority on pages that never show it.",
+        "/",
+        `  Link: ${link}`,
+        "",
+      ].join("\n");
+
+      const existing = fs.readFileSync(headersPath, "utf8");
+      fs.writeFileSync(headersPath, existing.replace(/\s*$/, "\n") + block);
     },
   };
 }
