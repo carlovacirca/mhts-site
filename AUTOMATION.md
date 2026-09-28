@@ -8,7 +8,7 @@ Update and recommit it whenever a meaningful decision or change is made.
 |---|---|
 | **Client** | Men's Hair To Stay, menshairtostay.co.uk |
 | **Repo** | github.com/carlovacirca/mhts-site, branch `main` |
-| **Current phase** | Phase 1, MHTS only (other clients paused 25 Sep). Tasks 0a to 9 built; first real Monday publish Mon 5 Oct 2026 05:00 UTC. Then MHTS health check, then Search Console automation |
+| **Current phase** | Phase 1, MHTS only (other clients paused 25 Sep). Blog automation, Search Console automation and SEO sweep live. First real Monday publish Mon 5 Oct 2026 05:00 UTC. Health check batches 1 and 2 live; batch 3 (pre-rendering, PR #5) merges only after the Monday publish is verified. Roadmap in section 8 |
 | **Last updated** | 28 September 2026 |
 | **Owner** | Carlo Vacirca |
 
@@ -303,21 +303,22 @@ Reference implementations: `content staging/august-2026/` and `content staging/s
 | 9 | GitHub Actions schedules and triggers | **Built 24 Sep** as Worker cron triggers (one place for the whole weekly cycle) |
 | 10 | Client file library on Google Drive, agents pick real photos from it | Not started |
 | 11 | GBP post + image every Monday, sent to Carlo on Telegram for manual posting | Not started |
-| 13 | Search engines: resubmit sitemap to Google, IndexNow for Bing, index check to Telegram on day 3 and 7 | **Built 25 Sep**, rank-automation `3c8533c`, not pushed. Local tests pass (9 scenarios, mock Google, IndexNow and Telegram). Waiting on: Google Cloud setup and `GOOGLE_SA_KEY` secret, IndexNow key file on the site |
+| 13 | Search engines: resubmit sitemap to Google, IndexNow for Bing, index check to Telegram on day 3 and 7 | **Live 27 Sep.** rank-automation `3c8533c`, daily 07:00 UTC `seo` job in the Worker. Google connected: service account `rank-automation@...` is a Full user on `sc-domain:menshairtostay.co.uk`, key in GitHub secret `GOOGLE_SA_KEY` (Worker has it too), login tested. IndexNow key file live on the site. Telegram approval link opens the preview with `?preview=1` (`741caf6`) |
+| 13b | SEO sweep: Google index status of every sitemap page plus 28 days of Search Console, to Telegram | **Live 28 Sep**, rank-automation `7abf2e7`, by hand (Actions, SEO sweep, Run workflow). Free. First run 28 Sep: 5 of 60 sitemap pages indexed, 44 "Discovered, currently not indexed", 11 unknown to Google; 33 clicks and 1,263 impressions in 28 days. Known display bug: it shows the path only, so www and apex both appear as "/". Later becomes the weekly "blog pulse" (roadmap item 5) |
 | 12 | Roll out to Georges Barbers, BDB, PV Consulting: content layer + deploy Action per site, then agents | **Built 25 Sep.** Sites: georges-barbers `8cd17ea`, billion-dollar-cuts `5345bb4`, pv-cosulting `ec63058` (tests and build pass, rendered checked in each design). Agents: rank-automation `d1b3e48` (was `ff583fd`, then `838fc8c`; split and rebased 25 Sep, see decisions log). **Paused, not pushed.** Waiting on Carlo's go, repo secrets, Telegram groups |
 
 | Health check | Full MHTS site health check: technical and on-page SEO, sitemap, robots, structured data, blog index, internal linking, UX, UI, design, mobile, performance, accessibility, security | **Done 25 Sep.** Report at `docs/HEALTH-CHECK.md`. 63 live pages crawled rendered and raw, Lighthouse mobile on 4 pages, `npm audit`, secret scan of all 700 commits, screenshots at 390px and 1280px. 39 findings ranked by impact. **Nothing on the site was changed.** Fixes are approved by Carlo one at a time, each on its own `fix/<name>` branch with a PR preview |
 
-| Health check fixes | Batch 1, invisible technical fixes plus the default share image | **Batch 1 built 26 Sep**, branch `fix/batch-1-technical`, not pushed. `public/_headers` (HSTS, X-Frame-Options, Permissions-Policy, CSP report only, 1 year asset cache, noindex on `*.pages.dev`), `public/_redirects` (Georges Barbers 301s), `netlify.toml` deleted, sitemap 44 to 60 URLs with accurate lastmod, Service and BreadcrumbList schema fixed on 19 pages, posts now BlogPosting with image and dateModified, new `public/og-image.jpg`, bad blog slug renders a real 404 page inside the layout, Playfair dropped, footer Services column, hours read "9:30am to 5pm", "Lexie" becomes "our specialist". Tests 24 of 24 pass, build clean, all 60 titles, metas, h1s and canonicals byte-identical to live. Finding 8 (future-dated post leak) also fixed on this branch on 27 Sep, see the decisions log. Batches 3 to 4 and pre-rendering still to come |
+| Health check fixes | Batch 1, invisible technical fixes plus the default share image | **Live** (`bdd945d` on main, verified). `public/_headers` (HSTS, X-Frame-Options, Permissions-Policy, CSP report only, 1 year asset cache, noindex on `*.pages.dev`), `public/_redirects` (Georges Barbers 301s), `netlify.toml` deleted, sitemap 44 to 60 URLs with accurate lastmod, Service and BreadcrumbList schema fixed on 19 pages, posts now BlogPosting with image and dateModified, new `public/og-image.jpg`, bad blog slug renders a real 404 page inside the layout, Playfair dropped, footer Services column, hours read "9:30am to 5pm", "Lexie" becomes "our specialist". Tests 24 of 24 pass, build clean, all 60 titles, metas, h1s and canonicals byte-identical to live. Finding 8 (future-dated post leak) also fixed on this branch on 27 Sep, see the decisions log. |
 
-| Health check fixes, batch 2 | Images and speed (findings 6, 38 and part of 5) | **Built 27 Sep**, branch `fix/batch-2-images`, not merged. `vite-imagetools` (MIT) generates WebP plus resized fallbacks for every image in `src/assets` at build time, driven by a folder glob so the weekly automation's hero images are covered with no manual step. New `ResponsiveImage` component adds srcset, sizes, width, height, lazy loading and async decoding. Homepage hero preloaded with a matching imagesrcset. The 7 oversized files go from 12.41 MB to 1.01 MB of actually-served bytes, 92% smaller. Tests 61 of 61 pass. Finding 38 (the "Illustration" placeholder) is reported to Carlo for a decision, not changed |
-| Health check fixes, batch 3 | Pre-rendering (findings 1, 3, the HTML half of 5, and per-page share previews) | **Built 28 Sep**, branch `fix/batch-3-prerender`, not merged. `scripts/prerender.mjs` opens all 63 routes plus the 404 page in headless Chrome after `vite build` and saves the finished HTML, so every URL now ships its own title, meta description, canonical, Open Graph, Twitter tags, JSON-LD, h1 and full body text with no JavaScript. Written as `<route>.html`, never `<route>/index.html`, so all 60 sitemap URLs still return 200 with zero redirects. `dist/404.html` turns off Cloudflare Pages' single-page-app fallback, so unknown URLs, bad blog slugs and scheduled posts return a real HTTP 404 with the branded page. A nightly rebuild just after midnight UK time keeps the baked HTML in step with the calendar. All 60 URLs match the live rendered values on title, canonical, h1, word count, internal link count and structured data; screenshots at 390 and 1280 are pixel-identical; tests 76 of 76 pass. The pr-5 preview caught one defect, now fixed: see the decisions log |
+| Health check fixes, batch 2 | Images and speed (findings 6, 38 and part of 5) | **Live** (`8e58da3` on main, verified), with the 4 Soft 404 redirects (`f1c65c3`) and the homepage-only hero preload (`2435642`). `vite-imagetools` (MIT) generates WebP plus resized fallbacks for every image in `src/assets` at build time, driven by a folder glob so the weekly automation's hero images are covered with no manual step. New `ResponsiveImage` component adds srcset, sizes, width, height, lazy loading and async decoding. Homepage hero preloaded with a matching imagesrcset. The 7 oversized files go from 12.41 MB to 1.01 MB of actually-served bytes, 92% smaller. Tests 61 of 61 pass. Finding 38 (the "Illustration" placeholder) is reported to Carlo for a decision, not changed |
+| Health check fixes, batch 3 | Pre-rendering (findings 1, 3, the HTML half of 5, and per-page share previews) | **Built 28 Sep**, branch `fix/batch-3-prerender`, PR #5, verified on the real pr-5 preview 28 Sep. Merges only after the Monday 5 Oct publish is verified. `scripts/prerender.mjs` opens all 63 routes plus the 404 page in headless Chrome after `vite build` and saves the finished HTML, so every URL now ships its own title, meta description, canonical, Open Graph, Twitter tags, JSON-LD, h1 and full body text with no JavaScript. Written as `<route>.html`, never `<route>/index.html`, so all 60 sitemap URLs still return 200 with zero redirects. `dist/404.html` turns off Cloudflare Pages' single-page-app fallback, so unknown URLs, bad blog slugs and scheduled posts return a real HTTP 404 with the branded page. A nightly rebuild just after midnight UK time keeps the baked HTML in step with the calendar. All 60 URLs match the live rendered values on title, canonical, h1, word count, internal link count and structured data; screenshots at 390 and 1280 are pixel-identical; tests 76 of 76 pass. The pr-5 preview caught one defect, now fixed: see the decisions log |
 
 **0a and 0b are prerequisites.** Nothing downstream works without them.
 
 ### Later phases, not in scope now
 
-Phase 2 GBP automation. Phase 3 dashboard, built in parallel by the business partner against the section 4 contracts. Phase 4 Editor Agent. Phase 5 other clients.
+Phase 2 GBP automation. Phase 3 dashboard, built by Carlo against the section 4 contracts. Phase 4 Editor Agent. Phase 5 other clients.
 
 ---
 
@@ -486,7 +487,7 @@ Fixes happen one at a time, each on its own `fix/<short-name>` branch, shown to 
 - **The 3 alias URLs are rendered too** (`/mens-hair-to-stay`, `/blog/ultimate-guide-hair-systems-2024`, `/blog/hair-restoration-cost-guide-2024`). They are old addresses that are not in the sitemap, and without a file they would now 404 instead of bouncing the reader on. They keep their current 200 and their client-side redirect, and each carries the target page's canonical. Turning them into 301s in `_redirects` would be better SEO, but that would change a URL's status, which was out of scope here. Flagged for Carlo, not done.
 - **Nightly rebuild, `5 23 * * *` and `5 0 * * *` UTC in `deploy.yml`.** Because the HTML is now decided at build time, anything date-driven freezes at the last deploy: the `/blog` listing, the homepage strip, the related posts, the Blog structured data, and whether a scheduled post's URL is a page or a 404. Without it a post dated Monday would still 404 on Monday morning unless something happened to push. Two cron lines because GitHub cron is UTC only: 23:05 UTC is 00:05 in British Summer Time, 00:05 UTC is 00:05 in GMT. Whichever is not UK midnight is a harmless second rebuild.
 - **`?preview=1` still works and still cannot leak.** The file layout leaves it untouched, because the query string plays no part in which file Cloudflare Pages serves: a scheduled post's URL returns `404.html`, and React then opens the post if the host is a preview host. Proved on a future-dated test post, with the live hostname faked in the browser: on `127.0.0.1`, `?preview=1` renders the post and `/blog?preview=1` lists it; on `menshairtostay.co.uk` both render the 404 page and the post's title appears nowhere in the DOM. **The Telegram approval link keeps working unchanged.**
-- **No visible change when React takes over.** The captured HTML shows each page at rest, so if the motion components replayed their entry animations the reader would watch finished content blank out and fade back in. `src/lib/motion.tsx` is a drop-in `motion` that passes `initial={false}` on the first render after a pre-rendered load, and `src/lib/prerender.ts` closes that window after the first mount, so every client-side navigation animates exactly as before. Measured on `/`, `/hair-systems`, `/blog` and a post: the h1's opacity never leaves 1 and it never moves (0.0 px), against a fade from opacity 0 and a 22 px move on live. The h1 now paints at **338 to 547 ms instead of 1002 to 1625 ms**.
+- **No visible change when React takes over.** The captured HTML shows each page at rest, so if the motion components replayed their entry animations the reader would watch finished content blank out and fade back in. `src/lib/motion.tsx` is a drop-in `motion` that passes `initial={false}` on the first render after a pre-rendered load, and `src/lib/prerender.ts` closes that window after the first mount, so every client-side navigation animates exactly as before. Measured on `/`, `/hair-systems`, `/blog` and a post: the h1's opacity never leaves 1 and it never moves (0.0 px), against a fade from opacity 0 and a 22 px move on live. Timing, corrected 28 Sep (the first figure compared a local server against the live site and measured animation frames, so it was wrong): on the real pr-5 preview, 5 cold runs per page, median, the h1 is in the page **1.0 to 1.8 s sooner** (home 2,498 to 686 ms, /hair-systems 1,928 to 596, /blog 1,712 to 531, a post 1,682 to 769), and first and largest contentful paint improve by 0.2 to 0.7 s. Paint is still held back by the render-blocking stylesheet and the 1.28 MB bundle (batch 5).
 - **`ScrollToTop` no longer fires on a pre-rendered first load.** The reader can now scroll a page a second before React mounts, and resetting to the top would have jerked them back. Named anchors also work without JavaScript now, because the target element is in the HTML.
 - **The cookie banner is stripped from the saved HTML** (`data-prerender-strip` on its root). The build renders with no stored consent, so it would otherwise be baked into all 64 pages and flash up for a second on every returning visitor who had already answered it. Checked: watched for it every 40 ms for 4 seconds on a visitor with consent stored, and it never appeared.
 - **No third-party script is baked in, and consent gating is unchanged.** The build runs with no consent, so GA4 and the Trafft embed are never in the HTML, and the booking section bakes its "needs cookies enabled" prompt instead. The pre-render fails the build if `googletagmanager.com` or `trafft.com/embed.js` ever appears in the output. 16 consent checks pass: first visit shows the banner and loads neither; Accept loads GA4 and Trafft; Declined loads neither.
@@ -506,11 +507,65 @@ Fixes happen one at a time, each on its own `fix/<short-name>` branch, shown to 
 - After the fix: **0 such elements across all 64 files**, against 29 on pr-5. The only inline transforms left are 398 `none` and one `rotate(180deg)`, which is the open contents chevron. A new check compares the page with JavaScript switched off against the same page with React running: identical height on all 8 page and width combinations, and 0.0000 to 0.16 per cent of pixels differing, all of it text antialiasing between two browser contexts, confirmed by eye on the densest band.
 - **Lesson for later batches:** a render check that runs with JavaScript on cannot tell you what a crawler sees. Check the served HTML, and check the page with scripts disabled.
 
+**2026-09-28, batch 3 verified on the real pr-5 preview after the fix.**
+- 0 elements saved mid-animation on 0 of 60 pages (was 29 on 15). All 60 sitemap URLs 200 with 0 redirects and identical to live on title, canonical, h1, word count, internal links and structured data types. 5 bad URLs 404 with the branded noindex page. Aliases still 200, `/contact-us` still 301s, Georges rules still 301.
+- JavaScript off against React running: identical height on all 8, 0.0000 to 0.0013 per cent of pixels differing (antialiasing). Pixel diff against live 0 on all 8. Consent 16 of 16. Headers unchanged, noindex on every preview URL.
+- Still only proven locally: a future-dated post on real Cloudflare (the branch has none). Check it on the first post PR made after the merge.
+- Merge rule: only after the Monday 5 Oct publish is verified. Pushed then as `git push origin fix/batch-3-prerender:main` after a fast-forward check.
+
+**2026-09-28, catch-up: state and decisions 25 to 28 Sep.**
+- rank-automation: origin/main `7abf2e7` (SEO sweep pushed and run 28 Sep). Local only, never pushed without Carlo's go: `7783367` Georges, BDB and PV rollout (backup branch `rollout-backup` = old `ff583fd`).
+- Google: GCP project renamed "Rank SEO" (project id `georges-barbers`; also holds the Business Profile API application, pending). Service account `rank-automation@...` for the automations. `rank-seo-reporting@georges-barbers.iam.gserviceaccount.com` belongs to the local monthly report system (`_reporting` folder) and is left alone.
+- Sitemap first submitted to Search Console 28 Sep (full URL, domain property). 8 pages indexed at that point. No manual actions or security issues.
+- Netlify removed: the GitHub app was uninstalled 27 Sep. Cloudflare Pages is the only host.
+- Cloudflare AI Crawl Control: AI crawlers allowed (Anthropic, OpenAI, Perplexity, Apple, Google, Bing all 200). Bytespider blocked. "Markdown for Agents" not bought.
+- Settled, not reopened: Astro, R2 (media library is Google Drive), DataForSEO, Hermes, Netlify, `gh` CLI.
+- Health check corrections: #31 domain redirects need a Cloudflare dashboard Redirect Rule; #3 real 404 needs pre-rendering (done in batch 3); 14 sub-service pages, not 15.
+- Blog structure (from the writer update, roadmap item 6): 900 to 1,400 words; answer-first 40 to 60 word opening; Key takeaways box; question headings; one comparison table where it fits (the site needs table support); 3 CTA blocks inserted by the site (after the intro, middle, end), not by the writer; a second inline image per post (library photo first, else AI at $0.04); visible "Updated on" date. The Friday 2 Oct run still uses the current rules (1,400 to 2,800 words).
+- Design (batch 4): accent colour is the logo red; subtle shine on the main CTA only, respecting reduced motion; before and after slider under the homepage hero using consented photos cropped so nobody is recognisable; Google reviews carousel with real verbatim reviews, swipe and pause, link to Google, no self-serving review schema; sticky mobile "Book free consultation" bar; tap to call; related treatments cards.
+- Old blog images that show faces or look too AI are recreated (list with thumbnails for approval first, about $0.04 each). #38: remove the stock placeholder photo and give the 7 real photos proper alt text.
+- Listings and site email: info@menshairtostay.co.uk everywhere (the georgesbarbers1991 gmail on the site is replaced in batch 4); brand casing "Men's Hair To Stay".
+- Telegram: one bot, one group per client, one forum topic per agent (Blog, GBP, Directories, SEO check, Report, AI visibility). Carlo can chat to each agent in Telegram and in the dashboard; conversation memory stored once in D1 so both stay in sync.
+- Directory agent: Cowork scheduled task on Carlo's PC, Mondays, checks at about 09:00, 12:00 and 15:00. At the first check the PC is on it asks on Telegram "Can I start? keep the PC on about 30 minutes" with Start and Not today buttons. Works in the Claude desktop app's built-in browser; fills one directory a week with identical NAP, opens the info@ webmail to click verification, logs each listing; messages Carlo only for a CAPTCHA, phone code or postcard. Highest-authority UK directories first.
+- Screen-clicking agents run through Claude in Chrome or the built-in browser via Cowork scheduled tasks. Everything recurring and unattended is an API agent.
+- AI visibility: weekly job asks ChatGPT, Claude and Gemini (API with web search) about 15 real hair-loss questions, stores mentions, competitors and cited pages in D1, and feeds the Friday research step. About $1 a week. Questions from Search Console queries, Google autocomplete and Reddit.
+- Monthly SEO health check agent: index status, crawl, broken links, schema, sitemap, speed, AI visibility; prepares fixes as a PR with preview; Telegram summary with estimated cost per fix; Carlo taps Approve; nothing auto-merges.
+- Onboarding agent and playbook so every automation can be set up for another client; human steps stay human: secrets, Telegram group, Google access, PR approvals.
+- Reviews automation skipped for now. Automated Reddit or forum posting rejected.
+- Dashboard: Carlo builds it, behind Cloudflare Access.
+
 ---
 
 ## 8. Open questions and next steps
 
+### Roadmap (set 28 Sep 2026, in order)
+
+Website, one Claude Code prompt and one PR per batch:
+1. Batch 3 pre-rendering: PR #5 verified, merge after the Monday 5 Oct publish is verified.
+2. Batch 4 design and blog structure: the design and blog decisions of 28 Sep, alias URLs as 301s, schema upgrade (more specific business type, sameAs to GBP and socials, geo, areaServed), info@ email and brand casing, GA4 key events for Book, phone and Trafft clicks from blogs, table support in the markdown renderer, CTA block and Key takeaways components, Updated on date, old image recreation, #38.
+3. Batch 5 code splitting (the 1.28 MB bundle is the remaining LCP cause).
+4. Batch 6 Carlo's content decisions: #9 keyword h1s on money pages (one at a time, watch Search Console), #15 forms against the privacy policy, #16 Maps iframe before consent, #17 thin before and after post, #20 empty pricing section, #29 area page pricing wording, #30 SMP "Permanent" wording.
+
+Automations, built in Cowork, Carlo pushes:
+5. SEO sweep (live 28 Sep); later weekly as the "blog pulse": striking distance 5 to 20, cannibalisation, content decay, low CTR titles, new query clusters, with suggested fixes.
+6. Writer update to the new blog structure and 900 to 1,400 words (prompt in D1 and code checks together); fix the first draft that stops at max_tokens and is then fully rewritten. Ships after batch 4 is live.
+7. AI visibility tracker into the research step.
+8. Telegram forum topics per agent, and an agent chat endpoint with D1 memory shared with the dashboard.
+9. GBP post agent (from the week's blog; to Telegram until the Business Profile API is approved), weekly GBP photo upload, bank holiday hours, predefined services check.
+10. Media library on Google Drive with usage tracking in D1: profile photos never AI and never recently used; post photos from the library if suitable and not recent, else AI; never an identifiable client.
+11. Directory agent.
+12. Internal link agent (link each new post from 2 to 3 older posts via PR), freshness agent (quarterly refresh of top posts), local link outreach drafts, AI-referred traffic in the monthly report.
+13. End of month report agent (builds on the local `_reporting` system: GA4, Search Console, GBP Performance when approved, Trafft paste, Setmore exports).
+14. Monthly SEO health check agent.
+15. Dashboard (Carlo builds): per client, every agent and automation including Cowork tasks, runs, costs, chat. Behind Cloudflare Access.
+16. Website editing agent (opens PRs with previews, Carlo approves).
+17. Onboarding agent and playbook, then Georges, BDB, PV.
+
+Carlo's quick tasks (28 Sep): push and run the SEO sweep (done 28 Sep); request indexing on 10 URLs (done 28 Sep); Soft 404 Validate fix; Bing Webmaster Tools import from Search Console; Bing Places import from GBP; Apple Business Connect; Gemini API key (free tier) for the AI visibility tracker; Google Drive "MHTS Media" folder; after Monday a Cloudflare Redirect Rule www to apex (the first sweep shows Google splitting the homepage between www and apex); sign the info@ webmail into the Claude desktop app's built-in browser.
+
 ### Blocking, needed from Carlo
+
+Items 1 to 6 were resolved by 27 Sep and are kept for the record. 7 is roadmap item 10; 8 waits on the rollout.
 
 1. ~~Is the Cloudflare Pages project git-connected or direct-upload?~~ **Answered 23 Sep: Direct Upload, no git connection.** Project name `menshairtostay`, production branch `main`, domains `menshairtostay.co.uk`, `www.menshairtostay.co.uk`, `menshairtostay.pages.dev`.
 2. **Cloudflare account ID** and an **API token** with Pages edit and D1 edit permissions, stored as GitHub secrets. (R2 is not needed, see the decisions log.)
@@ -522,6 +577,8 @@ Fixes happen one at a time, each on its own `fix/<short-name>` branch, shown to 
 6. **Push to GitHub.** Done locally 23 September 2026: September committed as `217cdbe`. **Awaiting `git push` from Carlo.** Until pushed, GitHub `main` is still `6894aab` (August).
 
 ### Known issues, unrelated to this project but worth clearing
+
+All three below are resolved: the repo caught up with the live site on 23 Sep and deploys now come only from GitHub; future-dated posts were fixed in batch 1; `netlify.toml` was deleted in batch 1 and Netlify was uninstalled from GitHub on 27 Sep. Kept for the record.
 
 - **The live site is ahead of the GitHub repo.** Verified 23 September 2026: the September posts are live and rendering correctly, but they are **not in `main`**. `git show HEAD:src/data/blogPosts.ts` contains none of the three September slugs. The last content commit is `6894aab`, the August pack.
 
@@ -601,7 +658,7 @@ Steps 1 and 2 unblock the build. The rest can follow.
 
 ### Immediate next step
 
-0a and 0b are done. Next is task 1, the D1 database, using the schema in section 4.2. Kept below for the record: the rule that applied to the 0a migration.
+Superseded: the current next steps are the roadmap in section 8. Kept below for the record: the rule that applied to the 0a migration.
 
 **The migration must preserve `faqs`, `category`, `readTime`, `author` and the ISO `date` on every post.** `faqs` generates the FAQPage structured data and `date` drives the Monday gate. If a migration quietly drops either, the site loses rich results and scheduled publishing, and neither failure is visible by looking at the site. Verify post by post, not in aggregate.
 
