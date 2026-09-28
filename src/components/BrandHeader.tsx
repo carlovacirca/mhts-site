@@ -1,336 +1,352 @@
-import { useState, useEffect, useRef } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Phone, Mail, MapPin, Home, ChevronDown, CalendarCheck } from "lucide-react";
-import { serviceCategories } from "@/data/services";
+import { useEffect, useRef, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { CalendarCheck, ChevronDown, Mail, MapPin, Menu, Phone, X } from "lucide-react";
+import { treatments } from "@/data/treatments";
 import mhtsLogoFull from "@/assets/mhts-logo-full.jpeg";
 import ResponsiveImage from "@/components/ResponsiveImage";
+import { EMAIL, GOOGLE_MAPS_URL, ADDRESS_LINE, PHONE_DISPLAY, PHONE_TEL } from "@/lib/site";
 
-const primaryLinks = [
-  { to: "/services", label: "Services" },
-  { to: "/areas-serviced", label: "Areas Serviced" },
+// The menu repeated itself: a home icon and a logo that both went home, a
+// Services link with a dropdown that listed the same services again and then a
+// second column of things that were not services at all, "Areas Serviced"
+// wrapping on to two lines, and an 11-link three-column grid on phones with no
+// way to call. See docs/DESIGN-AUDIT.md finding 4.
+//
+// What is here now: one Treatments dropdown over the four money pages, then
+// Results, Blog and Contact, and the two calls to action on the right. How It
+// Works, FAQ, Areas Serviced and the Services overview all moved to the footer,
+// where every one of them is still linked, so no page lost an internal link.
+
+const mainLinks = [
+  { to: "/gallery", label: "Results" },
+  { to: "/blog", label: "Blog" },
+  { to: "/contact", label: "Contact" },
+];
+
+/** Phone only. FAQ is in here as well as the footer; it is a common question page. */
+const panelLinks = [
+  { to: "/gallery", label: "Results" },
   { to: "/blog", label: "Blog" },
   { to: "/faq", label: "FAQ" },
   { to: "/contact", label: "Contact" },
 ];
 
-const servicesMenuExtras = [
-  { to: "/how-it-works", label: "How It Works" },
-  { to: "/gallery", label: "Gallery" },
-];
-
 const BrandHeader = () => {
   const [open, setOpen] = useState(false);
-  const [servicesMenuOpen, setServicesMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
+  const [treatmentsOpen, setTreatmentsOpen] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
-  const links = primaryLinks;
-  const servicesMenuRef = useRef<HTMLDivElement>(null);
+  const treatmentsRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
-  const activeClass = "bg-mhts-charcoal text-mhts-white font-semibold";
-  const hoverClass = "text-muted-foreground hover:text-mhts-charcoal";
-  const navBg = "bg-card/95 backdrop-blur-md border-b border-border shadow-sm";
+  const isTreatmentPath = treatments.some((t) => location.pathname.startsWith(`/${t.slug}`));
 
-  const brandPath = "/";
-  const onBrandPage = location.pathname === brandPath;
-
-  // Track active section via IntersectionObserver, only on the home page
+  // Close both menus whenever the route changes, including a click on the link
+  // that is already current.
   useEffect(() => {
-    if (!onBrandPage) {
-      setActiveSection("");
-      return;
-    }
-    const anchorIds = links
-      .filter((l) => l.to.startsWith("#"))
-      .map((l) => l.to.slice(1));
-    const visible = new Map<string, number>();
+    setOpen(false);
+    setTreatmentsOpen(false);
+  }, [location.pathname]);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            visible.set(entry.target.id, entry.intersectionRatio);
-          } else {
-            visible.delete(entry.target.id);
-          }
-        }
-        let bestId = "";
-        let bestRatio = -1;
-        for (const [id, ratio] of visible) {
-          if (ratio > bestRatio) {
-            bestRatio = ratio;
-            bestId = id;
-          }
-        }
-        setActiveSection(bestId ? "#" + bestId : "");
-      },
-      { rootMargin: "-30% 0px -50% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] }
-    );
-
-    anchorIds.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, [links, onBrandPage, location.pathname]);
-
-  // Close the Services mega-menu on outside click/tap or Escape
+  // Desktop dropdown: outside click and Escape.
   useEffect(() => {
-    if (!servicesMenuOpen) return;
-    const handleClickOutside = (e: MouseEvent) => {
-      if (servicesMenuRef.current && !servicesMenuRef.current.contains(e.target as Node)) {
-        setServicesMenuOpen(false);
+    if (!treatmentsOpen) return;
+    const onPointerDown = (e: MouseEvent) => {
+      if (treatmentsRef.current && !treatmentsRef.current.contains(e.target as Node)) {
+        setTreatmentsOpen(false);
       }
     };
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setServicesMenuOpen(false);
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setTreatmentsOpen(false);
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleEscape);
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
     };
-  }, [servicesMenuOpen]);
+  }, [treatmentsOpen]);
 
-  const handleAnchorClick = (hash: string) => {
-    setOpen(false);
-    if (!hash.startsWith("#")) return;
-    if (!onBrandPage) {
-      navigate(`${brandPath}${hash}`);
-      return;
-    }
-    const el = document.querySelector(hash);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  // Phone panel: Escape closes it, the page behind cannot scroll, and focus is
+  // trapped inside until it closes, then handed back to the button that opened
+  // it. A full-height overlay that leaks focus to the page underneath is a
+  // keyboard trap in the other direction.
+  useEffect(() => {
+    if (!open) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    // Everything inside the panel is visible by construction, so there is no
+    // hidden-element filter here. offsetParent, the usual one, is null for
+    // every element in jsdom and would silently empty this list under test.
+    const focusables = () =>
+      Array.from(
+        panelRef.current?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        ) ?? []
+      );
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const items = focusables();
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      const current = document.activeElement as HTMLElement | null;
+      if (e.shiftKey && (current === first || !panelRef.current?.contains(current))) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && current === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    const firstItem = focusables()[0];
+    firstItem?.focus();
+
+    // Captured now, not read in the cleanup: by the time the cleanup runs the
+    // ref may already point somewhere else, and the focus would go with it.
+    const toggle = toggleRef.current;
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
+      toggle?.focus();
+    };
+  }, [open]);
+
+  const desktopLink = (to: string, label: string) => (
+    <Link
+      key={to}
+      to={to}
+      className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+        location.pathname === to
+          ? "bg-mhts-red-tint text-mhts-red-deep"
+          : "text-mhts-ink/75 hover:text-mhts-red-deep"
+      }`}
+    >
+      {label}
+    </Link>
+  );
 
   return (
     <>
       {/* Top bar */}
-      <div className="bg-foreground text-background text-xs py-1.5 px-4 flex justify-between items-center">
+      <div className="flex items-center justify-between bg-mhts-ink px-4 py-1.5 text-xs text-white/80">
         <div className="flex items-center gap-4">
-          <a href="tel:07947878087" className="flex items-center gap-1 hover:text-mhts-slate transition-colors">
-            <Phone className="w-3 h-3" /> 07947 878087
+          <a href={`tel:${PHONE_TEL}`} data-cta="call" className="flex items-center gap-1.5 transition-colors hover:text-white">
+            <Phone className="h-3 w-3" aria-hidden="true" /> {PHONE_DISPLAY}
           </a>
-          <a href="mailto:georgesbarbers1991@gmail.com" className="hidden sm:flex items-center gap-1 hover:text-mhts-slate transition-colors">
-            <Mail className="w-3 h-3" /> georgesbarbers1991@gmail.com
+          <a href={`mailto:${EMAIL}`} className="hidden items-center gap-1.5 transition-colors hover:text-white sm:flex">
+            <Mail className="h-3 w-3" aria-hidden="true" /> {EMAIL}
           </a>
         </div>
         <a
-          href="https://www.google.com/maps/search/?api=1&query=11+Chesham+Road%2C+Amersham+HP6+5HN"
+          href={GOOGLE_MAPS_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden sm:flex items-center gap-1.5 hover:text-mhts-slate transition-colors"
+          className="hidden items-center gap-1.5 transition-colors hover:text-white sm:flex"
         >
-          <MapPin className="w-3.5 h-3.5 shrink-0" /> 11 Chesham Road, Amersham HP6 5HN
+          <MapPin className="h-3.5 w-3.5 shrink-0" aria-hidden="true" /> {ADDRESS_LINE}
         </a>
       </div>
 
       {/* Main nav */}
-      <header className={`sticky top-0 z-50 ${navBg}`}>
+      <header className="sticky top-0 z-50 border-b border-mhts-stone bg-card/95 shadow-sm backdrop-blur-md">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-20 md:h-24">
-            {/* Logo + Home link */}
-            <div className="flex items-center gap-3">
-              <Link
-                to="/"
-                className="p-2 rounded-md transition-colors hover:bg-muted text-muted-foreground"
-                aria-label="Back to home"
-              >
-                <Home className="w-5 h-5" />
-              </Link>
-              <Link
-                to={brandPath}
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="flex items-center gap-2"
-                aria-label="Men's Hair To Stay home"
-              >
-                <ResponsiveImage src={mhtsLogoFull} alt="Men's Hair To Stay" className="h-14 md:h-20 object-contain" sizes="160px" priority />
-              </Link>
-            </div>
+          <div className="flex h-20 items-center justify-between gap-4 md:h-24">
+            {/* One route home, not two. The home icon that sat beside the logo
+                did the same job as the logo. */}
+            <Link to="/" className="flex shrink-0 items-center" aria-label="Men's Hair To Stay home">
+              <ResponsiveImage
+                src={mhtsLogoFull}
+                alt="Men's Hair To Stay"
+                className="h-12 w-auto object-contain md:h-16"
+                sizes="160px"
+                priority
+              />
+            </Link>
 
-            {/* Desktop nav */}
-            <nav className="hidden md:flex items-center gap-1">
-              {links.map((l) => {
-                if (l.label === "Services") {
-                  return (
-                    <div key={l.to} className="relative" ref={servicesMenuRef}>
-                      <button
-                        onClick={() => setServicesMenuOpen((v) => !v)}
-                        aria-haspopup="true"
-                        aria-expanded={servicesMenuOpen}
-                        className={`px-3 py-1.5 text-sm transition-colors rounded-md inline-flex items-center gap-1 ${
-                          activeSection === l.to || servicesMenuOpen ? activeClass : hoverClass
-                        }`}
-                      >
-                        {l.label}
-                        <ChevronDown className={`w-3.5 h-3.5 transition-transform ${servicesMenuOpen ? "rotate-180" : ""}`} />
-                      </button>
-                      {servicesMenuOpen && (
-                        <div className="absolute left-0 top-full pt-2 z-50">
-                          <div className="bg-card border border-border rounded-md shadow-lg py-4 px-4 min-w-[440px] grid grid-cols-2 gap-4">
-                            <div>
-                              <p className="text-[11px] uppercase tracking-[0.15em] text-mhts-slate font-body px-2 mb-1">
-                                Our Services
-                              </p>
-                              {serviceCategories.map((c) => (
-                                <Link
-                                  key={c.slug}
-                                  to={`/${c.slug}`}
-                                  onClick={() => setServicesMenuOpen(false)}
-                                  className="block px-2 py-2 text-sm font-body text-mhts-charcoal hover:bg-mhts-light rounded-md transition-colors"
-                                >
-                                  {c.name}
-                                </Link>
-                              ))}
-                            </div>
-                            <div className="border-l border-border pl-4">
-                              <p className="text-[11px] uppercase tracking-[0.15em] text-mhts-slate font-body px-2 mb-1">
-                                Learn More
-                              </p>
-                              {servicesMenuExtras.map((extra) => (
-                                <Link
-                                  key={extra.to}
-                                  to={extra.to}
-                                  onClick={() => setServicesMenuOpen(false)}
-                                  className="block px-2 py-2 text-sm font-body text-mhts-charcoal hover:bg-mhts-light rounded-md transition-colors"
-                                >
-                                  {extra.label}
-                                </Link>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      )}
+            {/* Desktop nav. lg, not md: at 768 to 1023 the nav plus both
+                buttons is wider than the bar and used to wrap. */}
+            <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
+              <div className="relative" ref={treatmentsRef}>
+                <button
+                  type="button"
+                  onClick={() => setTreatmentsOpen((v) => !v)}
+                  aria-haspopup="true"
+                  aria-expanded={treatmentsOpen}
+                  className={`inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                    treatmentsOpen || isTreatmentPath
+                      ? "bg-mhts-red-tint text-mhts-red-deep"
+                      : "text-mhts-ink/75 hover:text-mhts-red-deep"
+                  }`}
+                >
+                  Treatments
+                  <ChevronDown
+                    className={`h-3.5 w-3.5 transition-transform ${treatmentsOpen ? "rotate-180" : ""}`}
+                    aria-hidden="true"
+                  />
+                </button>
+                {treatmentsOpen && (
+                  <div className="absolute left-0 top-full z-50 pt-2">
+                    <div className="w-[360px] rounded-xl border border-mhts-stone bg-card p-2 shadow-xl">
+                      {treatments.map((t) => (
+                        <Link
+                          key={t.slug}
+                          to={`/${t.slug}`}
+                          onClick={() => setTreatmentsOpen(false)}
+                          className="group flex items-start gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-mhts-sand"
+                        >
+                          <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-mhts-red-tint">
+                            <t.icon className="h-4 w-4 text-mhts-red" aria-hidden="true" />
+                          </span>
+                          <span className="min-w-0">
+                            <span className="block text-sm font-semibold text-mhts-ink group-hover:text-mhts-red-deep">
+                              {t.name}
+                            </span>
+                            <span className="block font-body text-xs leading-snug text-muted-foreground">
+                              {t.line}
+                            </span>
+                          </span>
+                        </Link>
+                      ))}
                     </div>
-                  );
-                }
-                return l.to.startsWith("#") ? (
-                  <button
-                    key={l.to}
-                    onClick={() => handleAnchorClick(l.to)}
-                    className={`px-3 py-1.5 text-sm transition-colors rounded-md ${
-                      activeSection === l.to ? activeClass : hoverClass
-                    }`}
-                  >
-                    {l.label}
-                  </button>
-                ) : (
-                  <Link
-                    key={l.to}
-                    to={l.to}
-                    className={`px-3 py-1.5 text-sm transition-colors rounded-md ${
-                      location.pathname === l.to ? activeClass : hoverClass
-                    }`}
-                  >
-                    {l.label}
-                  </Link>
-                );
-              })}
+                  </div>
+                )}
+              </div>
+              {mainLinks.map((l) => desktopLink(l.to, l.label))}
             </nav>
 
-            {/* CTA + Hamburger */}
-            <div className="flex items-center gap-2">
+            {/* Call sits beside Book, here and everywhere else on the site. */}
+            <div className="flex shrink-0 items-center gap-2">
+              <a
+                href={`tel:${PHONE_TEL}`}
+                data-cta="call"
+                className="hidden items-center gap-2 whitespace-nowrap rounded-md border border-mhts-stone-deep px-4 py-2.5 text-sm font-semibold text-mhts-ink transition-colors hover:border-mhts-red hover:text-mhts-red-deep lg:inline-flex"
+              >
+                <Phone className="h-4 w-4" aria-hidden="true" />
+                Call {PHONE_DISPLAY}
+              </a>
               <Link
                 to="/book"
-                className="hidden md:inline-flex items-center gap-1.5 bg-mhts-charcoal text-mhts-white px-5 py-2.5 rounded-sm text-sm font-body tracking-wide hover:bg-mhts-slate transition-colors whitespace-nowrap"
+                className="mhts-shine hidden items-center gap-2 whitespace-nowrap rounded-md bg-mhts-red px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-mhts-red-deep lg:inline-flex"
               >
-                <CalendarCheck className="w-4 h-4" />
-                Book Free Consultation
+                <CalendarCheck className="relative z-[2] h-4 w-4" aria-hidden="true" />
+                <span className="relative z-[2]">Book free consultation</span>
               </Link>
               <button
-                onClick={() => setOpen(!open)}
-                className="md:hidden p-2.5 rounded-md transition-colors hover:bg-muted"
-                aria-label="Toggle menu"
+                ref={toggleRef}
+                type="button"
+                onClick={() => setOpen((v) => !v)}
+                className="rounded-md p-2.5 transition-colors hover:bg-mhts-sand lg:hidden"
+                aria-label={open ? "Close menu" : "Open menu"}
+                aria-expanded={open}
+                aria-controls="mhts-mobile-menu"
               >
-                {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                <Menu className="h-6 w-6" aria-hidden="true" />
               </button>
             </div>
           </div>
-
-          {/* Mobile-only full-width CTA row */}
-          <div className="md:hidden pb-3">
-            <Link
-              to="/book"
-              className="flex items-center justify-center gap-1.5 w-full bg-mhts-charcoal text-mhts-white px-4 py-3 rounded-sm text-sm font-body tracking-wide hover:bg-mhts-slate transition-colors"
-            >
-              <CalendarCheck className="w-4 h-4" />
-              Book Free Consultation
-            </Link>
-          </div>
         </div>
+      </header>
 
-        {/* Mobile menu */}
-        {open && (
-          <div className="md:hidden border-t animate-fade-in bg-card border-border">
-            <div className="container mx-auto px-4 py-4">
-              <div className="grid grid-cols-3 gap-1">
-                {links.map((l) =>
-                  l.to.startsWith("#") ? (
-                    <button
-                      key={l.to}
-                      onClick={() => handleAnchorClick(l.to)}
-                      className={`px-3 py-2 text-sm rounded-md text-center transition-colors ${
-                        activeSection === l.to
-                          ? activeClass
-                          : "text-muted-foreground hover:bg-mhts-light"
-                      }`}
-                    >
-                      {l.label}
-                    </button>
-                  ) : (
-                    <Link
-                      key={l.to}
-                      to={l.to}
-                      onClick={() => setOpen(false)}
-                      className={`px-3 py-2 text-sm rounded-md text-center transition-colors ${
-                        location.pathname === l.to
-                          ? activeClass
-                          : "text-muted-foreground hover:bg-mhts-light"
-                      }`}
-                    >
-                      {l.label}
-                    </Link>
-                  )
-                )}
-              </div>
-              <div className="mt-4 pt-4 border-t border-border">
-                <p className="text-xs uppercase tracking-[0.2em] text-mhts-slate font-body mb-2 px-1">Service Categories</p>
-                <div className="grid grid-cols-2 gap-1">
-                  {serviceCategories.map((c) => (
-                    <Link
-                      key={c.slug}
-                      to={`/${c.slug}`}
-                      onClick={() => setOpen(false)}
-                      className="px-3 py-2 text-sm rounded-md text-center text-mhts-charcoal hover:bg-mhts-light transition-colors font-body"
-                    >
-                      {c.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-              <div className="mt-4 pt-4 border-t border-border">
-                <p className="text-xs uppercase tracking-[0.2em] text-mhts-slate font-body mb-2 px-1">Learn More</p>
-                <div className="grid grid-cols-2 gap-1">
-                  {servicesMenuExtras.map((extra) => (
-                    <Link
-                      key={extra.to}
-                      to={extra.to}
-                      onClick={() => setOpen(false)}
-                      className="px-3 py-2 text-sm rounded-md text-center text-mhts-charcoal hover:bg-mhts-light transition-colors font-body"
-                    >
-                      {extra.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
+      {/* Phone panel. Full height, one left-aligned column, 48px targets. */}
+      {/* Phone panel sits above the fixed bottom stack (z-100), so an open menu
+          covers the cookie banner rather than having its buttons cut in half. */}
+      {open && (
+        <div className="fixed inset-0 z-[110] lg:hidden" role="dialog" aria-modal="true" aria-label="Menu">
+          {/* The scrim. Not a button: it would be a tab stop outside the trap
+              below, and the panel already has a Close button and answers to
+              Escape. */}
+          <div
+            data-testid="menu-overlay"
+            className="absolute inset-0 bg-mhts-ink/60"
+            aria-hidden="true"
+            onClick={() => setOpen(false)}
+          />
+          <div
+            id="mhts-mobile-menu"
+            ref={panelRef}
+            className="absolute inset-y-0 right-0 flex w-[88%] max-w-sm animate-menu-in flex-col bg-card shadow-2xl"
+          >
+            <div className="flex items-center justify-between border-b border-mhts-stone px-4 py-3">
+              <ResponsiveImage
+                src={mhtsLogoFull}
+                alt="Men's Hair To Stay"
+                className="h-10 w-auto object-contain"
+                sizes="120px"
+              />
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="grid h-12 w-12 place-items-center rounded-md transition-colors hover:bg-mhts-sand"
+                aria-label="Close menu"
+              >
+                <X className="h-6 w-6" aria-hidden="true" />
+              </button>
+            </div>
+
+            <nav className="flex-1 overflow-y-auto px-2 py-3" aria-label="Menu">
+              <p className="px-3 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">
+                Treatments
+              </p>
+              {treatments.map((t) => (
+                <Link
+                  key={t.slug}
+                  to={`/${t.slug}`}
+                  onClick={() => setOpen(false)}
+                  className="flex min-h-[48px] items-center gap-3 rounded-lg px-3 text-base font-medium text-mhts-ink transition-colors hover:bg-mhts-sand"
+                >
+                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-mhts-red-tint">
+                    <t.icon className="h-4 w-4 text-mhts-red" aria-hidden="true" />
+                  </span>
+                  {t.name}
+                </Link>
+              ))}
+
+              <div className="my-3 border-t border-mhts-stone" />
+
+              {panelLinks.map((l) => (
+                <Link
+                  key={l.to}
+                  to={l.to}
+                  onClick={() => setOpen(false)}
+                  className="flex min-h-[48px] items-center rounded-lg px-3 text-base font-medium text-mhts-ink transition-colors hover:bg-mhts-sand"
+                >
+                  {l.label}
+                </Link>
+              ))}
+            </nav>
+
+            <div className="grid gap-2 border-t border-mhts-stone p-4">
+              <a
+                href={`tel:${PHONE_TEL}`}
+                data-cta="call"
+                className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-md border border-mhts-stone-deep text-base font-semibold text-mhts-ink"
+              >
+                <Phone className="h-5 w-5" aria-hidden="true" />
+                Call {PHONE_DISPLAY}
+              </a>
+              <Link
+                to="/book"
+                onClick={() => setOpen(false)}
+                className="mhts-shine inline-flex min-h-[52px] items-center justify-center gap-2 rounded-md bg-mhts-red text-base font-semibold text-white"
+              >
+                <CalendarCheck className="relative z-[2] h-5 w-5" aria-hidden="true" />
+                <span className="relative z-[2]">Book free consultation</span>
+              </Link>
             </div>
           </div>
-        )}
-      </header>
+        </div>
+      )}
     </>
   );
 };

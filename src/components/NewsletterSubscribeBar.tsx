@@ -25,7 +25,7 @@ const NewsletterSubscribeBar = () => {
             className="bg-mhts-charcoal hover:bg-mhts-charcoal/90 text-mhts-white"
             onClick={() => {
               if (email)
-                window.location.href = `mailto:georgesbarbers1991@gmail.com?subject=Newsletter%20signup&body=Please%20add%20${encodeURIComponent(email)}`;
+                window.location.href = `mailto:info@menshairtostay.co.uk?subject=Newsletter%20signup&body=Please%20add%20${encodeURIComponent(email)}`;
             }}
           >
             Subscribe
@@ -40,10 +40,10 @@ const NewsletterSubscribeBar = () => {
             <Phone className="w-4 h-4" /> 07947 878087
           </a>
           <a
-            href="mailto:georgesbarbers1991@gmail.com"
+            href="mailto:info@menshairtostay.co.uk"
             className="inline-flex items-center justify-center gap-2 bg-mhts-charcoal hover:bg-mhts-charcoal/90 text-mhts-white rounded-md px-4 py-2 text-sm break-all"
           >
-            <Mail className="w-4 h-4" /> georgesbarbers1991@gmail.com
+            <Mail className="w-4 h-4" /> info@menshairtostay.co.uk
           </a>
         </div>
       </div>

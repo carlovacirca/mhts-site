@@ -131,6 +131,13 @@ const PrivacyPolicyPage = () => {
               change your mind at any time by clearing your browser's cookies for this site,
               which will bring the banner back on your next visit.
             </p>
+            <p>
+              The Google Maps that shows where the studio is also sets cookies, so it is
+              held back in the same way. Until you accept, we show a drawn map and the
+              address instead and nothing is requested from Google. If you decline, the
+              map never loads and the link to Google Maps opens in a new tab only if you
+              choose to use it.
+            </p>
           </div>
 
           <div>
@@ -176,10 +183,10 @@ const PrivacyPolicyPage = () => {
               <p className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-mhts-charcoal shrink-0" />
                 <a
-                  href="mailto:georgesbarbers1991@gmail.com"
+                  href="mailto:info@menshairtostay.co.uk"
                   className="hover:text-mhts-slate transition-colors"
                 >
-                  georgesbarbers1991@gmail.com
+                  info@menshairtostay.co.uk
                 </a>
               </p>
             </div>

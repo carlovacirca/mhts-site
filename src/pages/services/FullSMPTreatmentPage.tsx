@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { findCategory, findSubService } from "@/data/services";
 import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 
 const benefits = [
   { icon: Sparkles, text: "Creates the look of natural hair follicles" },
@@ -90,13 +91,13 @@ const FullSMPTreatmentPage = () => {
   ]);
   useCanonical("/scalp-micropigmentation/full-smp-treatment");
   useOpenGraph(
-    "Full SMP Treatment Amersham | Scalp Micropigmentation | Men's Hair to Stay",
-    "Full scalp micropigmentation treatment in Amersham. A complete multi-session SMP programme at Men's Hair to Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+    "Full SMP Treatment Amersham | Scalp Micropigmentation | Men's Hair To Stay",
+    "Full scalp micropigmentation treatment in Amersham. A complete multi-session SMP programme at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "Full SMP Treatment Amersham | Scalp Micropigmentation | Men's Hair to Stay";
+    document.title = "Full SMP Treatment Amersham | Scalp Micropigmentation | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -108,7 +109,7 @@ const FullSMPTreatmentPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Full scalp micropigmentation treatment in Amersham. A complete multi-session SMP programme at Men's Hair to Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+      "Full scalp micropigmentation treatment in Amersham. A complete multi-session SMP programme at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
     );
     return () => {
       document.title = prevTitle;
@@ -143,12 +144,11 @@ const FullSMPTreatmentPage = () => {
               multi-session programme designed to recreate the look of natural
               hair follicles and a sharp, tailored hairline.
             </p>
-            <Link
-              to="/#mhts-book"
-              className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-            >
-              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-            </Link>
+            {/* Call sits beside Book on every call to action on the site. */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <BookButton size="lg" href="/#mhts-book" />
+              <CallButton size="lg" tone="dark" />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -176,7 +176,7 @@ const FullSMPTreatmentPage = () => {
             <p>
               Whether you're concealing thinning, hiding scars or shaping a
               clean, modern shaved style, full SMP gives you a finish that's
-              sharp, low-maintenance and built around you. Men's Hair to Stay
+              sharp, low-maintenance and built around you. Men's Hair To Stay
               offers full SMP treatment in Amersham, serving clients across
               Chesham, Beaconsfield, High Wycombe and surrounding areas.
             </p>
@@ -362,14 +362,13 @@ const FullSMPTreatmentPage = () => {
             Ready to Take the Next Step?
           </h2>
           <p className="text-mhts-white/70 font-body mb-8 max-w-xl mx-auto">
-            Book your free full SMP treatment consultation at Men's Hair to Stay in Amersham.
+            Book your free full SMP treatment consultation at Men's Hair To Stay in Amersham.
           </p>
-          <Link
-            to="/#mhts-book"
-            className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-          >
-            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-          </Link>
+          {/* Call sits beside Book on every call to action on the site. */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <BookButton size="lg" href="/#mhts-book" />
+            <CallButton size="lg" tone="dark" />
+          </div>
         </div>
       </section>
     </div>

@@ -15,7 +15,7 @@ export default {
     extend: {
       fontFamily: {
         display: ['"Playfair Display"', 'serif'],
-        body: ['"DM Sans"', 'sans-serif'],
+        body: ['"DM Sans"', '"DM Sans Fallback"', 'Arial', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -60,6 +60,18 @@ export default {
           cream: "hsl(var(--gb-cream))",
         },
         mhts: {
+          // The batch 4a brand. See the token block in src/index.css for what
+          // each one is for and the contrast ratio that decides it.
+          red: "hsl(var(--mhts-red))",
+          "red-deep": "hsl(var(--mhts-red-deep))",
+          "red-light": "hsl(var(--mhts-red-light))",
+          "red-tint": "hsl(var(--mhts-red-tint))",
+          ink: "hsl(var(--mhts-ink))",
+          sand: "hsl(var(--mhts-sand))",
+          stone: "hsl(var(--mhts-stone))",
+          "stone-deep": "hsl(var(--mhts-stone-deep))",
+          deep: "hsl(var(--mhts-deep))",
+          // Kept so the pages not yet redesigned keep rendering unchanged.
           charcoal: "hsl(var(--mhts-charcoal))",
           navy: "hsl(var(--mhts-navy))",
           slate: "hsl(var(--mhts-slate))",
@@ -96,11 +108,21 @@ export default {
           from: { opacity: "0", transform: "translateY(20px)" },
           to: { opacity: "1", transform: "translateY(0)" },
         },
+        "menu-in": {
+          from: { transform: "translateX(100%)" },
+          to: { transform: "translateX(0)" },
+        },
+        "bar-in": {
+          from: { transform: "translateY(100%)" },
+          to: { transform: "translateY(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.6s ease-out forwards",
+        "menu-in": "menu-in 250ms ease-out",
+        "bar-in": "bar-in 250ms ease-out",
       },
     },
   },

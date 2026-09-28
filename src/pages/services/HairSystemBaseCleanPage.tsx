@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { findCategory, findSubService } from "@/data/services";
 import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 
 const benefits = [
   { icon: Droplets, text: "Thorough removal of adhesive and product build-up" },
@@ -80,13 +81,13 @@ const HairSystemBaseCleanPage = () => {
   ]);
   useCanonical("/hair-system-maintenance/hair-system-base-clean-and-reattach");
   useOpenGraph(
-    "Hair System Base Clean & Reattach Amersham | Men's Hair to Stay",
-    "Professional hair system base cleaning and reattachment in Amersham at Men's Hair to Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding Buckinghamshire areas."
+    "Hair System Base Clean & Reattach Amersham | Men's Hair To Stay",
+    "Professional hair system base cleaning and reattachment in Amersham at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding Buckinghamshire areas."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "Hair System Base Clean & Reattach Amersham | Men's Hair to Stay";
+    document.title = "Hair System Base Clean & Reattach Amersham | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -98,7 +99,7 @@ const HairSystemBaseCleanPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Professional hair system base cleaning and reattachment in Amersham at Men's Hair to Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding Buckinghamshire areas."
+      "Professional hair system base cleaning and reattachment in Amersham at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding Buckinghamshire areas."
     );
     return () => {
       document.title = prevTitle;
@@ -132,12 +133,11 @@ const HairSystemBaseCleanPage = () => {
               Professional hair system base cleaning and reattachment in Amersham, a thorough service
               that removes build-up, restores your base and reattaches your system to perfection.
             </p>
-            <Link
-              to="/#mhts-book"
-              className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-            >
-              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-            </Link>
+            {/* Call sits beside Book on every call to action on the site. */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <BookButton size="lg" href="/#mhts-book" />
+              <CallButton size="lg" tone="dark" />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -163,7 +163,7 @@ const HairSystemBaseCleanPage = () => {
               base before professionally reattaching it for a fresh, secure and natural-looking result.
             </p>
             <p>
-              At Men's Hair to Stay in Amersham, we recommend a base clean and reattach
+              At Men's Hair To Stay in Amersham, we recommend a base clean and reattach
               as part of a regular maintenance routine for all hair system clients
               across Chesham, Beaconsfield, Rickmansworth, High Wycombe and surrounding areas.
             </p>
@@ -347,14 +347,13 @@ const HairSystemBaseCleanPage = () => {
             Give Your System the Deep Clean It Deserves.
           </h2>
           <p className="text-mhts-white/70 font-body mb-8 max-w-xl mx-auto">
-            Book your base clean and reattach appointment at Men's Hair to Stay in Amersham.
+            Book your base clean and reattach appointment at Men's Hair To Stay in Amersham.
           </p>
-          <Link
-            to="/#mhts-book"
-            className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-          >
-            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-          </Link>
+          {/* Call sits beside Book on every call to action on the site. */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <BookButton size="lg" href="/#mhts-book" />
+            <CallButton size="lg" tone="dark" />
+          </div>
         </div>
       </section>
     </div>

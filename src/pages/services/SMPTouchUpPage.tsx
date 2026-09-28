@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { findCategory, findSubService } from "@/data/services";
 import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 
 const benefits = [
   { icon: Sparkles, text: "Restores pigment density and definition" },
@@ -82,13 +83,13 @@ const SMPTouchUpPage = () => {
   ]);
   useCanonical("/scalp-micropigmentation/smp-touch-up-session");
   useOpenGraph(
-    "SMP Touch Up Session Amersham | Scalp Micropigmentation Refresh | Men's Hair to Stay",
-    "SMP touch-up sessions in Amersham. Refresh and maintain your scalp micropigmentation results at Men's Hair to Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+    "SMP Touch Up Session Amersham | Scalp Micropigmentation Refresh | Men's Hair To Stay",
+    "SMP touch-up sessions in Amersham. Refresh and maintain your scalp micropigmentation results at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "SMP Touch Up Session Amersham | Scalp Micropigmentation Refresh | Men's Hair to Stay";
+    document.title = "SMP Touch Up Session Amersham | Scalp Micropigmentation Refresh | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -100,7 +101,7 @@ const SMPTouchUpPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "SMP touch-up sessions in Amersham. Refresh and maintain your scalp micropigmentation results at Men's Hair to Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+      "SMP touch-up sessions in Amersham. Refresh and maintain your scalp micropigmentation results at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
     );
     return () => {
       document.title = prevTitle;
@@ -134,12 +135,11 @@ const SMPTouchUpPage = () => {
               SMP touch-up sessions in Amersham, refresh your scalp micropigmentation
               and restore that just-treated definition whenever you need it.
             </p>
-            <Link
-              to="/#mhts-book"
-              className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-            >
-              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-            </Link>
+            {/* Call sits beside Book on every call to action on the site. */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <BookButton size="lg" href="/#mhts-book" />
+              <CallButton size="lg" tone="dark" />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -352,14 +352,13 @@ const SMPTouchUpPage = () => {
             Refresh Your Results. Book a Touch-Up.
           </h2>
           <p className="text-mhts-white/70 font-body mb-8 max-w-xl mx-auto">
-            SMP touch-up sessions available at Men's Hair to Stay in Amersham.
+            SMP touch-up sessions available at Men's Hair To Stay in Amersham.
           </p>
-          <Link
-            to="/#mhts-book"
-            className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-          >
-            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-          </Link>
+          {/* Call sits beside Book on every call to action on the site. */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <BookButton size="lg" href="/#mhts-book" />
+            <CallButton size="lg" tone="dark" />
+          </div>
         </div>
       </section>
     </div>

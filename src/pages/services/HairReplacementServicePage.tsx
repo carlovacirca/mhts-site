@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { findCategory, findSubService } from "@/data/services";
 import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 
 const benefits = [
   { icon: Route, text: "Complete end-to-end hair replacement service" },
@@ -88,13 +89,13 @@ const HairReplacementServicePage = () => {
   ]);
   useCanonical("/hair-systems/hair-replacement-service");
   useOpenGraph(
-    "Hair Replacement Service Amersham | Men's Hair to Stay",
+    "Hair Replacement Service Amersham | Men's Hair To Stay",
     "Professional hair replacement service for men in Amersham. Custom hair systems fitted by specialists serving Chesham, Beaconsfield, High Wycombe, Rickmansworth and surrounding areas."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "Hair Replacement Service Amersham | Men's Hair to Stay";
+    document.title = "Hair Replacement Service Amersham | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -137,16 +138,15 @@ const HairReplacementServicePage = () => {
               <span className="font-normal">Replacement Service in Amersham.</span>
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
-              From consultation to fitting to aftercare, Men's Hair to Stay provides
+              From consultation to fitting to aftercare, Men's Hair To Stay provides
               a full end-to-end hair replacement service for men across Buckinghamshire
               and Hertfordshire.
             </p>
-            <Link
-              to="/#mhts-book"
-              className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-            >
-              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-            </Link>
+            {/* Call sits beside Book on every call to action on the site. */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <BookButton size="lg" href="/#mhts-book" />
+              <CallButton size="lg" tone="dark" />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -172,7 +172,7 @@ const HairReplacementServicePage = () => {
               support.
             </p>
             <p>
-              Men's Hair to Stay is Amersham's dedicated hair replacement specialists,
+              Men's Hair To Stay is Amersham's dedicated hair replacement specialists,
               serving clients across Chesham, Beaconsfield, Rickmansworth, Chorleywood,
               Gerrards Cross, High Wycombe, Watford and Uxbridge with a personalized,
               expert service from start to finish.
@@ -359,14 +359,13 @@ const HairReplacementServicePage = () => {
             A Service Built Around You.
           </h2>
           <p className="text-mhts-white/70 font-body mb-8 max-w-xl mx-auto">
-            Start your hair replacement journey with a free consultation at Men's Hair to Stay, Amersham.
+            Start your hair replacement journey with a free consultation at Men's Hair To Stay, Amersham.
           </p>
-          <Link
-            to="/#mhts-book"
-            className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-          >
-            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-          </Link>
+          {/* Call sits beside Book on every call to action on the site. */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <BookButton size="lg" href="/#mhts-book" />
+            <CallButton size="lg" tone="dark" />
+          </div>
         </div>
       </section>
     </div>

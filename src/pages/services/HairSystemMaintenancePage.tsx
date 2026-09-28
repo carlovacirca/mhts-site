@@ -15,6 +15,7 @@ import {
 import { findCategory } from "@/data/services";
 import { useJsonLd, useCanonical, useOpenGraph, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 import ServicePricing from "@/components/ServicePricing";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import hairSystemMaintenanceHero from "@/assets/hair-system-maintenance-hero.jpg";
 
@@ -99,14 +100,14 @@ const HairSystemMaintenancePage = () => {
   ]);
   useCanonical("/hair-system-maintenance");
   useOpenGraph(
-    "Hair System Maintenance Amersham | Hair System Aftercare | Men's Hair to Stay",
-    "Professional hair system maintenance in Amersham. Men's Hair to Stay offers reattachment, base cleans and full maintenance packages to keep your hair system looking perfect. Serving Buckinghamshire and Hertfordshire."
+    "Hair System Maintenance Amersham | Hair System Aftercare | Men's Hair To Stay",
+    "Professional hair system maintenance in Amersham. Men's Hair To Stay offers reattachment, base cleans and full maintenance packages to keep your hair system looking perfect. Serving Buckinghamshire and Hertfordshire."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
     document.title =
-      "Hair System Maintenance Amersham | Hair System Aftercare | Men's Hair to Stay";
+      "Hair System Maintenance Amersham | Hair System Aftercare | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -118,7 +119,7 @@ const HairSystemMaintenancePage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Professional hair system maintenance in Amersham. Men's Hair to Stay offers reattachment, base cleans and full maintenance packages to keep your hair system looking perfect. Serving Buckinghamshire and Hertfordshire."
+      "Professional hair system maintenance in Amersham. Men's Hair To Stay offers reattachment, base cleans and full maintenance packages to keep your hair system looking perfect. Serving Buckinghamshire and Hertfordshire."
     );
     return () => {
       document.title = prevTitle;
@@ -157,12 +158,11 @@ const HairSystemMaintenancePage = () => {
               cleaning, restyling and full maintenance packages to protect your
               investment.
             </p>
-            <Link
-              to="/#mhts-book"
-              className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-            >
-              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-            </Link>
+            {/* Call sits beside Book on every call to action on the site. */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <BookButton size="lg" href="/#mhts-book" />
+              <CallButton size="lg" tone="dark" />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -191,7 +191,7 @@ const HairSystemMaintenancePage = () => {
               system looking freshly fitted at all times.
             </p>
             <p>
-              At Men's Hair to Stay in Amersham, we offer a complete range of
+              At Men's Hair To Stay in Amersham, we offer a complete range of
               maintenance services to suit every client and every system. Whether
               you need a quick reattach, a thorough base clean or a comprehensive
               maintenance session, our team keeps your hair system in perfect
@@ -382,15 +382,14 @@ const HairSystemMaintenancePage = () => {
             Protect Your Investment. Book a Maintenance Appointment.
           </h2>
           <p className="text-mhts-white/70 font-body mb-8 max-w-xl mx-auto">
-            Professional hair system maintenance at Men's Hair to Stay in
+            Professional hair system maintenance at Men's Hair To Stay in
             Amersham.
           </p>
-          <Link
-            to="/#mhts-book"
-            className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-          >
-            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-          </Link>
+          {/* Call sits beside Book on every call to action on the site. */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <BookButton size="lg" href="/#mhts-book" />
+            <CallButton size="lg" tone="dark" />
+          </div>
         </div>
       </section>
     </div>

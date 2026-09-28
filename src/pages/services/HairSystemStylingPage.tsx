@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { findCategory, findSubService } from "@/data/services";
 import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 
 const benefits = [
   { icon: Scissors, text: "Expert cutting and styling to suit your face shape" },
@@ -78,13 +79,13 @@ const HairSystemStylingPage = () => {
   ]);
   useCanonical("/hair-systems/hair-system-styling");
   useOpenGraph(
-    "Hair System Styling Amersham | Hair Unit Styling Service | Men's Hair to Stay",
-    "Professional hair system styling in Amersham. Get the cut, style and finish you want from Men's Hair to Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding Buckinghamshire areas."
+    "Hair System Styling Amersham | Hair Unit Styling Service | Men's Hair To Stay",
+    "Professional hair system styling in Amersham. Get the cut, style and finish you want from Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding Buckinghamshire areas."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "Hair System Styling Amersham | Hair Unit Styling Service | Men's Hair to Stay";
+    document.title = "Hair System Styling Amersham | Hair Unit Styling Service | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -96,7 +97,7 @@ const HairSystemStylingPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Professional hair system styling in Amersham. Get the cut, style and finish you want from Men's Hair to Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding Buckinghamshire areas."
+      "Professional hair system styling in Amersham. Get the cut, style and finish you want from Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding Buckinghamshire areas."
     );
     return () => {
       document.title = prevTitle;
@@ -130,12 +131,11 @@ const HairSystemStylingPage = () => {
               Professional hair system styling in Amersham, expert cutting, styling
               and finishing so your system looks exactly the way you want it.
             </p>
-            <Link
-              to="/#mhts-book"
-              className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-            >
-              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-            </Link>
+            {/* Call sits beside Book on every call to action on the site. */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <BookButton size="lg" href="/#mhts-book" />
+              <CallButton size="lg" tone="dark" />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -160,7 +160,7 @@ const HairSystemStylingPage = () => {
               naturally grows, creating a result that is entirely your own.
             </p>
             <p>
-              At Men's Hair to Stay in Amersham, styling is available as part of your
+              At Men's Hair To Stay in Amersham, styling is available as part of your
               initial fitting, as a maintenance add-on or as a standalone appointment
               whenever you want to refresh your look. We serve clients across Chesham,
               Beaconsfield, Rickmansworth, High Wycombe, Gerrards Cross and surrounding
@@ -347,14 +347,13 @@ const HairSystemStylingPage = () => {
             Look Sharp. Feel Confident.
           </h2>
           <p className="text-mhts-white/70 font-body mb-8 max-w-xl mx-auto">
-            Book your hair system styling appointment at Men's Hair to Stay in Amersham.
+            Book your hair system styling appointment at Men's Hair To Stay in Amersham.
           </p>
-          <Link
-            to="/#mhts-book"
-            className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-          >
-            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-          </Link>
+          {/* Call sits beside Book on every call to action on the site. */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <BookButton size="lg" href="/#mhts-book" />
+            <CallButton size="lg" tone="dark" />
+          </div>
         </div>
       </section>
     </div>

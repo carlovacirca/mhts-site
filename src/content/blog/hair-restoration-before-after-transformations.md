@@ -6,8 +6,8 @@ metaDescription: Amazing before and after photos of hair systems and scalp micro
 category: Before & After
 publishDate: 2026-04-09
 readTime: 6 min read
-heroImage: "@/assets/blog-aug18.jpg"
-heroImageAlt: Before and after hair restoration transformation
+heroImage: "@/assets/mhts-before-after-composite-1.jpg"
+heroImageAlt: Real Men's Hair To Stay client, before and after
 faqs:
   - q: Are these transformations real client results?
     a: Yes, every transformation featured is from a real Men's Hair To Stay client, shared with their permission.

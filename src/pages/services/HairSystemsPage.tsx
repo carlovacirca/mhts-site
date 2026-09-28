@@ -17,6 +17,7 @@ import {
 import { findCategory } from "@/data/services";
 import { useJsonLd, useCanonical, useOpenGraph, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 import ServicePricing from "@/components/ServicePricing";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import hairSystemsHero from "@/assets/hair-systems-hero.jpg";
 
@@ -103,14 +104,14 @@ const HairSystemsPage = () => {
   ]);
   useCanonical("/hair-systems");
   useOpenGraph(
-    "Hair Systems Amersham | Non-Surgical Hair Replacement | Men's Hair to Stay",
-    "Discover premium hair systems in Amersham. Men's Hair to Stay offers natural-looking, non-surgical hair replacement for men across Amersham, Chesham, Beaconsfield, High Wycombe and surrounding areas."
+    "Hair Systems Amersham | Non-Surgical Hair Replacement | Men's Hair To Stay",
+    "Discover premium hair systems in Amersham. Men's Hair To Stay offers natural-looking, non-surgical hair replacement for men across Amersham, Chesham, Beaconsfield, High Wycombe and surrounding areas."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
     document.title =
-      "Hair Systems Amersham | Non-Surgical Hair Replacement | Men's Hair to Stay";
+      "Hair Systems Amersham | Non-Surgical Hair Replacement | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -122,7 +123,7 @@ const HairSystemsPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Discover premium hair systems in Amersham. Men's Hair to Stay offers natural-looking, non-surgical hair replacement for men across Amersham, Chesham, Beaconsfield, High Wycombe and surrounding areas."
+      "Discover premium hair systems in Amersham. Men's Hair To Stay offers natural-looking, non-surgical hair replacement for men across Amersham, Chesham, Beaconsfield, High Wycombe and surrounding areas."
     );
     return () => {
       document.title = prevTitle;
@@ -136,7 +137,7 @@ const HairSystemsPage = () => {
       <section className="relative min-h-[60vh] flex items-center bg-mhts-charcoal overflow-hidden">
         <ResponsiveImage
           src={hairSystemsHero}
-          alt="Men's Hair to Stay consultation in Amersham"
+          alt="Men's Hair To Stay consultation in Amersham"
           className="absolute inset-0 w-full h-full object-cover object-left"
           sizes="100vw"
           priority
@@ -160,12 +161,11 @@ const HairSystemsPage = () => {
               Premium hair systems for men in Amersham and across Buckinghamshire.
               Look and feel like yourself again, without going under the knife.
             </p>
-            <Link
-              to="/#mhts-book"
-              className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-            >
-              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-            </Link>
+            {/* Call sits beside Book on every call to action on the site. */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <BookButton size="lg" href="/#mhts-book" />
+              <CallButton size="lg" tone="dark" />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -195,7 +195,7 @@ const HairSystemsPage = () => {
               complete confidence.
             </p>
             <p>
-              At Men's Hair to Stay, we custom-fit every hair system to your head shape,
+              At Men's Hair To Stay, we custom-fit every hair system to your head shape,
               hair colour, texture and density, so no two systems are ever the same.
               Serving men across Amersham, Chesham, Beaconsfield, Rickmansworth,
               Gerrards Cross and High Wycombe, we are the local specialists in hair
@@ -391,15 +391,14 @@ const HairSystemsPage = () => {
             Ready to Get Your Hair Back?
           </h2>
           <p className="text-mhts-white/70 font-body mb-8 max-w-xl mx-auto">
-            Book your free no-obligation consultation with Men's Hair to Stay in
+            Book your free no-obligation consultation with Men's Hair To Stay in
             Amersham today.
           </p>
-          <Link
-            to="/#mhts-book"
-            className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-          >
-            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-          </Link>
+          {/* Call sits beside Book on every call to action on the site. */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <BookButton size="lg" href="/#mhts-book" />
+            <CallButton size="lg" tone="dark" />
+          </div>
         </div>
       </section>
     </div>

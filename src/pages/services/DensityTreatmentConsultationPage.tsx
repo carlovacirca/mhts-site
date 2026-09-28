@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { findCategory, findSubService } from "@/data/services";
 import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 
 const benefits = [
   { icon: MessageCircle, text: "Free and completely no-obligation" },
@@ -82,13 +83,13 @@ const DensityTreatmentConsultationPage = () => {
   ]);
   useCanonical("/hair-density/density-treatment-consultation");
   useOpenGraph(
-    "Hair Density Consultation Amersham | Thinning Hair Assessment | Men's Hair to Stay",
-    "Free hair density consultation in Amersham. Get expert advice on thinning hair and density treatments at Men's Hair to Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+    "Hair Density Consultation Amersham | Thinning Hair Assessment | Men's Hair To Stay",
+    "Free hair density consultation in Amersham. Get expert advice on thinning hair and density treatments at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "Hair Density Consultation Amersham | Thinning Hair Assessment | Men's Hair to Stay";
+    document.title = "Hair Density Consultation Amersham | Thinning Hair Assessment | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -100,7 +101,7 @@ const DensityTreatmentConsultationPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Free hair density consultation in Amersham. Get expert advice on thinning hair and density treatments at Men's Hair to Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+      "Free hair density consultation in Amersham. Get expert advice on thinning hair and density treatments at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
     );
     return () => {
       document.title = prevTitle;
@@ -135,12 +136,11 @@ const DensityTreatmentConsultationPage = () => {
               of your thinning hair and a personalized plan to restore fullness and
               confidence.
             </p>
-            <Link
-              to="/#mhts-book"
-              className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-            >
-              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-            </Link>
+            {/* Call sits beside Book on every call to action on the site. */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <BookButton size="lg" href="/#mhts-book" />
+              <CallButton size="lg" tone="dark" />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -166,7 +166,7 @@ const DensityTreatmentConsultationPage = () => {
               recommend the most effective treatment approach for your specific situation.
             </p>
             <p>
-              At Men's Hair to Stay in Amersham, we provide free, honest density
+              At Men's Hair To Stay in Amersham, we provide free, honest density
               consultations for men across Chesham, Beaconsfield, Rickmansworth, High
               Wycombe, Gerrards Cross and surrounding Buckinghamshire and Hertfordshire
               areas.
@@ -352,14 +352,13 @@ const DensityTreatmentConsultationPage = () => {
             The Right Solution Starts With the Right Conversation.
           </h2>
           <p className="text-mhts-white/70 font-body mb-8 max-w-xl mx-auto">
-            Book your free density treatment consultation at Men's Hair to Stay in Amersham.
+            Book your free density treatment consultation at Men's Hair To Stay in Amersham.
           </p>
-          <Link
-            to="/#mhts-book"
-            className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-          >
-            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-          </Link>
+          {/* Call sits beside Book on every call to action on the site. */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <BookButton size="lg" href="/#mhts-book" />
+            <CallButton size="lg" tone="dark" />
+          </div>
         </div>
       </section>
     </div>

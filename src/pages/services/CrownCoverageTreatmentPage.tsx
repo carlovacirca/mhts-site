@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { findCategory, findSubService } from "@/data/services";
 import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 
 const benefits = [
   { icon: Crosshair, text: "Specifically targets crown thinning and coverage" },
@@ -82,13 +83,13 @@ const CrownCoverageTreatmentPage = () => {
   ]);
   useCanonical("/hair-density/crown-coverage-treatment");
   useOpenGraph(
-    "Crown Coverage Treatment Amersham | Crown Hair Loss Solutions | Men's Hair to Stay",
-    "Crown coverage treatment for men in Amersham. Specialist solutions for crown hair loss and thinning at Men's Hair to Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+    "Crown Coverage Treatment Amersham | Crown Hair Loss Solutions | Men's Hair To Stay",
+    "Crown coverage treatment for men in Amersham. Specialist solutions for crown hair loss and thinning at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "Crown Coverage Treatment Amersham | Crown Hair Loss Solutions | Men's Hair to Stay";
+    document.title = "Crown Coverage Treatment Amersham | Crown Hair Loss Solutions | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -100,7 +101,7 @@ const CrownCoverageTreatmentPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Crown coverage treatment for men in Amersham. Specialist solutions for crown hair loss and thinning at Men's Hair to Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+      "Crown coverage treatment for men in Amersham. Specialist solutions for crown hair loss and thinning at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
     );
     return () => {
       document.title = prevTitle;
@@ -134,12 +135,11 @@ const CrownCoverageTreatmentPage = () => {
               Specialist crown coverage treatment in Amersham, targeted density solutions
               for the area men worry about most.
             </p>
-            <Link
-              to="/#mhts-book"
-              className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-            >
-              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-            </Link>
+            {/* Call sits beside Book on every call to action on the site. */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <BookButton size="lg" href="/#mhts-book" />
+              <CallButton size="lg" tone="dark" />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -164,7 +164,7 @@ const CrownCoverageTreatmentPage = () => {
               fullness, coverage and a natural appearance in the area that matters most.
             </p>
             <p>
-              At Men's Hair to Stay in Amersham, we assess your crown in detail, understand your
+              At Men's Hair To Stay in Amersham, we assess your crown in detail, understand your
               current density and deliver a personalized treatment that achieves the best possible
               coverage for your individual situation. Serving men across Chesham, Beaconsfield,
               Rickmansworth, High Wycombe, Gerrards Cross and surrounding areas.
@@ -350,14 +350,13 @@ const CrownCoverageTreatmentPage = () => {
             No More Worrying About Your Crown.
           </h2>
           <p className="text-mhts-white/70 font-body mb-8 max-w-xl mx-auto">
-            Book your free crown coverage consultation at Men's Hair to Stay in Amersham.
+            Book your free crown coverage consultation at Men's Hair To Stay in Amersham.
           </p>
-          <Link
-            to="/#mhts-book"
-            className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-          >
-            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-          </Link>
+          {/* Call sits beside Book on every call to action on the site. */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <BookButton size="lg" href="/#mhts-book" />
+            <CallButton size="lg" tone="dark" />
+          </div>
         </div>
       </section>
     </div>

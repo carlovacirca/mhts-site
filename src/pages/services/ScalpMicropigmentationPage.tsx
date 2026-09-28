@@ -16,6 +16,7 @@ import {
 import { findCategory } from "@/data/services";
 import { useJsonLd, useCanonical, useOpenGraph, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 import ServicePricing from "@/components/ServicePricing";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import smpHero from "@/assets/smp-hero.jpg";
 
@@ -104,14 +105,14 @@ const ScalpMicropigmentationPage = () => {
   ]);
   useCanonical("/scalp-micropigmentation");
   useOpenGraph(
-    "Scalp Micropigmentation Amersham | SMP Treatment | Men's Hair to Stay",
-    "Expert scalp micropigmentation in Amersham. Men's Hair to Stay provides full SMP treatments, touch-up sessions and consultations for men across Buckinghamshire and Hertfordshire."
+    "Scalp Micropigmentation Amersham | SMP Treatment | Men's Hair To Stay",
+    "Expert scalp micropigmentation in Amersham. Men's Hair To Stay provides full SMP treatments, touch-up sessions and consultations for men across Buckinghamshire and Hertfordshire."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
     document.title =
-      "Scalp Micropigmentation Amersham | SMP Treatment | Men's Hair to Stay";
+      "Scalp Micropigmentation Amersham | SMP Treatment | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -123,7 +124,7 @@ const ScalpMicropigmentationPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Expert scalp micropigmentation in Amersham. Men's Hair to Stay provides full SMP treatments, touch-up sessions and consultations for men across Buckinghamshire and Hertfordshire."
+      "Expert scalp micropigmentation in Amersham. Men's Hair To Stay provides full SMP treatments, touch-up sessions and consultations for men across Buckinghamshire and Hertfordshire."
     );
     return () => {
       document.title = prevTitle;
@@ -163,12 +164,11 @@ const ScalpMicropigmentationPage = () => {
               solution for hair loss that creates the appearance of a full,
               closely-shaved head.
             </p>
-            <Link
-              to="/#mhts-book"
-              className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-            >
-              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-            </Link>
+            {/* Call sits beside Book on every call to action on the site. */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <BookButton size="lg" href="/#mhts-book" />
+              <CallButton size="lg" tone="dark" />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -199,7 +199,7 @@ const ScalpMicropigmentationPage = () => {
             <p>
               Unlike tattoos, SMP uses specific pigments and techniques designed
               exclusively for the scalp, ensuring a natural result that does not
-              turn blue or green over time. At Men's Hair to Stay in Amersham, our
+              turn blue or green over time. At Men's Hair To Stay in Amersham, our
               SMP treatments are tailored to your skin tone, head shape and desired
               hairline, serving clients across Chesham, Beaconsfield,
               Rickmansworth, High Wycombe, Gerrards Cross and beyond.
@@ -387,14 +387,13 @@ const ScalpMicropigmentationPage = () => {
             Confident. Sharp. Permanent.
           </h2>
           <p className="text-mhts-white/70 font-body mb-8 max-w-xl mx-auto">
-            Book your free SMP consultation at Men's Hair to Stay in Amersham.
+            Book your free SMP consultation at Men's Hair To Stay in Amersham.
           </p>
-          <Link
-            to="/#mhts-book"
-            className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-          >
-            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-          </Link>
+          {/* Call sits beside Book on every call to action on the site. */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <BookButton size="lg" href="/#mhts-book" />
+            <CallButton size="lg" tone="dark" />
+          </div>
         </div>
       </section>
     </div>

@@ -9,6 +9,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
+import StudioMap from "@/components/mhts/StudioMap";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
+import { PHONE_DISPLAY } from "@/lib/site";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
@@ -68,7 +71,7 @@ const ContactPage = () => {
     const body = encodeURIComponent(
       `Name: ${result.data.name}\nEmail: ${result.data.email}\nPhone: ${result.data.phone || ", "}\nService: ${result.data.service || ", "}\n\n${result.data.message}`
     );
-    window.location.href = `mailto:georgesbarbers1991@gmail.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:info@menshairtostay.co.uk?subject=${subject}&body=${body}`;
     toast({ title: "Opening your email app", description: "Your message has been prepared. Send it to complete your enquiry." });
   };
 
@@ -105,7 +108,7 @@ const ContactPage = () => {
               <Mail className="w-7 h-7 text-mhts-charcoal mx-auto mb-4" />
               <h2 className="text-lg text-mhts-charcoal font-medium tracking-wide">Email</h2>
               <p className="text-foreground/75 font-body text-sm mt-3 flex-1">Send us a confidential enquiry and our specialist team will reply within one working day.</p>
-              <a href="mailto:georgesbarbers1991@gmail.com" className="mt-5 inline-flex items-center justify-center gap-2 bg-mhts-charcoal text-mhts-white px-5 py-2.5 rounded-sm hover:bg-mhts-navy transition-colors font-body text-sm break-all">
+              <a href="mailto:info@menshairtostay.co.uk" className="mt-5 inline-flex items-center justify-center gap-2 bg-mhts-charcoal text-mhts-white px-5 py-2.5 rounded-sm hover:bg-mhts-navy transition-colors font-body text-sm break-all">
                 <Mail className="w-4 h-4" /> Email Us
               </a>
             </article>
@@ -114,9 +117,10 @@ const ContactPage = () => {
               <MapPin className="w-7 h-7 text-mhts-charcoal mx-auto mb-4" />
               <h2 className="text-lg text-mhts-charcoal font-medium tracking-wide">Visit Our Studio</h2>
               <p className="text-foreground/75 font-body text-sm mt-3 flex-1">11 Chesham Road, Amersham HP6 5HN. Discreet, private hair replacement clinic in Buckinghamshire.</p>
-              <Link to="/book" className="mt-5 inline-flex items-center justify-center gap-2 bg-mhts-charcoal text-mhts-white px-5 py-2.5 rounded-sm hover:bg-mhts-navy transition-colors font-body text-sm">
-                <CalendarCheck className="w-4 h-4" /> Book a Visit
-              </Link>
+              <div className="mt-5 grid gap-2">
+                <BookButton size="sm" label="Book a visit" />
+                <CallButton size="sm" label={`Call ${PHONE_DISPLAY}`} />
+              </div>
             </article>
           </div>
 
@@ -187,8 +191,8 @@ const ContactPage = () => {
               <a href="tel:07947878087" className="inline-flex items-center justify-center gap-2 bg-mhts-charcoal text-mhts-white px-6 py-3 rounded-sm hover:bg-mhts-navy transition-colors font-body text-sm">
                 <Phone className="w-4 h-4" /> Call 07947 878087
               </a>
-              <a href="mailto:georgesbarbers1991@gmail.com" className="inline-flex items-center justify-center gap-2 bg-mhts-charcoal text-mhts-white px-6 py-3 rounded-sm hover:bg-mhts-navy transition-colors font-body text-sm break-all">
-                <Mail className="w-4 h-4" /> georgesbarbers1991@gmail.com
+              <a href="mailto:info@menshairtostay.co.uk" className="inline-flex items-center justify-center gap-2 bg-mhts-charcoal text-mhts-white px-6 py-3 rounded-sm hover:bg-mhts-navy transition-colors font-body text-sm break-all">
+                <Mail className="w-4 h-4" /> info@menshairtostay.co.uk
               </a>
             </div>
           </div>
@@ -203,18 +207,11 @@ const ContactPage = () => {
             <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-5" />
             <p className="text-foreground/75 font-body mt-5">11 Chesham Road, Amersham HP6 5HN, easy parking, discreet entrance.</p>
           </div>
-          <div className="rounded-sm overflow-hidden border border-border">
-            <iframe
-              src="https://www.google.com/maps?q=11+Chesham+Road+Amersham+HP6+5HN&output=embed"
-              width="100%"
-              height="420"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Men's Hair To Stay, Amersham studio location"
-            />
-          </div>
+          {/* Google's embed sets cookies, so it waits for Accept like GA4 and
+              the booking calendar already did. Before that the reader gets the
+              address, a drawn map and a way out to Google Maps, rather than a
+              grey rectangle. See docs/HEALTH-CHECK.md finding 16. */}
+          <StudioMap />
         </div>
       </section>
 

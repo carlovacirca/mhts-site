@@ -208,7 +208,7 @@ export const localBusinessSchema = {
   image: SITE_URL + "/og-image.jpg",
   url: SITE_URL,
   telephone: "+44 7947 878087",
-  email: "georgesbarbers1991@gmail.com",
+  email: "info@menshairtostay.co.uk",
   address: {
     "@type": "PostalAddress",
     streetAddress: "11 Chesham Road",

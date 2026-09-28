@@ -10,6 +10,7 @@ import NewsletterSubscribeBar from "@/components/NewsletterSubscribeBar";
 import { useCanonical, breadcrumbSchema, SITE_URL } from "@/lib/seo";
 import { blogPosts } from "@/data/blogPosts";
 import ResponsiveImage from "@/components/ResponsiveImage";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 import { getPicture } from "@/lib/images";
 import { relatedPosts, isPublished, isPreviewRequest } from "@/lib/publishing";
 import NotFound from "@/pages/NotFound";
@@ -544,16 +545,16 @@ const BlogPostPage = () => {
               </Accordion>
             </div>
           )}
-          <div className="bg-mhts-charcoal text-mhts-white p-5 rounded-lg">
+          <div className="bg-mhts-deep text-white p-5 rounded-lg">
             <h4 className="font-bold mb-2">Book a free consultation</h4>
-            <p className="text-sm text-mhts-white/80 mb-4">
+            <p className="text-sm text-white/80 mb-4">
               Discuss your hair restoration goals with our specialists.
             </p>
-            <Link to="/#mhts-book">
-              <Button className="w-full bg-mhts-white text-mhts-charcoal hover:bg-mhts-white/90">
-                Book Free Consultation
-              </Button>
-            </Link>
+            {/* Call sits beside Book on every call to action on the site. */}
+            <div className="grid gap-2">
+              <BookButton size="sm" href="/#mhts-book" className="w-full" />
+              <CallButton size="sm" tone="dark" className="w-full" />
+            </div>
           </div>
         </aside>
 
