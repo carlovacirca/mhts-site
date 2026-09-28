@@ -50,21 +50,32 @@ const FORBIDDEN_IN_HTML = [
 ];
 
 const settle = async (page) => {
-  // Run every scroll-reveal animation, so the saved HTML is the page at rest
-  // rather than a page with most of its content still at opacity 0. All 61 of
-  // them are viewport={{ once: true }}, so scrolling back up does not undo them.
+  // Scroll the whole page so anything that only renders once it has been near
+  // the viewport has rendered. Entry animations are switched off for this pass
+  // (see the init script in render below), so there is nothing to wait out and
+  // no dependence on how fast the machine doing the build happens to be.
   await page.evaluate(async () => {
     const step = Math.max(400, window.innerHeight);
     for (let y = 0; y < document.body.scrollHeight; y += step) {
       window.scrollTo(0, y);
-      await new Promise((r) => setTimeout(r, 70));
+      await new Promise((r) => requestAnimationFrame(() => r()));
     }
     window.scrollTo(0, 0);
-    await new Promise((r) => setTimeout(r, 400));
+    await new Promise((r) => setTimeout(r, 150));
   });
 };
 
 async function render(page, baseUrl, routePath) {
+  // Read by src/lib/prerender.ts before React mounts. It makes every motion
+  // component render at its resting state instead of animating in, so what
+  // this function serialises is the finished page and never a frame of an
+  // animation that happened not to have finished yet. Without it, whichever
+  // fades were still running at capture time were frozen into the file at
+  // opacity 0: invisible without JavaScript, and popping into view when React
+  // took over. It showed up on 6 pages locally and 10 on the CI runner.
+  await page.addInitScript(() => {
+    window.__MHTS_PRERENDER__ = true;
+  });
   await page.goto(baseUrl + routePath, { waitUntil: "networkidle", timeout: 60000 });
   // <main> only exists once Layout has mounted, and the static index.html has
   // none, so it is a reliable "React has committed" signal for every route,
@@ -179,6 +190,15 @@ async function main() {
     }
     if (!/<title>[^<]{5,}<\/title>/i.test(html)) problems.push(file + " has no usable <title>");
     if ((html.match(/<h1\b/gi) || []).length !== 1) problems.push(file + " does not have exactly one <h1>");
+    // An element saved part way through a fade is invisible to anyone without
+    // JavaScript and pops into view when React takes over. Switching the
+    // animations off for the capture makes it impossible; this makes sure.
+    const midAnimation = html.match(/style="[^"]*opacity:\s*0(\.\d+)?\s*[;"]/g) || [];
+    if (midAnimation.length) {
+      problems.push(
+        file + " has " + midAnimation.length + " element(s) saved mid-animation (inline opacity below 1)"
+      );
+    }
   }
   for (const r of rendered) {
     if (r.kind === "page" && !r.canonical) problems.push(r.path + " rendered without a canonical");
