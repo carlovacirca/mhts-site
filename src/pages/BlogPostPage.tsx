@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion } from "@/lib/motion";
 import { Calendar, Clock, ChevronRight, Share2, Facebook, Twitter, Linkedin, Mail, ArrowLeft, ChevronDown, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -10,6 +10,7 @@ import NewsletterSubscribeBar from "@/components/NewsletterSubscribeBar";
 import { useCanonical, breadcrumbSchema, SITE_URL } from "@/lib/seo";
 import { blogPosts } from "@/data/blogPosts";
 import ResponsiveImage from "@/components/ResponsiveImage";
+import { getPicture } from "@/lib/images";
 import { relatedPosts, isPublished, isPreviewRequest } from "@/lib/publishing";
 import NotFound from "@/pages/NotFound";
 import { computeImageSlots } from "@/lib/blogImageSlots";
@@ -173,21 +174,41 @@ const BlogPostPage = () => {
     meta.setAttribute("content", post.metaDescription);
     if (!meta.parentNode) document.head.appendChild(meta);
 
-    // Open Graph
-    const setOg = (prop: string, content: string) => {
-      let el = document.querySelector(`meta[property="${prop}"]`) as HTMLMetaElement | null;
+    // Open Graph and Twitter. Both are set, because Twitter reads twitter:*
+    // first and would otherwise show the homepage card for every post.
+    const setMetaBy = (key: "property" | "name", prop: string, content: string) => {
+      let el = document.querySelector(`meta[${key}="${prop}"]`) as HTMLMetaElement | null;
       if (!el) {
         el = document.createElement("meta");
-        el.setAttribute("property", prop);
+        el.setAttribute(key, prop);
         document.head.appendChild(el);
       }
       el.content = content;
     };
+    const setOg = (prop: string, content: string) => setMetaBy("property", prop, content);
+    const setTw = (prop: string, content: string) => setMetaBy("name", prop, content);
     setOg("og:title", post.title);
     setOg("og:description", post.metaDescription);
     setOg("og:type", "article");
-    setOg("og:url", window.location.href);
-    if (post.image) setOg("og:image", new URL(post.image, window.location.origin).href);
+    setOg("og:url", `${SITE_URL}/blog/${post.slug}`);
+    setOg("article:published_time", post.date);
+    setTw("twitter:title", post.title);
+    setTw("twitter:description", post.metaDescription);
+    // The post's own hero becomes the share image. Until pre-rendering there
+    // was no point setting it, because no crawler ran the JavaScript that did.
+    if (post.image) {
+      const heroUrl = new URL(post.image, SITE_URL).href;
+      const pic = getPicture(post.image);
+      setOg("og:image", heroUrl);
+      setOg("og:image:alt", post.featuredImageAlt);
+      setOg("og:image:type", heroUrl.toLowerCase().includes(".png") ? "image/png" : "image/jpeg");
+      setTw("twitter:image", heroUrl);
+      setTw("twitter:image:alt", post.featuredImageAlt);
+      if (pic) {
+        setOg("og:image:width", String(pic.width));
+        setOg("og:image:height", String(pic.height));
+      }
+    }
 
     // BlogPosting schema. Was "Article" with no image and no dateModified, which
     // the /blog listing already contradicted by calling the same posts BlogPosting.

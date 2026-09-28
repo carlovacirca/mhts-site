@@ -7,8 +7,16 @@ const CookieConsentBanner = () => {
 
   if (consent !== null) return null;
 
+  // data-prerender-strip below: the build renders every page with no stored
+  // consent, so this banner would be baked into all of them and would flash up
+  // for a second on returning visitors who have already answered it. The
+  // pre-render drops the marked element, so the banner appears only once React
+  // has read the real answer, exactly as it does today.
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-[100] bg-mhts-charcoal text-mhts-white border-t border-mhts-white/10">
+    <div
+      data-prerender-strip="cookie-banner"
+      className="fixed bottom-0 left-0 right-0 z-[100] bg-mhts-charcoal text-mhts-white border-t border-mhts-white/10"
+    >
       <div className="container mx-auto px-4 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-start gap-3 max-w-2xl">
           <Cookie className="w-5 h-5 shrink-0 mt-0.5 text-mhts-white/70" />

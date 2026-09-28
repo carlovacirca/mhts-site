@@ -1,65 +1,74 @@
-# Handover: MHTS blog automation and site health (25 Sep 2026)
+# Handover: MHTS site, blog automation and SEO automations (updated 28 Sep 2026, afternoon)
 
-Read this, then AUTOMATION.md (the single source of truth; it wins over anything else, including memory).
+Read this first, then AUTOMATION.md in the menshairtostay repo (single source of truth; it wins over anything else). AUTOMATION.md was brought up to date on 28 Sep (catch-up commit on the batch 3 branch, goes to main with the batch 3 merge).
 
-## Carlo's decision, 25 Sep
+## Standing rules (Carlo)
 
-Finish MHTS completely before touching any other client:
-1. The full MHTS weekly blog workflow, proven end to end on the live site.
-2. A complete MHTS website health check: technical SEO, on-page SEO, UX/UI, site structure and internal linking, design consistency, the blog index page, sitemap and robots, structured data, performance, accessibility, security (headers, dependencies, secrets, forms).
+- Never commit a secret. Credentials only in GitHub Actions secrets.
+- Live site is a real ranking business. Nothing touches production without Carlo seeing the change first (PR + preview, he approves).
+- Update AUTOMATION.md and commit on every meaningful decision or change.
+- Verify against the real repo and live site; real numbers; own mistakes plainly.
+- Carlo is not a developer: plain English, exact clicks, full Windows Command Prompt commands from `cd /d "..."`.
+- Short replies, bullets, no em or en dashes anywhere, one-line status at the end of every reply.
+- Do only what was asked; flag extras and wait for his go (usage is tight). Estimate cost of any paid run first.
+- Claude Code prompts: send the prompt only (no preamble or postamble), one batch per prompt, wait to be asked for the next. Suggest `/clear` in Claude Code between batches.
+- Carlo builds the dashboard himself. Do not mention a business partner building it.
+- Settled, do not reopen: Astro rejected, R2 dropped (media library is Google Drive), DataForSEO dropped, Hermes rejected, Netlify gone (uninstalled from GitHub 27 Sep), `gh` CLI not used.
+- MHTS only until Carlo says otherwise. Georges, BDB, PV rollout stays local and unpushed.
 
-Georges, BDB and PV are paused. Their rollout is built and committed locally but NOT pushed (see below). Do not push those repos or start their steps until Carlo says so.
+## How work is split
 
-## Standing rules (from Carlo)
+- Website changes: Claude Code in VS Code on Carlo's PC (he watches mobile preview there). You write the batch prompt; he pastes it; you review its output before he merges.
+- Automations (rank-automation repo, Worker, GitHub Actions, Cowork scheduled tasks): built in Cowork, tested in the cloud container with mocks, committed via the device shell, Carlo pushes.
+- Merge method that works for Carlo: `git push origin <branch>:main` after checking it is a fast-forward (`git merge-base --is-ancestor origin/main origin/<branch>`). Open PRs with `https://github.com/carlovacirca/mhts-site/compare/main...<branch>?expand=1`.
+- Device notes: request folder access to `C:\Users\0\1. Rank SEO\menshairtostay` and `...\rank-automation`, and delete permission (git leaves `.git/*.lock` and `tmp_obj_*`; delete after git commands). Commit with `git -c core.autocrlf=input -c user.name="Carlo Vacirca" -c user.email="carlo.vacirca@gmail.com"`, stage specific files, never `git add -A` in mhts-site (the device mount shows every file as modified because of line endings; ignore that). The device shell cannot `git fetch` rank-automation (private, no credentials); Carlo's own pushes update the origin refs. mhts-site is public, so Actions status is readable unauthenticated. Device cannot reach the live site; use WebFetch. Never touch the mhts-site working tree or `.git` while Claude Code is working in it (check `git branch --show-current` and ask).
 
-- Never commit a secret. Credentials go in GitHub Actions secrets only.
-- The live site is a real business that ranks. Nothing touches production without Carlo seeing what changed first.
-- Update AUTOMATION.md and commit it whenever a meaningful decision or change is made.
-- Verify claims against the actual repo and the live site. Report real numbers from real checks. Own mistakes plainly.
-- Carlo is not a developer: plain English, exact button clicks, complete Windows Command Prompt commands from the `cd` onwards.
-- Short replies, bullet points, no em dashes anywhere, no long summaries. End every reply with a one-line status.
-- Budget is tight (Anthropic credits): estimate the cost of any paid run before asking him to start it.
-- Settled, do not reopen: Astro rejected, R2 dropped, DataForSEO dropped, Hermes Agent rejected.
+## State right now
 
-## Repos and where things run
+mhts-site (`carlovacirca/mhts-site`, Cloudflare Pages `menshairtostay`)
+- main = `8e58da3`, live. Batches 1 and 2 live and verified (details in AUTOMATION.md).
+- Batch 3 pre-rendering: branch `fix/batch-3-prerender`, PR #5. pr-5 caught a defect (29 elements saved mid-fade on 15 pages), fixed in `e8b8ca0` (animations off during capture, build fails on any inline opacity below 1). Full set re-run on the real pr-5 preview 28 Sep: all clean (0 mid-fade, 60 of 60 URLs match live, 404s real, consent 16 of 16, JS-off vs React identical, h1 in the page 1.0 to 1.8 s sooner). Plus the AUTOMATION.md catch-up commit on top. Only unproven on real Cloudflare: a future-dated post (check on the first post PR after the merge). DECISION: merge only AFTER the Monday 5 Oct first publish is verified.
+- Old alias URLs (/mens-hair-to-stay, /blog/ultimate-guide-hair-systems-2024, /blog/hair-restoration-cost-guide-2024) return 200 with a client redirect; make them 301s in batch 4.
+- www.menshairtostay.co.uk serves the site with 200 (canonical points to apex, no redirect). First sweep shows Google splitting homepage clicks between www and apex. Quick task 9 (Cloudflare Redirect Rule) after Monday.
 
-- `carlovacirca/mhts-site`, local `C:\Users\0\1. Rank SEO\menshairtostay`: the site (React 18, Vite 5, Tailwind, shadcn). Cloudflare Pages project `menshairtostay`. Pushing to main deploys production via `.github/workflows/deploy.yml`; each PR gets a preview at `pr-<n>.menshairtostay.pages.dev`. Posts are markdown in `src/content/blog/`, validated at build time.
-- `carlovacirca/rank-automation`, local `C:\Users\0\1. Rank SEO\rank-automation`: the agents (Node scripts run by GitHub Actions), the Cloudflare Worker `https://rank-automation.carlo-vacirca.workers.dev` (API, schedule, Telegram webhook) and D1 database `rank-automation`.
-- Telegram: bot @Rank_automation_bot, group "MHTS Blogs" linked to client `mhts`.
+rank-automation (`carlovacirca/rank-automation`, private)
+- origin/main = `7abf2e7`. Live: publish job adds each merged post to the sitemap (`dc6a92b`); daily 07:00 UTC `seo` job (sitemap resubmit, IndexNow, URL Inspection day 3 and 7) (`3c8533c`); `?preview=1` approval link (`741caf6`); SEO sweep (`7abf2e7`, manual, pushed and run 28 Sep).
+- First sweep 28 Sep: 5 of 60 sitemap pages indexed, 44 Discovered not indexed, 11 unknown; 33 clicks, 1,263 impressions (29 Aug to 25 Sep). "Nearly page 1": "hair systems near me" family at positions 7 to 10. Low CTR: /blog/best-hair-transplant-alternatives-non-surgical-solutions 378 views, 0.5%. Display bug: path only, so www and apex both show as "/" (fix offered: now or in the blog pulse; Carlo to choose).
+- Local, never push without Carlo's go: `7783367` Georges/BDB/PV rollout (backup branch `rollout-backup` = old `ff583fd`).
+- Google: GCP project "Rank SEO" (project id georges-barbers; holds the Business Profile API application, pending). Service account `rank-automation@...` key in GitHub secret `GOOGLE_SA_KEY` (Worker has it too), Full user on `sc-domain:menshairtostay.co.uk`. `rank-seo-reporting@georges-barbers.iam.gserviceaccount.com` belongs to the local monthly report system (`_reporting`); leave it alone.
+- IndexNow key `045a17596b825b6e29d674784a26eac1` (public; in D1 clients.indexnow_key; key file live).
+- Writer finding (for roadmap item 6): writer.mjs treats a first draft that stops at max_tokens (14,000) like a finished one; the repair pass then rewrites the whole post, so it is paid for twice.
 
-## The weekly cycle now (Carlo's design, 24 Sep)
+Blog queue
+- PR #1 finasteride, publishes Mon 5 Oct 05:00 UTC (first real automated publish). PR #2 traction alopecia, Mon 12 Oct.
+- Friday 2 Oct weekly run uses the CURRENT writer rules (1,400 to 2,800 words). New structure comes with the writer update, after batch 4 is live.
 
-- Friday 06:00 UTC: Worker starts the "Weekly blog" workflow: research picks one topic, the writer writes it, the image is made (OpenAI gpt-image-2), a PR and preview open, and Telegram gets title + 3 to 5 bullets + image + preview link + Approve / Reject.
-- Approve: queued; Monday 05:00 UTC the Worker squash-merges it and says "Live now".
-- Reject: the bot asks why (reply to its message); the reason closes the PR and starts a new run with it as feedback. Reply "skip" for no post that week.
-- `/queue@Rank_automation_bot` in the group lists posts waiting for approval or waiting to go live.
-- Manual controls (rank-automation, Actions): "Weekly blog", "Run weekly step now" (weekly or publish; publish can take a task_id to publish one approved post now), "Unpublish", "Update agent prompt", "Telegram setup".
-- Cost per week per client: about $0.85 (research about $0.33, writer about $0.45, image $0.04).
+Search Console / crawlers
+- Sitemap first submitted 28 Sep. Indexing requested 28 Sep for the 10 URLs in quick task 2.
+- Cloudflare AI Crawl Control: AI crawlers allowed. Bytespider blocked. Do not buy "Markdown for Agents".
+- Monday checks: a scheduled task in the 28 Sep chat fires Mon 5 Oct 05:30 UTC (trigger `trig_01DYVutm1ZtgsvhU9rgJCfCs`); the older chat has one at the same time too.
 
-## MHTS state right now
+## Carlo's quick tasks
 
-- Post queue: finasteride post (task 5, PR #1, branch `post/finasteride-mhra-safety-warning-2026`) dated Mon 5 Oct. A test post from Carlo's test run (branch `post/can-a-hair-system-cause-traction-alopecia`) dated Mon 12 Oct, which Carlo approved, so it WILL go live on 12 Oct unless rejected. Ask Carlo whether to keep it, and check both with /queue first.
-- Monday 5 Oct 05:00 UTC is the first real automated merge. Verify it: PR merged, deploy green, post live, "Live now" in Telegram.
-- Unpushed commit `ff583fd` in rank-automation contains, mixed together: the Georges/BDB/PV agents and prompts, per-client content rules (MHTS rules unchanged), and the Worker change that adds each merged post to `public/sitemap.xml`. Without that change, new MHTS posts never reach the sitemap. Pushing it is safe for MHTS (new clients have no Telegram group, so no job runs for them), but it seeds their rows in D1. Tell Carlo before pushing.
-- Unpushed commit `a8ac4b2` in mhts-site: AUTOMATION.md notes on the rollout. Harmless.
-- Georges `8cd17ea`, BDB `5345bb4`, PV `ec63058`: rollout built and tested on a copy, not pushed, and their repo secrets are not set yet. Pushing them redeploys those live sites. Leave them.
+1. DONE 28 Sep: push and run the SEO sweep.
+2. DONE 28 Sep: request indexing for /hair-systems, /scalp-micropigmentation, /hair-density, /hair-system-maintenance, /blog, and posts autumn-hair-shedding-explained, swimming-gym-showering-with-a-hair-system, smp-for-hair-transplant-scars, hair-system-maintenance-4-to-6-weeks, hair-systems-vs-scalp-micropigmentation.
+3. Search Console, Indexing, Pages, Soft 404, Validate fix.
+4. Bing Webmaster Tools: sign in, Import from Google Search Console.
+5. Bing Places: import from Google Business Profile, email info@menshairtostay.co.uk.
+6. Apple Business Connect: claim MHTS, same name/address/phone, email info@.
+7. Gemini API key from aistudio.google.com (free tier) for the AI visibility tracker; store as a GitHub secret when the tracker is built.
+8. Google Drive folder "MHTS Media" with subfolders before-after (consented only), studio, other; upload his desktop photos.
+9. After Monday: Cloudflare Redirect Rule www to apex (dashboard; _redirects cannot do domain-level).
+10. Sign the info@ webmail into the Claude desktop app's built-in browser (for the directory agent).
 
-## Open MHTS items
+## Monday 5 Oct check
 
-- Search Console automation, as Carlo asked: resubmit the sitemap via the Search Console API after each publish, check indexing 3 days later with the URL Inspection API and send the result to Telegram (with a one-tap link to Request indexing if not indexed), plus IndexNow for Bing. "Request indexing" itself cannot be automated legitimately (the Indexing API is for jobs and livestreams only). Needs from Carlo: a Google Cloud project, a service account key as a GitHub secret, and that account added as Owner on the MHTS property.
-- Why the writer's first draft sometimes hits max_tokens (wasted cost).
-- One "Lexie" mention left inside the body of `does-a-hair-system-look-natural` (the author lines were removed site-wide; Carlo has not been asked about this one).
-- Rules can later move from config and code into the database so the future dashboard can edit them; a per-agent chat in the dashboard is possible later.
-- Task 10 (Google Drive client files), task 11 (GBP post every Monday), the report agent: later, after MHTS.
+PR #1 merged; Build and deploy green for the merge and for the Worker's "Sitemap: add /blog/finasteride-mhra-safety-warning-2026" commit; live sitemap has 61 URLs; post live at /blog/finasteride-mhra-safety-warning-2026 and on /blog and homepage; "Live now" in Telegram; about 07:00 UTC "Sent to search engines" message; Thu 8 Oct day-3 index check message. Then merge batch 3 (`git push origin fix/batch-3-prerender:main`, fast-forward check first; if main moved, rebase the branch first), then re-verify live raw HTML and 404s.
 
-## Health check: what already exists
+## Decisions 25 to 28 Sep
 
-- The site builds and tests in CI; 20 markdown posts; author removed site-wide; Sources list on posts; future-dated posts hidden from /blog but reachable by URL.
-- Known from earlier work: the sitemap is hand-maintained in `public/sitemap.xml`; it is a single-page React app (no prerendering on MHTS, unlike PV), so social previews and first-load SEO depend on client-side rendering. Check what Google actually sees.
+All recorded in AUTOMATION.md (decisions log entry "2026-09-28, catch-up") as of the 28 Sep catch-up commit.
 
-## Working notes for the next session (Cowork, Carlo's Windows PC)
+## Next steps, in order
 
-- Connected folders are reached through the device shell. Git in that VM leaves `.git/index.lock`, `HEAD.lock` and `tmp_obj_*` files: after git commands run `find .git -name '*.lock' -delete; find .git/objects -name 'tmp_obj_*' -delete` (needs delete permission, requested once per folder per session).
-- Commit with `git -c core.autocrlf=input -c user.name="Carlo Vacirca" -c user.email="carlo.vacirca@gmail.com"` and stage specific files, never `git add -A` in mhts-site (line-ending noise). Carlo pushes himself from Command Prompt (`git push`).
-- The device cannot reach gov.uk, nhs.uk or the live sites, and its npm is slow. Build, test and screenshot on a copy in the cloud workspace (tar the repo without node_modules, stage it, `npm ci`, `npm run build`, Playwright with Chromium at /opt/pw-browsers/chromium, `vite preview --host 127.0.0.1`). Use WebFetch for live pages.
-- The cloud copy of rank-automation for local Worker tests: `wrangler dev --local`, test token `test-token`, Telegram mock on port 9995.
+The roadmap is in AUTOMATION.md section 8 (items 1 to 17). Next Cowork task: item 6, writer update, waiting for Carlo's go. Plan: build locally with mocks ($0), keep unpushed until batch 4 is live, price any real test draft first.
