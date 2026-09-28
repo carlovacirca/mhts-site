@@ -49,10 +49,33 @@ const upsertCanonical = (href: string) => {
   }
   const prev = el.getAttribute("href");
   el.setAttribute("href", href);
+  // og:url and the canonical must never disagree, so they are set together.
+  // Before pre-rendering nothing set og:url per page, so every URL shared the
+  // homepage value from index.html and every link preview pointed at the
+  // homepage. See docs/HEALTH-CHECK.md finding 1.
+  const restoreOgUrl = upsertMetaProperty("og:url", href);
   return () => {
+    restoreOgUrl();
     if (created) el!.remove();
     else if (prev) el!.setAttribute("href", prev);
   };
+};
+
+/**
+ * og: and twitter: title and description for one page.
+ *
+ * Twitter reads twitter:* first and falls back to og:*, so leaving the two out
+ * of step meant every share card on X showed the homepage title whatever page
+ * was shared. Both are set from the same two strings here.
+ */
+const upsertSocialText = (title: string, description: string) => {
+  const restore = [
+    upsertMetaProperty("og:title", title),
+    upsertMetaProperty("og:description", description),
+    upsertMeta("twitter:title", title),
+    upsertMeta("twitter:description", description),
+  ];
+  return () => restore.forEach((r) => r());
 };
 
 export const useSeo = ({ title, description, canonicalPath, jsonLd, noindex }: SeoOptions) => {
@@ -63,6 +86,7 @@ export const useSeo = ({ title, description, canonicalPath, jsonLd, noindex }: S
     const restoreDesc = upsertMeta("description", description);
     const path = canonicalPath ?? window.location.pathname;
     const restoreCanonical = upsertCanonical(SITE_URL + path);
+    const restoreSocial = upsertSocialText(title, description);
 
     // Only added when asked for, and always removed on unmount, so a noindex
     // can never leak onto a real page during client-side navigation.
@@ -89,6 +113,7 @@ export const useSeo = ({ title, description, canonicalPath, jsonLd, noindex }: S
     return () => {
       document.title = prevTitle;
       restoreDesc();
+      restoreSocial();
       restoreCanonical();
       robotsEl?.remove();
       scripts.forEach((s) => s.remove());
@@ -107,14 +132,7 @@ export const useCanonical = (path: string | null) => {
 };
 
 export const useOpenGraph = (title: string, description: string) => {
-  useEffect(() => {
-    const restoreTitle = upsertMetaProperty("og:title", title);
-    const restoreDesc = upsertMetaProperty("og:description", description);
-    return () => {
-      restoreTitle();
-      restoreDesc();
-    };
-  }, [title, description]);
+  useEffect(() => upsertSocialText(title, description), [title, description]);
 };
 
 export const useJsonLd = (data: object | object[]) => {

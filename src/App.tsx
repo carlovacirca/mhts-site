@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -36,12 +36,24 @@ import AreasServicedPage from "@/pages/AreasServicedPage";
 import AreaPage from "@/pages/AreaPage";
 import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
 import NotFound from "@/pages/NotFound";
+import { endFirstPaint, wasPrerendered } from "@/lib/prerender";
 
 const queryClient = new QueryClient();
 
 const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
+  const firstRun = useRef(true);
   useEffect(() => {
+    const initial = firstRun.current;
+    firstRun.current = false;
+    // Entry animations are suppressed only while React catches up with the
+    // pre-rendered HTML. From here on every route animates as it always has.
+    if (initial) endFirstPaint();
+    // On a pre-rendered page the reader can see and scroll the content a
+    // second before React mounts. Resetting to the top here would jerk them
+    // back up. The browser has already put them where they asked to be, and
+    // named anchors now exist in the HTML so they work without JavaScript.
+    if (initial && wasPrerendered()) return;
     if (hash) {
       setTimeout(() => {
         const el = document.querySelector(hash);
