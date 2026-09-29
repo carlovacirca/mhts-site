@@ -67,7 +67,8 @@ const MapIllustration = () => (
   </svg>
 );
 
-const StudioMap = ({ className = "" }: { className?: string }) => {
+/** `compact` shortens the drawing on a phone, for the homepage's one-screen contact section. */
+const StudioMap = ({ className = "", compact = false }: { className?: string; compact?: boolean }) => {
   const consent = useCookieConsent();
 
   if (consent === "accepted") {
@@ -92,11 +93,11 @@ const StudioMap = ({ className = "" }: { className?: string }) => {
       data-testid="map-fallback"
       className={`overflow-hidden rounded-xl border border-mhts-stone bg-card ${className}`}
     >
-      <div className="relative h-[150px]">
+      <div className={`relative ${compact ? "h-[90px] md:h-[150px]" : "h-[150px]"}`}>
         <MapIllustration />
         <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
       </div>
-      <div className="px-5 pb-5 pt-1">
+      <div className={`px-5 pt-1 ${compact ? "pb-4 md:pb-5" : "pb-5"}`}>
         <p className="flex items-start gap-2.5 font-body text-sm text-mhts-ink">
           <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-mhts-red" aria-hidden="true" />
           <span>
@@ -109,7 +110,7 @@ const StudioMap = ({ className = "" }: { className?: string }) => {
           href={GOOGLE_MAPS_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md border border-mhts-stone-deep px-5 py-2.5 text-sm font-semibold text-mhts-ink transition-colors hover:border-mhts-red hover:text-mhts-red-deep"
+          className={`${compact ? "mt-3 md:mt-4" : "mt-4"} inline-flex w-full items-center justify-center gap-2 rounded-md border border-mhts-stone-deep px-5 py-2.5 text-sm font-semibold text-mhts-ink transition-colors hover:border-mhts-red hover:text-mhts-red-deep`}
         >
           Open in Google Maps
           <ExternalLink className="h-4 w-4" aria-hidden="true" />

@@ -74,8 +74,14 @@
     --accent-foreground: 3 81% 40%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 34 23% 87%;
-    --input: 34 23% 87%;
+    /* Batch 4b. Both were #E5DED4, 1.3:1 on white, so a text field's edge
+       all but disappeared (WCAG 1.4.11 asks 3:1 for the edge of a control).
+       --input is the stone-deep of the brand, 4.96:1 on white. --border is
+       the default edge of everything else shadcn draws, a warm grey at
+       3.60:1 on white, 3.45:1 on the page background and 3.21:1 on sand.
+       Checked by scripts/contrast.mjs. */
+    --border: 30 10% 52%;
+    --input: 28.7 10.4% 43.3%;
     --ring: 2.8 78% 48.2%;
     --radius: 0.5rem;
 
@@ -242,5 +248,80 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* ── Full-screen section scroll, homepage only (batch 4b) ─────────────────
+   Switched on and off by SECTION_SNAP in src/lib/sectionSnap.ts, which is
+   where the reasoning lives. CSS scroll snap only: nothing here or anywhere
+   else moves the page with JavaScript.
+
+   The measurements the sizing depends on:
+     --snap-topbar  the thin contact bar above the header, which scrolls away
+     --snap-header  the sticky header: h-20 plus its 1px rule, h-24 from md
+     --snap-bottom  the bottom Call and Book bar on a phone. The same 4.5rem
+                    Layout already reserves, so it never changes as the bar
+                    shows and hides, and nothing shifts. None on a desktop.
+     --mhts-cookie-h the cookie banner's live height, set by the banner while
+                    it is open and 0 otherwise. */
+:root {
+  --snap-topbar: 28px;
+  --snap-header: 81px;
+  --snap-bottom: 4.5rem;
+  --mhts-cookie-h: 0px;
+}
+@media (min-width: 768px) {
+  :root {
+    --snap-header: 97px;
+    --snap-bottom: 0px;
+  }
+}
+
+/* Every rule is behind no-preference, so reduced motion turns all of it off. */
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.mhts-snap-page) {
+    scroll-snap-type: y mandatory;
+    scroll-padding-top: var(--snap-header);
+    scroll-padding-bottom: calc(var(--snap-bottom) + var(--mhts-cookie-h));
+  }
+
+  .mhts-snap-page .mhts-snap-section {
+    scroll-snap-align: start;
+    /* The header is already allowed for by scroll-padding. The sections'
+       own scroll-mt-24 would count it twice. */
+    scroll-margin-top: 0;
+    min-height: calc(100svh - var(--snap-header) - var(--snap-bottom));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* While the cookie banner is open, each section grows by its height at
+       the bottom (only if its content needs the room), so nothing sits under
+       the banner. The border is transparent: the section's own background
+       shows through it. */
+    border-bottom: var(--mhts-cookie-h) solid transparent;
+  }
+
+  /* The hero also covers the contact bar above the header, so its snap point
+     is the very top of the page and it fills the first screen exactly. Its
+     content sits from the top, so the banner opening never moves it. */
+  .mhts-snap-page .mhts-snap-hero {
+    scroll-margin-top: var(--snap-topbar);
+    min-height: calc(100svh - var(--snap-topbar) - var(--snap-header));
+    justify-content: flex-start;
+    align-items: stretch;
+  }
+
+  /* An anchor inside a section (#mhts-areas, in the closing screen) is not a
+     snap stop, so after the jump the browser moves to the nearest stop, which
+     could be the footer's end with the anchor scrolled out of sight. Half a
+     screen of margin puts the target position nearer its own section's start,
+     so the jump lands on the section that holds it, anchor in view. */
+  .mhts-snap-page .mhts-snap-section [id] {
+    scroll-margin-top: 50svh;
+  }
+
+  /* The footer is the last stop, so the end of the page is always reachable. */
+  html:has(.mhts-snap-page) footer {
+    scroll-snap-align: end;
   }
 }

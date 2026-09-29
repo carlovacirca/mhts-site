@@ -96,18 +96,35 @@ export const usePrefersReducedMotion = (): boolean => {
  *   - JavaScript never runs, in which case there is no motion component at all
  *     and the children are simply in the page
  */
+/**
+ * Where a Reveal comes in from. Each page type leans on one or two of these so
+ * the pages do not all move alike: service pages slide their photographs in
+ * from the side, the gallery scales, the FAQ and the blog rise.
+ */
+export type RevealFrom = "up" | "left" | "right" | "scale";
+
+const REVEAL_START: Record<RevealFrom, { opacity: number; x?: number; y?: number; scale?: number }> = {
+  up: { opacity: 0, y: 16 },
+  left: { opacity: 0, x: -24 },
+  right: { opacity: 0, x: 24 },
+  scale: { opacity: 0, scale: 0.96 },
+};
+
 export const Reveal = ({
   children,
   delay = 0,
   className,
   as = "div",
+  from = "up",
 }: {
   children: ReactNode;
   /** Seconds. Use index * 0.06 for a staggered row. */
   delay?: number;
   className?: string;
   /** Any intrinsic element framer-motion has a factory for. */
-  as?: "div" | "article" | "li" | "section" | "span";
+  as?: "div" | "article" | "li" | "section" | "span" | "figure";
+  /** The direction it arrives from. Default is the 16px rise. */
+  from?: RevealFrom;
 }) => {
   const reduced = usePrefersReducedMotion();
 
@@ -121,8 +138,8 @@ export const Reveal = ({
   return (
     <Animated
       className={className}
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={REVEAL_START[from]}
+      whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.4, ease: "easeOut", delay }}
     >

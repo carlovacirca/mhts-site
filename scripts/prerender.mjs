@@ -166,8 +166,36 @@ async function main() {
     }
   };
 
+  // The sticky bottom bar on a phone, while it is hidden at the top of a page,
+  // must take up no room at all. In batch 4a its collapsing row kept its
+  // padding and border, so a 21px strip with the tops of the Call and Book
+  // buttons showed at the foot of every phone screen. Measured here, in a real
+  // browser at phone width, because jsdom cannot lay anything out.
+  const measureCollapsedBar = async () => {
+    const phone = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const out = [];
+    for (const path of ["/", "/hair-systems", "/blog"]) {
+      const page = await phone.newPage();
+      await page.goto(baseUrl + path, { waitUntil: "networkidle", timeout: 60000 });
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.waitForTimeout(400);
+      const bar = await page.evaluate(() => {
+        const el = document.querySelector('[data-testid="sticky-mobile-cta"]');
+        return el ? { visible: el.getAttribute("data-visible"), height: el.getBoundingClientRect().height } : null;
+      });
+      if (!bar) out.push(path + ": the sticky bottom bar is missing");
+      else if (bar.visible !== "0") out.push(path + ": the sticky bottom bar is showing at the top of the page");
+      else if (bar.height !== 0) out.push(path + ": the collapsed sticky bottom bar is " + bar.height + "px tall at 390px, not 0");
+      await page.close();
+    }
+    await phone.close();
+    return out;
+  };
+  let barProblems = [];
+
   try {
     await Promise.all(Array.from({ length: CONCURRENCY }, worker));
+    barProblems = await measureCollapsedBar();
   } finally {
     await browser.close();
     await server.close();
@@ -180,7 +208,7 @@ async function main() {
   }
 
   // ---- checks, before anything is written ----
-  const problems = [];
+  const problems = [...barProblems];
 
   for (const [file, html] of files) {
     for (const forbidden of FORBIDDEN_IN_HTML) {

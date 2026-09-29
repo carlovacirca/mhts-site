@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Reveal } from "@/lib/motion";
 import { Phone, CalendarCheck } from "lucide-react";
 import { useSeo, useJsonLd, breadcrumbSchema } from "@/lib/seo";
 import { useCookieConsent } from "@/lib/cookieConsent";
@@ -145,18 +146,24 @@ const BookPage = () => {
   ];
 
   return (
+    // Batch 4b. The booking page is a desk, not a brochure: the heading and
+    // both ways to book on the dark band, the prices beside their note, the
+    // calendar (or its panel when cookies are off) on sand, the five
+    // appointment types three across instead of five cramped in a row, and the
+    // phone number large on its own band for the reader who would rather call.
     <div className="mhts-theme">
       {/* HERO */}
-      <section className="bg-mhts-charcoal py-20">
-        <div className="container mx-auto px-4 text-center max-w-3xl">
-          <p className="text-mhts-white/60 uppercase tracking-[0.3em] text-xs mb-4 font-body">
+      <section className="relative overflow-hidden bg-mhts-deep py-16 md:py-20">
+        <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_50%_0%,hsl(var(--mhts-red)/0.25),transparent_70%)]" />
+        <div className="container relative mx-auto max-w-3xl px-4 text-center">
+          <p className="mb-4 font-body text-xs font-semibold uppercase tracking-[0.3em] text-mhts-red-light">
             Reserve Your Appointment
           </p>
-          <h1 className="text-3xl md:text-5xl font-light tracking-wide text-mhts-white leading-tight">
+          <h1 className="text-3xl leading-tight text-white md:text-5xl">
             Book Your Hair Replacement Consultation &amp; Appointment
           </h1>
-          <div className="w-12 h-px bg-mhts-white/40 mx-auto my-6" />
-          <p className="text-mhts-white/70 font-body leading-relaxed">
+          <div className="mx-auto my-6 h-1 w-14 rounded-full bg-mhts-red" />
+          <p className="font-body leading-relaxed text-white/80">
             Schedule a free hair replacement consultation, hair system regroom,
             full maintenance, scalp micropigmentation (SMP) or specialized
             thinning hair and crown coverage treatment with our specialist team
@@ -179,13 +186,15 @@ const BookPage = () => {
       <ServicePricing rows={pricingRows} />
 
       {/* TRAFFT WIDGET */}
-      <section id="trafft-booking" className="py-16 bg-mhts-light">
+      <section id="trafft-booking" className="scroll-mt-24 border-y border-mhts-stone bg-card py-16">
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl text-mhts-charcoal font-light tracking-wide">
+            <span className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-full bg-mhts-red text-white" aria-hidden="true">
+              <CalendarCheck className="h-5 w-5" />
+            </span>
+            <h2 className="text-2xl text-mhts-ink md:text-3xl">
               Choose a Date &amp; Time
             </h2>
-            <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-4" />
             <p className="text-foreground/75 font-body mt-4 max-w-xl mx-auto">
               Select your service and time below to confirm your appointment.
             </p>
@@ -214,65 +223,72 @@ const BookPage = () => {
       </section>
 
       {/* APPOINTMENT TYPES */}
-      <section className="py-16">
+      <section className="bg-mhts-sand py-16 md:py-20">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl text-mhts-charcoal font-light tracking-wide">
+          <div className="mx-auto mb-12 max-w-6xl">
+            <h2 className="text-3xl text-mhts-ink md:text-4xl">
               Appointment Types
             </h2>
-            <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-5" />
-            <p className="text-foreground/75 font-body mt-5 max-w-2xl mx-auto">
+            <div className="mt-5 h-1 w-14 rounded-full bg-mhts-red" />
+            <p className="mt-5 max-w-2xl font-body text-foreground/75">
               From your first free consultation to ongoing hair system
               maintenance and SMP, choose the right appointment for you.
             </p>
           </div>
-          <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
-            {appointments.map((a) => (
-              <article
+          {/* Three across at most. Five in a row made each card 200px wide. */}
+          <div className="mx-auto grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {appointments.map((a, i) => (
+              <Reveal
+                as="article"
                 key={a.title}
-                className="bg-card border border-border rounded-sm p-6 flex flex-col w-full sm:w-[calc(50%-0.75rem)] md:w-[calc(33.333%-1rem)] lg:w-[calc(20%-1.2rem)]"
+                delay={(i % 3) * 0.06}
+                className={`flex flex-col rounded-xl border bg-card p-6 ${a.isFree ? "border-mhts-red border-t-4" : "border-mhts-stone"}`}
               >
-                <h3 className="text-lg text-mhts-charcoal font-medium tracking-wide">
-                  {a.title}
-                </h3>
-                {a.isFree && (
-                  <span className="inline-flex w-fit items-center gap-1 mt-3 text-xs uppercase tracking-[0.15em] text-mhts-charcoal font-body bg-mhts-light px-2 py-1 rounded-sm">
-                    Free
-                  </span>
-                )}
+                <div className="flex items-start justify-between gap-3">
+                  <h3 className="text-lg text-mhts-ink">
+                    {a.title}
+                  </h3>
+                  {a.isFree && (
+                    <span className="inline-flex w-fit shrink-0 items-center gap-1 rounded-full bg-mhts-red px-2.5 py-1 font-body text-xs font-semibold uppercase tracking-[0.15em] text-white">
+                      Free
+                    </span>
+                  )}
+                </div>
                 <p className="text-foreground/80 font-body text-sm leading-relaxed mt-4 flex-1">
                   {a.desc}
                 </p>
-                <p className="text-mhts-slate text-xs font-body mt-4 pt-4 border-t border-border">
+                <p className="mt-4 border-t border-mhts-stone pt-4 font-body text-xs text-mhts-slate">
                   {a.keywords}
                 </p>
-              </article>
+              </Reveal>
             ))}
           </div>
-          <div className="text-center mt-10">
+          <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
             <button
               onClick={() => scrollToWidget()}
-              className="inline-flex items-center gap-2 bg-mhts-charcoal text-mhts-white font-medium px-8 py-3 rounded-sm hover:bg-mhts-navy transition-colors font-body tracking-wide"
+              className="inline-flex items-center justify-center gap-2 rounded-md bg-mhts-red px-7 py-3.5 font-body font-semibold tracking-wide text-white transition-colors hover:bg-mhts-red-deep"
             >
               <CalendarCheck className="w-4 h-4" /> Book Free Consultation
             </button>
+            {/* Call sits beside Book on every call to action on the site. */}
+            <CallButton size="lg" />
           </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="py-16 bg-mhts-light">
-        <div className="container mx-auto px-4 max-w-3xl">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl text-mhts-charcoal font-light tracking-wide">
+      <section className="bg-card py-16 md:py-20">
+        <div className="container mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <div>
+            <h2 className="text-3xl text-mhts-ink md:text-4xl">
               Booking Questions Answered
             </h2>
-            <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-5" />
+            <div className="mt-5 h-1 w-14 rounded-full bg-mhts-red" />
           </div>
-          <Accordion type="single" collapsible className="bg-card border border-border rounded-sm px-6">
+          <Accordion type="single" collapsible className="rounded-xl border border-mhts-stone bg-card px-6">
             {faqs.map((f, i) => (
               <AccordionItem key={i} value={`q-${i}`}>
-                <AccordionTrigger className="text-left text-mhts-charcoal font-medium tracking-wide">
+                <AccordionTrigger className="text-left font-semibold text-mhts-ink hover:text-mhts-red-deep">
                   {f.q}
                 </AccordionTrigger>
                 <AccordionContent className="text-foreground/80 font-body leading-relaxed">
@@ -285,42 +301,44 @@ const BookPage = () => {
       </section>
 
       {/* PREFER TO CALL */}
-      <section className="py-16">
-        <div className="container mx-auto px-4 text-center max-w-2xl">
-          <h2 className="text-3xl md:text-4xl text-mhts-charcoal font-light tracking-wide">
-            Prefer to Call?
-          </h2>
-          <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-5" />
-          <p className="text-foreground/80 font-body mt-5 leading-relaxed">
-            Speak directly with our team to book your hair replacement
-            consultation, regroom or SMP appointment.
-          </p>
+      <section className="bg-mhts-red py-14 md:py-16">
+        <div className="container mx-auto grid max-w-5xl items-center gap-6 px-4 text-center md:grid-cols-[1fr_auto] md:text-left">
+          <div>
+            <h2 className="text-3xl text-white md:text-4xl">
+              Prefer to Call?
+            </h2>
+            <p className="mt-4 max-w-xl font-body leading-relaxed text-white">
+              Speak directly with our team to book your hair replacement
+              consultation, regroom or SMP appointment.
+            </p>
+          </div>
           <a
             href="tel:07947878087"
-            className="inline-flex items-center gap-2 mt-8 bg-mhts-charcoal text-mhts-white font-medium px-8 py-3 rounded-sm hover:bg-mhts-navy transition-colors font-body tracking-wide"
+            data-cta="call"
+            className="inline-flex items-center justify-center gap-3 rounded-xl bg-white px-8 py-4 font-body text-lg font-semibold tracking-wide text-mhts-red-deep transition-colors hover:bg-mhts-sand"
           >
-            <Phone className="w-4 h-4" /> Call 07947 878087
+            <Phone className="h-5 w-5" /> Call 07947 878087
           </a>
         </div>
       </section>
 
       {/* RELATED LINKS */}
-      <section className="py-16 bg-mhts-charcoal">
+      <section className="bg-mhts-deep py-14">
         <div className="container mx-auto px-4 text-center">
-          <p className="text-mhts-white/50 uppercase tracking-[0.2em] text-xs mb-5 font-body">
+          <p className="mb-5 font-body text-xs uppercase tracking-[0.2em] text-white/60">
             Explore More
           </p>
-          <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-body">
-            <Link to="/how-it-works" className="text-mhts-white/80 hover:text-mhts-white transition-colors">
+          <div className="flex flex-wrap justify-center gap-3 font-body text-sm">
+            <Link to="/how-it-works" className="rounded-full border border-white/20 px-4 py-2 text-white/85 transition-colors hover:border-white hover:text-white">
               How Hair Replacement Works
             </Link>
-            <Link to="/services" className="text-mhts-white/80 hover:text-mhts-white transition-colors">
+            <Link to="/services" className="rounded-full border border-white/20 px-4 py-2 text-white/85 transition-colors hover:border-white hover:text-white">
               View Our Services
             </Link>
-            <Link to="/gallery" className="text-mhts-white/80 hover:text-mhts-white transition-colors">
+            <Link to="/gallery" className="rounded-full border border-white/20 px-4 py-2 text-white/85 transition-colors hover:border-white hover:text-white">
               Before &amp; After Gallery
             </Link>
-            <Link to="/faq" className="text-mhts-white/80 hover:text-mhts-white transition-colors">
+            <Link to="/faq" className="rounded-full border border-white/20 px-4 py-2 text-white/85 transition-colors hover:border-white hover:text-white">
               Hair Replacement FAQs
             </Link>
           </div>

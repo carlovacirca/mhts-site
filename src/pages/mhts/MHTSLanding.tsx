@@ -27,6 +27,7 @@ import BeforeAfterSlider from "@/components/mhts/BeforeAfterSlider";
 import GoogleReviews from "@/components/mhts/GoogleReviews";
 import BookingPanel from "@/components/mhts/BookingPanel";
 import StudioMap from "@/components/mhts/StudioMap";
+import { SNAP_HERO_CLASS, SNAP_SECTION_CLASS, snapPageClass } from "@/lib/sectionSnap";
 import mhtsHero from "@/assets/mhts-hero.jpg";
 import mhtsBefore1 from "@/assets/mhts-before-1.jpg";
 import mhtsAfter1 from "@/assets/mhts-after-1.jpg";
@@ -172,10 +173,19 @@ const MHTSLanding = () => {
     };
   }, [cookieConsent]);
 
+  // Batch 4b: with SECTION_SNAP on (src/lib/sectionSnap.ts) every section
+  // below fills one screen and a scroll moves to the next. The sections were
+  // trimmed to fit 390x844 and 1280x800: treatments and the blog became
+  // swipeable strips, the trust chips and the maintenance note share one
+  // screen, and the old booking section is two screens, Book and Contact, with
+  // the areas line moved to the closing screen. Every link that was on this
+  // page is still on it.
+  const S = SNAP_SECTION_CLASS;
+
   return (
-    <div className="mhts-theme">
+    <div className={`mhts-theme ${snapPageClass()}`}>
       {/* ─── 1. HERO ─── */}
-      <section className="relative flex min-h-[72vh] items-center overflow-hidden">
+      <section className={`${S} ${SNAP_HERO_CLASS} relative flex min-h-[72vh] items-center overflow-hidden`}>
         <ResponsiveImage
           src={mhtsHero}
           alt="Men's Hair To Stay studio"
@@ -226,28 +236,31 @@ const MHTSLanding = () => {
       <div id="mhts-hero-end" aria-hidden="true" />
 
       {/* ─── 2. BEFORE AND AFTER, directly under the hero ─── */}
-      <section id="mhts-gallery" className="scroll-mt-24 bg-card py-16 md:py-20">
+      <section id="mhts-gallery" className={`${S} scroll-mt-24 bg-card py-10 md:py-12`}>
         <div className="container mx-auto px-4">
-          <div className="mb-10 text-center">
+          <div className="mb-6 text-center md:mb-8">
             <Eyebrow>Real clients</Eyebrow>
             <h2 className="text-3xl text-mhts-ink md:text-4xl">Before and after</h2>
-            <div className="mx-auto mt-4 h-0.5 w-12 bg-mhts-red" />
-            <p className="mx-auto mt-4 max-w-xl font-body text-muted-foreground">
+            <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />
+            <p className="mx-auto mt-3 max-w-xl font-body text-sm text-muted-foreground md:text-base">
               Three of our own clients, photographed at the studio and shared with their permission.
               Drag the handle to see the difference.
             </p>
           </div>
 
-          {/* Swipeable on a phone, three across from md up. */}
-          <div className="mhts-snap-x -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0">
+          {/* One pair per swipe on a phone with the next one peeking; three
+              across from md up. Where the row stops being a scroller its cards
+              drop their snap point (snap-align-none), or they would become
+              stops in the page's own vertical snap. */}
+          <div className="mhts-snap-x -mx-4 flex snap-x snap-mandatory scroll-pl-4 gap-4 overflow-x-auto px-4 pb-2 md:mx-auto md:grid md:max-w-4xl md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0">
             {beforeAfterPairs.map((pair, i) => (
-              <Reveal key={pair.label} delay={i * 0.06} className="w-[80%] shrink-0 snap-center md:w-auto">
+              <Reveal key={pair.label} delay={i * 0.06} className="w-[78%] shrink-0 snap-start snap-always md:w-auto md:snap-align-none">
                 <BeforeAfterSlider {...pair} />
               </Reveal>
             ))}
           </div>
 
-          <div className="mt-10 flex justify-center">
+          <div className="mt-6 flex justify-center">
             <Link
               to="/gallery"
               className="inline-flex items-center gap-1.5 font-body text-sm font-semibold text-mhts-red-deep transition-all hover:gap-2.5"
@@ -259,32 +272,32 @@ const MHTSLanding = () => {
       </section>
 
       {/* ─── 3. GOOGLE REVIEWS ─── */}
-      <section id="mhts-reviews" className="scroll-mt-24 bg-mhts-sand py-16 md:py-20">
+      <section id="mhts-reviews" className={`${S} scroll-mt-24 bg-mhts-sand py-10 md:py-12`}>
         <div className="container mx-auto px-4">
-          <div className="mb-10 text-center">
+          <div className="mb-6 text-center md:mb-8">
             <Eyebrow>What clients say</Eyebrow>
             <h2 className="text-3xl text-mhts-ink md:text-4xl">Reviews from Google</h2>
-            <div className="mx-auto mt-4 h-0.5 w-12 bg-mhts-red" />
+            <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />
           </div>
           <div className="mx-auto max-w-5xl">
-            <GoogleReviews />
+            <GoogleReviews compact />
           </div>
         </div>
       </section>
 
       {/* ─── 4. TREATMENTS ─── */}
-      <section id="mhts-services" className="scroll-mt-24 bg-card py-16 md:py-20">
+      <section id="mhts-services" className={`${S} scroll-mt-24 bg-card py-10 md:py-12`}>
         <div className="container mx-auto px-4">
-          <div className="mb-10 text-center">
+          <div className="mb-6 text-center md:mb-10">
             <Eyebrow>What we do</Eyebrow>
             <h2 className="text-3xl text-mhts-ink md:text-4xl">Our treatments</h2>
-            <div className="mx-auto mt-4 h-0.5 w-12 bg-mhts-red" />
+            <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />
           </div>
-          {/* Two across on a phone. Four full-width photo cards stacked was
-              2,140px of the page on its own. */}
-          <div className="mx-auto grid max-w-5xl grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+          {/* A swipeable strip on a phone, one card per swipe with the next
+              one peeking; four across from lg. */}
+          <div className="mhts-snap-x -mx-4 flex snap-x snap-mandatory scroll-pl-4 gap-4 overflow-x-auto px-4 pb-2 sm:mx-auto sm:grid sm:max-w-5xl sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 lg:grid-cols-4">
             {treatmentCards.map((t, i) => (
-              <Reveal key={t.slug} delay={i * 0.06}>
+              <Reveal key={t.slug} delay={i * 0.06} className="w-[72%] shrink-0 snap-start snap-always sm:w-auto sm:snap-align-none">
                 <Link
                   to={`/${t.slug}`}
                   className="group flex h-full flex-col overflow-hidden rounded-xl border border-mhts-stone bg-card transition-all hover:-translate-y-1 hover:shadow-lg"
@@ -294,16 +307,16 @@ const MHTSLanding = () => {
                       src={t.image}
                       alt={t.imageAlt}
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 280px"
+                      sizes="(max-width: 640px) 75vw, (max-width: 1024px) 50vw, 280px"
                     />
                   </div>
                   <div className="flex flex-1 flex-col p-4 sm:p-5">
                     <span className="mb-3 grid h-9 w-9 place-items-center rounded-full bg-mhts-red-tint sm:h-10 sm:w-10">
                       <t.icon className="h-4 w-4 text-mhts-red sm:h-5 sm:w-5" aria-hidden="true" />
                     </span>
-                    <h3 className="mb-2 text-sm text-mhts-ink sm:text-base">{t.name}</h3>
-                    <p className="flex-1 font-body text-xs leading-relaxed text-muted-foreground sm:text-sm">{t.line}</p>
-                    <span className="mt-3 inline-flex items-center gap-1.5 font-body text-xs font-semibold text-mhts-red-deep transition-all group-hover:gap-2.5 sm:mt-4 sm:text-sm">
+                    <h3 className="mb-2 text-base text-mhts-ink">{t.name}</h3>
+                    <p className="flex-1 font-body text-sm leading-relaxed text-muted-foreground">{t.line}</p>
+                    <span className="mt-3 inline-flex items-center gap-1.5 font-body text-sm font-semibold text-mhts-red-deep transition-all group-hover:gap-2.5 sm:mt-4">
                       See treatment <ChevronRight className="h-4 w-4" aria-hidden="true" />
                     </span>
                   </div>
@@ -314,9 +327,9 @@ const MHTSLanding = () => {
         </div>
       </section>
 
-      {/* ─── 5. WHY US, four chips on the one dark band ─── */}
-      <section className="relative overflow-hidden bg-mhts-deep py-10">
-        <div className="absolute inset-0 bg-[radial-gradient(60%_120%_at_50%_0%,hsl(var(--mhts-red)/0.22),transparent_65%)]" />
+      {/* ─── 5. WHY US AND MAINTENANCE, one screen on the dark band ─── */}
+      <section className={`${S} relative overflow-hidden bg-mhts-deep py-10 md:py-12`}>
+        <div className="absolute inset-0 bg-[radial-gradient(60%_80%_at_50%_0%,hsl(var(--mhts-red)/0.22),transparent_65%)]" />
         <div className="container relative mx-auto px-4">
           <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-2.5 md:gap-4">
             {trustChips.map((chip, i) => (
@@ -330,13 +343,8 @@ const MHTSLanding = () => {
               </Reveal>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* ─── 6. MAINTENANCE, compact ─── */}
-      <section className="bg-mhts-sand py-12">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto flex max-w-4xl flex-col gap-6 rounded-xl border border-mhts-stone bg-card p-6 md:flex-row md:items-center md:p-8">
+          <div className="mx-auto mt-8 flex max-w-4xl flex-col gap-6 rounded-xl border border-mhts-stone bg-card p-6 md:mt-12 md:flex-row md:items-center md:p-8">
             <div className="md:flex-1">
               <h2 className="text-xl text-mhts-ink md:text-2xl">Maintenance and aftercare</h2>
               <p className="mt-2 font-body text-sm leading-relaxed text-muted-foreground">
@@ -356,15 +364,15 @@ const MHTSLanding = () => {
         </div>
       </section>
 
-      {/* ─── 7. FAQ, four questions ─── */}
-      <section className="bg-card py-16 md:py-20">
+      {/* ─── 6. FAQ, four questions ─── */}
+      <section className={`${S} bg-card py-10 md:py-12`}>
         <div className="container mx-auto px-4">
-          <div className="mb-10 text-center">
+          <div className="mb-6 text-center md:mb-8">
             <Eyebrow>Your questions answered</Eyebrow>
-            <h2 className="text-3xl text-mhts-ink md:text-4xl">
+            <h2 className="text-2xl text-mhts-ink md:text-4xl">
               Frequently Asked Questions About Hair Systems &amp; SMP
             </h2>
-            <div className="mx-auto mt-4 h-0.5 w-12 bg-mhts-red" />
+            <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />
           </div>
           <div className="mx-auto max-w-3xl">
             <Accordion type="single" collapsible className="w-full">
@@ -379,7 +387,7 @@ const MHTSLanding = () => {
                 </AccordionItem>
               ))}
             </Accordion>
-            <div className="mt-8 text-center">
+            <div className="mt-6 text-center">
               <Link
                 to="/faq"
                 className="inline-flex items-center gap-2 rounded-md border border-mhts-stone-deep px-7 py-3 font-body text-sm font-semibold text-mhts-ink transition-colors hover:border-mhts-red hover:text-mhts-red-deep"
@@ -391,47 +399,47 @@ const MHTSLanding = () => {
         </div>
       </section>
 
-      {/* ─── 8. LATEST FROM THE BLOG ─── */}
-      <section className="bg-mhts-sand py-16 md:py-20">
+      {/* ─── 7. LATEST FROM THE BLOG ─── */}
+      <section className={`${S} bg-mhts-sand py-10 md:py-12`}>
         <div className="container mx-auto px-4">
-          <div className="mb-10 text-center">
+          <div className="mb-6 text-center md:mb-8">
             <Eyebrow>From the blog</Eyebrow>
-            <h2 className="text-3xl text-mhts-ink md:text-4xl">
+            <h2 className="text-2xl text-mhts-ink md:text-4xl">
               Latest Articles &amp; Expert Advice on Hair Replacement
             </h2>
-            <div className="mx-auto mt-4 h-0.5 w-12 bg-mhts-red" />
+            <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />
           </div>
-          {/* Swipeable on a phone, three across from md. Stacked, these three
-              cards were 1,867px. */}
-          <div className="mhts-snap-x -mx-4 flex max-w-5xl snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 md:mx-auto md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0">
+          {/* One post per swipe on a phone with the next one peeking, three
+              across from md. */}
+          <div className="mhts-snap-x -mx-4 flex max-w-5xl snap-x snap-mandatory scroll-pl-4 gap-4 overflow-x-auto px-4 pb-2 md:mx-auto md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0">
             {/* Live posts only. This strip showed future-dated posts early. */}
             {latestPosts(blogPosts, 3).map((post, i) => (
-              <Reveal key={post.slug} as="article" delay={i * 0.06} className="w-[80%] shrink-0 snap-center md:h-full md:w-auto">
+              <Reveal key={post.slug} as="article" delay={i * 0.06} className="w-[80%] shrink-0 snap-start snap-always md:h-full md:w-auto md:snap-align-none">
                 <div className="group flex h-full flex-col overflow-hidden rounded-xl border border-mhts-stone bg-card transition-all hover:-translate-y-1 hover:shadow-lg">
                   {post.image && (
-                    <Link to={`/blog/${post.slug}`} className="block aspect-[16/10] overflow-hidden">
+                    <Link to={`/blog/${post.slug}`} className="block aspect-[16/9] overflow-hidden">
                       <ResponsiveImage
                         src={post.image}
                         alt={post.title}
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        sizes="(max-width: 768px) 100vw, 380px"
+                        sizes="(max-width: 768px) 80vw, 380px"
                       />
                     </Link>
                   )}
-                  <div className="flex flex-1 flex-col p-6">
-                    <time className="mb-3 font-body text-xs uppercase tracking-wider text-muted-foreground">
+                  <div className="flex flex-1 flex-col p-5">
+                    <time className="mb-2 font-body text-xs uppercase tracking-wider text-muted-foreground">
                       {new Date(post.date).toLocaleDateString("en-GB", {
                         day: "numeric",
                         month: "long",
                         year: "numeric",
                       })}
                     </time>
-                    <h3 className="mb-3 text-lg leading-snug text-mhts-ink">
+                    <h3 className="mb-2 text-base leading-snug text-mhts-ink md:text-lg">
                       <Link to={`/blog/${post.slug}`} className="transition-colors hover:text-mhts-red-deep">
                         {post.title}
                       </Link>
                     </h3>
-                    <p className="line-clamp-3 flex-1 font-body text-sm leading-relaxed text-muted-foreground">
+                    <p className="line-clamp-2 flex-1 font-body text-sm leading-relaxed text-muted-foreground">
                       {post.excerpt}
                     </p>
                     {/* aria-label carries the post title so the link is not three
@@ -440,7 +448,7 @@ const MHTSLanding = () => {
                     <Link
                       to={`/blog/${post.slug}`}
                       aria-label={`Read more: ${post.title}`}
-                      className="mt-5 inline-flex items-center gap-1.5 font-body text-sm font-semibold text-mhts-red-deep transition-all hover:gap-2.5"
+                      className="mt-4 inline-flex items-center gap-1.5 font-body text-sm font-semibold text-mhts-red-deep transition-all hover:gap-2.5"
                     >
                       Read More <ChevronRight className="h-4 w-4" aria-hidden="true" />
                     </Link>
@@ -449,7 +457,7 @@ const MHTSLanding = () => {
               </Reveal>
             ))}
           </div>
-          <div className="mt-10 text-center">
+          <div className="mt-6 text-center">
             <Link
               to="/blog"
               className="inline-flex items-center gap-2 rounded-md border border-mhts-stone-deep px-7 py-3 font-body text-sm font-semibold text-mhts-ink transition-colors hover:border-mhts-red hover:text-mhts-red-deep"
@@ -460,14 +468,14 @@ const MHTSLanding = () => {
         </div>
       </section>
 
-      {/* ─── 9. BOOK AND CONTACT, merged ─── */}
-      <section id="mhts-book" className="scroll-mt-24 bg-card pt-16 md:pt-20">
+      {/* ─── 8. BOOK ─── */}
+      <section id="mhts-book" className={`${S} scroll-mt-24 bg-card pt-8 md:pt-12`}>
         <div className="w-full">
-          <div className="container mx-auto mb-10 px-4 text-center">
+          <div className="container mx-auto mb-6 px-4 text-center md:mb-8">
             <Eyebrow>Free, private, no obligation</Eyebrow>
             <h2 className="text-3xl text-mhts-ink md:text-4xl">Book a Consultation</h2>
-            <div className="mx-auto mt-4 h-0.5 w-12 bg-mhts-red" />
-            <p className="mx-auto mt-4 max-w-xl font-body text-muted-foreground">
+            <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />
+            <p className="mx-auto mt-3 max-w-xl font-body text-muted-foreground">
               Pick a time below, or call us and we will find one for you.
             </p>
           </div>
@@ -484,74 +492,56 @@ const MHTSLanding = () => {
               style={{ minWidth: "320px", width: "100%" }}
             />
           ) : (
-            <BookingPanel />
+            <BookingPanel compact />
           )}
+        </div>
+      </section>
 
-          <div id="mhts-contact" className="container mx-auto scroll-mt-24 px-4 pb-4">
-            <div className="mx-auto grid max-w-4xl grid-cols-1 items-start gap-6 md:grid-cols-2">
-              <div className="space-y-6">
-                <div className="rounded-xl border border-mhts-stone bg-card p-6">
-                  <h3 className="mb-4 text-base text-mhts-ink">Contact</h3>
-                  <div className="space-y-4">
-                    <a
-                      href={`tel:${PHONE_TEL}`}
-                      data-cta="call"
-                      className="flex items-center gap-3 font-body text-mhts-ink transition-colors hover:text-mhts-red-deep"
-                    >
-                      <Phone className="h-5 w-5 text-mhts-red" aria-hidden="true" />
-                      <span className="text-lg tracking-wide">{PHONE_DISPLAY}</span>
-                    </a>
-                    <a
-                      href={`mailto:${EMAIL}`}
-                      className="flex items-center gap-3 break-all font-body text-mhts-ink transition-colors hover:text-mhts-red-deep"
-                    >
-                      <Mail className="h-5 w-5 shrink-0 text-mhts-red" aria-hidden="true" />
-                      <span>{EMAIL}</span>
-                    </a>
-                    <a
-                      href={GOOGLE_MAPS_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-start gap-3 font-body text-foreground/80 transition-colors hover:text-mhts-red-deep"
-                    >
-                      <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-mhts-red" aria-hidden="true" />
-                      <span>{ADDRESS_LINE}</span>
-                    </a>
-                  </div>
-                </div>
-                <StudioMap />
+      {/* ─── 9. CONTACT, hours and the map ─── */}
+      <section id="mhts-contact" className={`${S} scroll-mt-24 bg-mhts-sand py-6 md:py-12`}>
+        <div className="container mx-auto px-4">
+          <div className="mx-auto grid max-w-4xl grid-cols-1 items-start gap-4 md:grid-cols-2 md:gap-6">
+            <div className="rounded-xl border border-mhts-stone bg-card p-5 md:p-6">
+              <h3 className="mb-3 text-base text-mhts-ink md:mb-4">Contact</h3>
+              <div className="space-y-3 md:space-y-4">
+                <a
+                  href={`tel:${PHONE_TEL}`}
+                  data-cta="call"
+                  className="flex items-center gap-3 font-body text-mhts-ink transition-colors hover:text-mhts-red-deep"
+                >
+                  <Phone className="h-5 w-5 text-mhts-red" aria-hidden="true" />
+                  <span className="text-lg tracking-wide">{PHONE_DISPLAY}</span>
+                </a>
+                <a
+                  href={`mailto:${EMAIL}`}
+                  className="flex items-center gap-3 break-all font-body text-mhts-ink transition-colors hover:text-mhts-red-deep"
+                >
+                  <Mail className="h-5 w-5 shrink-0 text-mhts-red" aria-hidden="true" />
+                  <span>{EMAIL}</span>
+                </a>
+                <a
+                  href={GOOGLE_MAPS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-3 font-body text-foreground/80 transition-colors hover:text-mhts-red-deep"
+                >
+                  <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-mhts-red" aria-hidden="true" />
+                  <span>{ADDRESS_LINE}</span>
+                </a>
               </div>
-              <OpeningHours />
+              {/* The hours inside the contact card rather than a box of their
+                  own: as a separate box the section did not fit a phone screen. */}
+              <div className="mt-4 border-t border-mhts-stone pt-3 md:mt-5 md:pt-4">
+                <OpeningHours columns />
+              </div>
             </div>
-
-            {/* Areas, one line of links rather than a section of its own. */}
-            <div id="mhts-areas" className="mx-auto mt-10 max-w-4xl scroll-mt-24 border-t border-mhts-stone pt-6 text-center">
-              <p className="font-body text-sm leading-relaxed text-muted-foreground">
-                <span className="font-semibold text-mhts-ink">Serving </span>
-                {areas.map((area, i) => (
-                  <span key={area}>
-                    <Link
-                      to="/areas-serviced"
-                      className="text-mhts-red-deep underline-offset-4 hover:underline"
-                    >
-                      {area}
-                    </Link>
-                    {i < areas.length - 1 ? ", " : " "}
-                  </span>
-                ))}
-                and{" "}
-                <Link to="/areas-serviced" className="text-mhts-red-deep underline-offset-4 hover:underline">
-                  the rest of Buckinghamshire
-                </Link>
-                .
-              </p>
-            </div>
+            <StudioMap compact />
           </div>
         </div>
       </section>
 
-      {/* ─── FINAL CTA BAND ─── */}
-      <section className="relative overflow-hidden bg-mhts-deep py-14 md:py-16">
+      {/* ─── FINAL CTA BAND, with the areas line ─── */}
+      <section className={`${S} relative overflow-hidden bg-mhts-deep py-14 md:py-16`}>
         <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_50%_100%,hsl(var(--mhts-red)/0.25),transparent_65%)]" />
         <div className="container relative mx-auto px-4 text-center">
           <h2 className="text-2xl text-white md:text-3xl">Ready when you are</h2>
@@ -562,6 +552,29 @@ const MHTSLanding = () => {
           <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <BookButton size="lg" href="#mhts-book" />
             <CallButton size="lg" tone="dark" />
+          </div>
+
+          {/* Areas, one line of links rather than a section of its own. */}
+          <div id="mhts-areas" className="mx-auto mt-12 max-w-3xl scroll-mt-24 border-t border-white/15 pt-6">
+            <p className="font-body text-sm leading-relaxed text-white/75">
+              <span className="font-semibold text-white">Serving </span>
+              {areas.map((area, i) => (
+                <span key={area}>
+                  <Link
+                    to="/areas-serviced"
+                    className="text-mhts-red-light underline-offset-4 hover:underline"
+                  >
+                    {area}
+                  </Link>
+                  {i < areas.length - 1 ? ", " : " "}
+                </span>
+              ))}
+              and{" "}
+              <Link to="/areas-serviced" className="text-mhts-red-light underline-offset-4 hover:underline">
+                the rest of Buckinghamshire
+              </Link>
+              .
+            </p>
           </div>
         </div>
       </section>

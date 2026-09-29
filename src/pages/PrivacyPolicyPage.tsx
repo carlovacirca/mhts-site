@@ -1,6 +1,19 @@
 import { Link } from "react-router-dom";
 import { CalendarCheck, Mail, Phone, MapPin } from "lucide-react";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
+import { CtaPair } from "@/components/mhts/CtaButtons";
+
+// The contents list, in page order. Each label is the section's own heading.
+const sections = [
+  { id: "who-we-are", label: "Who we are" },
+  { id: "what-data-we-collect", label: "What data we collect" },
+  { id: "how-we-use-your-data", label: "How we use your data" },
+  { id: "third-party-services-we-use", label: "Third-party services we use" },
+  { id: "cookies-and-analytics", label: "Cookies and analytics" },
+  { id: "how-long-we-keep-your-data", label: "How long we keep your data" },
+  { id: "your-rights", label: "Your rights" },
+  { id: "contact-us-about-your-data", label: "Contact us about your data" },
+];
 
 const PrivacyPolicyPage = () => {
   useSeo({
@@ -16,27 +29,45 @@ const PrivacyPolicyPage = () => {
 
   return (
     <div className="mhts-theme">
+      {/* Batch 4b. A policy is a document, so it is set as one: a quiet sand
+          header, a contents list that stays beside the text on a desktop, and
+          the sections in a reading column with a rule between each. The words
+          are unchanged. */}
       {/* HERO */}
-      <section className="relative py-24 flex items-center bg-mhts-charcoal overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-mhts-charcoal via-mhts-charcoal/95 to-mhts-charcoal/80" />
-        <div className="container mx-auto px-4 relative z-10">
-          <p className="text-mhts-white/60 uppercase tracking-[0.3em] text-sm mb-4 font-body">
+      <section className="border-b border-mhts-stone bg-mhts-sand py-12 md:py-16">
+        <div className="container mx-auto max-w-6xl px-4">
+          <p className="mb-4 inline-block rounded-full bg-mhts-red-tint px-3 py-1 font-body text-xs font-semibold uppercase tracking-[0.2em] text-mhts-red-deep">
             Legal
           </p>
-          <h1 className="text-3xl md:text-5xl font-light tracking-wide text-mhts-white mb-4 leading-tight">
+          <h1 className="mb-4 text-3xl leading-tight text-mhts-ink md:text-5xl">
             Privacy Policy
           </h1>
-          <p className="text-mhts-white/70 text-lg max-w-xl font-body">
+          <p className="max-w-xl font-body text-lg text-muted-foreground">
             Last updated: 12 July 2026
           </p>
         </div>
       </section>
 
       {/* CONTENT */}
-      <section className="py-20">
-        <div className="container mx-auto px-4 max-w-3xl space-y-12 text-foreground/80 font-body leading-relaxed">
+      <section className="py-12 md:py-16">
+        <div className="container mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-[240px_1fr] lg:gap-16">
+        <nav aria-label="On this page" className="hidden lg:sticky lg:top-28 lg:block lg:self-start">
+          <ol className="space-y-1 border-l-2 border-mhts-stone">
+            {sections.map((sec) => (
+              <li key={sec.id}>
+                <a
+                  href={`#${sec.id}`}
+                  className="-ml-0.5 block border-l-2 border-transparent py-1.5 pl-4 font-body text-sm text-foreground/75 transition-colors hover:border-mhts-red hover:text-mhts-red-deep"
+                >
+                  {sec.label}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+        <div className="max-w-3xl divide-y divide-mhts-stone font-body leading-relaxed text-foreground/80 [&>div]:py-9 [&>div:first-child]:pt-0">
           <div>
-            <h2 className="text-2xl text-mhts-charcoal font-light tracking-wide mb-4">
+            <h2 id="who-we-are" className="mb-4 scroll-mt-28 text-2xl text-mhts-ink">
               Who we are
             </h2>
             <p>
@@ -48,7 +79,7 @@ const PrivacyPolicyPage = () => {
           </div>
 
           <div>
-            <h2 className="text-2xl text-mhts-charcoal font-light tracking-wide mb-4">
+            <h2 id="what-data-we-collect" className="mb-4 scroll-mt-28 text-2xl text-mhts-ink">
               What data we collect
             </h2>
             <p className="mb-4">
@@ -68,7 +99,7 @@ const PrivacyPolicyPage = () => {
           </div>
 
           <div>
-            <h2 className="text-2xl text-mhts-charcoal font-light tracking-wide mb-4">
+            <h2 id="how-we-use-your-data" className="mb-4 scroll-mt-28 text-2xl text-mhts-ink">
               How we use your data
             </h2>
             <p className="mb-4">We use the information you give us to:</p>
@@ -87,7 +118,7 @@ const PrivacyPolicyPage = () => {
           </div>
 
           <div>
-            <h2 className="text-2xl text-mhts-charcoal font-light tracking-wide mb-4">
+            <h2 id="third-party-services-we-use" className="mb-4 scroll-mt-28 text-2xl text-mhts-ink">
               Third-party services we use
             </h2>
             <p className="mb-4">
@@ -113,7 +144,7 @@ const PrivacyPolicyPage = () => {
           </div>
 
           <div>
-            <h2 className="text-2xl text-mhts-charcoal font-light tracking-wide mb-4">
+            <h2 id="cookies-and-analytics" className="mb-4 scroll-mt-28 text-2xl text-mhts-ink">
               Cookies and analytics
             </h2>
             <p className="mb-4">
@@ -141,7 +172,7 @@ const PrivacyPolicyPage = () => {
           </div>
 
           <div>
-            <h2 className="text-2xl text-mhts-charcoal font-light tracking-wide mb-4">
+            <h2 id="how-long-we-keep-your-data" className="mb-4 scroll-mt-28 text-2xl text-mhts-ink">
               How long we keep your data
             </h2>
             <p>
@@ -154,7 +185,7 @@ const PrivacyPolicyPage = () => {
           </div>
 
           <div>
-            <h2 className="text-2xl text-mhts-charcoal font-light tracking-wide mb-4">
+            <h2 id="your-rights" className="mb-4 scroll-mt-28 text-2xl text-mhts-ink">
               Your rights
             </h2>
             <p>
@@ -166,7 +197,7 @@ const PrivacyPolicyPage = () => {
           </div>
 
           <div>
-            <h2 className="text-2xl text-mhts-charcoal font-light tracking-wide mb-4">
+            <h2 id="contact-us-about-your-data" className="mb-4 scroll-mt-28 text-2xl text-mhts-ink">
               Contact us about your data
             </h2>
             <div className="bg-mhts-light border border-border rounded-sm p-6 space-y-3 not-prose">
@@ -192,20 +223,17 @@ const PrivacyPolicyPage = () => {
             </div>
           </div>
         </div>
+        </div>
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-mhts-light">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl text-mhts-charcoal font-light tracking-wide mb-8">
+      <section className="relative overflow-hidden bg-mhts-deep py-14 md:py-16">
+        <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_50%_100%,hsl(var(--mhts-red)/0.25),transparent_65%)]" />
+        <div className="container relative mx-auto px-4 text-center">
+          <h2 className="mb-8 text-3xl text-white md:text-4xl">
             Ready to get started?
           </h2>
-          <Link
-            to="/book"
-            className="inline-flex items-center gap-2 bg-mhts-charcoal text-mhts-white font-medium px-8 py-3 rounded-sm hover:bg-mhts-charcoal/90 transition-colors font-body tracking-wide"
-          >
-            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-          </Link>
+          <CtaPair size="lg" tone="dark" label="Book Free Consultation" className="justify-center" />
         </div>
       </section>
     </div>

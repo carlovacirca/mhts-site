@@ -37,6 +37,9 @@ const servedPrerendered =
   typeof document !== "undefined" &&
   document.documentElement.getAttribute(PRERENDERED_ATTRIBUTE) === "1";
 
+/** True only inside the build's own headless browser. */
+export const isPrerenderPass = (): boolean => prerenderPass;
+
 /** True if this page's HTML was pre-rendered, or is being pre-rendered now. */
 export const wasPrerendered = (): boolean => prerenderPass || servedPrerendered;
 

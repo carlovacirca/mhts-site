@@ -51,6 +51,8 @@ const ratio = (a, b) => {
 };
 
 const WHITE = [255, 255, 255];
+/** A colour at `alpha` opacity laid over `bg`, as the browser paints it. */
+const over = (fg, alpha, bg) => fg.map((v, i) => Math.round(v * alpha + bg[i] * (1 - alpha)));
 const C = {
   red: token("mhts-red"),
   redDeep: token("mhts-red-deep"),
@@ -64,6 +66,8 @@ const C = {
   card: WHITE,
   background: hslToRgb(0, 0, 0.98),
   muted: token("muted-foreground"),
+  border: token("border"),
+  input: token("input"),
   white: WHITE,
 };
 
@@ -101,9 +105,32 @@ const PAIRS = [
   ["Outline button border on white", C.stoneDeep, C.card, "ui"],
   ["Outline button border on sand", C.stoneDeep, C.sand, "ui"],
   ["Inactive carousel dot on sand", C.stoneDeep, C.sand, "ui"],
+  ["Form field edge (--input) on white", C.input, C.card, "ui"],
+  ["Form field edge (--input) on the page background", C.input, C.background, "ui"],
+  ["Form field edge (--input) on sand", C.input, C.sand, "ui"],
+  ["Default edge (--border) on white", C.border, C.card, "ui"],
+  ["Default edge (--border) on the page background", C.border, C.background, "ui"],
+  ["Default edge (--border) on sand", C.border, C.sand, "ui"],
   ["Red rule against white", C.red, C.card, "ui"],
   ["Red rule against sand", C.red, C.sand, "ui"],
   ["Focus ring, red against white", C.red, C.card, "ui"],
+  // Batch 4b. Translucent white is how the dark bands set secondary text, so
+  // each opacity in use is checked as painted over the deep dark.
+  ["4b: white/60 small labels on deep", over(WHITE, 0.6, C.deep), C.deep, "text"],
+  ["4b: white/70 on deep", over(WHITE, 0.7, C.deep), C.deep, "text"],
+  ["4b: white/75 on deep", over(WHITE, 0.75, C.deep), C.deep, "text"],
+  ["4b: white/80 on deep", over(WHITE, 0.8, C.deep), C.deep, "text"],
+  ["4b: white/85 on a white/5 card on deep", over(WHITE, 0.85, over(WHITE, 0.05, C.deep)), over(WHITE, 0.05, C.deep), "text"],
+  ["4b: white/70 on a white/5 card on deep", over(WHITE, 0.7, over(WHITE, 0.05, C.deep)), over(WHITE, 0.05, C.deep), "text"],
+  ["4b: light red on a white/5 card on deep", C.redLight, over(WHITE, 0.05, C.deep), "text"],
+  ["4b: category chip, red-deep on the tint", C.redDeep, C.redTint, "text"],
+  ["4b: red-deep on a white button on red", C.redDeep, C.card, "text"],
+  ["4b: muted text on the page background", C.muted, C.background, "text"],
+  ["4b: body text at 75% on sand", over(C.ink, 0.75, C.sand), C.sand, "text"],
+  ["4b: body text at 80% on white", over(C.ink, 0.8, C.card), C.card, "text"],
+  ["4b: white/85 on the featured post scrim (deep/80)", over(WHITE, 0.85, C.deep), over(C.deep, 0.8, [128, 128, 128]), "text"],
+  ["4b: pull-quote rule, red on white", C.red, C.card, "ui"],
+  ["4b: step number, white on red", C.white, C.red, "text"],
   // Google's own star yellow, which the review block must use to be honest
   // about where the reviews came from. Every star group carries an aria-label
   // spelling the rating out, so the rating is never colour-only.

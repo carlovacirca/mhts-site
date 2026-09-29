@@ -77,6 +77,34 @@ describe("StickyMobileCTA", () => {
     expect(bar()).toHaveAttribute("data-visible", "0");
   });
 
+  // Batch 4b fix of a 4a bug. A grid row at 0fr can only shrink its child to
+  // the child's own padding plus border, so a padded child left a 21px strip
+  // (20px of py-2.5, 1px of border-t) at the foot of every phone screen. jsdom
+  // does no layout, so this adds up what the collapsing child can never shrink
+  // below; the pre-render measures the real bar at 390px in Chromium and fails
+  // the build if it is not 0px.
+  it("measures 0px tall when collapsed: the collapsing row has no padding, no border and min-height 0", () => {
+    renderBar(true);
+    expect(bar().className).toContain("grid-rows-[0fr]");
+    const row = screen.getByTestId("sticky-mobile-cta-row");
+    expect(row.parentElement).toBe(bar());
+    const classes = row.className.split(/\s+/);
+    expect(classes).toContain("min-h-0");
+    expect(classes).toContain("overflow-hidden");
+    const PX: Record<string, number> = { "0": 0, "0.5": 2, "1": 4, "1.5": 6, "2": 8, "2.5": 10, "3": 12, "4": 16 };
+    let floor = 0;
+    for (const c of classes) {
+      const pad = c.match(/^(?:p|py|pt|pb)-([\d.]+)$/);
+      if (pad) floor += (c.startsWith("py-") || c.startsWith("p-") ? 2 : 1) * (PX[pad[1]] ?? 99);
+      if (/^border(-[tb])?(-\d)?$/.test(c)) floor += c.startsWith("border-t") || c.startsWith("border-b") ? 1 : 2;
+    }
+    expect(floor, "px the collapsed row can never shrink below").toBe(0);
+    // The padding and the rule live one level in, where they collapse with it.
+    const inner = row.firstElementChild as HTMLElement;
+    expect(inner.className).toContain("py-2.5");
+    expect(inner.className).toContain("border-t");
+  });
+
   it("is inert to the keyboard and to screen readers while it is hidden", () => {
     renderBar(true);
     expect(bar()).toHaveAttribute("aria-hidden", "true");

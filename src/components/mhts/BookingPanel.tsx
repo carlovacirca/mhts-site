@@ -12,13 +12,15 @@ import { EMAIL, PHONE_DISPLAY, PHONE_TEL, hoursForToday } from "@/lib/site";
 // so a reader who wants the calendar can have it in one tap without hunting
 // for the banner.
 
-const BookingPanel = () => {
+/** `compact` tightens the spacing for the homepage, where it has to fit one screen. */
+const BookingPanel = ({ compact = false }: { compact?: boolean } = {}) => {
   const today = hoursForToday();
+  const gap = compact ? "mt-4" : "mt-6";
 
   return (
-    <div className="container mx-auto px-4 pb-16">
-      <div className="mx-auto max-w-2xl rounded-xl border border-mhts-stone bg-card p-7 sm:p-9">
-        <div className="mb-6 flex items-start gap-4">
+    <div className={`container mx-auto px-4 ${compact ? "pb-10 md:pb-12" : "pb-16"}`}>
+      <div className={`mx-auto max-w-2xl rounded-xl border border-mhts-stone bg-card ${compact ? "p-5 sm:p-8" : "p-7 sm:p-9"}`}>
+        <div className={`flex items-start gap-4 ${compact ? "mb-4" : "mb-6"}`}>
           <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-mhts-red-tint">
             <CalendarCheck className="h-6 w-6 text-mhts-red" aria-hidden="true" />
           </span>
@@ -49,7 +51,7 @@ const BookingPanel = () => {
           </a>
         </div>
 
-        <div className="mt-6 flex items-center gap-2.5 rounded-md bg-mhts-sand px-4 py-3">
+        <div className={`${gap} flex items-center gap-2.5 rounded-md bg-mhts-sand px-4 py-3`}>
           <Clock className="h-4 w-4 shrink-0 text-mhts-red" aria-hidden="true" />
           <p className="font-body text-sm text-mhts-ink">
             <span className="font-semibold">{today.day}:</span> {today.time}
@@ -57,7 +59,7 @@ const BookingPanel = () => {
           </p>
         </div>
 
-        <div className="mt-6 border-t border-mhts-stone pt-5 text-center">
+        <div className={`${gap} border-t border-mhts-stone pt-4 text-center`}>
           <button
             type="button"
             onClick={() => setCookieConsent("accepted")}

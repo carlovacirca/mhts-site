@@ -47,7 +47,8 @@ const AUTOPLAY_MS = 6000;
  * `data-carousel-ready` is set, which is to say only once JavaScript is
  * running. See src/index.css.
  */
-const GoogleReviews = () => {
+/** `compact` tightens the spacing for the homepage, where it has to fit one screen. */
+const GoogleReviews = ({ compact = false }: { compact?: boolean } = {}) => {
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   // Seeded from the pre-rendered HTML so React's first render matches what the
@@ -133,7 +134,7 @@ const GoogleReviews = () => {
       onPointerDown={pause}
     >
       {/* Header card: the Google logo, five stars, and the way out to the listing. */}
-      <div className="mx-auto mb-8 flex max-w-3xl flex-col items-center gap-4 rounded-xl border border-mhts-stone bg-card px-6 py-6 text-center sm:flex-row sm:justify-between sm:text-left">
+      <div className={`mx-auto flex max-w-3xl flex-col items-center rounded-xl border border-mhts-stone bg-card px-6 text-center sm:flex-row sm:justify-between sm:text-left ${compact ? "mb-5 gap-3 py-4" : "mb-8 gap-4 py-6"}`}>
         <div className="flex items-center gap-4">
           <GoogleMark className="h-9 w-9 shrink-0" />
           <div>
@@ -162,6 +163,7 @@ const GoogleReviews = () => {
         data-carousel-ready={ready ? "1" : undefined}
         data-testid="reviews-track"
         className="mhts-snap-x -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-4 pb-2 md:mx-0 md:px-0"
+        // One review per swipe (snap-always on each card), the next one peeking.
         role="group"
         aria-roledescription="carousel"
         aria-label="Google reviews"
@@ -173,7 +175,7 @@ const GoogleReviews = () => {
             data-active={i === active ? "1" : undefined}
             aria-roledescription="slide"
             aria-label={`Review ${i + 1} of ${reviews.length}, ${r.name}`}
-            className="flex w-[85%] shrink-0 snap-center flex-col rounded-xl border border-mhts-stone bg-card p-6 sm:w-[60%] md:w-[44%] lg:w-[41%]"
+            className={`flex w-[85%] shrink-0 snap-center snap-always flex-col rounded-xl border border-mhts-stone bg-card sm:w-[60%] md:w-[44%] lg:w-[41%] ${compact ? "p-5" : "p-6"}`}
           >
             <div className="mb-4 flex items-center gap-3">
               <span
@@ -209,7 +211,7 @@ const GoogleReviews = () => {
           extra layout shift on a phone. The track itself is a native scroller,
           so a reader without JavaScript can still swipe through all three
           reviews; only these two arrows are inert for them. */}
-      <div className="mt-6 flex items-center justify-center gap-4">
+      <div className={`flex items-center justify-center gap-4 ${compact ? "mt-4" : "mt-6"}`}>
         <button
           type="button"
           onClick={() => go(-1)}

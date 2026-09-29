@@ -1,9 +1,32 @@
+import { useEffect, useRef } from "react";
 import { Cookie } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCookieConsent, setCookieConsent } from "@/lib/cookieConsent";
+import { isPrerenderPass } from "@/lib/prerender";
+
+const COOKIE_HEIGHT_VAR = "--mhts-cookie-h";
 
 const CookieConsentBanner = () => {
   const consent = useCookieConsent();
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Publishes the banner's height while it is open, so the homepage's section
+  // scroll can keep content out from under it (see src/index.css). Skipped in
+  // the pre-render, which removes the banner from the saved HTML and must not
+  // bake a height into it either.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || isPrerenderPass() || typeof ResizeObserver === "undefined") return;
+    const root = document.documentElement;
+    const publish = () => root.style.setProperty(COOKIE_HEIGHT_VAR, `${el.offsetHeight}px`);
+    publish();
+    const observer = new ResizeObserver(publish);
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      root.style.removeProperty(COOKIE_HEIGHT_VAR);
+    };
+  }, [consent]);
 
   if (consent !== null) return null;
 
@@ -16,6 +39,7 @@ const CookieConsentBanner = () => {
     // Position comes from the fixed stack in Layout, which keeps this banner
     // below the sticky call to action rather than on top of it.
     <div
+      ref={ref}
       data-prerender-strip="cookie-banner"
       className="border-t border-white/10 bg-mhts-ink text-white"
     >

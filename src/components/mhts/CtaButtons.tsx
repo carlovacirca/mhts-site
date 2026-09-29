@@ -88,9 +88,10 @@ export const CtaPair = ({
   href = "/book",
   className = "",
   callLabel,
+  label,
 }: ButtonProps & { tone?: "light" | "dark"; callLabel?: string }) => (
   <div className={`flex flex-col sm:flex-row gap-3 ${className}`}>
-    <BookButton size={size} href={href} />
+    <BookButton size={size} href={href} label={label} />
     <CallButton size={size} tone={tone} label={callLabel} />
   </div>
 );

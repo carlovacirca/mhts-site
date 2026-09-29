@@ -43,18 +43,37 @@ const StickyMobileCTA = () => {
   // Hidden by collapsing the row to zero height, not by sliding it downwards.
   // The bar and the cookie banner share one fixed stack, so a translated bar
   // would slide straight on top of the banner rather than off the screen. A
-  // 0fr to 1fr grid row animates the height without that side effect and
-  // leaves the banner sitting at the bottom where it belongs.
+  // 0fr to 1fr grid row opens it without that side effect and leaves the
+  // banner sitting at the bottom where it belongs.
   return (
     <div
       data-testid="sticky-mobile-cta"
       data-visible={show ? "1" : "0"}
       aria-hidden={show ? undefined : "true"}
-      className={`grid transition-[grid-template-rows] duration-200 ease-out md:hidden ${
+      // Sits on top of the fixed stack (bottom-full) rather than in its flow.
+      // In the flow, opening the bar raised the stack's top edge above an open
+      // cookie banner, and the browser counts that as layout shift. Out of the
+      // flow the stack never moves, and the bar grows from 0px, which is not
+      // a shift. It still sits directly above the banner, never on top of it.
+      className={`absolute inset-x-0 bottom-full grid md:hidden ${
         show ? "grid-rows-[1fr]" : "pointer-events-none grid-rows-[0fr]"
       }`}
     >
-      <div className="grid grid-cols-2 gap-2 overflow-hidden border-t border-white/10 bg-mhts-deep/95 px-3 py-2.5 backdrop-blur-sm">
+      {/* The collapsing child carries no padding and no border, and min-h-0, so
+          the 0fr row really is 0px. With the padding and border on this child
+          (batch 4a) the row could not shrink below 21px, and a strip with the
+          tops of both buttons showed at the foot of every phone screen while
+          the bar was meant to be hidden. They live on the inner wrapper now. */}
+      <div data-testid="sticky-mobile-cta-row" className="min-h-0 overflow-hidden">
+      {/* The row opens in one step and the buttons slide up into it with a
+          transform (the bar-in keyframe). Animating the row's height instead
+          moved the buttons on every frame, which counts as layout shift; a
+          transform does not. Reduced motion switches the slide off. */}
+      <div
+        className={`grid grid-cols-2 gap-2 border-t border-white/10 bg-mhts-deep/95 px-3 py-2.5 backdrop-blur-sm ${
+          show ? "animate-bar-in" : ""
+        }`}
+      >
         <a
           href={`tel:${PHONE_TEL}`}
           data-cta="call"
@@ -72,6 +91,7 @@ const StickyMobileCTA = () => {
           <CalendarCheck className="h-4 w-4 shrink-0 relative z-[2]" aria-hidden="true" />
           <span className="relative z-[2]">Book free consultation</span>
         </Link>
+      </div>
       </div>
     </div>
   );
