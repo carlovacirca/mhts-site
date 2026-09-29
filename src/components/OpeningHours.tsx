@@ -1,32 +1,25 @@
 import { Clock } from "lucide-react";
-
-const mhtsHours = [
-  { day: "Monday", time: "Closed" },
-  { day: "Tuesday", time: "9:30am to 5pm" },
-  { day: "Wednesday", time: "9:30am to 5pm" },
-  { day: "Thursday", time: "9:30am to 5pm" },
-  { day: "Friday", time: "9:30am to 5pm" },
-  { day: "Saturday", time: "Closed" },
-  { day: "Sunday", time: "Closed" },
-];
+import { OPENING_HOURS } from "@/lib/site";
 
 interface OpeningHoursProps {
   compact?: boolean;
+  /** Inside another card: keeps the heading, drops the box, tightens the rows. */
+  columns?: boolean;
 }
 
-const OpeningHours = ({ compact }: OpeningHoursProps) => {
+const OpeningHours = ({ compact, columns }: OpeningHoursProps) => {
   return (
-    <div className={`${compact ? "" : "bg-mhts-light rounded-lg p-6"}`}>
+    <div className={compact || columns ? "" : "rounded-xl border border-mhts-stone bg-mhts-sand p-6"}>
       {!compact && (
-        <h3 className="font-semibold text-mhts-charcoal flex items-center gap-2 mb-4 text-base tracking-wide">
-          <Clock className="w-4 h-4" /> Opening Hours
+        <h3 className={`${columns ? "mb-2" : "mb-4"} flex items-center gap-2 text-base font-semibold tracking-wide text-mhts-ink`}>
+          <Clock className="h-4 w-4 text-mhts-red" aria-hidden="true" /> Opening Hours
         </h3>
       )}
-      <div className="space-y-1">
-        {mhtsHours.map((h) => (
-          <div key={h.day} className="flex justify-between text-sm">
+      <div className={columns ? "space-y-0.5" : "space-y-1"}>
+        {OPENING_HOURS.map((h) => (
+          <div key={h.day} className="flex justify-between gap-2 text-sm">
             <span className="font-medium">{h.day}</span>
-            <span className="text-muted-foreground">{h.time}</span>
+            <span className={h.time === "Closed" ? "text-muted-foreground" : "text-mhts-ink"}>{h.time}</span>
           </div>
         ))}
       </div>

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion } from "@/lib/motion";
 import { Calendar, Clock, ChevronRight, Share2, Facebook, Twitter, Linkedin, Mail, ArrowLeft, ChevronDown, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -10,6 +10,8 @@ import NewsletterSubscribeBar from "@/components/NewsletterSubscribeBar";
 import { useCanonical, breadcrumbSchema, SITE_URL } from "@/lib/seo";
 import { blogPosts } from "@/data/blogPosts";
 import ResponsiveImage from "@/components/ResponsiveImage";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
+import { getPicture } from "@/lib/images";
 import { relatedPosts, isPublished, isPreviewRequest } from "@/lib/publishing";
 import NotFound from "@/pages/NotFound";
 import { computeImageSlots } from "@/lib/blogImageSlots";
@@ -173,21 +175,41 @@ const BlogPostPage = () => {
     meta.setAttribute("content", post.metaDescription);
     if (!meta.parentNode) document.head.appendChild(meta);
 
-    // Open Graph
-    const setOg = (prop: string, content: string) => {
-      let el = document.querySelector(`meta[property="${prop}"]`) as HTMLMetaElement | null;
+    // Open Graph and Twitter. Both are set, because Twitter reads twitter:*
+    // first and would otherwise show the homepage card for every post.
+    const setMetaBy = (key: "property" | "name", prop: string, content: string) => {
+      let el = document.querySelector(`meta[${key}="${prop}"]`) as HTMLMetaElement | null;
       if (!el) {
         el = document.createElement("meta");
-        el.setAttribute("property", prop);
+        el.setAttribute(key, prop);
         document.head.appendChild(el);
       }
       el.content = content;
     };
+    const setOg = (prop: string, content: string) => setMetaBy("property", prop, content);
+    const setTw = (prop: string, content: string) => setMetaBy("name", prop, content);
     setOg("og:title", post.title);
     setOg("og:description", post.metaDescription);
     setOg("og:type", "article");
-    setOg("og:url", window.location.href);
-    if (post.image) setOg("og:image", new URL(post.image, window.location.origin).href);
+    setOg("og:url", `${SITE_URL}/blog/${post.slug}`);
+    setOg("article:published_time", post.date);
+    setTw("twitter:title", post.title);
+    setTw("twitter:description", post.metaDescription);
+    // The post's own hero becomes the share image. Until pre-rendering there
+    // was no point setting it, because no crawler ran the JavaScript that did.
+    if (post.image) {
+      const heroUrl = new URL(post.image, SITE_URL).href;
+      const pic = getPicture(post.image);
+      setOg("og:image", heroUrl);
+      setOg("og:image:alt", post.featuredImageAlt);
+      setOg("og:image:type", heroUrl.toLowerCase().includes(".png") ? "image/png" : "image/jpeg");
+      setTw("twitter:image", heroUrl);
+      setTw("twitter:image:alt", post.featuredImageAlt);
+      if (pic) {
+        setOg("og:image:width", String(pic.width));
+        setOg("og:image:height", String(pic.height));
+      }
+    }
 
     // BlogPosting schema. Was "Article" with no image and no dateModified, which
     // the /blog listing already contradicted by calling the same posts BlogPosting.
@@ -281,11 +303,16 @@ const BlogPostPage = () => {
   const shareUrl = typeof window !== "undefined" ? window.location.href : "";
 
   return (
-    <div className="bg-background min-h-screen">
+    // Batch 4b, layout only: the post content is untouched. The title now sits
+    // in a card that overlaps the foot of the photograph, the article is set
+    // to a reading width of about 70 characters, headings carry a red rule, the
+    // contents box and the sidebar pick up the brand, and related articles sit
+    // on their own sand band.
+    <div className="mhts-theme min-h-screen bg-background">
       {/* Reading progress */}
       <div className="fixed top-0 left-0 right-0 h-1 z-50 bg-transparent">
         <div
-          className="h-full bg-mhts-charcoal transition-all"
+          className="h-full bg-mhts-red transition-all"
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -296,7 +323,7 @@ const BlogPostPage = () => {
           <ResponsiveImage
             src={post.image}
             alt={post.featuredImageAlt}
-            className="w-full h-[40vh] md:h-[60vh] object-cover"
+            className="h-[40vh] w-full object-cover md:h-[56vh]"
             sizes="100vw"
             priority
           />
@@ -317,8 +344,8 @@ const BlogPostPage = () => {
       </div>
 
       {/* Title block */}
-      <div className="container mx-auto px-4 pt-6 grid lg:grid-cols-[1fr_280px] gap-8">
-        <section>
+      <div className="container mx-auto grid gap-8 px-4 pt-6 lg:grid-cols-[1fr_280px]">
+        <section className="relative bg-card md:-mt-28 md:rounded-2xl md:border md:border-t-4 md:border-mhts-stone md:border-t-mhts-red md:p-10 md:shadow-xl">
           <div className="mb-4">
             <Link to="/blog" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
               <ArrowLeft className="w-4 h-4" /> Back to blog
@@ -327,7 +354,7 @@ const BlogPostPage = () => {
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-3xl md:text-5xl font-bold mb-4 text-mhts-charcoal"
+            className="mb-4 text-3xl leading-tight text-mhts-ink md:text-5xl"
           >
             {post.title}
           </motion.h1>
@@ -336,7 +363,7 @@ const BlogPostPage = () => {
             <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {post.readTime}</span>
             {post.author && <span>By {post.author}</span>}
           </div>
-          <p className="italic text-lg text-muted-foreground leading-relaxed">
+          <p className="border-l-4 border-mhts-red pl-4 text-lg italic leading-relaxed text-muted-foreground">
             {post.excerpt}
           </p>
 
@@ -349,21 +376,21 @@ const BlogPostPage = () => {
 
 
         {/* Article */}
-        <article className="prose prose-slate max-w-none">
+        <article className="prose prose-slate max-w-[70ch] pt-4">
           {/* Collapsible Table of Contents */}
           {toc.length > 0 && (
-            <Collapsible defaultOpen className="not-prose mb-10 border border-border rounded-lg bg-mhts-light/40">
+            <Collapsible defaultOpen className="not-prose mb-10 rounded-xl border border-mhts-stone border-l-4 border-l-mhts-red bg-mhts-sand">
               <CollapsibleTrigger className="group flex w-full items-center justify-between p-4 text-left">
-                <span className="font-semibold text-mhts-charcoal uppercase tracking-wider text-sm">
+                <span className="text-sm font-semibold uppercase tracking-wider text-mhts-red-deep">
                   Table of Contents
                 </span>
                 <ChevronDown className="w-4 h-4 transition-transform group-data-[state=open]:rotate-180" />
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <ol className="list-decimal pl-10 pr-4 pb-4 space-y-1.5 text-sm">
+                <ol className="list-decimal space-y-1.5 pb-4 pl-10 pr-4 text-sm marker:font-semibold marker:text-mhts-red-deep">
                   {toc.map((h) => (
                     <li key={h.id}>
-                      <a href={`#${h.id}`} className="text-muted-foreground hover:text-mhts-charcoal transition-colors">
+                      <a href={`#${h.id}`} className="text-foreground/80 transition-colors hover:text-mhts-red-deep">
                         {h.text}
                       </a>
                     </li>
@@ -377,25 +404,25 @@ const BlogPostPage = () => {
             const renderBlock = (b: Block, key: string) => {
               if (b.type === "h2")
                 return (
-                  <h2 id={b.id} key={key} className="text-2xl md:text-3xl font-bold mt-10 mb-4 text-mhts-charcoal scroll-mt-24">
+                  <h2 id={b.id} key={key} className="mb-4 mt-12 scroll-mt-24 border-t-2 border-mhts-red pt-5 text-2xl text-mhts-ink md:text-3xl">
                     {b.text}
                   </h2>
                 );
               if (b.type === "h3")
                 return (
-                  <h3 id={b.id} key={key} className="text-xl font-semibold mt-6 mb-3 text-mhts-charcoal scroll-mt-24">
+                  <h3 id={b.id} key={key} className="mb-3 mt-7 scroll-mt-24 text-xl text-mhts-ink">
                     {b.text}
                   </h3>
                 );
               if (b.type === "ul")
                 return (
-                  <ul key={key} className="list-disc pl-6 my-4 space-y-1.5 text-foreground/90">
+                  <ul key={key} className="my-4 list-disc space-y-1.5 pl-6 text-foreground/90 marker:text-mhts-red">
                     {b.items!.map((it, j) => <li key={j}>{renderInline(it)}</li>)}
                   </ul>
                 );
               if (b.type === "ol")
                 return (
-                  <ol key={key} className="list-decimal pl-6 my-4 space-y-1.5 text-foreground/90">
+                  <ol key={key} className="my-4 list-decimal space-y-1.5 pl-6 text-foreground/90 marker:font-semibold marker:text-mhts-red-deep">
                     {b.items!.map((it, j) => <li key={j}>{renderInline(it)}</li>)}
                   </ol>
                 );
@@ -405,7 +432,7 @@ const BlogPostPage = () => {
                 return (
                   <div
                     key={key}
-                    className="not-prose my-8 aspect-[16/9] w-full rounded-lg border border-border bg-muted flex items-center justify-center overflow-hidden"
+                    className="not-prose my-8 flex aspect-[16/9] w-full items-center justify-center overflow-hidden rounded-xl bg-muted"
                   >
                     <ResponsiveImage
                       src={explicit.src}
@@ -426,7 +453,7 @@ const BlogPostPage = () => {
             const ImagePlaceholder = ({ k, src }: { k: string; src: string }) => (
               <div
                 key={k}
-                className="not-prose my-8 aspect-[16/9] w-full rounded-lg border border-border bg-muted flex items-center justify-center overflow-hidden"
+                className="not-prose my-8 flex aspect-[16/9] w-full items-center justify-center overflow-hidden rounded-xl bg-muted"
               >
                 <ResponsiveImage
                   src={src}
@@ -457,13 +484,13 @@ const BlogPostPage = () => {
           })()}
 
           {post.sources && post.sources.length > 0 && (
-            <section aria-labelledby="sources" className="mt-12 border-t border-border pt-6">
-              <h2 id="sources" className="text-xl font-semibold mb-4 text-mhts-charcoal">Sources</h2>
+            <section aria-labelledby="sources" className="mt-12 rounded-xl bg-mhts-sand p-6">
+              <h2 id="sources" className="mb-4 text-xl text-mhts-ink">Sources</h2>
               <ol className="list-decimal pl-6 space-y-3 text-sm text-foreground/90">
                 {post.sources.map((s) => (
                   <li key={s.url}>
                     <span className="block">{s.title}</span>
-                    <a href={s.url} target="_blank" rel="noopener noreferrer" className="break-all text-mhts-charcoal underline hover:no-underline">
+                    <a href={s.url} target="_blank" rel="noopener noreferrer" className="break-all text-mhts-red-deep underline hover:no-underline">
                       {s.url}
                     </a>
                   </li>
@@ -499,7 +526,7 @@ const BlogPostPage = () => {
             <p className="text-xs uppercase tracking-wider text-muted-foreground mb-3">Category</p>
             <Link
               to={categoryRoutes[post.category] || "/services"}
-              className="inline-block px-3 py-1 bg-mhts-light text-mhts-charcoal text-xs rounded-full hover:bg-mhts-charcoal hover:text-mhts-white transition-colors"
+              className="inline-block rounded-full bg-mhts-red-tint px-3 py-1 text-xs font-semibold text-mhts-red-deep transition-colors hover:bg-mhts-red hover:text-white"
             >
               {post.category}
             </Link>
@@ -509,7 +536,7 @@ const BlogPostPage = () => {
               <h4 className="font-bold mb-3 text-mhts-charcoal text-sm uppercase tracking-wider">
                 Related FAQs
               </h4>
-              <Accordion type="single" collapsible className="border border-border rounded-lg bg-mhts-light/40 px-3">
+              <Accordion type="single" collapsible className="rounded-xl border border-mhts-stone bg-mhts-sand px-3">
                 {post.faqs.map((f, i) => (
                   <AccordionItem key={i} value={`faq-${i}`} className="border-b last:border-b-0">
                     <AccordionTrigger className="text-sm text-left text-mhts-charcoal hover:no-underline py-3">
@@ -523,16 +550,16 @@ const BlogPostPage = () => {
               </Accordion>
             </div>
           )}
-          <div className="bg-mhts-charcoal text-mhts-white p-5 rounded-lg">
+          <div className="bg-mhts-deep text-white p-5 rounded-lg">
             <h4 className="font-bold mb-2">Book a free consultation</h4>
-            <p className="text-sm text-mhts-white/80 mb-4">
+            <p className="text-sm text-white/80 mb-4">
               Discuss your hair restoration goals with our specialists.
             </p>
-            <Link to="/#mhts-book">
-              <Button className="w-full bg-mhts-white text-mhts-charcoal hover:bg-mhts-white/90">
-                Book Free Consultation
-              </Button>
-            </Link>
+            {/* Call sits beside Book on every call to action on the site. */}
+            <div className="grid gap-2">
+              <BookButton size="sm" href="/#mhts-book" className="w-full" />
+              <CallButton size="sm" tone="dark" className="w-full" />
+            </div>
           </div>
         </aside>
 
@@ -541,12 +568,13 @@ const BlogPostPage = () => {
 
 
       {/* Related */}
-      <section className="container mx-auto px-4 pb-12">
-        <h2 className="text-2xl md:text-3xl font-bold text-mhts-charcoal mb-6">Related articles</h2>
-        <div className="grid md:grid-cols-3 gap-6">
+      <section className="bg-mhts-sand py-12 md:py-16">
+        <div className="container mx-auto px-4">
+        <h2 className="mb-6 text-2xl text-mhts-ink md:text-3xl">Related articles</h2>
+        <div className="grid gap-6 md:grid-cols-3">
           {fallbackRelated.map((p) => (
             <Link key={p.slug} to={`/blog/${p.slug}`}>
-              <Card className="h-full hover:shadow-lg transition-shadow overflow-hidden">
+              <Card className="group h-full overflow-hidden border-mhts-stone transition-all hover:-translate-y-1 hover:border-mhts-red hover:shadow-lg">
                 {p.image ? (
                   <ResponsiveImage src={p.image} alt={p.featuredImageAlt} className="aspect-[16/10] w-full object-cover" sizes="(max-width: 768px) 100vw, 300px" />
                 ) : (
@@ -555,15 +583,16 @@ const BlogPostPage = () => {
                   </div>
                 )}
                 <CardContent className="p-5">
-                  <span className="inline-block px-2 py-0.5 bg-mhts-light text-mhts-charcoal text-xs rounded-full mb-2">
+                  <span className="mb-2 inline-block rounded-full bg-mhts-red-tint px-2.5 py-0.5 text-xs font-semibold text-mhts-red-deep">
                     {p.category}
                   </span>
-                  <h3 className="font-semibold mb-2 line-clamp-2 text-mhts-charcoal">{p.title}</h3>
+                  <h3 className="mb-2 line-clamp-2 text-mhts-ink transition-colors group-hover:text-mhts-red-deep">{p.title}</h3>
                   <p className="text-sm text-muted-foreground line-clamp-2">{p.excerpt}</p>
                 </CardContent>
               </Card>
             </Link>
           ))}
+        </div>
         </div>
       </section>
 

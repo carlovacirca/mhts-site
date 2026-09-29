@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion } from "@/lib/motion";
 import { Search, Calendar, Clock, ChevronRight, Mail, Phone } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -79,21 +79,28 @@ const BlogPage = () => {
   const recentPosts = [...livePosts].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 4);
 
   return (
-    <div className="bg-background min-h-screen">
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-mhts-navy to-mhts-charcoal text-mhts-white py-20 px-4">
-        <div className="container mx-auto max-w-5xl text-center">
+    // Batch 4b. The blog is laid out as a magazine, not as another dark hero:
+    // a light masthead with the search beside the title, the categories as a
+    // row of tabs, the newest post as a cover story with its words over the
+    // photograph, then the grid and the sidebar.
+    <div className="mhts-theme min-h-screen bg-background">
+      {/* Masthead */}
+      <section className="border-b border-mhts-stone bg-mhts-sand px-4 pb-8 pt-12 md:pb-10 md:pt-16">
+        <div className="container mx-auto grid max-w-6xl items-end gap-8 md:grid-cols-[1.3fr_1fr]">
+          <div>
+          <div className="mb-5 h-1 w-14 rounded-full bg-mhts-red" />
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-6xl font-bold mb-4"
+            className="mb-4 text-4xl text-mhts-ink md:text-6xl"
           >
             Hair Restoration Blog
           </motion.h1>
-          <p className="text-lg md:text-xl text-mhts-white/80 max-w-2xl mx-auto mb-8">
+          <p className="max-w-2xl text-lg text-muted-foreground md:text-xl">
             Expert insights on hair systems, scalp micropigmentation and modern hair loss solutions.
           </p>
-          <div className="max-w-xl mx-auto relative">
+          </div>
+          <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
               value={search}
@@ -102,22 +109,23 @@ const BlogPage = () => {
                 setPage(1);
               }}
               placeholder="Search articles..."
-              className="pl-10 bg-background text-foreground h-12"
+              className="h-12 bg-card pl-10 text-foreground"
             />
           </div>
         </div>
       </section>
 
       {/* Breadcrumbs */}
-      <div className="container mx-auto px-4 py-4 text-sm text-muted-foreground">
+      <div className="container mx-auto max-w-6xl px-4 py-4 text-sm text-muted-foreground">
         <Link to="/" className="hover:text-foreground">Home</Link>
         <ChevronRight className="inline w-3 h-3 mx-1" />
         <span className="text-foreground">Blog</span>
       </div>
 
       {/* Category filters */}
-      <div className="container mx-auto px-4 mb-8">
-        <div className="flex flex-wrap gap-2">
+      <div className="container mx-auto mb-8 max-w-6xl px-4">
+        {/* Tabs on one line; on a phone the row scrolls sideways. */}
+        <div className="mhts-snap-x -mx-4 flex gap-1 overflow-x-auto border-b border-mhts-stone px-4 md:mx-0 md:flex-wrap md:px-0">
           {categories.map((cat) => (
             <button
               key={cat}
@@ -125,10 +133,11 @@ const BlogPage = () => {
                 setCategory(cat);
                 setPage(1);
               }}
-              className={`px-4 py-1.5 rounded-full text-sm border transition-colors ${
+              aria-pressed={category === cat}
+              className={`-mb-px shrink-0 whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium transition-colors ${
                 category === cat
-                  ? "bg-mhts-charcoal text-mhts-white border-mhts-charcoal"
-                  : "bg-background text-foreground border-border hover:border-mhts-charcoal"
+                  ? "border-mhts-red text-mhts-red-deep"
+                  : "border-transparent text-muted-foreground hover:border-mhts-stone-deep hover:text-mhts-ink"
               }`}
             >
               {cat}
@@ -139,33 +148,35 @@ const BlogPage = () => {
 
       {/* Featured */}
       {category === "All Posts" && search === "" && (
-        <section className="container mx-auto px-4 mb-12">
-          <Link to={`/blog/${featured.slug}`}>
+        <section className="container mx-auto mb-12 max-w-6xl px-4">
+          <Link to={`/blog/${featured.slug}`} className="group block">
             <motion.div
               whileHover={{ y: -4 }}
-              className="grid md:grid-cols-2 gap-8 bg-card rounded-2xl overflow-hidden border border-border shadow-sm"
+              className="relative grid overflow-hidden rounded-2xl bg-mhts-deep shadow-sm md:min-h-[26rem]"
             >
               {featured.image ? (
                 <ResponsiveImage
                   src={featured.image}
                   alt={featured.featuredImageAlt}
-                  className="aspect-[16/10] md:aspect-auto w-full h-full object-cover"
-                  sizes="(max-width: 768px) 100vw, 620px"
+                  className="aspect-[16/10] h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03] md:absolute md:inset-0 md:aspect-auto"
+                  sizes="(max-width: 768px) 100vw, 1150px"
                 />
               ) : (
                 <div className="aspect-[16/10] md:aspect-auto bg-gradient-to-br from-mhts-navy to-mhts-charcoal flex items-center justify-center">
                   <span className="text-mhts-white/30 text-6xl font-bold">MHTS</span>
                 </div>
               )}
-              <div className="p-8 flex flex-col justify-center">
-                <span className="inline-block px-3 py-1 bg-mhts-charcoal text-mhts-white text-xs rounded-full w-fit mb-3">
+              <div className="relative flex flex-col justify-end p-7 md:max-w-2xl md:self-end md:p-10">
+                {/* The scrim sits under the words only, so the photograph stays clear. */}
+                <div className="absolute inset-0 hidden bg-gradient-to-t from-mhts-deep via-mhts-deep/80 to-transparent md:block" aria-hidden="true" />
+                <span className="relative mb-3 inline-block w-fit rounded-full bg-mhts-red px-3 py-1 text-xs font-semibold text-white">
                   Featured · {featured.category}
                 </span>
-                <h2 className="text-2xl md:text-3xl font-bold text-mhts-charcoal mb-3">
+                <h2 className="relative mb-3 text-2xl text-white md:text-4xl">
                   {featured.title}
                 </h2>
-                <p className="text-muted-foreground mb-4">{featured.excerpt}</p>
-                <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                <p className="relative mb-4 text-white/80">{featured.excerpt}</p>
+                <div className="relative flex items-center gap-4 text-xs text-white/75">
                   <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {formatDate(featured.date)}</span>
                   <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {featured.readTime}</span>
                 </div>
@@ -176,13 +187,13 @@ const BlogPage = () => {
       )}
 
       {/* Grid + Sidebar */}
-      <section className="container mx-auto px-4 pb-20 grid lg:grid-cols-[1fr_320px] gap-10">
+      <section className="container mx-auto grid max-w-6xl gap-10 px-4 pb-20 lg:grid-cols-[1fr_300px]">
         {/* Posts */}
         <div>
           {pagePosts.length === 0 ? (
             <p className="text-muted-foreground py-12 text-center">No articles found.</p>
           ) : (
-            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div className="grid gap-6 md:grid-cols-2">
               {pagePosts.map((post, i) => (
                 <motion.div
                   key={post.slug}
@@ -193,13 +204,13 @@ const BlogPage = () => {
                   whileHover={{ y: -4 }}
                 >
                   <Link to={`/blog/${post.slug}`}>
-                    <Card className="overflow-hidden h-full hover:shadow-lg transition-shadow">
+                    <Card className="group h-full overflow-hidden border-mhts-stone transition-all hover:border-mhts-red hover:shadow-lg">
                       {post.image ? (
                         <ResponsiveImage
                           src={post.image}
                           alt={post.featuredImageAlt}
-                          className="aspect-[16/10] w-full object-cover"
-                          sizes="(max-width: 768px) 100vw, 300px"
+                          className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                          sizes="(max-width: 768px) 100vw, 420px"
                         />
                       ) : (
                         <div className="aspect-[16/10] bg-gradient-to-br from-mhts-navy to-mhts-charcoal flex items-center justify-center">
@@ -207,10 +218,10 @@ const BlogPage = () => {
                         </div>
                       )}
                       <CardContent className="p-5">
-                        <span className="inline-block px-2 py-0.5 bg-mhts-light text-mhts-charcoal text-xs rounded-full mb-3">
+                        <span className="mb-3 inline-block rounded-full bg-mhts-red-tint px-2.5 py-0.5 text-xs font-semibold text-mhts-red-deep">
                           {post.category}
                         </span>
-                        <h3 className="font-bold text-lg leading-tight mb-2 text-mhts-charcoal line-clamp-2">
+                        <h3 className="mb-2 line-clamp-2 text-lg leading-tight text-mhts-ink transition-colors group-hover:text-mhts-red-deep">
                           {post.title}
                         </h3>
                         <p className="text-sm text-muted-foreground line-clamp-2 mb-4">{post.excerpt}</p>
@@ -233,10 +244,11 @@ const BlogPage = () => {
                 <button
                   key={p}
                   onClick={() => setPage(p)}
-                  className={`w-10 h-10 rounded-md border text-sm transition-colors ${
+                  aria-current={p === page ? "page" : undefined}
+                  className={`h-10 w-10 rounded-md border text-sm transition-colors ${
                     p === page
-                      ? "bg-mhts-charcoal text-mhts-white border-mhts-charcoal"
-                      : "border-border hover:border-mhts-charcoal"
+                      ? "border-mhts-red bg-mhts-red text-white"
+                      : "border-mhts-stone-deep hover:border-mhts-red"
                   }`}
                 >
                   {p}
@@ -249,7 +261,7 @@ const BlogPage = () => {
         {/* Sidebar */}
         <aside className="space-y-8 lg:sticky lg:top-28 lg:self-start">
           <div>
-            <h4 className="font-bold mb-3 text-mhts-charcoal">Categories</h4>
+            <h4 className="mb-3 border-b border-mhts-stone pb-2 text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">Categories</h4>
             <ul className="space-y-1.5 text-sm">
               {categories.map((c) => (
                 <li key={c}>
@@ -258,8 +270,8 @@ const BlogPage = () => {
                       setCategory(c);
                       setPage(1);
                     }}
-                    className={`hover:text-mhts-charcoal transition-colors ${
-                      category === c ? "text-mhts-charcoal font-semibold" : "text-muted-foreground"
+                    className={`transition-colors hover:text-mhts-red-deep ${
+                      category === c ? "font-semibold text-mhts-ink" : "text-muted-foreground"
                     }`}
                   >
                     {c}
@@ -270,11 +282,11 @@ const BlogPage = () => {
           </div>
 
           <div>
-            <h4 className="font-bold mb-3 text-mhts-charcoal">Popular Posts</h4>
+            <h4 className="mb-3 border-b border-mhts-stone pb-2 text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">Popular Posts</h4>
             <ul className="space-y-3">
               {popularPosts.map((p) => (
                 <li key={p.slug}>
-                  <Link to={`/blog/${p.slug}`} className="text-sm text-muted-foreground hover:text-mhts-charcoal transition-colors line-clamp-2 block">
+                  <Link to={`/blog/${p.slug}`} className="block line-clamp-2 text-sm text-foreground/80 transition-colors hover:text-mhts-red-deep">
                     {p.title}
                   </Link>
                 </li>
@@ -283,11 +295,11 @@ const BlogPage = () => {
           </div>
 
           <div>
-            <h4 className="font-bold mb-3 text-mhts-charcoal">Recent Posts</h4>
+            <h4 className="mb-3 border-b border-mhts-stone pb-2 text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">Recent Posts</h4>
             <ul className="space-y-3">
               {recentPosts.map((p) => (
                 <li key={p.slug}>
-                  <Link to={`/blog/${p.slug}`} className="text-sm text-muted-foreground hover:text-mhts-charcoal transition-colors line-clamp-2 block">
+                  <Link to={`/blog/${p.slug}`} className="block line-clamp-2 text-sm text-foreground/80 transition-colors hover:text-mhts-red-deep">
                     {p.title}
                   </Link>
                 </li>
@@ -295,11 +307,11 @@ const BlogPage = () => {
             </ul>
           </div>
 
-          <div className="bg-mhts-light p-5 rounded-lg">
-            <h4 className="font-bold mb-2 text-mhts-charcoal flex items-center gap-2">
+          <div className="rounded-xl bg-mhts-deep p-5">
+            <h4 className="mb-2 flex items-center gap-2 font-semibold text-white">
               <Mail className="w-4 h-4" /> Get in Touch
             </h4>
-            <p className="text-xs text-muted-foreground mb-3">
+            <p className="mb-3 text-sm text-white/75">
               Call or email us and we'll add you to our list for tips, guides and exclusive offers.
             </p>
             {/* FORM TEMPORARILY DISABLED, pending Formspree integration. Restore this block once a Formspree form ID is wired up.
@@ -314,7 +326,7 @@ const BlogPage = () => {
               className="w-full bg-mhts-charcoal hover:bg-mhts-charcoal/90 text-mhts-white"
               onClick={() => {
                 if (email) {
-                  window.location.href = `mailto:georgesbarbers1991@gmail.com?subject=Newsletter%20signup&body=Please%20add%20${encodeURIComponent(email)}%20to%20the%20newsletter.`;
+                  window.location.href = `mailto:info@menshairtostay.co.uk?subject=Newsletter%20signup&body=Please%20add%20${encodeURIComponent(email)}%20to%20the%20newsletter.`;
                 }
               }}
             >
@@ -324,13 +336,14 @@ const BlogPage = () => {
             <div className="flex flex-col gap-2">
               <a
                 href="tel:07947878087"
-                className="inline-flex items-center justify-center gap-2 w-full bg-mhts-charcoal hover:bg-mhts-charcoal/90 text-mhts-white rounded-md px-4 py-2 text-sm"
+                data-cta="call"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-mhts-red px-4 py-2.5 text-sm font-semibold text-white hover:bg-mhts-red-deep"
               >
                 <Phone className="w-4 h-4" /> 07947 878087
               </a>
               <a
-                href="mailto:georgesbarbers1991@gmail.com"
-                className="inline-flex items-center justify-center gap-2 w-full bg-mhts-charcoal hover:bg-mhts-charcoal/90 text-mhts-white rounded-md px-4 py-2 text-sm break-all"
+                href="mailto:info@menshairtostay.co.uk"
+                className="inline-flex w-full items-center justify-center gap-2 break-all rounded-md border border-white/40 px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10"
               >
                 <Mail className="w-4 h-4" /> Email Us
               </a>

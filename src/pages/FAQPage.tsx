@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { motion } from "@/lib/motion";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
 import {
   Search,
@@ -183,22 +185,28 @@ const FAQPage = () => {
   const shareText = "Hair Systems & SMP FAQ, Men's Hair To Stay";
 
   return (
-    <div className="bg-mhts-light min-h-screen print:bg-white">
+    // Batch 4b. The FAQ is a reference page, so it is laid out like one: a
+    // short dark header, then the search and the category filter in a rail
+    // that stays beside the questions on a desktop while the reader scrolls,
+    // with the numbered questions to its right. On a phone the rail sits above
+    // the list. The category label under each question was 10px (health
+    // check 39); it is 12px now. Every question and answer is unchanged.
+    <div className="mhts-theme min-h-screen bg-mhts-sand print:bg-white">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-mhts-charcoal via-mhts-navy to-mhts-slate text-mhts-white">
-        <div
-          className="absolute inset-0 opacity-10 pointer-events-none"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 20% 20%, hsl(var(--gb-gold)) 0, transparent 40%), radial-gradient(circle at 80% 60%, hsl(var(--mhts-white)) 0, transparent 40%)",
-          }}
-        />
-        <div className="container mx-auto px-4 py-20 md:py-28 relative">
+      <section className="relative overflow-hidden bg-mhts-deep text-white">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_90%_at_15%_0%,hsl(var(--mhts-red)/0.25),transparent_70%)]" />
+        <span
+          className="pointer-events-none absolute -right-6 -top-10 hidden select-none font-body text-[16rem] font-bold leading-none text-white/[0.04] md:block"
+          aria-hidden="true"
+        >
+          ?
+        </span>
+        <div className="container relative mx-auto px-4 py-14 md:py-20">
           {/* Breadcrumb */}
           <nav aria-label="Breadcrumb" className="text-sm mb-6 text-mhts-white/70">
             <ol className="flex flex-wrap items-center gap-1.5">
               <li>
-                <Link to="/" className="hover:text-gb-gold transition-colors">
+                <Link to="/" className="hover:text-mhts-red-light transition-colors">
                   Home
                 </Link>
               </li>
@@ -208,7 +216,7 @@ const FAQPage = () => {
               <li>
                 <Link
                   to="/"
-                  className="hover:text-gb-gold transition-colors"
+                  className="hover:text-mhts-red-light transition-colors"
                 >
                   Men's Hair To Stay
                 </Link>
@@ -216,7 +224,7 @@ const FAQPage = () => {
               <li>
                 <ChevronRight className="w-3.5 h-3.5" />
               </li>
-              <li aria-current="page" className="text-gb-gold">
+              <li aria-current="page" className="text-mhts-red-light">
                 FAQ
               </li>
             </ol>
@@ -228,11 +236,11 @@ const FAQPage = () => {
             transition={{ duration: 0.6 }}
             className="max-w-3xl"
           >
-            <span className="inline-flex items-center gap-2 text-xs tracking-widest uppercase text-gb-gold mb-4">
+            <span className="inline-flex items-center gap-2 text-xs tracking-widest uppercase text-mhts-red-light mb-4">
               <HelpCircle className="w-4 h-4" /> Knowledge Base
             </span>
-            <h1 className="text-4xl md:text-6xl font-bold mb-5 leading-tight">
-              Frequently Asked <span className="text-gb-gold">Questions</span>
+            <h1 className="mb-5 text-4xl leading-tight md:text-6xl">
+              Frequently Asked <span className="text-mhts-red-light">Questions</span>
             </h1>
             <p className="text-lg md:text-xl text-mhts-white/80 max-w-2xl">
               Everything you need to know about hair systems, scalp
@@ -240,12 +248,20 @@ const FAQPage = () => {
             </p>
           </motion.div>
 
-          {/* Search */}
+        </div>
+      </section>
+
+      {/* FAQ list, with the search and filter rail beside it */}
+      <section className="container mx-auto px-4 py-12 md:py-16">
+        <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[300px_1fr] lg:gap-12">
+          <aside className="lg:sticky lg:top-28 lg:self-start print:hidden">
+            <div className="rounded-2xl border border-mhts-stone bg-card p-5 shadow-sm">
+              {/* Search */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="mt-10 max-w-2xl"
+            className=""
           >
             <div className="relative">
               <Search className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-mhts-slate" />
@@ -254,34 +270,38 @@ const FAQPage = () => {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search questions (e.g. cost, recovery, women)"
-                className="w-full pl-12 pr-4 py-4 rounded-xl bg-mhts-white text-mhts-charcoal placeholder:text-mhts-slate/60 focus:outline-none focus:ring-2 focus:ring-gb-gold shadow-lg"
+                className="w-full rounded-xl border border-input bg-mhts-white py-3.5 pl-12 pr-4 text-mhts-ink placeholder:text-mhts-stone-deep focus:outline-none focus:ring-2 focus:ring-mhts-red"
                 aria-label="Search FAQs"
               />
             </div>
           </motion.div>
 
-          {/* Jump nav */}
-          <div className="mt-6 flex flex-wrap gap-2">
+              {/* Jump nav */}
+              <div className="mt-4 flex flex-wrap gap-2 lg:flex-col">
             {categories.map((c) => (
               <button
                 key={c}
                 onClick={() => setActiveCat(c)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                aria-pressed={activeCat === c}
+                className={`rounded-full px-4 py-2 text-left text-sm font-medium transition-all lg:rounded-lg ${
                   activeCat === c
-                    ? "bg-gb-gold text-mhts-charcoal shadow-md"
-                    : "bg-mhts-white/10 text-mhts-white hover:bg-mhts-white/20"
+                    ? "bg-mhts-red text-white shadow-md"
+                    : "border border-mhts-stone-deep bg-card text-mhts-ink hover:border-mhts-red hover:text-mhts-red-deep"
                 }`}
               >
                 {c === "All" ? "All Questions" : c}
               </button>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* FAQ list */}
-      <section className="container mx-auto px-4 py-16 md:py-20">
-        <div className="max-w-4xl mx-auto">
+            </div>
+            <div className="mt-4 hidden rounded-2xl bg-mhts-deep p-5 lg:block">
+              <div className="flex flex-col gap-2">
+                <BookButton size="sm" href="/#mhts-book" />
+                <CallButton size="sm" tone="dark" />
+              </div>
+            </div>
+          </aside>
+          <div>
           {filtered.length === 0 ? (
             <div className="text-center py-16 text-mhts-slate">
               <HelpCircle className="w-12 h-12 mx-auto mb-4 opacity-40" />
@@ -291,7 +311,7 @@ const FAQPage = () => {
                   setQuery("");
                   setActiveCat("All");
                 }}
-                className="mt-4 text-gb-gold hover:underline"
+                className="mt-4 text-mhts-red-deep hover:underline"
               >
                 Clear filters
               </button>
@@ -302,14 +322,17 @@ const FAQPage = () => {
                 const id = slug(f.q);
                 const isOpen = openIdx === i;
                 return (
-                  <div key={id}>
-                    <motion.li
+                  // Each question is one <li>; the booking band every five
+                  // questions sits inside the same item, so the list holds only
+                  // list items (it held bare divs before, which Lighthouse flags).
+                  <li key={id}>
+                    <motion.div
                       id={id}
                       layout
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3, delay: Math.min(i * 0.03, 0.3) }}
-                      className="bg-mhts-white rounded-xl shadow-sm border border-border overflow-hidden hover:shadow-md transition-shadow"
+                      className={`overflow-hidden rounded-xl border bg-mhts-white shadow-sm transition-all hover:shadow-md ${isOpen ? "border-mhts-red" : "border-mhts-stone"}`}
                     >
                       <button
                         onClick={() => setOpenIdx(isOpen ? null : i)}
@@ -317,20 +340,23 @@ const FAQPage = () => {
                         aria-expanded={isOpen}
                         aria-controls={`${id}-content`}
                       >
+                        <span className="mt-0.5 hidden w-8 shrink-0 font-body text-sm font-bold tabular-nums text-mhts-red-deep sm:block" aria-hidden="true">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
                         <div className="flex-1">
-                          <span className="inline-block text-[10px] uppercase tracking-wider text-gb-gold font-semibold mb-1.5">
+                          <span className="mb-1.5 inline-block text-xs font-semibold uppercase tracking-wider text-mhts-red-deep">
                             {f.category}
                           </span>
-                          <h3 className="text-base md:text-lg font-semibold text-mhts-charcoal">
+                          <h2 className="text-base font-semibold text-mhts-charcoal md:text-lg">
                             {f.q}
-                          </h3>
+                          </h2>
                         </div>
                         <motion.div
                           animate={{ rotate: isOpen ? 180 : 0 }}
                           transition={{ duration: 0.2 }}
-                          className="flex-shrink-0 mt-1 w-8 h-8 rounded-full bg-mhts-light flex items-center justify-center"
+                          className={`mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${isOpen ? "bg-mhts-red" : "bg-mhts-red-tint"}`}
                         >
-                          <ChevronDown className="w-4 h-4 text-mhts-charcoal" />
+                          <ChevronDown className={`h-4 w-4 ${isOpen ? "text-white" : "text-mhts-red-deep"}`} />
                         </motion.div>
                       </button>
                       <AnimatePresence initial={false}>
@@ -343,13 +369,13 @@ const FAQPage = () => {
                             transition={{ duration: 0.25 }}
                             className="overflow-hidden"
                           >
-                            <div className="px-5 md:px-6 pb-6 text-mhts-slate leading-relaxed">
+                            <div className="px-5 pb-6 leading-relaxed text-mhts-slate sm:pl-[3.75rem] md:pr-6">
                               {f.a}
                             </div>
                           </motion.div>
                         )}
                       </AnimatePresence>
-                    </motion.li>
+                    </motion.div>
 
                     {/* CTA every 5 questions */}
                     {(i + 1) % 5 === 0 && i !== filtered.length - 1 && (
@@ -357,26 +383,25 @@ const FAQPage = () => {
                         initial={{ opacity: 0, scale: 0.98 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
-                        className="my-6 rounded-xl p-6 md:p-8 bg-gradient-to-r from-mhts-charcoal to-mhts-navy text-mhts-white flex flex-col md:flex-row items-center gap-4 md:gap-6"
+                        className="relative my-6 flex flex-col items-center gap-4 overflow-hidden rounded-xl bg-mhts-deep p-6 text-white md:flex-row md:gap-6 md:p-8"
                       >
-                        <CalendarCheck className="w-10 h-10 text-gb-gold flex-shrink-0" />
+                        <CalendarCheck className="w-10 h-10 text-mhts-red-light flex-shrink-0" />
                         <div className="flex-1 text-center md:text-left">
-                          <h4 className="font-semibold text-lg">
+                          <h3 className="font-semibold text-lg">
                             Ready to take the next step?
-                          </h4>
+                          </h3>
                           <p className="text-sm text-mhts-white/75">
                             Book a free, confidential consultation with our specialists.
                           </p>
                         </div>
-                        <Link
-                          to="/#mhts-book"
-                          className="bg-gb-gold text-mhts-charcoal px-6 py-3 rounded-lg font-semibold hover:bg-gb-gold-light transition-colors whitespace-nowrap"
-                        >
-                          Book Free Consultation
-                        </Link>
+                        {/* Call sits beside Book on every call to action. */}
+                        <div className="flex flex-col sm:flex-row gap-2 shrink-0">
+                          <BookButton size="md" href="/#mhts-book" />
+                          <CallButton size="md" tone="dark" label="Call us" />
+                        </div>
                       </motion.div>
                     )}
-                  </div>
+                  </li>
                 );
               })}
             </ul>
@@ -423,19 +448,20 @@ const FAQPage = () => {
             </div>
             <button
               onClick={() => window.print()}
-              className="inline-flex items-center gap-2 text-sm text-mhts-charcoal hover:text-gb-gold transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-mhts-charcoal hover:text-mhts-red-deep transition-colors"
             >
               <Printer className="w-4 h-4" /> Print this page
             </button>
+          </div>
           </div>
         </div>
       </section>
 
       {/* Still have questions? */}
-      <section className="bg-mhts-white border-t border-border py-16 md:py-20 print:hidden">
+      <section className="border-t border-mhts-stone bg-card py-16 md:py-20 print:hidden">
         <div className="container mx-auto px-4 max-w-3xl">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-mhts-charcoal mb-3">
+            <h2 className="mb-3 text-3xl text-mhts-ink md:text-4xl">
               Still have questions?
             </h2>
             <p className="text-mhts-slate">
@@ -451,7 +477,7 @@ const FAQPage = () => {
               const name = data.get("name");
               const email = data.get("email");
               const message = data.get("message");
-              window.location.href = `mailto:georgesbarbers1991@gmail.com?subject=${encodeURIComponent(
+              window.location.href = `mailto:info@menshairtostay.co.uk?subject=${encodeURIComponent(
                 `FAQ enquiry from ${name}`
               )}&body=${encodeURIComponent(`From: ${name} <${email}>\n\n${message}`)}`;
             }}
@@ -462,14 +488,14 @@ const FAQPage = () => {
                 required
                 name="name"
                 placeholder="Your name"
-                className="px-4 py-3 rounded-lg bg-mhts-white border border-border focus:outline-none focus:ring-2 focus:ring-gb-gold"
+                className="px-4 py-3 rounded-lg bg-mhts-white border border-border focus:outline-none focus:ring-2 focus:ring-mhts-red"
               />
               <input
                 required
                 type="email"
                 name="email"
                 placeholder="Email address"
-                className="px-4 py-3 rounded-lg bg-mhts-white border border-border focus:outline-none focus:ring-2 focus:ring-gb-gold"
+                className="px-4 py-3 rounded-lg bg-mhts-white border border-border focus:outline-none focus:ring-2 focus:ring-mhts-red"
               />
             </div>
             <textarea
@@ -477,7 +503,7 @@ const FAQPage = () => {
               name="message"
               rows={5}
               placeholder="Your question…"
-              className="px-4 py-3 rounded-lg bg-mhts-white border border-border focus:outline-none focus:ring-2 focus:ring-gb-gold resize-y"
+              className="px-4 py-3 rounded-lg bg-mhts-white border border-border focus:outline-none focus:ring-2 focus:ring-mhts-red resize-y"
             />
             <button
               type="submit"
@@ -487,19 +513,20 @@ const FAQPage = () => {
             </button>
           </form>
           */}
-          <div className="grid gap-4 bg-mhts-light p-6 md:p-8 rounded-xl border border-border text-center">
+          <div className="grid gap-4 rounded-xl border border-mhts-stone bg-mhts-sand p-6 text-center md:p-8">
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="tel:07947878087"
-                className="bg-mhts-charcoal text-mhts-white px-6 py-3 rounded-lg font-semibold hover:bg-mhts-navy transition-colors inline-flex items-center justify-center gap-2"
+                data-cta="call"
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-mhts-red px-6 py-3 font-semibold text-white transition-colors hover:bg-mhts-red-deep"
               >
                 <Phone className="w-4 h-4" /> Call 07947 878087
               </a>
               <a
-                href="mailto:georgesbarbers1991@gmail.com"
-                className="bg-mhts-charcoal text-mhts-white px-6 py-3 rounded-lg font-semibold hover:bg-mhts-navy transition-colors inline-flex items-center justify-center gap-2 break-all"
+                href="mailto:info@menshairtostay.co.uk"
+                className="inline-flex items-center justify-center gap-2 break-all rounded-lg border border-mhts-stone-deep bg-card px-6 py-3 font-semibold text-mhts-ink transition-colors hover:border-mhts-red hover:text-mhts-red-deep"
               >
-                <Mail className="w-4 h-4" /> georgesbarbers1991@gmail.com
+                <Mail className="w-4 h-4" /> info@menshairtostay.co.uk
               </a>
             </div>
           </div>
@@ -507,9 +534,9 @@ const FAQPage = () => {
       </section>
 
       {/* Related */}
-      <section className="bg-mhts-light py-16 print:hidden">
+      <section className="bg-mhts-sand py-16 print:hidden">
         <div className="container mx-auto px-4 max-w-5xl">
-          <h2 className="text-2xl md:text-3xl font-bold text-mhts-charcoal mb-8 text-center">
+          <h2 className="mb-8 text-center text-2xl text-mhts-ink md:text-3xl">
             Explore more
           </h2>
           <div className="grid md:grid-cols-3 gap-5">
@@ -533,13 +560,13 @@ const FAQPage = () => {
               <Link
                 key={c.title}
                 to={c.to}
-                className="group bg-mhts-white rounded-xl p-6 border border-border hover:shadow-md hover:-translate-y-0.5 transition-all"
+                className="group rounded-xl border border-mhts-stone border-t-4 border-t-mhts-red bg-mhts-white p-6 transition-all hover:-translate-y-0.5 hover:shadow-md"
               >
-                <h3 className="font-semibold text-mhts-charcoal mb-2 group-hover:text-gb-gold transition-colors">
+                <h3 className="font-semibold text-mhts-charcoal mb-2 group-hover:text-mhts-red-deep transition-colors">
                   {c.title}
                 </h3>
                 <p className="text-sm text-mhts-slate mb-3">{c.desc}</p>
-                <span className="inline-flex items-center gap-1 text-sm text-gb-gold font-medium">
+                <span className="inline-flex items-center gap-1 text-sm text-mhts-red-deep font-medium">
                   Learn more <ChevronRight className="w-4 h-4" />
                 </span>
               </Link>

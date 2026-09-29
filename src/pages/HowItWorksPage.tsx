@@ -1,5 +1,11 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { Reveal } from "@/lib/motion";
+import { CtaPair } from "@/components/mhts/CtaButtons";
+import ResponsiveImage from "@/components/ResponsiveImage";
+import consultationRoom from "@/assets/mhts-consultation-room-hero.jpg";
+import baseMaterials from "@/assets/mhts-hair-system-base-materials-hero.jpg";
+import hairline from "@/assets/mhts-hair-system-hairline-hero.jpg";
+import maintenanceWork from "@/assets/mhts-hair-system-maintenance-hero.jpg";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
 import {
   CalendarCheck,
@@ -7,7 +13,6 @@ import {
   CheckCircle2,
   RefreshCw,
   ChevronRight,
-  Phone,
   Shield,
   Award,
   Clock,
@@ -36,6 +41,14 @@ const steps = [
     title: "Hair System Maintenance & Professional Regroom Services",
     desc: "Regular hair system maintenance keeps your solution looking perfect. We offer Regroom (1x adhesive) for quick touch-ups, or Regroom (2x adhesive) for a full professional refresh. Services include hair system base clean and reattach, hair system styling, hair system colouring, and our full hair system maintenance package. For SMP, we provide SMP touch-up sessions to maintain density and color.",
   },
+];
+
+// One photograph per step, all the studio's own.
+const stepPhotos = [
+  { src: consultationRoom, alt: "The private consultation room at the Amersham studio" },
+  { src: baseMaterials, alt: "Hair system bases and hair samples used to design a custom system" },
+  { src: hairline, alt: "A natural hairline on a professionally fitted hair system" },
+  { src: maintenanceWork, alt: "A hair system base being cleaned during a maintenance appointment" },
 ];
 
 const whyChoose = [
@@ -89,230 +102,215 @@ const HowItWorksPage = () => {
     ]),
   });
 
+  // Batch 4b. The process page gets its own shape: a red rail down the middle
+  // of the page with the four steps hung off it, photograph on one side and
+  // words on the other, swapping sides as the reader goes down. On a phone the
+  // rail moves to the left edge and the photographs sit above each step. The
+  // rail fills in as each step arrives. Nothing on the page was reworded.
   return (
     <div className="mhts-theme">
       {/* HERO */}
-      <section className="relative min-h-[55vh] flex items-center bg-mhts-charcoal overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-mhts-charcoal via-mhts-charcoal/95 to-mhts-charcoal/80" />
-        <div className="container mx-auto px-4 relative z-10 py-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-3xl"
-          >
-            <p className="text-mhts-white/60 uppercase tracking-[0.3em] text-xs mb-4 font-body">
+      <section className="relative overflow-hidden bg-mhts-deep">
+        <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_90%_10%,hsl(var(--mhts-red)/0.22),transparent_70%)]" />
+        <div className="container relative z-10 mx-auto max-w-6xl px-4 py-16 md:py-24">
+          <div className="max-w-3xl">
+            <p className="mb-4 font-body text-xs font-semibold uppercase tracking-[0.24em] text-mhts-red-light">
               The Process
             </p>
-            <h1 className="text-4xl md:text-6xl font-light tracking-wide text-mhts-white mb-6 leading-tight">
+            <h1 className="mb-6 text-4xl leading-tight text-white md:text-6xl">
               How Hair Replacement Works:
               <br />
-              <span className="font-normal">Our 4-Step Process.</span>
+              <span className="text-mhts-red-light">Our 4-Step Process.</span>
             </h1>
-            <p className="text-mhts-white/70 text-lg max-w-2xl mb-10 font-body leading-relaxed">
-              Learn how Men's Hair to Stay transforms hair loss with non-surgical
+            <p className="mb-8 max-w-2xl font-body text-lg leading-relaxed text-white/80">
+              Learn how Men's Hair To Stay transforms hair loss with non-surgical
               hair replacement systems and SMP treatments. From your free initial
               consultation to ongoing hair system maintenance, here's exactly how
               our process works.
             </p>
-            <Link
-              to="/#mhts-book"
-              className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-            >
-              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-            </Link>
-          </motion.div>
-        </div>
-      </section>
+            {/* Call sits beside Book on every call to action on the site. */}
+            <CtaPair size="lg" tone="dark" href="/#mhts-book" />
+          </div>
 
-      {/* TRUST STRIP */}
-      <section className="py-10 bg-mhts-charcoal border-t border-mhts-white/10">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto text-center">
+          {/* TRUST STRIP, now chips on the same band */}
+          <ul className="mt-10 flex flex-wrap gap-2.5">
             {[
               { icon: Shield, label: "100% Confidential" },
               { icon: Award, label: "Specialist Trained" },
               { icon: Clock, label: "By Appointment Only" },
             ].map((item) => (
-              <div key={item.label} className="flex items-center justify-center gap-3 text-mhts-white/80">
-                <item.icon className="w-5 h-5 text-mhts-white/50" />
-                <span className="text-sm tracking-wide font-body">{item.label}</span>
-              </div>
+              <li
+                key={item.label}
+                className="flex items-center gap-2.5 rounded-full border border-white/15 bg-white/5 py-2 pl-2 pr-4 text-white/85"
+              >
+                <span className="grid h-7 w-7 place-items-center rounded-full bg-mhts-red-light/15">
+                  <item.icon className="h-4 w-4 text-mhts-red-light" aria-hidden="true" />
+                </span>
+                <span className="font-body text-sm">{item.label}</span>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
       {/* 4-STEP TIMELINE */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <p className="text-mhts-slate uppercase tracking-[0.2em] text-xs mb-3 font-body">
+      <section className="bg-card py-16 md:py-24">
+        <div className="container mx-auto max-w-6xl px-4">
+          <div className="mb-14 text-center">
+            <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">
               Your Journey
             </p>
-            <h2 className="text-3xl md:text-4xl text-mhts-charcoal font-light tracking-wide">
+            <h2 className="text-3xl text-mhts-ink md:text-4xl">
               The 4-Step Process
             </h2>
-            <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-5" />
           </div>
 
-          <div className="max-w-4xl mx-auto">
+          <ol className="relative">
+            {/* The rail. Left edge on a phone, the middle from md up. */}
+            <span className="absolute bottom-0 left-6 top-0 w-0.5 bg-mhts-stone md:left-1/2 md:-translate-x-1/2" aria-hidden="true" />
             {steps.map((step, i) => {
               const Icon = step.icon;
+              const photo = stepPhotos[i];
+              const flip = i % 2 === 1;
               return (
-                <motion.div
-                  key={step.title}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="flex gap-6 md:gap-8 mb-12 last:mb-0"
-                >
-                  <div className="flex flex-col items-center shrink-0">
-                    <div className="w-16 h-16 rounded-full bg-mhts-charcoal flex items-center justify-center">
-                      <Icon className="w-7 h-7 text-mhts-white" />
-                    </div>
-                    <span className="mt-3 text-mhts-slate text-xs font-body uppercase tracking-[0.2em]">
+                <li key={step.title} className="relative grid gap-6 pb-14 pl-16 last:pb-0 md:grid-cols-2 md:gap-20 md:pl-0">
+                  {/* The node on the rail */}
+                  <span className="absolute left-6 top-0 z-[1] -translate-x-1/2 md:left-1/2" aria-hidden="true">
+                    <span className="grid h-12 w-12 place-items-center rounded-full bg-mhts-red text-white ring-8 ring-card">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                  </span>
+                  <Reveal as="figure" from={flip ? "right" : "left"} className={flip ? "md:order-2" : ""}>
+                    <ResponsiveImage
+                      src={photo.src}
+                      alt={photo.alt}
+                      className="aspect-[16/10] w-full rounded-2xl object-cover"
+                      sizes="(max-width: 768px) 100vw, 520px"
+                    />
+                  </Reveal>
+                  <Reveal from={flip ? "left" : "right"} className={flip ? "md:order-1 md:text-right" : ""}>
+                    <span className="mb-2 block font-body text-xs font-semibold uppercase tracking-[0.2em] text-mhts-red-deep">
                       Step {String(i + 1).padStart(2, "0")}
                     </span>
-                    {i < steps.length - 1 && (
-                      <div className="w-px flex-1 bg-border mt-4 min-h-[60px]" />
-                    )}
-                  </div>
-                  <div className="pt-1 pb-8 flex-1">
-                    <h3 className="text-xl md:text-2xl text-mhts-charcoal tracking-wide mb-3 font-light">
+                    <h3 className="mb-3 text-xl text-mhts-ink md:text-2xl">
                       {step.title}
                     </h3>
-                    <p className="text-foreground/80 text-base font-body leading-relaxed">
+                    <p className="font-body text-base leading-relaxed text-foreground/80">
                       {step.desc}
                     </p>
-                  </div>
-                </motion.div>
+                  </Reveal>
+                </li>
               );
             })}
-          </div>
+          </ol>
         </div>
       </section>
 
-      {/* WHY CHOOSE */}
-      <section className="py-20 bg-mhts-light">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-14">
-            <p className="text-mhts-slate uppercase tracking-[0.2em] text-xs mb-3 font-body">
+      {/* WHY CHOOSE, on the dark band */}
+      <section className="relative overflow-hidden bg-mhts-deep py-16 md:py-24">
+        <div className="absolute inset-0 bg-[radial-gradient(60%_80%_at_0%_100%,hsl(var(--mhts-red)/0.2),transparent_70%)]" />
+        <div className="container relative mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+          <div>
+            <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-light">
               The Difference
             </p>
-            <h2 className="text-3xl md:text-4xl text-mhts-charcoal font-light tracking-wide">
+            <h2 className="text-3xl text-white md:text-4xl">
               Why Choose Men's Hair To Stay for Your Hair Replacement?
             </h2>
-            <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-5" />
           </div>
-          <div className="max-w-3xl mx-auto bg-card rounded-sm p-8 border border-border">
-            <ul className="space-y-4">
-              {whyChoose.map((item) => (
-                <li key={item} className="flex items-start gap-3 font-body text-foreground/80 leading-relaxed">
-                  <CheckCircle2 className="w-5 h-5 text-mhts-charcoal shrink-0 mt-0.5" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <ul className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
+            {whyChoose.map((item, i) => (
+              <Reveal as="li" key={item} delay={i * 0.04} className="flex items-start gap-3 font-body leading-relaxed text-white/85">
+                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-mhts-red-light" aria-hidden="true" />
+                <span>{item}</span>
+              </Reveal>
+            ))}
+          </ul>
         </div>
       </section>
 
       {/* SERVICE OPTIONS */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-14">
-            <p className="text-mhts-slate uppercase tracking-[0.2em] text-xs mb-3 font-body">
+      <section className="bg-mhts-sand py-16 md:py-24">
+        <div className="container mx-auto max-w-6xl px-4">
+          <div className="mb-10">
+            <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">
               What We Offer
             </p>
-            <h2 className="text-3xl md:text-4xl text-mhts-charcoal font-light tracking-wide">
+            <h2 className="text-3xl text-mhts-ink md:text-4xl">
               Our Service Options
             </h2>
-            <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-5" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
             {serviceGroups.map((group, i) => (
-              <motion.div
+              <Reveal
                 key={group.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-mhts-light rounded-sm p-7 border border-border h-full"
+                delay={i * 0.08}
+                className="h-full rounded-xl border border-mhts-stone bg-card p-7"
               >
-                <Sparkles className="w-5 h-5 text-mhts-charcoal mb-4" />
-                <h3 className="text-lg font-medium text-mhts-charcoal mb-5 tracking-wide">
+                <span className="mb-4 grid h-10 w-10 place-items-center rounded-full bg-mhts-red-tint">
+                  <Sparkles className="h-5 w-5 text-mhts-red" aria-hidden="true" />
+                </span>
+                <h3 className="mb-5 text-lg text-mhts-ink">
                   {group.title}
                 </h3>
-                <ul className="space-y-3">
+                <ul className="divide-y divide-mhts-stone/60">
                   {group.items.map((item) => (
                     <li key={item.label}>
                       <Link
                         to={item.to}
-                        className="group inline-flex items-start gap-1.5 text-sm font-body text-foreground/80 hover:text-mhts-charcoal transition-colors"
+                        className="group flex items-center justify-between gap-2 py-2.5 font-body text-sm text-foreground/80 transition-colors hover:text-mhts-red-deep"
                       >
-                        <ChevronRight className="w-4 h-4 mt-0.5 text-mhts-slate group-hover:text-mhts-charcoal shrink-0 transition-colors" />
                         <span>{item.label}</span>
+                        <ChevronRight className="h-4 w-4 shrink-0 text-mhts-red transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
                       </Link>
                     </li>
                   ))}
                 </ul>
-              </motion.div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-mhts-charcoal">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl text-mhts-white font-light tracking-wide mb-4">
+      <section className="relative overflow-hidden bg-mhts-deep py-16 md:py-20">
+        <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_50%_100%,hsl(var(--mhts-red)/0.25),transparent_65%)]" />
+        <div className="container relative mx-auto px-4 text-center">
+          <h2 className="mb-4 text-3xl text-white md:text-4xl">
             Ready to Start Your Hair Replacement Journey?
           </h2>
-          <p className="text-mhts-white/70 font-body mb-10 max-w-2xl mx-auto leading-relaxed">
+          <p className="mx-auto mb-10 max-w-2xl font-body leading-relaxed text-white/75">
             Book your free initial consultation with our specialist technicians.
             We'll assess your hair loss and discuss your non-surgical hair
             replacement options.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link
-              to="/#mhts-book"
-              className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-            >
-              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-            </Link>
-            <a
-              href="tel:07947878087"
-              className="inline-flex items-center gap-2 border border-mhts-white/40 text-mhts-white px-8 py-3 rounded-sm hover:border-mhts-white hover:bg-mhts-white/10 transition-colors font-body tracking-wide"
-            >
-              <Phone className="w-4 h-4" /> Call 07947 878087
-            </a>
-          </div>
+          <CtaPair size="lg" tone="dark" href="/#mhts-book" className="justify-center" />
 
           {/* Related links */}
-          <div className="mt-14 pt-10 border-t border-mhts-white/10">
-            <p className="text-mhts-white/50 uppercase tracking-[0.2em] text-xs mb-5 font-body">
+          <div className="mt-14 border-t border-white/10 pt-10">
+            <p className="mb-5 font-body text-xs uppercase tracking-[0.2em] text-white/60">
               Explore More
             </p>
-            <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-body">
-              <Link to="/#mhts-services" className="text-mhts-white/80 hover:text-mhts-white transition-colors">
-                View Our Services
-              </Link>
-              <Link to="/#mhts-gallery" className="text-mhts-white/80 hover:text-mhts-white transition-colors">
-                See Hair System & SMP Results
-              </Link>
-              <Link to="/#mhts-book" className="text-mhts-white/80 hover:text-mhts-white transition-colors">
-                Book Your Consultation
-              </Link>
-              <Link to="/faq" className="text-mhts-white/80 hover:text-mhts-white transition-colors">
-                Read Hair Replacement FAQs
-              </Link>
+            <div className="flex flex-wrap justify-center gap-3 font-body text-sm">
+              {[
+                { to: "/#mhts-services", label: "View Our Services" },
+                { to: "/#mhts-gallery", label: "See Hair System & SMP Results" },
+                { to: "/#mhts-book", label: "Book Your Consultation" },
+                { to: "/faq", label: "Read Hair Replacement FAQs" },
+              ].map((l) => (
+                <Link
+                  key={l.to}
+                  to={l.to}
+                  className="rounded-full border border-white/20 px-4 py-2 text-white/85 transition-colors hover:border-white hover:text-white"
+                >
+                  {l.label}
+                </Link>
+              ))}
             </div>
           </div>
 
-          <p className="text-mhts-white/40 text-xs font-body mt-10 inline-flex items-center gap-2 justify-center">
-            <MapPin className="w-3 h-3" /> 11 Chesham Road, Amersham HP6 5HN
+          <p className="mt-10 inline-flex items-center justify-center gap-2 font-body text-xs text-white/60">
+            <MapPin className="h-3 w-3" aria-hidden="true" /> 11 Chesham Road, Amersham HP6 5HN
           </p>
         </div>
       </section>
