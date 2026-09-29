@@ -21,6 +21,7 @@ import { latestPosts } from "@/lib/publishing";
 import { useSeo, useJsonLd, localBusinessSchema } from "@/lib/seo";
 import { useCookieConsent } from "@/lib/cookieConsent";
 import { treatments } from "@/data/treatments";
+import { cardPhotoFor } from "@/data/servicePhotos";
 import { ADDRESS_LINE, EMAIL, GOOGLE_MAPS_URL, PHONE_DISPLAY, PHONE_TEL } from "@/lib/site";
 import { BookButton, CallButton, CtaPair } from "@/components/mhts/CtaButtons";
 import BeforeAfterFade from "@/components/mhts/BeforeAfterFade";
@@ -35,10 +36,6 @@ import mhtsBefore2 from "@/assets/mhts-before-2.jpg";
 import mhtsAfter2 from "@/assets/mhts-after-2.jpg";
 import mhtsBefore3 from "@/assets/mhts-before-3.jpg";
 import mhtsAfter3 from "@/assets/mhts-after-3.jpg";
-import hairSystemsHero from "@/assets/hair-systems-hero.jpg";
-import smpHero from "@/assets/smp-hero.jpg";
-import hairDensityHero from "@/assets/hair-density-hero.jpg";
-import hairSystemMaintenanceHero from "@/assets/hair-system-maintenance-hero.jpg";
 
 // Homepage, rebuilt for batch 4a.
 //
@@ -90,16 +87,13 @@ const SeeAllResults = () => (
   </Link>
 );
 
-const treatmentCards = [
-  { ...treatments[0], image: hairSystemsHero, imageAlt: "A hair system fitted at the Amersham studio" },
-  { ...treatments[1], image: smpHero, imageAlt: "Scalp micropigmentation treatment in progress" },
-  { ...treatments[2], image: hairDensityHero, imageAlt: "Hair density treatment for thinning hair" },
-  {
-    ...treatments[3],
-    image: hairSystemMaintenanceHero,
-    imageAlt: "A hair system being maintained at the Amersham studio",
-  },
-];
+// Each card uses its treatment page's own `service` photograph
+// (src/data/servicePhotos.ts), so the homepage and the page always agree and
+// no generated face appears here.
+const treatmentCards = treatments.map((t) => {
+  const photo = cardPhotoFor(`/${t.slug}`)!;
+  return { ...t, image: photo.src, imageAlt: photo.alt };
+});
 
 // The four-paragraph trust strip was 10 to 11px grey text on charcoal, which
 // nobody read. Four chips, a few words each. See finding 15.

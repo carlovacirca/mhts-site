@@ -6,8 +6,8 @@ metaDescription: Explore proven hair transplant alternatives for 2026. Compare h
 category: Hair Loss Solutions
 publishDate: 2026-05-19
 readTime: 18 min read
-heroImage: "@/assets/blog-hair-transplant-alternatives.jpg"
-heroImageAlt: Man with restored natural-looking hair after non-surgical hair replacement treatment
+heroImage: "@/assets/blog-transplant-alternatives.jpg"
+heroImageAlt: A hair system, a tray of SMP pigments and a serum bottle laid out side by side
 faqs:
   - q: Are hair transplant alternatives as effective as surgery?
     a: For most people, yes. Hair systems and SMP deliver immediate, natural-looking results without surgery, downtime, or the risk of a failed graft, and they work even when you don't have enough donor hair for a transplant.

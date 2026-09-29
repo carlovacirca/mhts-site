@@ -6,8 +6,8 @@ metaDescription: Discover how scalp micropigmentation (SMP) works in 2026. From 
 category: Scalp Micropigmentation
 publishDate: 2026-04-30
 readTime: 18 min read
-heroImage: "@/assets/blog-smp-procedure.jpg"
-heroImageAlt: Close-up of scalp micropigmentation treatment showing realistic hair follicle impressions
+heroImage: "@/assets/blog-smp-guide.jpg"
+heroImageAlt: A scalp micropigmentation pen, needle cartridges, pigment cups and gloves on a treatment trolley
 faqs:
   - q: Is scalp micropigmentation painful?
     a: Most clients describe it as mild discomfort, similar to a light scratching sensation. Topical numbing can be applied for sensitive areas.

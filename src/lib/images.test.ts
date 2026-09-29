@@ -13,7 +13,7 @@ import { blogPosts } from "@/data/blogPosts";
 // Imported the ordinary way, exactly as a page component does.
 import heroUrl from "@/assets/mhts-hero.jpg";
 import logoUrl from "@/assets/mhts-logo-full.jpeg";
-import biggestUrl from "@/assets/blog-non-surgical-inline-1.jpg";
+import biggestUrl from "@/assets/mhts-hair-system-base-materials-hero.jpg";
 
 const ALL_ASSETS = import.meta.glob<string>("/src/assets/*.{jpg,jpeg,png}", {
   eager: true,

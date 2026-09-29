@@ -16,43 +16,67 @@ import { relatedPosts, isPublished, isPreviewRequest } from "@/lib/publishing";
 import NotFound from "@/pages/NotFound";
 import { SNAP_POINT_CLASS, SNAP_POINT_TOP_CLASS, snapProximityClass } from "@/lib/sectionSnap";
 import { computeImageSlots } from "@/lib/blogImageSlots";
-import blogPlaceholderIllustration from "@/assets/blog-placeholder-illustration.jpg";
-import blogNonSurgicalInline1 from "@/assets/blog-non-surgical-inline-1.jpg";
-import blogNonSurgicalInline2 from "@/assets/blog-non-surgical-inline-2.jpg";
-import blogNonSurgicalInline3 from "@/assets/blog-non-surgical-inline-3.jpg";
-import blogHairTransplantAltInline1 from "@/assets/blog-hair-transplant-alt-inline-1.jpg";
-import blogHairTransplantAltInline2 from "@/assets/blog-hair-transplant-alt-inline-2.jpg";
-import blogHairTransplantAltInline3 from "@/assets/blog-hair-transplant-alt-inline-3.jpg";
-import blogHairTransplantAltInline4 from "@/assets/blog-hair-transplant-alt-inline-4.jpg";
-import blogHairSystemBondComparison from "@/assets/blog-hair-system-bond-comparison.jpg";
-import blogHairDensityComparison from "@/assets/blog-hair-density-comparison.jpg";
-import blogHairSystemFittingComparison from "@/assets/blog-hair-system-fitting-comparison.jpg";
-import mhtsHairSystemBeforeAfterInline from "@/assets/mhts-hair-system-before-after-inline.jpg";
+import inlineNs1 from "@/assets/inline-ns-1.jpg";
+import inlineNs2 from "@/assets/inline-ns-2.jpg";
+import inlineNs3 from "@/assets/inline-ns-3.jpg";
+import inlineAlt1 from "@/assets/inline-alt-1.jpg";
+import inlineAlt2 from "@/assets/inline-alt-2.jpg";
+import inlineAlt3 from "@/assets/inline-alt-3.jpg";
+import inlineAlt4 from "@/assets/inline-alt-4.jpg";
+import inlineNatural from "@/assets/inline-natural.jpg";
+import inlineMaint46 from "@/assets/inline-maint-4-6.jpg";
+import inlineDensity from "@/assets/inline-density.jpg";
+import inlineVsSurgery from "@/assets/inline-vs-surgery.jpg";
 
-const inlineImageOverrides: Record<string, string[]> = {
-  "non-surgical-hair-replacement-men-uk": [blogNonSurgicalInline1, blogNonSurgicalInline2, blogNonSurgicalInline3],
-  "best-hair-transplant-alternatives-non-surgical-solutions": [blogHairTransplantAltInline1, blogHairTransplantAltInline2, blogHairTransplantAltInline3, blogHairTransplantAltInline4],
+interface InlinePhoto {
+  src: string;
+  alt: string;
+}
+
+// Posts whose inline photographs are placed automatically, one per slot the
+// slot finder picks (src/lib/blogImageSlots.ts), in order.
+const inlineImageOverrides: Record<string, InlinePhoto[]> = {
+  "non-surgical-hair-replacement-men-uk": [
+    { src: inlineNs1, alt: "A hand holding a hair system with its thin see-through base facing up" },
+    { src: inlineNs2, alt: "A man in a grey hoodie jogging along a tree-lined path by a lake, seen from behind" },
+    { src: inlineNs3, alt: "A man with full hair looking out over the sea from a coastal path, seen from behind" },
+  ],
+  "best-hair-transplant-alternatives-non-surgical-solutions": [
+    { src: inlineAlt1, alt: "A dropper bottle and a bar of soap on a bathroom shelf beside a window" },
+    { src: inlineAlt2, alt: "A scalp micropigmentation pen beside a small cup of pigment on a white surface" },
+    { src: inlineAlt3, alt: "A man working at a laptop by a window, seen from behind" },
+    { src: inlineAlt4, alt: "A grey-haired man reading on a park bench in autumn, seen from behind" },
+  ],
+};
+
+// When a post has more slots than photographs, this real photograph fills the
+// rest. It replaced the generic "Illustration" placeholder.
+const INLINE_FALLBACK: InlinePhoto = {
+  src: inlineNatural,
+  alt: "Close-up of a natural hairline on a fitted hair system",
 };
 
 // Posts that mark an exact inline-image position in their content with a bare
 // `[IMAGE]` line (parsed into a `{ type: "img" }` block) use this map instead
-// of the auto-distributed 4-slot system above.
-const explicitInlineImages: Record<string, { src: string; alt: string }> = {
+// of the auto-distributed 4-slot system above. The side-by-side comparison
+// images that were here are gone: no generated before and after appears on
+// the site.
+const explicitInlineImages: Record<string, InlinePhoto> = {
   "does-a-hair-system-look-natural": {
-    src: mhtsHairSystemBeforeAfterInline,
-    alt: "Side by side comparison of a thinning crown before and full density after a hair system fitting",
+    src: inlineNatural,
+    alt: "Close-up of a natural hairline on a fitted hair system",
   },
   "hair-system-maintenance-4-to-6-weeks": {
-    src: blogHairSystemBondComparison,
-    alt: "Comparison of a failing hair system bond versus a freshly maintained bond",
+    src: inlineMaint46,
+    alt: "Fingers lifting the lace edge of a hair system base on a towel to check the bond",
   },
   "hair-density-treatment-for-thinning-hair": {
-    src: blogHairDensityComparison,
-    alt: "Side by side comparison of thinning hair and fuller density after treatment at Men's Hair To Stay",
+    src: inlineDensity,
+    alt: "A man running his hand through the hair at the back of his head",
   },
   "modern-hair-system-vs-surgery": {
-    src: blogHairSystemFittingComparison,
-    alt: "Side by side comparison of a receding hairline before and a full restored hairline after a hair system at Men's Hair To Stay",
+    src: inlineVsSurgery,
+    alt: "A stylist setting a client's newly fitted hair system with a comb",
   },
 };
 
@@ -454,14 +478,14 @@ const BlogPostPage = () => {
               );
             };
 
-            const ImagePlaceholder = ({ k, src }: { k: string; src: string }) => (
+            const ImagePlaceholder = ({ k, photo }: { k: string; photo: InlinePhoto }) => (
               <div
                 key={k}
                 className="not-prose my-8 flex aspect-[16/9] w-full items-center justify-center overflow-hidden rounded-xl bg-muted"
               >
                 <ResponsiveImage
-                  src={src}
-                  alt="Illustration"
+                  src={photo.src}
+                  alt={photo.alt}
                   className="h-full w-full object-cover"
                   sizes="(max-width: 768px) 100vw, 768px"
                 />
@@ -480,8 +504,8 @@ const BlogPostPage = () => {
               nodes.push(renderBlock(b, `b-${bi}`));
               if (slotSet.has(bi)) {
                 const n = slotOrder.get(bi)!;
-                const src = overrides[n] ?? blogPlaceholderIllustration;
-                nodes.push(<ImagePlaceholder key={`img-${bi}`} k={`img-${bi}`} src={src} />);
+                const photo = overrides[n] ?? INLINE_FALLBACK;
+                nodes.push(<ImagePlaceholder key={`img-${bi}`} k={`img-${bi}`} photo={photo} />);
               }
             });
             return nodes;

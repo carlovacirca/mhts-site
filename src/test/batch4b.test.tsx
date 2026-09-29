@@ -25,7 +25,8 @@ import FAQPage from "@/pages/FAQPage";
 import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
 import NotFound from "@/pages/NotFound";
 import { serviceCategories } from "@/data/services";
-import { SERVICE_PAGE_ORDER, servicePhotos } from "@/data/servicePhotos";
+import { SERVICE_PAGE_ORDER, STUDIO, servicePhotos } from "@/data/servicePhotos";
+import { getPicture } from "@/lib/images";
 import { blogPosts } from "@/data/blogPosts";
 import { latestPosts } from "@/lib/publishing";
 import HairSystemsPage from "@/pages/services/HairSystemsPage";
@@ -243,6 +244,30 @@ describe("links kept", () => {
       expect(servicePhotos[paths[i]].studio.src, paths[i]).not.toBe(servicePhotos[paths[i - 1]].studio.src);
     }
     expect(new Set(Object.values(servicePhotos).map((p) => p.studio.src)).size).toBe(3);
+  });
+
+  it("never shows more than two photographs on a service page, or one image file on two service pages", () => {
+    // Checked on what each page renders, not on the data file, so a page that
+    // imports a photo of its own is caught too. The three studio photographs
+    // are the one exception: they rotate across the pages by design, and none
+    // of them may stand in as a page's service photograph.
+    // A page renders the resized variant, so compare against that URL too.
+    const rendered = (src: string) => getPicture(src)?.src ?? src;
+    const studio = new Set(STUDIO.flatMap((p) => [p.src, rendered(p.src)]));
+    const pagesBySrc = new Map<string, string[]>();
+    for (const [path, ui] of SERVICE_PAGES) {
+      const { container, unmount } = renderAt(ui, path);
+      const srcs = Array.from(container.querySelectorAll("img")).map((i) => i.getAttribute("src")!);
+      expect(srcs.length, path).toBeLessThanOrEqual(2);
+      for (const src of srcs) {
+        if (studio.has(src)) continue;
+        pagesBySrc.set(src, [...(pagesBySrc.get(src) ?? []), path]);
+      }
+      unmount();
+    }
+    const shared = [...pagesBySrc].filter(([, pages]) => pages.length > 1);
+    expect(shared).toEqual([]);
+    for (const [path, { service }] of Object.entries(servicePhotos)) expect(studio.has(service.src), path).toBe(false);
   });
 
   it("the services overview links all four treatments and all their sub-services", () => {

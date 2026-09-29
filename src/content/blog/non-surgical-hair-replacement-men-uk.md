@@ -6,8 +6,8 @@ metaDescription: Considering non-surgical hair replacement? Discover how modern 
 category: Hair Systems
 publishDate: 2026-05-25
 readTime: 12 min read
-heroImage: "@/assets/blog-non-surgical-hair-replacement.jpg"
-heroImageAlt: Confident smiling man with full natural-looking hair on the beach after non-surgical hair replacement at Men's Hair To Stay Amersham
+heroImage: "@/assets/blog-non-surgical-replacement.jpg"
+heroImageAlt: A man with a full head of hair walking down a cobbled street, seen from behind
 faqs:
   - q: Is non-surgical hair replacement painful?
     a: No. The process is completely non-invasive, no needles, no surgery, no recovery time. The bond uses medical-grade adhesive applied to the scalp.

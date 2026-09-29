@@ -6,8 +6,8 @@ metaDescription: Master hair system maintenance with our complete care guide. Le
 category: Maintenance & Care
 publishDate: 2026-04-16
 readTime: 25 min read
-heroImage: "@/assets/blog-aug25.jpg"
-heroImageAlt: Hair system being cleaned and conditioned
+heroImage: "@/assets/blog-maintenance-guide.jpg"
+heroImageAlt: A hair system resting on a folded towel beside a wide-tooth comb after cleaning
 faqs:
   - q: How often should I clean my hair system?
     a: A gentle wash 2 to 3 times a week with a sulphate-free shampoo keeps the base and hair in top condition.
