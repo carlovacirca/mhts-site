@@ -23,11 +23,11 @@ import { useCookieConsent } from "@/lib/cookieConsent";
 import { treatments } from "@/data/treatments";
 import { ADDRESS_LINE, EMAIL, GOOGLE_MAPS_URL, PHONE_DISPLAY, PHONE_TEL } from "@/lib/site";
 import { BookButton, CallButton, CtaPair } from "@/components/mhts/CtaButtons";
-import BeforeAfterSlider from "@/components/mhts/BeforeAfterSlider";
+import BeforeAfterFade from "@/components/mhts/BeforeAfterFade";
 import GoogleReviews from "@/components/mhts/GoogleReviews";
 import BookingPanel from "@/components/mhts/BookingPanel";
 import StudioMap from "@/components/mhts/StudioMap";
-import { SNAP_HERO_CLASS, SNAP_SECTION_CLASS, snapPageClass } from "@/lib/sectionSnap";
+import { SNAP_HERO_CLASS, SNAP_PHONE_CLASS, SNAP_SECTION_CLASS, snapPageClass } from "@/lib/sectionSnap";
 import mhtsHero from "@/assets/mhts-hero.jpg";
 import mhtsBefore1 from "@/assets/mhts-before-1.jpg";
 import mhtsAfter1 from "@/assets/mhts-after-1.jpg";
@@ -75,6 +75,20 @@ const beforeAfterPairs = [
     label: "Client three, hair system",
   },
 ];
+
+// Phone: a 3:2 landscape frame, two of which fit one screen under the heading.
+// Desktop: a 4:5 frame, three across.
+const BA_FRAME = "aspect-[3/2] md:aspect-[4/5]";
+const BA_SIZES = "(max-width: 768px) 100vw, 290px";
+
+const SeeAllResults = () => (
+  <Link
+    to="/gallery"
+    className="inline-flex items-center gap-1.5 font-body text-sm font-semibold text-mhts-red-deep transition-all hover:gap-2.5"
+  >
+    See all results <ChevronRight className="h-4 w-4" aria-hidden="true" />
+  </Link>
+);
 
 const treatmentCards = [
   { ...treatments[0], image: hairSystemsHero, imageAlt: "A hair system fitted at the Amersham studio" },
@@ -236,37 +250,40 @@ const MHTSLanding = () => {
       <div id="mhts-hero-end" aria-hidden="true" />
 
       {/* ─── 2. BEFORE AND AFTER, directly under the hero ─── */}
-      <section id="mhts-gallery" className={`${S} scroll-mt-24 bg-card py-10 md:py-12`}>
-        <div className="container mx-auto px-4">
-          <div className="mb-6 text-center md:mb-8">
+      {/* One frame per client that fades from Before to After on its own; no
+          handle, no swipe, no instructions (Carlo, after the 4b preview). On a
+          phone the clients are stacked two to a screen: the first screen is
+          the heading and clients one and two, the second is client three and
+          the link, each its own snap stop. On a desktop the three sit in one
+          row. The phone-only third frame and the desktop-only one are the
+          same client; the hidden copy is display:none, so it is neither
+          downloaded nor read out. */}
+      <section id="mhts-gallery" className={`${S} scroll-mt-24 bg-card md:py-12`}>
+        <div className={`${SNAP_PHONE_CLASS} container mx-auto px-4 py-8 md:contents`}>
+          <div className="mb-5 text-center md:mb-8">
             <Eyebrow>Real clients</Eyebrow>
             <h2 className="text-3xl text-mhts-ink md:text-4xl">Before and after</h2>
             <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />
             <p className="mx-auto mt-3 max-w-xl font-body text-sm text-muted-foreground md:text-base">
-              Three of our own clients, photographed at the studio and shared with their permission.
-              Drag the handle to see the difference.
+              Three of our own clients, photographed at the studio.
             </p>
           </div>
-
-          {/* One pair per swipe on a phone with the next one peeking; three
-              across from md up. Where the row stops being a scroller its cards
-              drop their snap point (snap-align-none), or they would become
-              stops in the page's own vertical snap. */}
-          <div className="mhts-snap-x -mx-4 flex snap-x snap-mandatory scroll-pl-4 gap-4 overflow-x-auto px-4 pb-2 md:mx-auto md:grid md:max-w-4xl md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0">
+          <div className="mx-auto grid w-full max-w-4xl grid-cols-1 gap-4 md:grid-cols-3 md:gap-6 md:px-4">
             {beforeAfterPairs.map((pair, i) => (
-              <Reveal key={pair.label} delay={i * 0.06} className="w-[78%] shrink-0 snap-start snap-always md:w-auto md:snap-align-none">
-                <BeforeAfterSlider {...pair} />
+              <Reveal key={pair.label} delay={i * 0.06} className={i === 2 ? "hidden md:block" : undefined}>
+                <BeforeAfterFade {...pair} caption={pair.label} frameClassName={BA_FRAME} sizes={BA_SIZES} />
               </Reveal>
             ))}
           </div>
-
-          <div className="mt-6 flex justify-center">
-            <Link
-              to="/gallery"
-              className="inline-flex items-center gap-1.5 font-body text-sm font-semibold text-mhts-red-deep transition-all hover:gap-2.5"
-            >
-              See more results <ChevronRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
+          <div className="mt-8 hidden justify-center md:flex">
+            <SeeAllResults />
+          </div>
+        </div>
+        {/* Phone only: the third client and the link, one screen of their own. */}
+        <div className={`${SNAP_PHONE_CLASS} container mx-auto px-4 py-8 md:hidden`}>
+          <BeforeAfterFade {...beforeAfterPairs[2]} caption={beforeAfterPairs[2].label} frameClassName={BA_FRAME} sizes={BA_SIZES} />
+          <div className="mt-8 flex justify-center">
+            <SeeAllResults />
           </div>
         </div>
       </section>

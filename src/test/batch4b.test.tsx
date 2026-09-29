@@ -115,25 +115,30 @@ describe("section scroll switch", () => {
   it("uses CSS scroll snap on the page scroller and 100svh, never 100vh", () => {
     expect(css).toMatch(/html:has\(\.mhts-snap-page\)\s*\{[^}]*scroll-snap-type:\s*y mandatory/);
     expect(css).toMatch(/\.mhts-snap-section\s*\{[^}]*scroll-snap-align:\s*start/);
-    expect(css).toMatch(/\.mhts-snap-section\s*\{[^}]*100svh/);
+    expect(css).toMatch(/\.mhts-snap-section\s*\{[^}]*min-height:\s*var\(--snap-screen\)/);
+    expect(css).toMatch(/--snap-screen:\s*calc\(100svh - var\(--snap-header\) - var\(--snap-bottom\)\)/);
     expect(css).toMatch(/scroll-padding-top:\s*var\(--snap-header\)/);
     expect(css).toMatch(/scroll-padding-bottom:\s*calc\(var\(--snap-bottom\) \+ var\(--mhts-cookie-h\)\)/);
-    const snapBlock = css.slice(css.indexOf("Full-screen section scroll"));
+    const snapBlock = css.slice(css.indexOf("Section scroll (batch 4b"));
     expect(snapBlock).not.toMatch(/100vh/);
   });
 });
 
 describe("section scroll, reduced motion", () => {
+  const SNAP_MEDIA = [
+    "@media (prefers-reduced-motion: no-preference)",
+    "@media (max-width: 767.98px) and (prefers-reduced-motion: no-preference)",
+  ];
   it("is off completely: every snap rule and the full-screen sizing sit behind no-preference", () => {
     for (const prop of ["scroll-snap-type", "scroll-snap-align", "scroll-padding-top", "scroll-padding-bottom"]) {
       const decls = declarationsWithMedia(prop);
       expect(decls.length, prop).toBeGreaterThan(0);
-      for (const d of decls) expect(d.media, prop).toBe("@media (prefers-reduced-motion: no-preference)");
+      for (const d of decls) expect(SNAP_MEDIA, prop).toContain(d.media);
     }
     // The min-height that makes a section one screen tall is behind it too.
-    const svh = declarationsWithMedia("min-height").filter((d) => css.slice(d.at, d.at + 80).includes("svh"));
-    expect(svh.length).toBeGreaterThan(0);
-    for (const d of svh) expect(d.media).toBe("@media (prefers-reduced-motion: no-preference)");
+    const screen = declarationsWithMedia("min-height").filter((d) => /svh|snap-screen|snap-first-screen/.test(css.slice(d.at, d.at + 60)));
+    expect(screen.length).toBeGreaterThan(0);
+    for (const d of screen) expect(SNAP_MEDIA).toContain(d.media);
   });
 });
 

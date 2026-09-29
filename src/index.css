@@ -224,6 +224,25 @@
   display: none;
 }
 
+/* ── Before and after, one frame per client (batch 4b fixes) ─────────────
+   Before shows for 2.5s, fades to After over 0.8s, After holds 2.5s, fades
+   back: a 6.6s loop. Paused until the frame is on screen; BeforeAfterFade's
+   IntersectionObserver sets data-playing. Opacity lives in the stylesheet,
+   never inline, so the pre-render cannot save a frame mid-fade. */
+.mhts-ba-after {
+  opacity: 0;
+  animation: mhts-ba-fade 6.6s ease-in-out infinite;
+  animation-play-state: paused;
+}
+.mhts-ba[data-playing="1"] .mhts-ba-after {
+  animation-play-state: running;
+}
+@keyframes mhts-ba-fade {
+  0%, 37.9% { opacity: 0; }
+  50%, 87.9% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
 /* The reviews carousel dims the cards either side of the one in view. The rule
    only applies once JavaScript has marked the track ready, so with scripting
    off every review is at full opacity and fully readable. */
@@ -242,6 +261,23 @@
   [data-carousel-ready="1"] [data-carousel-slide] {
     transition: none;
   }
+  /* Before and after: no fade. Both photographs side by side, still, each
+     with its own label. */
+  .mhts-ba {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+  .mhts-ba .mhts-ba-before,
+  .mhts-ba .mhts-ba-after {
+    position: relative;
+    inset: auto;
+    height: 100%;
+  }
+  .mhts-ba .mhts-ba-after {
+    opacity: 1;
+    animation: none;
+  }
   /* Nothing on the site may move for a reader who has asked it not to. */
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
@@ -251,10 +287,18 @@
   }
 }
 
-/* ── Full-screen section scroll, homepage only (batch 4b) ─────────────────
+/* ── Section scroll (batch 4b, extended to every page on a phone in the
+   batch 4b fixes) ───────────────────────────────────────────────────────
    Switched on and off by SECTION_SNAP in src/lib/sectionSnap.ts, which is
    where the reasoning lives. CSS scroll snap only: nothing here or anywhere
    else moves the page with JavaScript.
+
+     Desktop (md and up): the homepage only, as in 4b.
+     Phone (below md): every page. Each page's top-level sections, and any
+       element marked mhts-snap-phone, fill one screen and are snap stops.
+       Long lists add mhts-snap-stop points so no stop is far more than a
+       screen from the next. Blog articles use proximity, with stops only at
+       the hero and each h2, so the page never jumps mid-paragraph.
 
    The measurements the sizing depends on:
      --snap-topbar  the thin contact bar above the header, which scrolls away
@@ -269,6 +313,8 @@
   --snap-header: 81px;
   --snap-bottom: 4.5rem;
   --mhts-cookie-h: 0px;
+  --snap-screen: calc(100svh - var(--snap-header) - var(--snap-bottom));
+  --snap-first-screen: calc(100svh - var(--snap-topbar) - var(--snap-header));
 }
 @media (min-width: 768px) {
   :root {
@@ -279,6 +325,7 @@
 
 /* Every rule is behind no-preference, so reduced motion turns all of it off. */
 @media (prefers-reduced-motion: no-preference) {
+  /* ── The homepage, every width ── */
   html:has(.mhts-snap-page) {
     scroll-snap-type: y mandatory;
     scroll-padding-top: var(--snap-header);
@@ -290,7 +337,7 @@
     /* The header is already allowed for by scroll-padding. The sections'
        own scroll-mt-24 would count it twice. */
     scroll-margin-top: 0;
-    min-height: calc(100svh - var(--snap-header) - var(--snap-bottom));
+    min-height: var(--snap-screen);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -306,7 +353,7 @@
      content sits from the top, so the banner opening never moves it. */
   .mhts-snap-page .mhts-snap-hero {
     scroll-margin-top: var(--snap-topbar);
-    min-height: calc(100svh - var(--snap-topbar) - var(--snap-header));
+    min-height: var(--snap-first-screen);
     justify-content: flex-start;
     align-items: stretch;
   }
@@ -322,6 +369,65 @@
 
   /* The footer is the last stop, so the end of the page is always reachable. */
   html:has(.mhts-snap-page) footer {
+    scroll-snap-align: end;
+  }
+}
+
+/* ── Every page, phone only ── */
+@media (max-width: 767.98px) and (prefers-reduced-motion: no-preference) {
+  html:has(.mhts-snap-site) {
+    scroll-snap-type: y mandatory;
+    scroll-padding-top: var(--snap-header);
+    scroll-padding-bottom: calc(var(--snap-bottom) + var(--mhts-cookie-h));
+  }
+
+  /* A page's own top-level sections, and any block marked mhts-snap-phone. */
+  .mhts-snap-site > :not(.mhts-snap-proximity) > section,
+  .mhts-snap-site .mhts-snap-phone {
+    scroll-snap-align: start;
+    scroll-margin-top: 0;
+    min-height: var(--snap-screen);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-bottom: var(--mhts-cookie-h) solid transparent;
+  }
+
+  /* The first section covers the contact bar too, as the homepage hero does. */
+  .mhts-snap-site > :not(.mhts-snap-proximity) > section:first-of-type {
+    scroll-margin-top: var(--snap-topbar);
+    min-height: var(--snap-first-screen);
+    justify-content: flex-start;
+  }
+
+  /* A stop inside a long section (a list of questions, a list of posts), so
+     the next stop is never far more than a screen away. */
+  .mhts-snap-site .mhts-snap-stop {
+    scroll-snap-align: start;
+    scroll-margin-top: 0.75rem;
+  }
+
+  /* Anchors inside a section, as on the homepage. */
+  .mhts-snap-site > :not(.mhts-snap-proximity) > section [id] {
+    scroll-margin-top: 50svh;
+  }
+
+  /* Blog articles: proximity, and stops only at the hero and each h2. */
+  html:has(.mhts-snap-site .mhts-snap-proximity) {
+    scroll-snap-type: y proximity;
+  }
+  .mhts-snap-site .mhts-snap-proximity .mhts-snap-point {
+    scroll-snap-align: start;
+    scroll-margin-top: 1rem;
+  }
+  /* The article's hero is the first stop: the very top of the page. */
+  .mhts-snap-site .mhts-snap-proximity .mhts-snap-point-top {
+    scroll-snap-align: start;
+    scroll-margin-top: var(--snap-topbar);
+  }
+
+  /* The footer fits one phone screen and is the last stop. */
+  html:has(.mhts-snap-site) footer {
     scroll-snap-align: end;
   }
 }

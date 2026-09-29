@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import CookieConsentBanner from "./CookieConsentBanner";
 import GoogleAnalytics from "./GoogleAnalytics";
 import StickyMobileCTA from "./mhts/StickyMobileCTA";
+import { snapSiteClass } from "@/lib/sectionSnap";
 
 const Layout = () => {
   return (
@@ -15,7 +16,8 @@ const Layout = () => {
       <GoogleAnalytics />
       <HolidayBanner />
       <BrandHeader />
-      <main className="flex-1">
+      {/* The section scroll on a phone keys off this class (src/lib/sectionSnap.ts). */}
+      <main className={`flex-1 ${snapSiteClass()}`}>
         <Outlet />
       </main>
       <Footer />

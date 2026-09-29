@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { X, Shield, Award, Sparkles } from "lucide-react";
+import { Shield, Award, Sparkles } from "lucide-react";
+import BeforeAfterFade from "@/components/mhts/BeforeAfterFade";
+import { SNAP_PHONE_CLASS } from "@/lib/sectionSnap";
 import { Reveal } from "@/lib/motion";
 import { CtaPair } from "@/components/mhts/CtaButtons";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
@@ -47,17 +48,22 @@ const items: GalleryItem[] = [
 ];
 
 
+/** One client: the frame, with the service as its caption. */
+const ClientFrame = ({ item }: { item: GalleryItem }) => (
+  <div className="rounded-2xl border border-white/10 bg-white/5 p-3 [&_figcaption]:text-sm [&_figcaption]:font-semibold [&_figcaption]:text-white">
+    <BeforeAfterFade
+      before={item.before}
+      after={item.after}
+      beforeAlt={`Before, ${item.service}`}
+      afterAlt={`After, ${item.service}`}
+      caption={item.service}
+      frameClassName="aspect-[3/2] md:aspect-[4/5]"
+      sizes="(max-width: 768px) 100vw, 360px"
+    />
+  </div>
+);
+
 const GalleryPage = () => {
-  const [lightbox, setLightbox] = useState<GalleryItem | null>(null);
-  const opener = useRef<HTMLButtonElement | null>(null);
-  const closeButton = useRef<HTMLButtonElement | null>(null);
-  const close = () => {
-    setLightbox(null);
-    opener.current?.focus();
-  };
-  useEffect(() => {
-    if (lightbox) closeButton.current?.focus();
-  }, [lightbox]);
 
   useSeo({
     title: "Hair Replacement Before & After | Real Results",
@@ -82,16 +88,15 @@ const GalleryPage = () => {
   const visible = items;
 
   // Batch 4b. The results page is the one page where the photographs are the
-  // content, so it is laid out like a gallery wall: the pairs on the deep
-  // dark, the first one wide, labels on the photos, and the words that follow
-  // in three columns rather than a long grey column. The lightbox is now a
-  // real dialog: Escape closes it, focus moves into it and back out.
+  // content, so it is laid out like a gallery wall: the clients on the deep
+  // dark, and the words that follow in three columns rather than a long grey
+  // column.
   return (
     <div className="mhts-theme">
-      {/* HERO + GRID, one dark band */}
-      <section className="relative overflow-hidden bg-mhts-deep pb-16 md:pb-24">
+      {/* HERO */}
+      <section className="relative overflow-hidden bg-mhts-deep">
         <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_0%,hsl(var(--mhts-red)/0.22),transparent_70%)]" />
-        <div className="container relative mx-auto max-w-3xl px-4 pb-12 pt-14 text-center md:pt-20">
+        <div className="container relative mx-auto max-w-3xl px-4 py-14 text-center md:pb-12 md:pt-20">
           <p className="mb-4 font-body text-xs font-semibold uppercase tracking-[0.3em] text-mhts-red-light">
             Real Results
           </p>
@@ -106,67 +111,37 @@ const GalleryPage = () => {
             technicians in Amersham.
           </p>
         </div>
+      </section>
 
-        <div className="container relative mx-auto px-4">
-          {visible.length === 0 ? (
-            <p className="py-12 text-center font-body text-white/75">
-              More transformations coming soon for this category.
-            </p>
-          ) : (
-            <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-2">
-              {visible.map((item, idx) => (
-                <Reveal key={idx} from="scale" delay={idx * 0.08} className={idx === 0 ? "md:col-span-2" : undefined}>
-                  <button
-                    onClick={(e) => {
-                      opener.current = e.currentTarget;
-                      setLightbox(item);
-                    }}
-                    className="group block w-full overflow-hidden rounded-2xl border border-white/10 bg-white/5 text-left transition-colors hover:border-mhts-red-light focus-visible:border-mhts-red-light"
-                  >
-                    <div className="grid grid-cols-2 gap-px bg-white/10">
-                      <div className="relative overflow-hidden">
-                        <ResponsiveImage
-                          src={item.before}
-                          alt={`Before, ${item.service}`}
-                          className={`w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03] ${
-                            idx === 0 ? "h-72 md:h-[26rem]" : "h-64 md:h-80"
-                          }`}
-                          sizes={idx === 0 ? "(max-width: 768px) 50vw, 560px" : "(max-width: 768px) 50vw, 280px"}
-                        />
-                        <span className="absolute left-3 top-3 rounded-full bg-mhts-deep/85 px-3 py-1 font-body text-xs font-semibold uppercase tracking-widest text-white">
-                          Before
-                        </span>
-                      </div>
-                      <div className="relative overflow-hidden">
-                        <ResponsiveImage
-                          src={item.after}
-                          alt={`After, ${item.service}`}
-                          className={`w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03] ${
-                            idx === 0 ? "h-72 md:h-[26rem]" : "h-64 md:h-80"
-                          }`}
-                          sizes={idx === 0 ? "(max-width: 768px) 50vw, 560px" : "(max-width: 768px) 50vw, 280px"}
-                        />
-                        <span className="absolute left-3 top-3 rounded-full bg-mhts-red px-3 py-1 font-body text-xs font-semibold uppercase tracking-widest text-white">
-                          After
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between gap-4 p-5">
-                      {/* A <p>, not a heading: a card label inside a button, and as an
-                          h3 it skipped a level after the h1. HEALTH-CHECK.md finding 24. */}
-                      <p className="font-semibold text-white">
-                        {item.service}
-                      </p>
-                      <p className="shrink-0 font-body text-xs uppercase tracking-[0.2em] text-white/70">
-                        Click to enlarge
-                      </p>
-                    </div>
-                  </button>
-                </Reveal>
-              ))}
+      {/* THE CLIENTS. One frame each that fades from Before to After on its
+          own (batch 4b fixes): no dragging, no swiping, no lightbox and no
+          instructions. Two to a screen on a phone, then the third on a screen
+          of its own; three in a row on a desktop. The phone-only and
+          desktop-only copies of the third are the same client, and the hidden
+          one is display:none, so it is neither downloaded nor read out. */}
+      <section className="relative overflow-hidden bg-mhts-deep md:pb-24">
+        {visible.length === 0 ? (
+          <p className="py-12 text-center font-body text-white/75">
+            More transformations coming soon for this category.
+          </p>
+        ) : (
+          <>
+            <div className={`${SNAP_PHONE_CLASS} container relative mx-auto px-4 py-8 md:py-0`}>
+              <div className="mx-auto grid max-w-6xl grid-cols-1 gap-5 md:grid-cols-3 md:gap-6">
+                {visible.map((item, idx) => (
+                  <Reveal key={idx} from="scale" delay={idx * 0.08} className={idx === 2 ? "hidden md:block" : undefined}>
+                    <ClientFrame item={item} />
+                  </Reveal>
+                ))}
+              </div>
             </div>
-          )}
-        </div>
+            {visible[2] && (
+              <div className={`${SNAP_PHONE_CLASS} container relative mx-auto px-4 py-8 md:hidden`}>
+                <ClientFrame item={visible[2]} />
+              </div>
+            )}
+          </>
+        )}
       </section>
 
       {/* CATEGORY COPY, three columns */}
@@ -262,45 +237,6 @@ const GalleryPage = () => {
         </div>
       </section>
 
-      {/* LIGHTBOX */}
-      {lightbox && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label={lightbox.service}
-          className="fixed inset-0 z-[120] flex animate-fade-in items-center justify-center bg-black/90 p-4"
-          onClick={close}
-          onKeyDown={(e) => {
-            if (e.key === "Escape") close();
-          }}
-        >
-          <button
-            ref={closeButton}
-            onClick={close}
-            className="absolute right-4 top-4 p-2 text-white/80 hover:text-white"
-            aria-label="Close"
-          >
-            <X className="h-7 w-7" />
-          </button>
-          <div className="w-full max-w-5xl" onClick={(e) => e.stopPropagation()}>
-            <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-              <div className="relative">
-                <ResponsiveImage src={lightbox.before} alt={`Before, ${lightbox.service}`} className="max-h-[80vh] w-full bg-black object-contain" sizes="(max-width: 768px) 100vw, 50vw" />
-                <span className="absolute left-3 top-3 rounded-full bg-mhts-deep/90 px-3 py-1 font-body text-xs uppercase tracking-widest text-white">
-                  Before
-                </span>
-              </div>
-              <div className="relative">
-                <ResponsiveImage src={lightbox.after} alt={`After, ${lightbox.service}`} className="max-h-[80vh] w-full bg-black object-contain" sizes="(max-width: 768px) 100vw, 50vw" />
-                <span className="absolute left-3 top-3 rounded-full bg-mhts-red px-3 py-1 font-body text-xs uppercase tracking-widest text-white">
-                  After
-                </span>
-              </div>
-            </div>
-            <p className="mt-4 text-center font-body tracking-wide text-white">{lightbox.service}</p>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
