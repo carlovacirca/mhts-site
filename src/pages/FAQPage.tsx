@@ -4,6 +4,7 @@ import { AnimatePresence } from "framer-motion";
 import { motion } from "@/lib/motion";
 import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
+import { SNAP_STOP_CLASS, SNAP_STOP_EACH_CLASS } from "@/lib/sectionSnap";
 import {
   Search,
   ChevronDown,
@@ -317,7 +318,9 @@ const FAQPage = () => {
               </button>
             </div>
           ) : (
-            <ul className="space-y-3">
+            // On a phone every question is a stop, so a Page Down or a swipe
+            // never carries the reader past one.
+            <ul className={`space-y-3 ${SNAP_STOP_EACH_CLASS} ${SNAP_STOP_CLASS}`}>
               {filtered.map((f, i) => {
                 const id = slug(f.q);
                 const isOpen = openIdx === i;

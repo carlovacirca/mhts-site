@@ -39,6 +39,10 @@ export const SNAP_HERO_CLASS = "mhts-snap-hero";
 export const SNAP_PHONE_CLASS = "mhts-snap-phone";
 /** A stop inside a long section on a phone, with no sizing. */
 export const SNAP_STOP_CLASS = "mhts-snap-stop";
+/** Every child after the first is a stop inside a long section, on a phone. */
+export const SNAP_STOP_EACH_CLASS = "mhts-snap-stop-each";
+/** Every grandchild is a stop (each paragraph of a long document), on a phone. */
+export const SNAP_STOP_DEEP_CLASS = "mhts-snap-stop-deep";
 /** Blog articles: proximity instead of mandatory. */
 export const SNAP_PROXIMITY_CLASS = "mhts-snap-proximity";
 /** A stop in a proximity page: the hero and each h2. */

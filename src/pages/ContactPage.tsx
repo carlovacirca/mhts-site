@@ -13,6 +13,7 @@ import StudioMap from "@/components/mhts/StudioMap";
 import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 import { PHONE_DISPLAY } from "@/lib/site";
 import { Reveal } from "@/lib/motion";
+import { SNAP_STOP_EACH_CLASS } from "@/lib/sectionSnap";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import studioPhoto from "@/assets/mhts-consultation-room-hero.jpg";
 
@@ -110,9 +111,9 @@ const ContactPage = () => {
       </section>
 
       {/* CONTACT GRID */}
-      <section className="bg-mhts-sand py-14 md:py-20">
+      <section className="bg-mhts-sand py-8 md:py-20">
         <div className="container mx-auto px-4 max-w-6xl">
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-[1.25fr_1fr_1fr]">
+          <div className={`grid grid-cols-1 gap-4 md:grid-cols-[1.25fr_1fr_1fr] md:gap-5 ${SNAP_STOP_EACH_CLASS}`}>
             <article className="flex flex-col rounded-2xl bg-mhts-red p-8 text-white">
               <span className="mb-4 grid h-12 w-12 place-items-center rounded-full bg-white/15" aria-hidden="true">
                 <Phone className="h-6 w-6 text-white" />
@@ -152,7 +153,7 @@ const ContactPage = () => {
       </section>
 
       {/* FORM */}
-      <section className="bg-card py-14 md:py-16">
+      <section className="bg-card py-8 md:py-16">
         <div className="container mx-auto px-4 max-w-3xl">
           <div className="text-center mb-10">
             <h2 className="text-3xl text-mhts-ink md:text-4xl">Get in Touch</h2>
@@ -219,7 +220,7 @@ const ContactPage = () => {
       </section>
 
       {/* MAP */}
-      <section className="bg-mhts-sand py-14 md:py-20">
+      <section className="bg-mhts-sand py-8 md:py-20">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="mb-8">
             <h2 className="text-3xl text-mhts-ink md:text-4xl">Find Our Amersham Studio</h2>
@@ -230,7 +231,7 @@ const ContactPage = () => {
               the booking calendar already did. Before that the reader gets the
               address, a drawn map and a way out to Google Maps, rather than a
               grey rectangle. See docs/HEALTH-CHECK.md finding 16. */}
-          <div className="grid items-start gap-6 md:grid-cols-[1.4fr_1fr]">
+          <div className={`grid items-start gap-6 md:grid-cols-[1.4fr_1fr] ${SNAP_STOP_EACH_CLASS}`}>
             <StudioMap />
             {/* Hours */}
             <div>
@@ -242,7 +243,7 @@ const ContactPage = () => {
       </section>
 
       {/* SERVICE AREAS */}
-      <section className="bg-card py-14 md:py-16">
+      <section className="bg-card py-8 md:py-16">
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <h2 className="text-3xl text-mhts-ink md:text-4xl">Hair Replacement Across Buckinghamshire</h2>
           <div className="mx-auto mt-5 h-1 w-14 rounded-full bg-mhts-red" />
@@ -258,14 +259,14 @@ const ContactPage = () => {
       </section>
 
       {/* WHY CHOOSE */}
-      <section className="relative overflow-hidden bg-mhts-deep py-14 md:py-20">
+      <section className="relative overflow-hidden bg-mhts-deep py-8 md:py-20">
         <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_100%_100%,hsl(var(--mhts-red)/0.2),transparent_70%)]" />
         <div className="container relative mx-auto px-4 max-w-6xl">
           <div className="text-center mb-12">
             <h2 className="text-3xl text-white md:text-4xl">Why Choose Men's Hair To Stay</h2>
             <div className="mx-auto mt-5 h-1 w-14 rounded-full bg-mhts-red" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className={`grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6 ${SNAP_STOP_EACH_CLASS}`}>
             {[
               { icon: ShieldCheck, title: "Free Consultations", desc: "Confidential, no-obligation hair loss assessment with a specialist, no pressure to proceed." },
               { icon: Award, title: "Specialist Expertise", desc: "Years of experience fitting hair systems, performing SMP and supporting men through hair loss." },

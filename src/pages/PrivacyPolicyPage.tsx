@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { CalendarCheck, Mail, Phone, MapPin } from "lucide-react";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
 import { CtaPair } from "@/components/mhts/CtaButtons";
+import { SNAP_STOP_DEEP_CLASS } from "@/lib/sectionSnap";
 
 // The contents list, in page order. Each label is the section's own heading.
 const sections = [
@@ -49,7 +50,7 @@ const PrivacyPolicyPage = () => {
       </section>
 
       {/* CONTENT */}
-      <section className="py-12 md:py-16">
+      <section className="py-8 md:py-16">
         <div className="container mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-[240px_1fr] lg:gap-16">
         <nav aria-label="On this page" className="hidden lg:sticky lg:top-28 lg:block lg:self-start">
           <ol className="space-y-1 border-l-2 border-mhts-stone">
@@ -65,7 +66,9 @@ const PrivacyPolicyPage = () => {
             ))}
           </ol>
         </nav>
-        <div className="max-w-3xl divide-y divide-mhts-stone font-body leading-relaxed text-foreground/80 [&>div]:py-9 [&>div:first-child]:pt-0">
+        {/* On a phone each paragraph and list is a stop, so no Page Down skips
+            one. */}
+        <div className={`max-w-3xl divide-y divide-mhts-stone font-body leading-relaxed text-foreground/80 [&>div]:py-9 [&>div:first-child]:pt-0 ${SNAP_STOP_DEEP_CLASS}`}>
           <div>
             <h2 id="who-we-are" className="mb-4 scroll-mt-28 text-2xl text-mhts-ink">
               Who we are

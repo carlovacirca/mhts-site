@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Reveal } from "@/lib/motion";
+import { SNAP_STOP_CLASS, SNAP_STOP_EACH_CLASS } from "@/lib/sectionSnap";
 import { Phone, CalendarCheck } from "lucide-react";
 import { useSeo, useJsonLd, breadcrumbSchema } from "@/lib/seo";
 import { useCookieConsent } from "@/lib/cookieConsent";
@@ -153,7 +154,7 @@ const BookPage = () => {
     // phone number large on its own band for the reader who would rather call.
     <div className="mhts-theme">
       {/* HERO */}
-      <section className="relative overflow-hidden bg-mhts-deep py-16 md:py-20">
+      <section className="relative overflow-hidden bg-mhts-deep py-8 md:py-20">
         <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_50%_0%,hsl(var(--mhts-red)/0.25),transparent_70%)]" />
         <div className="container relative mx-auto max-w-3xl px-4 text-center">
           <p className="mb-4 font-body text-xs font-semibold uppercase tracking-[0.3em] text-mhts-red-light">
@@ -186,7 +187,7 @@ const BookPage = () => {
       <ServicePricing rows={pricingRows} />
 
       {/* TRAFFT WIDGET */}
-      <section id="trafft-booking" className="scroll-mt-24 border-y border-mhts-stone bg-card py-16">
+      <section id="trafft-booking" className="scroll-mt-24 border-y border-mhts-stone bg-card py-6 md:py-16">
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="text-center mb-10">
             <span className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-full bg-mhts-red text-white" aria-hidden="true">
@@ -217,13 +218,15 @@ const BookPage = () => {
                be, on most first visits. The consent rule is unchanged, Trafft
                still loads only after Accept, but the reader now gets a way to
                book either way. See docs/DESIGN-AUDIT.md finding 12. */
-            <BookingPanel />
+            <div className={SNAP_STOP_CLASS}>
+              <BookingPanel compact />
+            </div>
           )}
         </div>
       </section>
 
       {/* APPOINTMENT TYPES */}
-      <section className="bg-mhts-sand py-16 md:py-20">
+      <section className="bg-mhts-sand py-8 md:py-20">
         <div className="container mx-auto px-4">
           <div className="mx-auto mb-12 max-w-6xl">
             <h2 className="text-3xl text-mhts-ink md:text-4xl">
@@ -236,7 +239,7 @@ const BookPage = () => {
             </p>
           </div>
           {/* Three across at most. Five in a row made each card 200px wide. */}
-          <div className="mx-auto grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className={`mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3 ${SNAP_STOP_EACH_CLASS}`}>
             {appointments.map((a, i) => (
               <Reveal
                 as="article"
@@ -277,7 +280,7 @@ const BookPage = () => {
       </section>
 
       {/* FAQ */}
-      <section className="bg-card py-16 md:py-20">
+      <section className="bg-card py-8 md:py-20">
         <div className="container mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <div>
             <h2 className="text-3xl text-mhts-ink md:text-4xl">

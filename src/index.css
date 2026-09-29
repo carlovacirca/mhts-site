@@ -387,8 +387,10 @@
     scroll-padding-bottom: calc(var(--snap-bottom) + var(--mhts-cookie-h));
   }
 
-  /* A page's own top-level sections, and any block marked mhts-snap-phone. */
-  .mhts-snap-site > :not(.mhts-snap-proximity) > section,
+  /* A page's own top-level sections, and any block marked mhts-snap-phone.
+     :not(.hidden) keeps a desktop-only section (hidden md:block) hidden: this
+     rule sets display, and would otherwise show it on a phone. */
+  .mhts-snap-site > :not(.mhts-snap-proximity) > section:not(.hidden),
   .mhts-snap-site .mhts-snap-phone {
     scroll-snap-align: start;
     scroll-margin-top: 0;
@@ -407,8 +409,12 @@
   }
 
   /* A stop inside a long section (a list of questions, a list of posts), so
-     the next stop is never far more than a screen away. */
-  .mhts-snap-site .mhts-snap-stop {
+     the next stop is never far more than a screen away. mhts-snap-stop marks
+     one element; mhts-snap-stop-each makes every child after the first one;
+     mhts-snap-stop-deep every grandchild (the privacy policy's paragraphs). */
+  .mhts-snap-site .mhts-snap-stop,
+  .mhts-snap-site .mhts-snap-stop-each > * + *,
+  .mhts-snap-site .mhts-snap-stop-deep > * > * {
     scroll-snap-align: start;
     scroll-margin-top: 0.75rem;
   }

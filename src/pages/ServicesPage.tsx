@@ -6,6 +6,7 @@ import { Reveal } from "@/lib/motion";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { CtaPair } from "@/components/mhts/CtaButtons";
 import { cardPhotoFor } from "@/data/servicePhotos";
+import { SNAP_PHONE_CLASS, SNAP_STOP_CLASS } from "@/lib/sectionSnap";
 
 const ServicesPage = () => {
   useSeo({
@@ -34,11 +35,13 @@ const ServicesPage = () => {
       </section>
       <section className="bg-mhts-sand py-14 md:py-20">
         <div className="container mx-auto px-4">
-          <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="mx-auto grid max-w-6xl grid-cols-1 md:grid-cols-2 md:gap-6">
             {serviceCategories.map((c, i) => {
               const photo = cardPhotoFor(`/${c.slug}`);
               return (
-                <Reveal key={c.slug} from="scale" delay={(i % 2) * 0.08} className="flex h-full flex-col overflow-hidden rounded-2xl border border-mhts-stone bg-card">
+                // On a phone each treatment is a screen of its own.
+                <div key={c.slug} className={SNAP_PHONE_CLASS}>
+                <Reveal from="scale" delay={(i % 2) * 0.08} className="flex h-full flex-col overflow-hidden rounded-2xl border border-mhts-stone bg-card">
                   <Link to={`/${c.slug}`} className="group relative block aspect-[16/9] overflow-hidden">
                     {photo && (
                       <ResponsiveImage
@@ -78,10 +81,11 @@ const ServicesPage = () => {
                     </Link>
                   </div>
                 </Reveal>
+                </div>
               );
             })}
           </div>
-          <CtaPair className="mt-12 justify-center" size="lg" />
+          <CtaPair className={`mt-4 justify-center md:mt-12 ${SNAP_STOP_CLASS}`} size="lg" />
         </div>
       </section>
     </div>

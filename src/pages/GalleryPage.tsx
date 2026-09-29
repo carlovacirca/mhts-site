@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Shield, Award, Sparkles } from "lucide-react";
 import BeforeAfterFade from "@/components/mhts/BeforeAfterFade";
-import { SNAP_PHONE_CLASS } from "@/lib/sectionSnap";
+import { SNAP_PHONE_CLASS, SNAP_STOP_EACH_CLASS } from "@/lib/sectionSnap";
 import { Reveal } from "@/lib/motion";
 import { CtaPair } from "@/components/mhts/CtaButtons";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
@@ -145,8 +145,8 @@ const GalleryPage = () => {
       </section>
 
       {/* CATEGORY COPY, three columns */}
-      <section className="bg-mhts-sand py-16 md:py-20">
-        <div className="container mx-auto grid max-w-6xl gap-6 px-4 md:grid-cols-3">
+      <section className="bg-mhts-sand py-8 md:py-20">
+        <div className={`container mx-auto grid max-w-6xl gap-4 px-4 md:grid-cols-3 md:gap-6 ${SNAP_STOP_EACH_CLASS}`}>
           {[
             {
               title: "Hair System Transformation Results",
@@ -161,7 +161,7 @@ const GalleryPage = () => {
               body: "Our professional hair system maintenance services keep your system looking fresh. View results from hair system base cleaning, reattachment, styling, and colouring treatments. Whether you need a quick regroom (1x adhesive) or full regroom (2x adhesive), we deliver professional results.",
             },
           ].map((c, i) => (
-            <Reveal key={c.title} delay={i * 0.06} className="rounded-2xl border-t-4 border-mhts-red bg-card p-7">
+            <Reveal key={c.title} delay={i * 0.06} className="rounded-2xl border-t-4 border-mhts-red bg-card p-6 md:p-7">
               <h2 className="mb-3 text-xl text-mhts-ink md:text-2xl">
                 {c.title}
               </h2>
@@ -174,7 +174,7 @@ const GalleryPage = () => {
       </section>
 
       {/* SOCIAL PROOF */}
-      <section className="bg-card py-16 md:py-20">
+      <section className="bg-card py-8 md:py-20">
         <div className="container mx-auto max-w-5xl px-4">
           <h2 className="mb-10 text-center text-3xl text-mhts-ink md:text-4xl">
             Why Clients Trust Men's Hair To Stay
@@ -200,7 +200,7 @@ const GalleryPage = () => {
       </section>
 
       {/* CTA */}
-      <section className="relative overflow-hidden bg-mhts-deep py-16 md:py-20">
+      <section className="relative overflow-hidden bg-mhts-deep py-8 md:py-20">
         <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_50%_100%,hsl(var(--mhts-red)/0.25),transparent_65%)]" />
         <div className="container relative mx-auto px-4 text-center">
           <h2 className="mb-4 text-3xl text-white md:text-4xl">
@@ -213,7 +213,7 @@ const GalleryPage = () => {
             coverage.
           </p>
           <CtaPair size="lg" tone="dark" label="Book Free Consultation" className="justify-center" />
-          <div className="mt-14 border-t border-white/10 pt-10">
+          <div className="mt-8 border-t border-white/10 pt-6 md:mt-14 md:pt-10">
             <p className="mb-5 font-body text-xs uppercase tracking-[0.2em] text-white/60">
               Explore More
             </p>

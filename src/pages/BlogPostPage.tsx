@@ -14,6 +14,7 @@ import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 import { getPicture } from "@/lib/images";
 import { relatedPosts, isPublished, isPreviewRequest } from "@/lib/publishing";
 import NotFound from "@/pages/NotFound";
+import { SNAP_POINT_CLASS, SNAP_POINT_TOP_CLASS, snapProximityClass } from "@/lib/sectionSnap";
 import { computeImageSlots } from "@/lib/blogImageSlots";
 import blogPlaceholderIllustration from "@/assets/blog-placeholder-illustration.jpg";
 import blogNonSurgicalInline1 from "@/assets/blog-non-surgical-inline-1.jpg";
@@ -308,7 +309,10 @@ const BlogPostPage = () => {
     // to a reading width of about 70 characters, headings carry a red rule, the
     // contents box and the sidebar pick up the brand, and related articles sit
     // on their own sand band.
-    <div className="mhts-theme min-h-screen bg-background">
+    // On a phone the article scrolls with `y proximity`, with stops only at the
+    // hero and each h2 (batch 4b fixes, src/lib/sectionSnap.ts), so it never
+    // jumps mid-paragraph.
+    <div className={`mhts-theme min-h-screen bg-background ${snapProximityClass()}`}>
       {/* Reading progress */}
       <div className="fixed top-0 left-0 right-0 h-1 z-50 bg-transparent">
         <div
@@ -318,7 +322,7 @@ const BlogPostPage = () => {
       </div>
 
       {/* Hero image */}
-      <section className="bg-background">
+      <section className={`bg-background ${SNAP_POINT_TOP_CLASS}`}>
         {post.image ? (
           <ResponsiveImage
             src={post.image}
@@ -404,7 +408,7 @@ const BlogPostPage = () => {
             const renderBlock = (b: Block, key: string) => {
               if (b.type === "h2")
                 return (
-                  <h2 id={b.id} key={key} className="mb-4 mt-12 scroll-mt-24 border-t-2 border-mhts-red pt-5 text-2xl text-mhts-ink md:text-3xl">
+                  <h2 id={b.id} key={key} className={`mb-4 mt-12 scroll-mt-24 border-t-2 border-mhts-red pt-5 text-2xl text-mhts-ink md:text-3xl ${SNAP_POINT_CLASS}`}>
                     {b.text}
                   </h2>
                 );

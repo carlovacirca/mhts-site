@@ -76,9 +76,9 @@ const beforeAfterPairs = [
   },
 ];
 
-// Phone: a 3:2 landscape frame, two of which fit one screen under the heading.
+// Phone: a 16:10 landscape frame, two of which fit one screen under the heading.
 // Desktop: a 4:5 frame, three across.
-const BA_FRAME = "aspect-[3/2] md:aspect-[4/5]";
+const BA_FRAME = "aspect-[16/10] md:aspect-[4/5]";
 const BA_SIZES = "(max-width: 768px) 100vw, 290px";
 
 const SeeAllResults = () => (
@@ -259,8 +259,8 @@ const MHTSLanding = () => {
           same client; the hidden copy is display:none, so it is neither
           downloaded nor read out. */}
       <section id="mhts-gallery" className={`${S} scroll-mt-24 bg-card md:py-12`}>
-        <div className={`${SNAP_PHONE_CLASS} container mx-auto px-4 py-8 md:contents`}>
-          <div className="mb-5 text-center md:mb-8">
+        <div className={`${SNAP_PHONE_CLASS} container mx-auto px-4 py-6 md:contents`}>
+          <div className="mb-4 text-center md:mb-8">
             <Eyebrow>Real clients</Eyebrow>
             <h2 className="text-3xl text-mhts-ink md:text-4xl">Before and after</h2>
             <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />

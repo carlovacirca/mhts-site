@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { MapPin, ChevronRight } from "lucide-react";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
 import { Reveal } from "@/lib/motion";
+import { SNAP_STOP_EACH_CLASS } from "@/lib/sectionSnap";
 import { ADDRESS_LINE } from "@/lib/site";
 import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 
@@ -61,9 +62,10 @@ const AreasServicedPage = () => {
         </div>
       </section>
 
-      <section className="bg-mhts-sand py-14 md:py-20">
+      <section className="bg-mhts-sand py-8 md:py-20">
         <div className="container mx-auto max-w-6xl px-4">
-          <ol className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {/* On a phone every town is a stop. */}
+          <ol className={`grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3 ${SNAP_STOP_EACH_CLASS}`}>
             {areas.map((a, i) => (
               <Reveal as="li" key={a.name} delay={(i % 3) * 0.06}>
                 <Link

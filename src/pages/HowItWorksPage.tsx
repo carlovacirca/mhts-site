@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Reveal } from "@/lib/motion";
 import { CtaPair } from "@/components/mhts/CtaButtons";
+import { SNAP_PHONE_CLASS, SNAP_STOP_CLASS, SNAP_STOP_EACH_CLASS } from "@/lib/sectionSnap";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import consultationRoom from "@/assets/mhts-consultation-room-hero.jpg";
 import baseMaterials from "@/assets/mhts-hair-system-base-materials-hero.jpg";
@@ -112,17 +113,17 @@ const HowItWorksPage = () => {
       {/* HERO */}
       <section className="relative overflow-hidden bg-mhts-deep">
         <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_90%_10%,hsl(var(--mhts-red)/0.22),transparent_70%)]" />
-        <div className="container relative z-10 mx-auto max-w-6xl px-4 py-16 md:py-24">
+        <div className="container relative z-10 mx-auto max-w-6xl px-4 py-8 md:py-24">
           <div className="max-w-3xl">
             <p className="mb-4 font-body text-xs font-semibold uppercase tracking-[0.24em] text-mhts-red-light">
               The Process
             </p>
-            <h1 className="mb-6 text-4xl leading-tight text-white md:text-6xl">
+            <h1 className="mb-4 text-4xl leading-tight text-white md:mb-6 md:text-6xl">
               How Hair Replacement Works:
               <br />
               <span className="text-mhts-red-light">Our 4-Step Process.</span>
             </h1>
-            <p className="mb-8 max-w-2xl font-body text-lg leading-relaxed text-white/80">
+            <p className="mb-6 max-w-2xl font-body text-base leading-relaxed text-white/80 md:mb-8 md:text-lg">
               Learn how Men's Hair To Stay transforms hair loss with non-surgical
               hair replacement systems and SMP treatments. From your free initial
               consultation to ongoing hair system maintenance, here's exactly how
@@ -133,7 +134,7 @@ const HowItWorksPage = () => {
           </div>
 
           {/* TRUST STRIP, now chips on the same band */}
-          <ul className="mt-10 flex flex-wrap gap-2.5">
+          <ul className="mt-6 flex flex-wrap gap-2 md:mt-10 md:gap-2.5">
             {[
               { icon: Shield, label: "100% Confidential" },
               { icon: Award, label: "Specialist Trained" },
@@ -154,7 +155,7 @@ const HowItWorksPage = () => {
       </section>
 
       {/* 4-STEP TIMELINE */}
-      <section className="bg-card py-16 md:py-24">
+      <section className="bg-card py-8 md:py-24">
         <div className="container mx-auto max-w-6xl px-4">
           <div className="mb-14 text-center">
             <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">
@@ -173,7 +174,9 @@ const HowItWorksPage = () => {
               const photo = stepPhotos[i];
               const flip = i % 2 === 1;
               return (
-                <li key={step.title} className="relative grid gap-6 pb-14 pl-16 last:pb-0 md:grid-cols-2 md:gap-20 md:pl-0">
+                // Phone: the heading and step one are a screen, then each
+                // step after it a screen of its own.
+                <li key={step.title} className={`relative grid gap-4 pb-6 pl-16 last:pb-0 md:grid-cols-2 md:gap-20 md:pb-14 md:pl-0 ${i > 0 ? SNAP_PHONE_CLASS : ""}`}>
                   {/* The node on the rail */}
                   <span className="absolute left-6 top-0 z-[1] -translate-x-1/2 md:left-1/2" aria-hidden="true">
                     <span className="grid h-12 w-12 place-items-center rounded-full bg-mhts-red text-white ring-8 ring-card">
@@ -184,7 +187,7 @@ const HowItWorksPage = () => {
                     <ResponsiveImage
                       src={photo.src}
                       alt={photo.alt}
-                      className="aspect-[16/10] w-full rounded-2xl object-cover"
+                      className="aspect-[2/1] w-full rounded-2xl object-cover md:aspect-[16/10]"
                       sizes="(max-width: 768px) 100vw, 520px"
                     />
                   </Reveal>
@@ -195,7 +198,7 @@ const HowItWorksPage = () => {
                     <h3 className="mb-3 text-xl text-mhts-ink md:text-2xl">
                       {step.title}
                     </h3>
-                    <p className="font-body text-base leading-relaxed text-foreground/80">
+                    <p className="font-body text-sm leading-snug text-foreground/80 md:text-base md:leading-relaxed">
                       {step.desc}
                     </p>
                   </Reveal>
@@ -207,7 +210,7 @@ const HowItWorksPage = () => {
       </section>
 
       {/* WHY CHOOSE, on the dark band */}
-      <section className="relative overflow-hidden bg-mhts-deep py-16 md:py-24">
+      <section className="relative overflow-hidden bg-mhts-deep py-8 md:py-24">
         <div className="absolute inset-0 bg-[radial-gradient(60%_80%_at_0%_100%,hsl(var(--mhts-red)/0.2),transparent_70%)]" />
         <div className="container relative mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           <div>
@@ -218,9 +221,9 @@ const HowItWorksPage = () => {
               Why Choose Men's Hair To Stay for Your Hair Replacement?
             </h2>
           </div>
-          <ul className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
+          <ul className="grid gap-x-8 gap-y-3 sm:grid-cols-2 md:gap-y-4">
             {whyChoose.map((item, i) => (
-              <Reveal as="li" key={item} delay={i * 0.04} className="flex items-start gap-3 font-body leading-relaxed text-white/85">
+              <Reveal as="li" key={item} delay={i * 0.04} className={`flex items-start gap-3 font-body leading-snug text-white/85 md:leading-relaxed ${i === 3 ? SNAP_STOP_CLASS : ""}`}>
                 <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-mhts-red-light" aria-hidden="true" />
                 <span>{item}</span>
               </Reveal>
@@ -230,7 +233,7 @@ const HowItWorksPage = () => {
       </section>
 
       {/* SERVICE OPTIONS */}
-      <section className="bg-mhts-sand py-16 md:py-24">
+      <section className="bg-mhts-sand py-8 md:py-24">
         <div className="container mx-auto max-w-6xl px-4">
           <div className="mb-10">
             <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">
@@ -240,7 +243,7 @@ const HowItWorksPage = () => {
               Our Service Options
             </h2>
           </div>
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+          <div className={`grid grid-cols-1 gap-5 md:grid-cols-3 ${SNAP_STOP_EACH_CLASS}`}>
             {serviceGroups.map((group, i) => (
               <Reveal
                 key={group.title}
@@ -273,13 +276,13 @@ const HowItWorksPage = () => {
       </section>
 
       {/* CTA */}
-      <section className="relative overflow-hidden bg-mhts-deep py-16 md:py-20">
+      <section className="relative overflow-hidden bg-mhts-deep py-8 md:py-20">
         <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_50%_100%,hsl(var(--mhts-red)/0.25),transparent_65%)]" />
         <div className="container relative mx-auto px-4 text-center">
           <h2 className="mb-4 text-3xl text-white md:text-4xl">
             Ready to Start Your Hair Replacement Journey?
           </h2>
-          <p className="mx-auto mb-10 max-w-2xl font-body leading-relaxed text-white/75">
+          <p className="mx-auto mb-6 max-w-2xl font-body leading-relaxed text-white/75 md:mb-10">
             Book your free initial consultation with our specialist technicians.
             We'll assess your hair loss and discuss your non-surgical hair
             replacement options.
@@ -287,7 +290,7 @@ const HowItWorksPage = () => {
           <CtaPair size="lg" tone="dark" href="/#mhts-book" className="justify-center" />
 
           {/* Related links */}
-          <div className="mt-14 border-t border-white/10 pt-10">
+          <div className="mt-8 border-t border-white/10 pt-6 md:mt-14 md:pt-10">
             <p className="mb-5 font-body text-xs uppercase tracking-[0.2em] text-white/60">
               Explore More
             </p>
