@@ -7,7 +7,7 @@ import ServicePricing, { type PricingRow } from "@/components/ServicePricing";
 import { CtaPair } from "@/components/mhts/CtaButtons";
 import { findCategory } from "@/data/services";
 import { treatments } from "@/data/treatments";
-import { cardPhotoFor, servicePhotos, type Photo } from "@/data/servicePhotos";
+import { servicePhotos, type Photo } from "@/data/servicePhotos";
 
 // The layout behind all 18 treatment pages, batch 4b.
 //
@@ -43,9 +43,6 @@ export interface ServicePageProps {
     back?: { to: string; label: string };
     title: ReactNode;
     lead: ReactNode;
-    /** Category pages have a full-bleed hero photograph. */
-    image?: string;
-    imageAlt?: string;
   };
   pricing?: PricingRow[];
   about: TextBlock;
@@ -98,18 +95,18 @@ const Hero = ({ hero, photo }: { hero: ServicePageProps["hero"]; photo?: Photo }
     </>
   );
 
-  // Category pages: their own photograph, full bleed, as before but lighter.
-  if (hero.image) {
+  // Treatment (pillar) pages: the page's `service` photograph, full bleed.
+  if (photo) {
     return (
       <section className="relative flex min-h-[64vh] items-center overflow-hidden bg-mhts-deep">
         <ResponsiveImage
-          src={hero.image}
-          alt={hero.imageAlt ?? ""}
-          className="absolute inset-0 h-full w-full object-cover object-left"
+          src={photo.src}
+          alt={photo.alt}
+          className="absolute inset-0 h-full w-full object-cover"
           sizes="100vw"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-mhts-deep/90 via-mhts-deep/65 to-mhts-deep/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-mhts-deep/90 via-mhts-deep/70 to-mhts-deep/20" />
         <div className="absolute inset-0 bg-[radial-gradient(60%_70%_at_10%_60%,hsl(var(--mhts-red)/0.2),transparent_70%)]" />
         <div className="container relative z-10 mx-auto px-4 py-16 md:py-20">
           <div className="max-w-2xl">{intro}</div>
@@ -118,26 +115,14 @@ const Hero = ({ hero, photo }: { hero: ServicePageProps["hero"]; photo?: Photo }
     );
   }
 
-  // Sub-service pages had a flat charcoal block. They now split: the words on
-  // the dark band, and from md up a photograph in a frame. On a phone the frame
-  // is not rendered at all (display none, lazy), so it costs the first screen
-  // nothing.
+  // Sub-service pages: the words on the dark band. The framed photograph that
+  // sat beside them in 4b is gone (Carlo's two-photograph rule); the page's
+  // `service` photograph is beside "What is it" instead.
   return (
     <section className="relative overflow-hidden bg-mhts-deep">
       <div className="absolute inset-0 bg-[radial-gradient(55%_80%_at_0%_100%,hsl(var(--mhts-red)/0.22),transparent_70%)]" />
-      <div className="container relative z-10 mx-auto grid items-center gap-10 px-4 py-14 md:grid-cols-[1.15fr_0.85fr] md:py-20">
-        <div>{intro}</div>
-        {photo && (
-        <div className="relative hidden md:block">
-          <div className="absolute -right-3 -top-3 h-24 w-24 rounded-tr-2xl border-r-4 border-t-4 border-mhts-red" aria-hidden="true" />
-          <ResponsiveImage
-            src={photo.src}
-            alt={photo.alt}
-            className="aspect-[4/5] w-full rounded-2xl object-cover shadow-2xl"
-            sizes="40vw"
-          />
-        </div>
-        )}
+      <div className="container relative z-10 mx-auto px-4 py-14 md:py-20">
+        <div className="max-w-3xl">{intro}</div>
       </div>
     </section>
   );
@@ -153,7 +138,8 @@ const Split = ({
 }: {
   id: string;
   block: TextBlock;
-  photo: Photo;
+  /** Omitted on a treatment page's "What is it": its photograph is the hero. */
+  photo?: Photo;
   flip?: boolean;
   tone: "white" | "sand";
 }) => (
@@ -164,6 +150,7 @@ const Split = ({
         <h2 className="mb-6 text-3xl leading-tight text-mhts-ink md:text-4xl">{block.title}</h2>
         <div className="space-y-5 font-body leading-relaxed text-foreground/80">{block.body}</div>
       </Reveal>
+      {photo ? (
       <Reveal as="figure" from={flip ? "left" : "right"} className={`relative ${flip ? "md:order-1" : ""}`}>
         <ResponsiveImage
           src={photo.src}
@@ -182,6 +169,17 @@ const Split = ({
           <p className="text-lg font-semibold leading-snug text-mhts-ink">{block.fact}</p>
         </figcaption>
       </Reveal>
+      ) : (
+      // No photograph: the key fact alone, set large, as a pull quote.
+      <Reveal as="figure" from={flip ? "left" : "right"} className={flip ? "md:order-1" : undefined}>
+        <div className="border-l-4 border-mhts-red pl-6">
+          <span aria-hidden="true" className="mb-2 block font-body text-5xl font-bold leading-none text-mhts-red">&ldquo;</span>
+          <figcaption aria-hidden="true">
+            <p className="text-2xl font-semibold leading-snug text-mhts-ink md:text-3xl">{block.fact}</p>
+          </figcaption>
+        </div>
+      </Reveal>
+      )}
     </div>
   </section>
 );
@@ -314,27 +312,17 @@ const Related = ({
           <Eyebrow>{related.eyebrow}</Eyebrow>
           <h2 className="text-3xl text-mhts-ink md:text-4xl">{related.title}</h2>
         </div>
-        {/* Three across at most. Five in a row made each card 180px wide. */}
+        {/* Three across at most. Five in a row made each card 180px wide. The
+            cards carry no photographs: a service page shows two, its own. */}
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {subs.map((sub, i) => {
             const path = `/${cat.slug}/${sub.slug}`;
-            const photo = cardPhotoFor(path);
             return (
               <Reveal key={sub.slug} delay={i * 0.06}>
                 <Link
                   to={path}
                   className="group flex h-full flex-col overflow-hidden rounded-xl border border-mhts-stone bg-card transition-all hover:-translate-y-1 hover:border-mhts-red hover:shadow-lg"
                 >
-                  {photo && (
-                    <div className="aspect-[16/9] overflow-hidden">
-                      <ResponsiveImage
-                        src={photo.src}
-                        alt=""
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px"
-                      />
-                    </div>
-                  )}
                   <div className="flex flex-1 flex-col p-6">
                     <h3 className="mb-2 text-lg text-mhts-ink">{sub.name}</h3>
                     <p className="mb-5 flex-1 font-body text-sm leading-relaxed text-muted-foreground">{sub.blurb}</p>
@@ -351,21 +339,12 @@ const Related = ({
         {/* The other three treatments, so every page ends somewhere to go. */}
         <div className="mt-12 grid gap-3 border-t border-mhts-stone pt-8 sm:grid-cols-3">
           {others.map((t) => {
-            const photo = cardPhotoFor(`/${t.slug}`);
             return (
               <Link
                 key={t.slug}
                 to={`/${t.slug}`}
                 className="group flex items-center gap-4 rounded-xl border border-mhts-stone bg-mhts-sand p-3 pr-4 transition-colors hover:border-mhts-red"
               >
-                {photo && (
-                  <ResponsiveImage
-                    src={photo.src}
-                    alt=""
-                    className="h-16 w-16 shrink-0 rounded-lg object-cover"
-                    sizes="64px"
-                  />
-                )}
                 <span className="min-w-0">
                   <span className="block font-body text-sm font-semibold text-mhts-ink group-hover:text-mhts-red-deep">
                     {t.name}
@@ -395,14 +374,19 @@ const Closing = ({ cta }: { cta: ServicePageProps["cta"] }) => (
 
 const ServicePage = (props: ServicePageProps) => {
   const photos = servicePhotos[props.path];
+  const isPillar = !props.subSlug;
   return (
     <div className="mhts-theme">
-      <Hero hero={props.hero} photo={photos.hero} />
+      {/* Two photographs per page (src/data/servicePhotos.ts). A treatment
+          page: `service` in the hero, `studio` beside "Who it's for". A
+          sub-service page: `service` beside "What is it", `studio` beside
+          "Who it's for". */}
+      <Hero hero={props.hero} photo={isPillar ? photos.service : undefined} />
       {props.pricing && <ServicePricing rows={props.pricing} />}
-      <Split id="about" block={props.about} photo={photos.about} tone="white" />
+      <Split id="about" block={props.about} photo={isPillar ? undefined : photos.service} tone="white" />
       <Benefits benefits={props.benefits} />
       {props.included && <Included included={props.included} />}
-      <Split id="who" block={props.who} photo={photos.who} flip tone="sand" />
+      <Split id="who" block={props.who} photo={photos.studio} flip tone="sand" />
       <Steps steps={props.steps} />
       <Faq faq={props.faq} />
       <Related related={props.related} category={props.category} subSlug={props.subSlug} />

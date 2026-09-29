@@ -25,7 +25,7 @@ import FAQPage from "@/pages/FAQPage";
 import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
 import NotFound from "@/pages/NotFound";
 import { serviceCategories } from "@/data/services";
-import { servicePhotos } from "@/data/servicePhotos";
+import { SERVICE_PAGE_ORDER, servicePhotos } from "@/data/servicePhotos";
 import { blogPosts } from "@/data/blogPosts";
 import { latestPosts } from "@/lib/publishing";
 import HairSystemsPage from "@/pages/services/HairSystemsPage";
@@ -216,6 +216,33 @@ describe("links kept", () => {
       expect(fact.length).toBeGreaterThan(10);
       expect(norm(clone.textContent), `${path} #${id}`).toContain(fact);
     }
+  });
+
+  it.each(SERVICE_PAGES)("%s shows exactly two photographs: its service photo and a studio photo", (path, ui) => {
+    const { container } = renderAt(ui, path);
+    const imgs = Array.from(container.querySelectorAll("img"));
+    expect(imgs.length, path).toBe(2);
+    const { service, studio } = servicePhotos[path];
+    const srcs = imgs.map((i) => i.getAttribute("alt"));
+    expect(srcs).toContain(service.alt);
+    expect(srcs).toContain(studio.alt);
+    const hero = container.querySelector("section")!;
+    const isPillar = path.split("/").length === 2;
+    // Treatment pages: the service photo in the hero. Sub-service pages: no
+    // photograph in the hero, the service photo beside "What is it".
+    expect(hero.querySelectorAll("img").length).toBe(isPillar ? 1 : 0);
+    if (isPillar) expect(hero.querySelector("img")!.getAttribute("alt")).toBe(service.alt);
+    else expect(container.querySelector("#about img")!.getAttribute("alt")).toBe(service.alt);
+    expect(container.querySelector("#who img")!.getAttribute("alt")).toBe(studio.alt);
+  });
+
+  it("neighbouring service pages show different studio photographs", () => {
+    const paths = SERVICE_PAGE_ORDER;
+    expect([...paths].sort()).toEqual(SERVICE_PAGES.map(([p]) => p).sort());
+    for (let i = 1; i < paths.length; i++) {
+      expect(servicePhotos[paths[i]].studio.src, paths[i]).not.toBe(servicePhotos[paths[i - 1]].studio.src);
+    }
+    expect(new Set(Object.values(servicePhotos).map((p) => p.studio.src)).size).toBe(3);
   });
 
   it("the services overview links all four treatments and all their sub-services", () => {

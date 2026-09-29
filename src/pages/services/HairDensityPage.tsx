@@ -3,7 +3,6 @@ import { Leaf, Crosshair, ShieldCheck, Sparkles, UserCog, Activity, Zap, MapPin 
 import { findCategory } from "@/data/services";
 import { useJsonLd, useCanonical, useOpenGraph, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 import ServicePage from "@/components/mhts/ServicePage";
-import hairDensityHero from "@/assets/hair-density-hero.jpg";
 
 const pricingRows = [
   { name: "Density Treatment Consultation", price: "Free", note: "No obligation" },
@@ -119,8 +118,6 @@ const HairDensityPage = () => {
       category="hair-density"
       hero={{
         eyebrow: "Hair Density",
-        image: hairDensityHero,
-        imageAlt: "Close-up of natural-looking hair density result",
         title: (
           <>
             Thicker Hair. Fuller Coverage.<br />

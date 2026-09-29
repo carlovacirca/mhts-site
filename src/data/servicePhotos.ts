@@ -1,21 +1,26 @@
-// Which photograph sits beside which block of text on the 18 treatment pages.
+// The photographs on the 18 pages that describe a service.
 //
-// Every image here is already in src/assets: the studio's own photographs, the
-// consented client before and afters, and the illustrations already used on
-// the blog. Nothing new was generated for batch 4b. Images of AI faces are
-// deliberately not used on a treatment page. Where a page would be better with
-// a photograph that does not exist yet, it is listed in docs/reports/batch-4b.md.
+// Carlo's rule (batch 4b fixes): at most two photographs on a service page,
+// exactly these two slots:
+//
+//   service  one realistic photograph that matches the service
+//   studio   one photograph of the studio
+//
+// Where they go (src/components/mhts/ServicePage.tsx):
+//   - the 4 treatment (pillar) pages: `service` in the hero, `studio` beside
+//     "Who it's for"
+//   - the 14 sub-service pages: `service` beside "What is it", `studio` beside
+//     "Who it's for". No framed photograph in their hero any more.
+//
+// Every file is already in src/assets. The `service` slot holds the best image
+// that exists today, repeated where it has to be; new photographs replace them
+// in a follow-up and only this file needs to change. The three studio
+// photographs rotate so that neighbouring pages (in menu order) differ.
 
 import baseMaterials from "@/assets/mhts-hair-system-base-materials-hero.jpg";
 import hairline from "@/assets/mhts-hair-system-hairline-hero.jpg";
 import maintenanceWork from "@/assets/mhts-hair-system-maintenance-hero.jpg";
-import crownBeforeAfter from "@/assets/mhts-hair-system-before-after-inline.jpg";
-import consultationRoom from "@/assets/mhts-consultation-room-hero.jpg";
-import studioWide from "@/assets/mhts-studio-wide-hero.jpg";
-import studioChair from "@/assets/blog-hair-system-maintenance-studio.jpg";
-import clientOne from "@/assets/mhts-before-after-composite-1.jpg";
 import clientTwo from "@/assets/mhts-before-after-composite-2.jpg";
-import clientThree from "@/assets/mhts-before-after-composite-3.jpg";
 import smpHealed from "@/assets/mhts-smp-healed-result-hero.jpg";
 import smpHealedBack from "@/assets/mhts-smp-healed-result-back-hero.jpg";
 import smpProcedure from "@/assets/blog-smp-procedure.jpg";
@@ -23,6 +28,9 @@ import smpHairline from "@/assets/smp-hero.jpg";
 import densityCompare from "@/assets/blog-hair-density-comparison.jpg";
 import densityCrown from "@/assets/blog-hair-density-treatment-hero.jpg";
 import bondCompare from "@/assets/blog-hair-system-bond-comparison.jpg";
+import studioWide from "@/assets/mhts-studio-wide-hero.jpg";
+import consultationRoom from "@/assets/mhts-consultation-room-hero.jpg";
+import studioChair from "@/assets/blog-hair-system-maintenance-studio.jpg";
 
 export interface Photo {
   src: string;
@@ -31,17 +39,12 @@ export interface Photo {
   wide?: boolean;
 }
 
-const P = {
+/** The realistic photographs that can fill a `service` slot. */
+const SERVICE = {
   baseMaterials: { src: baseMaterials, alt: "Hair system bases in lace and skin with hair samples on the studio bench" },
   hairline: { src: hairline, alt: "Close-up of a natural-looking hairline on a fitted hair system" },
   maintenanceWork: { src: maintenanceWork, alt: "A hair system base being cleaned by hand at the studio" },
-  crownBeforeAfter: { src: crownBeforeAfter, alt: "A thinning crown before and the same crown after a hair system", wide: true },
-  consultationRoom: { src: consultationRoom, alt: "The private consultation room at the Amersham studio" },
-  studioWide: { src: studioWide, alt: "The Men's Hair To Stay studio in Amersham" },
-  studioChair: { src: studioChair, alt: "The treatment chair at the studio" },
-  clientOne: { src: clientOne, alt: "A Men's Hair To Stay client before and after a hair system fitting", wide: true },
   clientTwo: { src: clientTwo, alt: "A Men's Hair To Stay client's crown before and after treatment", wide: true },
-  clientThree: { src: clientThree, alt: "A Men's Hair To Stay client before and after a hair system fitting", wide: true },
   smpHealed: { src: smpHealed, alt: "A healed scalp micropigmentation result, seen from above" },
   smpHealedBack: { src: smpHealedBack, alt: "A healed scalp micropigmentation result, seen from behind" },
   smpProcedure: { src: smpProcedure, alt: "Scalp micropigmentation being applied to the scalp" },
@@ -51,36 +54,47 @@ const P = {
   bondCompare: { src: bondCompare, alt: "A hair system bond breaking down next to one freshly maintained", wide: true },
 } satisfies Record<string, Photo>;
 
+/** The three studio photographs, in the order they rotate. */
+export const STUDIO: Photo[] = [
+  { src: studioWide, alt: "The Men's Hair To Stay studio in Amersham" },
+  { src: consultationRoom, alt: "The private consultation room at the Amersham studio" },
+  { src: studioChair, alt: "The treatment chair at the Amersham studio" },
+];
+
 export interface ServicePhotos {
-  /** Beside "What is it". */
-  about: Photo;
-  /** Beside "Who it's for". */
-  who: Photo;
-  /** Sub-service pages only: the framed photograph in the hero, from md up. */
-  hero?: Photo;
+  service: Photo;
+  studio: Photo;
 }
 
-/** Keyed by the page's path. */
-export const servicePhotos: Record<string, ServicePhotos> = {
-  "/hair-systems": { about: P.baseMaterials, who: P.crownBeforeAfter },
-  "/hair-systems/non-surgical-hair-replacement": { about: P.hairline, who: P.clientOne, hero: P.studioWide },
-  "/hair-systems/hair-replacement-service": { about: P.consultationRoom, who: P.baseMaterials, hero: P.studioWide },
-  "/hair-systems/initial-consultation-and-fitting": { about: P.consultationRoom, who: P.studioWide, hero: P.baseMaterials },
-  "/hair-systems/hair-system-colouring": { about: P.hairline, who: P.baseMaterials, hero: P.studioWide },
-  "/hair-systems/hair-system-styling": { about: P.hairline, who: P.clientThree, hero: P.studioChair },
-  "/scalp-micropigmentation": { about: P.smpHealed, who: P.smpProcedure },
-  "/scalp-micropigmentation/full-smp-treatment": { about: P.smpProcedure, who: P.smpHealedBack, hero: P.smpHairline },
-  "/scalp-micropigmentation/smp-touch-up-session": { about: P.smpHealedBack, who: P.smpHairline, hero: P.smpProcedure },
-  "/scalp-micropigmentation/smp-consultation": { about: P.consultationRoom, who: P.smpHealed, hero: P.smpHairline },
-  "/hair-density": { about: P.densityCompare, who: P.densityCrown },
-  "/hair-density/density-treatment-consultation": { about: P.consultationRoom, who: P.densityCompare, hero: P.densityCrown },
-  "/hair-density/thinning-hair-treatment": { about: P.densityCrown, who: P.densityCompare, hero: P.consultationRoom },
-  "/hair-density/crown-coverage-treatment": { about: P.clientTwo, who: P.densityCrown, hero: P.studioChair },
-  "/hair-system-maintenance": { about: P.maintenanceWork, who: P.bondCompare },
-  "/hair-system-maintenance/hair-system-reattachment-and-restyling": { about: P.bondCompare, who: P.maintenanceWork, hero: P.studioChair },
-  "/hair-system-maintenance/hair-system-base-clean-and-reattach": { about: P.maintenanceWork, who: P.bondCompare, hero: P.studioChair },
-  "/hair-system-maintenance/hair-system-full-maintenance-package": { about: P.maintenanceWork, who: P.studioChair, hero: P.hairline },
-};
+/** Pages in menu order, each with its `service` photograph. The studio slot is filled by rotation below. */
+const PAGES: [path: string, service: Photo][] = [
+  ["/hair-systems", SERVICE.hairline],
+  ["/hair-systems/non-surgical-hair-replacement", SERVICE.hairline],
+  ["/hair-systems/hair-replacement-service", SERVICE.baseMaterials],
+  ["/hair-systems/initial-consultation-and-fitting", SERVICE.baseMaterials],
+  ["/hair-systems/hair-system-colouring", SERVICE.hairline],
+  ["/hair-systems/hair-system-styling", SERVICE.hairline],
+  ["/scalp-micropigmentation", SERVICE.smpHealed],
+  ["/scalp-micropigmentation/full-smp-treatment", SERVICE.smpProcedure],
+  ["/scalp-micropigmentation/smp-touch-up-session", SERVICE.smpHairline],
+  ["/scalp-micropigmentation/smp-consultation", SERVICE.smpHealedBack],
+  ["/hair-density", SERVICE.densityCrown],
+  ["/hair-density/density-treatment-consultation", SERVICE.densityCompare],
+  ["/hair-density/thinning-hair-treatment", SERVICE.densityCrown],
+  ["/hair-density/crown-coverage-treatment", SERVICE.clientTwo],
+  ["/hair-system-maintenance", SERVICE.maintenanceWork],
+  ["/hair-system-maintenance/hair-system-reattachment-and-restyling", SERVICE.bondCompare],
+  ["/hair-system-maintenance/hair-system-base-clean-and-reattach", SERVICE.maintenanceWork],
+  ["/hair-system-maintenance/hair-system-full-maintenance-package", SERVICE.maintenanceWork],
+];
 
-/** The card photo for a treatment page, used by the related cards. */
-export const cardPhotoFor = (path: string): Photo | undefined => servicePhotos[path]?.about;
+/** Keyed by the page's path. Exactly two slots each. */
+export const servicePhotos: Record<string, ServicePhotos> = Object.fromEntries(
+  PAGES.map(([path, service], i) => [path, { service, studio: STUDIO[i % STUDIO.length] }])
+);
+
+/** The pages in the order the rotation runs: each treatment, then its sub-services. */
+export const SERVICE_PAGE_ORDER = PAGES.map(([path]) => path);
+
+/** The `service` photograph for a treatment page, used where a treatment is shown as a card elsewhere. */
+export const cardPhotoFor = (path: string): Photo | undefined => servicePhotos[path]?.service;

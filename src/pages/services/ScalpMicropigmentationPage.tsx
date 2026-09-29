@@ -3,7 +3,6 @@ import { Sparkles, Infinity as InfinityIcon, Users, ShieldCheck, Scissors, Dropl
 import { findCategory } from "@/data/services";
 import { useJsonLd, useCanonical, useOpenGraph, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 import ServicePage from "@/components/mhts/ServicePage";
-import smpHero from "@/assets/smp-hero.jpg";
 
 const pricingRows = [
   { name: "SMP Consultation", price: "Free", note: "No obligation" },
@@ -123,8 +122,6 @@ const ScalpMicropigmentationPage = () => {
       category="scalp-micropigmentation"
       hero={{
         eyebrow: "Scalp Micropigmentation",
-        image: smpHero,
-        imageAlt: "Close-up of scalp micropigmentation result showing a defined hairline",
         title: (
           <>
             The Look of a Fresh Shave.<br />

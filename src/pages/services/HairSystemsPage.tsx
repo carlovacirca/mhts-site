@@ -3,7 +3,6 @@ import { Sparkles, Palette, ShieldCheck, Waves, Zap, Clock, Smile, MapPin } from
 import { findCategory } from "@/data/services";
 import { useJsonLd, useCanonical, useOpenGraph, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 import ServicePage from "@/components/mhts/ServicePage";
-import hairSystemsHero from "@/assets/hair-systems-hero.jpg";
 
 const pricingRows = [
   { name: "Initial Consultation & Fitting", price: "Free", note: "No obligation" },
@@ -121,8 +120,6 @@ const HairSystemsPage = () => {
       category="hair-systems"
       hero={{
         eyebrow: "Hair Systems",
-        image: hairSystemsHero,
-        imageAlt: "Men's Hair To Stay consultation in Amersham",
         title: (
           <>
             Real Hair. Natural Results.<br />

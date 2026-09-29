@@ -3,7 +3,6 @@ import { CalendarCheck, Clock, Sparkles, ShieldCheck, Droplet, Scissors, MapPin,
 import { findCategory } from "@/data/services";
 import { useJsonLd, useCanonical, useOpenGraph, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 import ServicePage from "@/components/mhts/ServicePage";
-import hairSystemMaintenanceHero from "@/assets/hair-system-maintenance-hero.jpg";
 
 const pricingRows = [
   { name: "Hair System Reattachment & Restyling", price: "Quoted at your consultation", note: "Regroom · 1x adhesive" },
@@ -119,8 +118,6 @@ const HairSystemMaintenancePage = () => {
       category="hair-system-maintenance"
       hero={{
         eyebrow: "Hair System Maintenance",
-        image: hairSystemMaintenanceHero,
-        imageAlt: "Stylist performing hair system maintenance on a client",
         title: (
           <>
             Keep Your System Looking<br />
