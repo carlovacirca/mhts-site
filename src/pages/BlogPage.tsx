@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion } from "@/lib/motion";
 import { Search, Calendar, Clock, ChevronRight, Mail, Phone } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -314,7 +314,7 @@ const BlogPage = () => {
               className="w-full bg-mhts-charcoal hover:bg-mhts-charcoal/90 text-mhts-white"
               onClick={() => {
                 if (email) {
-                  window.location.href = `mailto:georgesbarbers1991@gmail.com?subject=Newsletter%20signup&body=Please%20add%20${encodeURIComponent(email)}%20to%20the%20newsletter.`;
+                  window.location.href = `mailto:info@menshairtostay.co.uk?subject=Newsletter%20signup&body=Please%20add%20${encodeURIComponent(email)}%20to%20the%20newsletter.`;
                 }
               }}
             >
@@ -329,7 +329,7 @@ const BlogPage = () => {
                 <Phone className="w-4 h-4" /> 07947 878087
               </a>
               <a
-                href="mailto:georgesbarbers1991@gmail.com"
+                href="mailto:info@menshairtostay.co.uk"
                 className="inline-flex items-center justify-center gap-2 w-full bg-mhts-charcoal hover:bg-mhts-charcoal/90 text-mhts-white rounded-md px-4 py-2 text-sm break-all"
               >
                 <Mail className="w-4 h-4" /> Email Us

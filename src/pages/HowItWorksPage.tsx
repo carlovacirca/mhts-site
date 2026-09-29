@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion } from "@/lib/motion";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
 import {
   CalendarCheck,
@@ -110,17 +111,16 @@ const HowItWorksPage = () => {
               <span className="font-normal">Our 4-Step Process.</span>
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-2xl mb-10 font-body leading-relaxed">
-              Learn how Men's Hair to Stay transforms hair loss with non-surgical
+              Learn how Men's Hair To Stay transforms hair loss with non-surgical
               hair replacement systems and SMP treatments. From your free initial
               consultation to ongoing hair system maintenance, here's exactly how
               our process works.
             </p>
-            <Link
-              to="/#mhts-book"
-              className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-            >
-              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-            </Link>
+            {/* Call sits beside Book on every call to action on the site. */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <BookButton size="lg" href="/#mhts-book" />
+              <CallButton size="lg" tone="dark" />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -276,18 +276,8 @@ const HowItWorksPage = () => {
             replacement options.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link
-              to="/#mhts-book"
-              className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-            >
-              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-            </Link>
-            <a
-              href="tel:07947878087"
-              className="inline-flex items-center gap-2 border border-mhts-white/40 text-mhts-white px-8 py-3 rounded-sm hover:border-mhts-white hover:bg-mhts-white/10 transition-colors font-body tracking-wide"
-            >
-              <Phone className="w-4 h-4" /> Call 07947 878087
-            </a>
+            <BookButton size="lg" href="/#mhts-book" />
+            <CallButton size="lg" tone="dark" />
           </div>
 
           {/* Related links */}

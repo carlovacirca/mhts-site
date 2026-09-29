@@ -6,8 +6,8 @@ metaDescription: Comparing hair systems and scalp micropigmentation in Amersham?
 category: Hair Loss Solutions
 publishDate: 2026-04-23
 readTime: 22 min read
-heroImage: "@/assets/blog-before-after.jpg"
-heroImageAlt: Side-by-side comparison of hair system results and scalp micropigmentation treatment
+heroImage: "@/assets/mhts-before-after-composite-2.jpg"
+heroImageAlt: Real Men's Hair To Stay client, before and after
 faqs:
   - q: What's the main difference between hair systems and SMP?
     a: Hair systems give you real hair you can style and run your fingers through. SMP creates the appearance of a closely shaved head using pigment.

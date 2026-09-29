@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion } from "@/lib/motion";
 import {
   ChevronRight,
   CalendarCheck,
@@ -16,6 +16,7 @@ import {
 import { findCategory } from "@/data/services";
 import { useJsonLd, useCanonical, useOpenGraph, serviceSchema, breadcrumbSchema } from "@/lib/seo";
 import ServicePricing from "@/components/ServicePricing";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import hairDensityHero from "@/assets/hair-density-hero.jpg";
 
@@ -100,14 +101,14 @@ const HairDensityPage = () => {
   ]);
   useCanonical("/hair-density");
   useOpenGraph(
-    "Hair Density Treatment Amersham | Thinning Hair Solutions | Men's Hair to Stay",
-    "Struggling with thinning hair? Men's Hair to Stay in Amersham offers specialist hair density treatments for men including crown coverage and thinning hair solutions across Buckinghamshire and Hertfordshire."
+    "Hair Density Treatment Amersham | Thinning Hair Solutions | Men's Hair To Stay",
+    "Struggling with thinning hair? Men's Hair To Stay in Amersham offers specialist hair density treatments for men including crown coverage and thinning hair solutions across Buckinghamshire and Hertfordshire."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
     document.title =
-      "Hair Density Treatment Amersham | Thinning Hair Solutions | Men's Hair to Stay";
+      "Hair Density Treatment Amersham | Thinning Hair Solutions | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -119,7 +120,7 @@ const HairDensityPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Struggling with thinning hair? Men's Hair to Stay in Amersham offers specialist hair density treatments for men including crown coverage and thinning hair solutions across Buckinghamshire and Hertfordshire."
+      "Struggling with thinning hair? Men's Hair To Stay in Amersham offers specialist hair density treatments for men including crown coverage and thinning hair solutions across Buckinghamshire and Hertfordshire."
     );
     return () => {
       document.title = prevTitle;
@@ -157,12 +158,11 @@ const HairDensityPage = () => {
               Specialist hair density treatments for men in Amersham, targeted
               solutions for thinning hair, crown coverage and everything in between.
             </p>
-            <Link
-              to="/#mhts-book"
-              className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-            >
-              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-            </Link>
+            {/* Call sits beside Book on every call to action on the site. */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <BookButton size="lg" href="/#mhts-book" />
+              <CallButton size="lg" tone="dark" />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -191,7 +191,7 @@ const HairDensityPage = () => {
               have, enhancing fullness and coverage for a natural, thicker result.
             </p>
             <p>
-              At Men's Hair to Stay in Amersham, we assess your individual hair
+              At Men's Hair To Stay in Amersham, we assess your individual hair
               loss pattern and recommend the most effective density solution, whether that is a targeted thinning hair treatment, crown coverage or
               a full density consultation to map out your options. We serve men
               across Amersham, Chesham, Beaconsfield, Rickmansworth, Gerrards Cross
@@ -381,15 +381,14 @@ const HairDensityPage = () => {
             Stop Hiding Your Hair. Start Loving It.
           </h2>
           <p className="text-mhts-white/70 font-body mb-8 max-w-xl mx-auto">
-            Book your free hair density consultation at Men's Hair to Stay in
+            Book your free hair density consultation at Men's Hair To Stay in
             Amersham.
           </p>
-          <Link
-            to="/#mhts-book"
-            className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-          >
-            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-          </Link>
+          {/* Call sits beside Book on every call to action on the site. */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <BookButton size="lg" href="/#mhts-book" />
+            <CallButton size="lg" tone="dark" />
+          </div>
         </div>
       </section>
     </div>

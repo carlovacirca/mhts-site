@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion } from "@/lib/motion";
 import {
   ChevronRight,
   CalendarCheck,
@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { findCategory, findSubService } from "@/data/services";
 import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 
 const benefits = [
   { icon: MessageCircle, text: "Completely free with no obligation" },
@@ -86,13 +87,13 @@ const SMPConsultationPage = () => {
   ]);
   useCanonical("/scalp-micropigmentation/smp-consultation");
   useOpenGraph(
-    "SMP Consultation Amersham | Free Scalp Micropigmentation Consultation | Men's Hair to Stay",
-    "Free SMP consultation in Amersham. Discuss your scalp micropigmentation options with the specialists at Men's Hair to Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+    "SMP Consultation Amersham | Free Scalp Micropigmentation Consultation | Men's Hair To Stay",
+    "Free SMP consultation in Amersham. Discuss your scalp micropigmentation options with the specialists at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "SMP Consultation Amersham | Free Scalp Micropigmentation Consultation | Men's Hair to Stay";
+    document.title = "SMP Consultation Amersham | Free Scalp Micropigmentation Consultation | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -104,7 +105,7 @@ const SMPConsultationPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Free SMP consultation in Amersham. Discuss your scalp micropigmentation options with the specialists at Men's Hair to Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+      "Free SMP consultation in Amersham. Discuss your scalp micropigmentation options with the specialists at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
     );
     return () => {
       document.title = prevTitle;
@@ -135,16 +136,15 @@ const SMPConsultationPage = () => {
               <span className="font-normal">Right for You.</span>
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
-              A free, no-obligation SMP consultation at Men's Hair to Stay in
+              A free, no-obligation SMP consultation at Men's Hair To Stay in
               Amersham, honest advice, expert assessment and a clear plan with no
               pressure.
             </p>
-            <Link
-              to="/#mhts-book"
-              className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-            >
-              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-            </Link>
+            {/* Call sits beside Book on every call to action on the site. */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <BookButton size="lg" href="/#mhts-book" />
+              <CallButton size="lg" tone="dark" />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -171,7 +171,7 @@ const SMPConsultationPage = () => {
             </p>
             <p>
               There is absolutely no obligation to proceed and no cost for the
-              consultation. Men's Hair to Stay in Amersham provides free SMP
+              consultation. Men's Hair To Stay in Amersham provides free SMP
               consultations for men across Chesham, Beaconsfield, Rickmansworth, High
               Wycombe, Gerrards Cross and all surrounding areas.
             </p>
@@ -356,14 +356,13 @@ const SMPConsultationPage = () => {
             Your Questions Answered. No Pressure. No Cost.
           </h2>
           <p className="text-mhts-white/70 font-body mb-8 max-w-xl mx-auto">
-            Book your free SMP consultation at Men's Hair to Stay in Amersham today.
+            Book your free SMP consultation at Men's Hair To Stay in Amersham today.
           </p>
-          <Link
-            to="/#mhts-book"
-            className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-          >
-            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-          </Link>
+          {/* Call sits beside Book on every call to action on the site. */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <BookButton size="lg" href="/#mhts-book" />
+            <CallButton size="lg" tone="dark" />
+          </div>
         </div>
       </section>
     </div>

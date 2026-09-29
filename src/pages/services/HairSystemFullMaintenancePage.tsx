@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion } from "@/lib/motion";
 import {
   ChevronRight,
   CalendarCheck,
@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { findCategory, findSubService } from "@/data/services";
 import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 
 const benefits = [
   { icon: Droplets, text: "Full base clean and deep treatment" },
@@ -102,13 +103,13 @@ const HairSystemFullMaintenancePage = () => {
   ]);
   useCanonical("/hair-system-maintenance/hair-system-full-maintenance-package");
   useOpenGraph(
-    "Hair System Full Maintenance Package Amersham | Men's Hair to Stay",
-    "Complete hair system maintenance package in Amersham. Everything your system needs in one appointment at Men's Hair to Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+    "Hair System Full Maintenance Package Amersham | Men's Hair To Stay",
+    "Complete hair system maintenance package in Amersham. Everything your system needs in one appointment at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "Hair System Full Maintenance Package Amersham | Men's Hair to Stay";
+    document.title = "Hair System Full Maintenance Package Amersham | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -120,7 +121,7 @@ const HairSystemFullMaintenancePage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Complete hair system maintenance package in Amersham. Everything your system needs in one appointment at Men's Hair to Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+      "Complete hair system maintenance package in Amersham. Everything your system needs in one appointment at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
     );
     return () => {
       document.title = prevTitle;
@@ -151,14 +152,13 @@ const HairSystemFullMaintenancePage = () => {
               <span className="font-normal">One Appointment.</span>
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
-              The complete hair system maintenance package at Men's Hair to Stay in Amersham, full care, professional results and a system that always looks its absolute best.
+              The complete hair system maintenance package at Men's Hair To Stay in Amersham, full care, professional results and a system that always looks its absolute best.
             </p>
-            <Link
-              to="/#mhts-book"
-              className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-            >
-              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-            </Link>
+            {/* Call sits beside Book on every call to action on the site. */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <BookButton size="lg" href="/#mhts-book" />
+              <CallButton size="lg" tone="dark" />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -186,7 +186,7 @@ const HairSystemFullMaintenancePage = () => {
             <p>
               It is the all-in-one maintenance solution for men who want to protect
               their investment and maintain the highest standard of appearance.
-              Available at Men's Hair to Stay in Amersham, serving clients
+              Available at Men's Hair To Stay in Amersham, serving clients
               from Chesham, Beaconsfield, Rickmansworth, High Wycombe,
               Gerrards Cross, Watford, Uxbridge and all surrounding areas.
             </p>
@@ -399,14 +399,13 @@ const HairSystemFullMaintenancePage = () => {
             The Best Care for Your Most Important Investment.
           </h2>
           <p className="text-mhts-white/70 font-body mb-8 max-w-xl mx-auto">
-            Book your full hair system maintenance package at Men's Hair to Stay in Amersham.
+            Book your full hair system maintenance package at Men's Hair To Stay in Amersham.
           </p>
-          <Link
-            to="/#mhts-book"
-            className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-          >
-            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-          </Link>
+          {/* Call sits beside Book on every call to action on the site. */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <BookButton size="lg" href="/#mhts-book" />
+            <CallButton size="lg" tone="dark" />
+          </div>
         </div>
       </section>
     </div>

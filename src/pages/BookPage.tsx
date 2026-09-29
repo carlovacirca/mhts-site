@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Phone, CalendarCheck } from "lucide-react";
 import { useSeo, useJsonLd, breadcrumbSchema } from "@/lib/seo";
-import { useCookieConsent, setCookieConsent } from "@/lib/cookieConsent";
+import { useCookieConsent } from "@/lib/cookieConsent";
+import BookingPanel from "@/components/mhts/BookingPanel";
+import { CallButton } from "@/components/mhts/CtaButtons";
 import ServicePricing from "@/components/ServicePricing";
 import {
   Accordion,
@@ -160,13 +162,15 @@ const BookPage = () => {
             thinning hair and crown coverage treatment with our specialist team
             in Amersham.
           </p>
-          <div className="mt-8">
+          <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
             <button
               onClick={() => scrollToWidget()}
-              className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
+              className="mhts-shine inline-flex items-center justify-center gap-2 bg-mhts-red text-white font-semibold px-7 py-3.5 rounded-md hover:bg-mhts-red-deep transition-colors font-body tracking-wide"
             >
-              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
+              <CalendarCheck className="w-4 h-4 relative z-[2]" aria-hidden="true" />
+              <span className="relative z-[2]">Book free consultation</span>
             </button>
+            <CallButton size="lg" tone="dark" />
           </div>
         </div>
       </section>
@@ -199,17 +203,12 @@ const BookPage = () => {
               style={{ minWidth: "320px", minHeight: "1000px", width: "100%" }}
             />
           ) : (
-            <div className="text-center max-w-md mx-auto py-10">
-              <p className="text-foreground/70 font-body text-sm mb-4">
-                The booking calendar needs cookies enabled to load.
-              </p>
-              <button
-                onClick={() => setCookieConsent("accepted")}
-                className="inline-flex items-center gap-2 bg-mhts-charcoal text-mhts-white px-6 py-2.5 rounded-sm hover:bg-mhts-navy transition-colors font-body text-sm"
-              >
-                Enable cookies to book online
-              </button>
-            </div>
+            /* Was one line of grey text and a button that read "Enable cookies
+               to book online": an empty block where the booking calendar should
+               be, on most first visits. The consent rule is unchanged, Trafft
+               still loads only after Accept, but the reader now gets a way to
+               book either way. See docs/DESIGN-AUDIT.md finding 12. */
+            <BookingPanel />
           )}
         </div>
       </section>

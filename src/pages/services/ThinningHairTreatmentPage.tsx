@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion } from "@/lib/motion";
 import {
   ChevronRight,
   CalendarCheck,
@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { findCategory, findSubService } from "@/data/services";
 import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 
 const benefits = [
   { icon: Sparkles, text: "Works with your natural hair" },
@@ -86,13 +87,13 @@ const ThinningHairTreatmentPage = () => {
   ]);
   useCanonical("/hair-density/thinning-hair-treatment");
   useOpenGraph(
-    "Thinning Hair Treatment Amersham | Hair Density Solutions for Men | Men's Hair to Stay",
-    "Thinning hair treatment for men in Amersham. Men's Hair to Stay provides specialist density solutions for thinning hair across Chesham, Beaconsfield, High Wycombe and Buckinghamshire."
+    "Thinning Hair Treatment Amersham | Hair Density Solutions for Men | Men's Hair To Stay",
+    "Thinning hair treatment for men in Amersham. Men's Hair To Stay provides specialist density solutions for thinning hair across Chesham, Beaconsfield, High Wycombe and Buckinghamshire."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "Thinning Hair Treatment Amersham | Hair Density Solutions for Men | Men's Hair to Stay";
+    document.title = "Thinning Hair Treatment Amersham | Hair Density Solutions for Men | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -104,7 +105,7 @@ const ThinningHairTreatmentPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Thinning hair treatment for men in Amersham. Men's Hair to Stay provides specialist density solutions for thinning hair across Chesham, Beaconsfield, High Wycombe and Buckinghamshire."
+      "Thinning hair treatment for men in Amersham. Men's Hair To Stay provides specialist density solutions for thinning hair across Chesham, Beaconsfield, High Wycombe and Buckinghamshire."
     );
     return () => {
       document.title = prevTitle;
@@ -138,12 +139,11 @@ const ThinningHairTreatmentPage = () => {
               Specialist thinning hair treatment for men in Amersham, targeted solutions
               that add real density and restore confidence from your very first appointment.
             </p>
-            <Link
-              to="/#mhts-book"
-              className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-            >
-              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-            </Link>
+            {/* Call sits beside Book on every call to action on the site. */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <BookButton size="lg" href="/#mhts-book" />
+              <CallButton size="lg" tone="dark" />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -170,7 +170,7 @@ const ThinningHairTreatmentPage = () => {
               individual hair profile.
             </p>
             <p>
-              Men's Hair to Stay provides thinning hair treatment in Amersham for clients
+              Men's Hair To Stay provides thinning hair treatment in Amersham for clients
               across Chesham, Beaconsfield, Rickmansworth, High Wycombe, Gerrards Cross and
               all surrounding areas.
             </p>
@@ -355,14 +355,13 @@ const ThinningHairTreatmentPage = () => {
             Fuller Hair Is Closer Than You Think.
           </h2>
           <p className="text-mhts-white/70 font-body mb-8 max-w-xl mx-auto">
-            Book your free thinning hair treatment consultation at Men's Hair to Stay, Amersham.
+            Book your free thinning hair treatment consultation at Men's Hair To Stay, Amersham.
           </p>
-          <Link
-            to="/#mhts-book"
-            className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-          >
-            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-          </Link>
+          {/* Call sits beside Book on every call to action on the site. */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <BookButton size="lg" href="/#mhts-book" />
+            <CallButton size="lg" tone="dark" />
+          </div>
         </div>
       </section>
     </div>

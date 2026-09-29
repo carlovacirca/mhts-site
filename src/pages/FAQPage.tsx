@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { motion } from "@/lib/motion";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
 import {
   Search,
@@ -190,7 +192,7 @@ const FAQPage = () => {
           className="absolute inset-0 opacity-10 pointer-events-none"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 20% 20%, hsl(var(--gb-gold)) 0, transparent 40%), radial-gradient(circle at 80% 60%, hsl(var(--mhts-white)) 0, transparent 40%)",
+              "radial-gradient(circle at 20% 20%, hsl(var(--mhts-red)) 0, transparent 40%), radial-gradient(circle at 80% 60%, hsl(var(--mhts-white)) 0, transparent 40%)",
           }}
         />
         <div className="container mx-auto px-4 py-20 md:py-28 relative">
@@ -198,7 +200,7 @@ const FAQPage = () => {
           <nav aria-label="Breadcrumb" className="text-sm mb-6 text-mhts-white/70">
             <ol className="flex flex-wrap items-center gap-1.5">
               <li>
-                <Link to="/" className="hover:text-gb-gold transition-colors">
+                <Link to="/" className="hover:text-mhts-red-light transition-colors">
                   Home
                 </Link>
               </li>
@@ -208,7 +210,7 @@ const FAQPage = () => {
               <li>
                 <Link
                   to="/"
-                  className="hover:text-gb-gold transition-colors"
+                  className="hover:text-mhts-red-light transition-colors"
                 >
                   Men's Hair To Stay
                 </Link>
@@ -216,7 +218,7 @@ const FAQPage = () => {
               <li>
                 <ChevronRight className="w-3.5 h-3.5" />
               </li>
-              <li aria-current="page" className="text-gb-gold">
+              <li aria-current="page" className="text-mhts-red-light">
                 FAQ
               </li>
             </ol>
@@ -228,11 +230,11 @@ const FAQPage = () => {
             transition={{ duration: 0.6 }}
             className="max-w-3xl"
           >
-            <span className="inline-flex items-center gap-2 text-xs tracking-widest uppercase text-gb-gold mb-4">
+            <span className="inline-flex items-center gap-2 text-xs tracking-widest uppercase text-mhts-red-light mb-4">
               <HelpCircle className="w-4 h-4" /> Knowledge Base
             </span>
             <h1 className="text-4xl md:text-6xl font-bold mb-5 leading-tight">
-              Frequently Asked <span className="text-gb-gold">Questions</span>
+              Frequently Asked <span className="text-mhts-red-light">Questions</span>
             </h1>
             <p className="text-lg md:text-xl text-mhts-white/80 max-w-2xl">
               Everything you need to know about hair systems, scalp
@@ -254,7 +256,7 @@ const FAQPage = () => {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search questions (e.g. cost, recovery, women)"
-                className="w-full pl-12 pr-4 py-4 rounded-xl bg-mhts-white text-mhts-charcoal placeholder:text-mhts-slate/60 focus:outline-none focus:ring-2 focus:ring-gb-gold shadow-lg"
+                className="w-full pl-12 pr-4 py-4 rounded-xl bg-mhts-white text-mhts-charcoal placeholder:text-mhts-slate/60 focus:outline-none focus:ring-2 focus:ring-mhts-red shadow-lg"
                 aria-label="Search FAQs"
               />
             </div>
@@ -268,7 +270,7 @@ const FAQPage = () => {
                 onClick={() => setActiveCat(c)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                   activeCat === c
-                    ? "bg-gb-gold text-mhts-charcoal shadow-md"
+                    ? "bg-mhts-red text-white shadow-md"
                     : "bg-mhts-white/10 text-mhts-white hover:bg-mhts-white/20"
                 }`}
               >
@@ -291,7 +293,7 @@ const FAQPage = () => {
                   setQuery("");
                   setActiveCat("All");
                 }}
-                className="mt-4 text-gb-gold hover:underline"
+                className="mt-4 text-mhts-red-deep hover:underline"
               >
                 Clear filters
               </button>
@@ -318,7 +320,7 @@ const FAQPage = () => {
                         aria-controls={`${id}-content`}
                       >
                         <div className="flex-1">
-                          <span className="inline-block text-[10px] uppercase tracking-wider text-gb-gold font-semibold mb-1.5">
+                          <span className="inline-block text-[10px] uppercase tracking-wider text-mhts-red-deep font-semibold mb-1.5">
                             {f.category}
                           </span>
                           <h3 className="text-base md:text-lg font-semibold text-mhts-charcoal">
@@ -359,7 +361,7 @@ const FAQPage = () => {
                         viewport={{ once: true }}
                         className="my-6 rounded-xl p-6 md:p-8 bg-gradient-to-r from-mhts-charcoal to-mhts-navy text-mhts-white flex flex-col md:flex-row items-center gap-4 md:gap-6"
                       >
-                        <CalendarCheck className="w-10 h-10 text-gb-gold flex-shrink-0" />
+                        <CalendarCheck className="w-10 h-10 text-mhts-red-light flex-shrink-0" />
                         <div className="flex-1 text-center md:text-left">
                           <h4 className="font-semibold text-lg">
                             Ready to take the next step?
@@ -368,12 +370,11 @@ const FAQPage = () => {
                             Book a free, confidential consultation with our specialists.
                           </p>
                         </div>
-                        <Link
-                          to="/#mhts-book"
-                          className="bg-gb-gold text-mhts-charcoal px-6 py-3 rounded-lg font-semibold hover:bg-gb-gold-light transition-colors whitespace-nowrap"
-                        >
-                          Book Free Consultation
-                        </Link>
+                        {/* Call sits beside Book on every call to action. */}
+                        <div className="flex flex-col sm:flex-row gap-2 shrink-0">
+                          <BookButton size="md" href="/#mhts-book" />
+                          <CallButton size="md" tone="dark" label="Call us" />
+                        </div>
                       </motion.div>
                     )}
                   </div>
@@ -423,7 +424,7 @@ const FAQPage = () => {
             </div>
             <button
               onClick={() => window.print()}
-              className="inline-flex items-center gap-2 text-sm text-mhts-charcoal hover:text-gb-gold transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-mhts-charcoal hover:text-mhts-red-deep transition-colors"
             >
               <Printer className="w-4 h-4" /> Print this page
             </button>
@@ -451,7 +452,7 @@ const FAQPage = () => {
               const name = data.get("name");
               const email = data.get("email");
               const message = data.get("message");
-              window.location.href = `mailto:georgesbarbers1991@gmail.com?subject=${encodeURIComponent(
+              window.location.href = `mailto:info@menshairtostay.co.uk?subject=${encodeURIComponent(
                 `FAQ enquiry from ${name}`
               )}&body=${encodeURIComponent(`From: ${name} <${email}>\n\n${message}`)}`;
             }}
@@ -462,14 +463,14 @@ const FAQPage = () => {
                 required
                 name="name"
                 placeholder="Your name"
-                className="px-4 py-3 rounded-lg bg-mhts-white border border-border focus:outline-none focus:ring-2 focus:ring-gb-gold"
+                className="px-4 py-3 rounded-lg bg-mhts-white border border-border focus:outline-none focus:ring-2 focus:ring-mhts-red"
               />
               <input
                 required
                 type="email"
                 name="email"
                 placeholder="Email address"
-                className="px-4 py-3 rounded-lg bg-mhts-white border border-border focus:outline-none focus:ring-2 focus:ring-gb-gold"
+                className="px-4 py-3 rounded-lg bg-mhts-white border border-border focus:outline-none focus:ring-2 focus:ring-mhts-red"
               />
             </div>
             <textarea
@@ -477,7 +478,7 @@ const FAQPage = () => {
               name="message"
               rows={5}
               placeholder="Your question…"
-              className="px-4 py-3 rounded-lg bg-mhts-white border border-border focus:outline-none focus:ring-2 focus:ring-gb-gold resize-y"
+              className="px-4 py-3 rounded-lg bg-mhts-white border border-border focus:outline-none focus:ring-2 focus:ring-mhts-red resize-y"
             />
             <button
               type="submit"
@@ -496,10 +497,10 @@ const FAQPage = () => {
                 <Phone className="w-4 h-4" /> Call 07947 878087
               </a>
               <a
-                href="mailto:georgesbarbers1991@gmail.com"
+                href="mailto:info@menshairtostay.co.uk"
                 className="bg-mhts-charcoal text-mhts-white px-6 py-3 rounded-lg font-semibold hover:bg-mhts-navy transition-colors inline-flex items-center justify-center gap-2 break-all"
               >
-                <Mail className="w-4 h-4" /> georgesbarbers1991@gmail.com
+                <Mail className="w-4 h-4" /> info@menshairtostay.co.uk
               </a>
             </div>
           </div>
@@ -535,11 +536,11 @@ const FAQPage = () => {
                 to={c.to}
                 className="group bg-mhts-white rounded-xl p-6 border border-border hover:shadow-md hover:-translate-y-0.5 transition-all"
               >
-                <h3 className="font-semibold text-mhts-charcoal mb-2 group-hover:text-gb-gold transition-colors">
+                <h3 className="font-semibold text-mhts-charcoal mb-2 group-hover:text-mhts-red-deep transition-colors">
                   {c.title}
                 </h3>
                 <p className="text-sm text-mhts-slate mb-3">{c.desc}</p>
-                <span className="inline-flex items-center gap-1 text-sm text-gb-gold font-medium">
+                <span className="inline-flex items-center gap-1 text-sm text-mhts-red-deep font-medium">
                   Learn more <ChevronRight className="w-4 h-4" />
                 </span>
               </Link>

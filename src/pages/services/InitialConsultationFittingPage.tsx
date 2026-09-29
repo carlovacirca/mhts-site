@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion } from "@/lib/motion";
 import {
   ChevronRight,
   CalendarCheck,
@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { findCategory, findSubService } from "@/data/services";
 import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 
 const benefits = [
   { icon: MessageCircle, text: "Completely free, no-obligation consultation" },
@@ -86,13 +87,13 @@ const InitialConsultationFittingPage = () => {
   ]);
   useCanonical("/hair-systems/initial-consultation-and-fitting");
   useOpenGraph(
-    "Hair System Consultation & Fitting Amersham | Men's Hair to Stay",
-    "Book your free hair system consultation and fitting in Amersham. Men's Hair to Stay serves men across Chesham, Beaconsfield, High Wycombe, Rickmansworth and Buckinghamshire."
+    "Hair System Consultation & Fitting Amersham | Men's Hair To Stay",
+    "Book your free hair system consultation and fitting in Amersham. Men's Hair To Stay serves men across Chesham, Beaconsfield, High Wycombe, Rickmansworth and Buckinghamshire."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "Hair System Consultation & Fitting Amersham | Men's Hair to Stay";
+    document.title = "Hair System Consultation & Fitting Amersham | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -104,7 +105,7 @@ const InitialConsultationFittingPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Book your free hair system consultation and fitting in Amersham. Men's Hair to Stay serves men across Chesham, Beaconsfield, High Wycombe, Rickmansworth and Buckinghamshire."
+      "Book your free hair system consultation and fitting in Amersham. Men's Hair To Stay serves men across Chesham, Beaconsfield, High Wycombe, Rickmansworth and Buckinghamshire."
     );
     return () => {
       document.title = prevTitle;
@@ -135,16 +136,15 @@ const InitialConsultationFittingPage = () => {
               <span className="font-normal">a Free Conversation.</span>
             </h1>
             <p className="text-mhts-white/70 text-lg max-w-xl mb-10 font-body">
-              Your initial consultation and fitting at Men's Hair to Stay, no
+              Your initial consultation and fitting at Men's Hair To Stay, no
               pressure, no obligation, just honest expert advice and a plan built
               around you.
             </p>
-            <Link
-              to="/#mhts-book"
-              className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-            >
-              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-            </Link>
+            {/* Call sits beside Book on every call to action on the site. */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <BookButton size="lg" href="/#mhts-book" />
+              <CallButton size="lg" tone="dark" />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -171,7 +171,7 @@ const InitialConsultationFittingPage = () => {
               and styled to create a seamless, natural result.
             </p>
             <p>
-              At Men's Hair to Stay in Amersham, we make this process relaxed,
+              At Men's Hair To Stay in Amersham, we make this process relaxed,
               informative and completely pressure-free for every client who visits us
               from Chesham, Beaconsfield, Rickmansworth, Gerrards Cross, High Wycombe
               and beyond.
@@ -358,14 +358,13 @@ const InitialConsultationFittingPage = () => {
             Take the First Step Today.
           </h2>
           <p className="text-mhts-white/70 font-body mb-8 max-w-xl mx-auto">
-            Book your free consultation and fitting assessment at Men's Hair to Stay in Amersham.
+            Book your free consultation and fitting assessment at Men's Hair To Stay in Amersham.
           </p>
-          <Link
-            to="/#mhts-book"
-            className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-          >
-            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-          </Link>
+          {/* Call sits beside Book on every call to action on the site. */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <BookButton size="lg" href="/#mhts-book" />
+            <CallButton size="lg" tone="dark" />
+          </div>
         </div>
       </section>
     </div>

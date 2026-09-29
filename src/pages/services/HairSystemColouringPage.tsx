@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion } from "@/lib/motion";
 import {
   ChevronRight,
   CalendarCheck,
@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { findCategory, findSubService } from "@/data/services";
 import { useCanonical, useOpenGraph, useJsonLd, serviceSchema, breadcrumbSchema } from "@/lib/seo";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 
 const benefits = [
   { icon: Palette, text: "Precise colour matching to your natural hair" },
@@ -82,13 +83,13 @@ const HairSystemColouringPage = () => {
   ]);
   useCanonical("/hair-systems/hair-system-colouring");
   useOpenGraph(
-    "Hair System Colouring Amersham | Hair Unit Colour Matching | Men's Hair to Stay",
+    "Hair System Colouring Amersham | Hair Unit Colour Matching | Men's Hair To Stay",
     "Professional hair system colouring in Amersham. Expert colour matching and toning for hair systems serving men across Chesham, Beaconsfield, High Wycombe and Buckinghamshire."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "Hair System Colouring Amersham | Hair Unit Colour Matching | Men's Hair to Stay";
+    document.title = "Hair System Colouring Amersham | Hair Unit Colour Matching | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -135,12 +136,11 @@ const HairSystemColouringPage = () => {
               toning and blending so your system looks completely natural against your
               own hair.
             </p>
-            <Link
-              to="/#mhts-book"
-              className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-            >
-              <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-            </Link>
+            {/* Call sits beside Book on every call to action on the site. */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <BookButton size="lg" href="/#mhts-book" />
+              <CallButton size="lg" tone="dark" />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -165,7 +165,7 @@ const HairSystemColouringPage = () => {
               visible difference between your system and your own hair.
             </p>
             <p>
-              At Men's Hair to Stay in Amersham, we offer professional colouring for new
+              At Men's Hair To Stay in Amersham, we offer professional colouring for new
               systems as part of the initial fitting process, as well as standalone colour
               refresh and toning services for existing systems. Serving clients across
               Chesham, Beaconsfield, Rickmansworth, High Wycombe and surrounding areas.
@@ -352,14 +352,13 @@ const HairSystemColouringPage = () => {
             Colour That Looks Completely Natural.
           </h2>
           <p className="text-mhts-white/70 font-body mb-8 max-w-xl mx-auto">
-            Book your hair system colouring appointment at Men's Hair to Stay in Amersham.
+            Book your hair system colouring appointment at Men's Hair To Stay in Amersham.
           </p>
-          <Link
-            to="/#mhts-book"
-            className="inline-flex items-center gap-2 bg-mhts-white text-mhts-charcoal font-medium px-8 py-3 rounded-sm hover:bg-mhts-light transition-colors font-body tracking-wide"
-          >
-            <CalendarCheck className="w-4 h-4" /> Book Free Consultation
-          </Link>
+          {/* Call sits beside Book on every call to action on the site. */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <BookButton size="lg" href="/#mhts-book" />
+            <CallButton size="lg" tone="dark" />
+          </div>
         </div>
       </section>
     </div>
