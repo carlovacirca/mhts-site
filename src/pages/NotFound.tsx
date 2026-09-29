@@ -35,7 +35,7 @@ const NotFound = () => {
   // Book and Call together as they are everywhere else.
   return (
     <div className="mhts-theme">
-      <section className="relative overflow-hidden bg-mhts-deep py-16 md:py-24">
+      <section className="relative overflow-clip bg-mhts-deep py-16 md:py-24">
         <div className="absolute inset-0 bg-[radial-gradient(50%_70%_at_50%_0%,hsl(var(--mhts-red)/0.25),transparent_70%)]" />
         <div className="container relative mx-auto px-4 max-w-2xl text-center">
           <p

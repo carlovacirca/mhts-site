@@ -37,6 +37,8 @@ export const SNAP_SECTION_CLASS = "mhts-snap-section";
 export const SNAP_HERO_CLASS = "mhts-snap-hero";
 /** A block that is its own one-screen stop on a phone only (half of a split section). */
 export const SNAP_PHONE_CLASS = "mhts-snap-phone";
+/** A section whose phone halves (SNAP_PHONE_CLASS) are the stops, so the section itself is not one. */
+export const SNAP_SPLIT_CLASS = "mhts-snap-split";
 /** A stop inside a long section on a phone, with no sizing. */
 export const SNAP_STOP_CLASS = "mhts-snap-stop";
 /** Every child after the first is a stop inside a long section, on a phone. */

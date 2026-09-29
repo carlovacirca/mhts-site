@@ -1,7 +1,7 @@
 import { useParams, Navigate, Link } from "react-router-dom";
 import { ChevronRight, MapPin, ShieldCheck } from "lucide-react";
 import { Reveal } from "@/lib/motion";
-import { SNAP_PHONE_CLASS, SNAP_STOP_EACH_CLASS } from "@/lib/sectionSnap";
+import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS, SNAP_STOP_EACH_CLASS } from "@/lib/sectionSnap";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { CtaPair } from "@/components/mhts/CtaButtons";
 import { cardPhotoFor } from "@/data/servicePhotos";
@@ -53,7 +53,7 @@ const AreaPage = () => {
   return (
     <div className="mhts-theme">
       {/* HERO */}
-      <section className="relative overflow-hidden bg-mhts-deep">
+      <section className="relative overflow-clip bg-mhts-deep">
         <div className="absolute inset-0 bg-[radial-gradient(55%_90%_at_0%_100%,hsl(var(--mhts-red)/0.22),transparent_70%)]" />
         <div className="container relative z-10 mx-auto grid max-w-6xl items-center gap-6 px-4 py-8 md:grid-cols-[1.2fr_0.8fr] md:gap-10 md:py-20">
           <div>
@@ -93,7 +93,7 @@ const AreaPage = () => {
 
       {/* INTRO, with the studio beside it */}
       {/* Phone: the words are one screen, the studio and the address the next. */}
-      <section className="bg-card md:py-24">
+      <section className={`${SNAP_SPLIT_CLASS} bg-card md:py-24`}>
         <div className="container mx-auto grid max-w-6xl px-4 md:grid-cols-[1.1fr_0.9fr] md:gap-14">
           <Reveal className={`${SNAP_PHONE_CLASS} py-8 md:py-0`}>
             <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">
@@ -186,7 +186,7 @@ const AreaPage = () => {
               Why {area.name} Clients Choose Us
             </h2>
           </div>
-          <div className={`grid gap-6 font-body leading-relaxed text-foreground/80 md:grid-cols-2 md:gap-10 ${SNAP_STOP_EACH_CLASS}`}>
+          <div className="grid gap-6 font-body leading-relaxed text-foreground/80 md:grid-cols-2 md:gap-10">
             {area.whyChooseParagraphs.map((p, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <p className={i === 0 ? "border-l-4 border-mhts-red pl-5" : "border-l-4 border-mhts-stone pl-5"}>{p}</p>
@@ -197,7 +197,7 @@ const AreaPage = () => {
       </section>
 
       {/* CONSULTATION, on the one dark band */}
-      <section className="relative overflow-hidden bg-mhts-deep py-8 md:py-20">
+      <section className="relative overflow-clip bg-mhts-deep py-8 md:py-20">
         <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_100%_0%,hsl(var(--mhts-red)/0.2),transparent_70%)]" />
         <div className="container relative mx-auto grid max-w-5xl items-center gap-8 px-4 md:grid-cols-[auto_1fr] md:gap-12">
           <span className="grid h-16 w-16 place-items-center rounded-2xl bg-mhts-red" aria-hidden="true">
@@ -248,7 +248,7 @@ const AreaPage = () => {
       </section>
 
       {/* CTA BANNER */}
-      <section className="relative overflow-hidden bg-mhts-deep py-8 md:py-20">
+      <section className="relative overflow-clip bg-mhts-deep py-8 md:py-20">
         <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_50%_100%,hsl(var(--mhts-red)/0.25),transparent_65%)]" />
         <div className="container relative mx-auto px-4 text-center">
           <h2 className="mb-4 text-3xl text-white md:text-4xl">

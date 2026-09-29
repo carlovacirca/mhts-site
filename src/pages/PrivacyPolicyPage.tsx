@@ -230,7 +230,7 @@ const PrivacyPolicyPage = () => {
       </section>
 
       {/* CTA */}
-      <section className="relative overflow-hidden bg-mhts-deep py-14 md:py-16">
+      <section className="relative overflow-clip bg-mhts-deep py-14 md:py-16">
         <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_50%_100%,hsl(var(--mhts-red)/0.25),transparent_65%)]" />
         <div className="container relative mx-auto px-4 text-center">
           <h2 className="mb-8 text-3xl text-white md:text-4xl">

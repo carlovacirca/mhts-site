@@ -2,7 +2,7 @@
 // keeps every link, the section scroll now reaches every page on a phone with
 // blog articles on proximity, and the phone /blog layout.
 import { describe, it, expect, beforeEach } from "vitest";
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { render, screen, fireEvent, within } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
@@ -86,6 +86,21 @@ describe("section scroll on every page on a phone", () => {
     // The desktop block still only knows the homepage.
     const desktop = css.slice(css.indexOf("/* ── The homepage, every width ── */"), css.indexOf("/* ── Every page, phone only ── */"));
     expect(desktop).not.toMatch(/mhts-snap-site/);
+  });
+
+  it("never lets a section become its own scroll container, which would swallow the stops inside it", () => {
+    // overflow-hidden makes an element a scroll container; the stops inside it
+    // then belong to it, not to the page. Sections clip with overflow-clip.
+    const dirs = [join(__dirname, "..", "pages"), join(__dirname, "..", "pages", "services"), join(__dirname, "..", "pages", "mhts"), join(__dirname, "..", "components", "mhts")];
+    for (const dir of dirs) {
+      for (const file of readdirSync(dir).filter((f) => f.endsWith(".tsx") && !f.endsWith(".test.tsx"))) {
+        const src = readFileSync(join(dir, file), "utf8");
+        const bad = src.split("\n").filter((l) => l.includes("<section") && /\boverflow-(hidden|auto|scroll)\b/.test(l));
+        expect(bad, `${file}`).toEqual([]);
+      }
+    }
+    // A section split into phone halves is not a stop itself; its halves are.
+    expect(phoneBlock()).toMatch(/section\.mhts-snap-split:not\(\.hidden\)[^{]*\{[^}]*scroll-snap-align:\s*none/);
   });
 
   it("uses proximity for blog articles, with stops only at the hero and each h2", () => {

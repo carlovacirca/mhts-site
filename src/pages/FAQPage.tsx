@@ -194,7 +194,7 @@ const FAQPage = () => {
     // check 39); it is 12px now. Every question and answer is unchanged.
     <div className="mhts-theme min-h-screen bg-mhts-sand print:bg-white">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-mhts-deep text-white">
+      <section className="relative overflow-clip bg-mhts-deep text-white">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_90%_at_15%_0%,hsl(var(--mhts-red)/0.25),transparent_70%)]" />
         <span
           className="pointer-events-none absolute -right-6 -top-10 hidden select-none font-body text-[16rem] font-bold leading-none text-white/[0.04] md:block"

@@ -111,7 +111,7 @@ const HowItWorksPage = () => {
   return (
     <div className="mhts-theme">
       {/* HERO */}
-      <section className="relative overflow-hidden bg-mhts-deep">
+      <section className="relative overflow-clip bg-mhts-deep">
         <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_90%_10%,hsl(var(--mhts-red)/0.22),transparent_70%)]" />
         <div className="container relative z-10 mx-auto max-w-6xl px-4 py-8 md:py-24">
           <div className="max-w-3xl">
@@ -210,7 +210,7 @@ const HowItWorksPage = () => {
       </section>
 
       {/* WHY CHOOSE, on the dark band */}
-      <section className="relative overflow-hidden bg-mhts-deep py-8 md:py-24">
+      <section className="relative overflow-clip bg-mhts-deep py-8 md:py-24">
         <div className="absolute inset-0 bg-[radial-gradient(60%_80%_at_0%_100%,hsl(var(--mhts-red)/0.2),transparent_70%)]" />
         <div className="container relative mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           <div>
@@ -276,7 +276,7 @@ const HowItWorksPage = () => {
       </section>
 
       {/* CTA */}
-      <section className="relative overflow-hidden bg-mhts-deep py-8 md:py-20">
+      <section className="relative overflow-clip bg-mhts-deep py-8 md:py-20">
         <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_50%_100%,hsl(var(--mhts-red)/0.25),transparent_65%)]" />
         <div className="container relative mx-auto px-4 text-center">
           <h2 className="mb-4 text-3xl text-white md:text-4xl">

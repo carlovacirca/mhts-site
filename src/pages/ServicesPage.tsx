@@ -6,7 +6,7 @@ import { Reveal } from "@/lib/motion";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { CtaPair } from "@/components/mhts/CtaButtons";
 import { cardPhotoFor } from "@/data/servicePhotos";
-import { SNAP_PHONE_CLASS, SNAP_STOP_CLASS } from "@/lib/sectionSnap";
+import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS, SNAP_STOP_CLASS } from "@/lib/sectionSnap";
 
 const ServicesPage = () => {
   useSeo({
@@ -25,7 +25,7 @@ const ServicesPage = () => {
   // overview is a real way in to all eighteen treatment pages.
   return (
     <div className="mhts-theme">
-      <section className="relative overflow-hidden bg-mhts-deep py-14 md:py-20">
+      <section className="relative overflow-clip bg-mhts-deep py-14 md:py-20">
         <div className="absolute inset-0 bg-[radial-gradient(50%_90%_at_50%_0%,hsl(var(--mhts-red)/0.25),transparent_70%)]" />
         <div className="container relative mx-auto px-4 text-center">
           <p className="mb-4 font-body text-xs font-semibold uppercase tracking-[0.3em] text-mhts-red-light">What We Offer</p>
@@ -33,7 +33,7 @@ const ServicesPage = () => {
           <div className="mx-auto mt-5 h-1 w-14 rounded-full bg-mhts-red" />
         </div>
       </section>
-      <section className="bg-mhts-sand py-14 md:py-20">
+      <section className={`${SNAP_SPLIT_CLASS} bg-mhts-sand pb-8 md:py-20`}>
         <div className="container mx-auto px-4">
           <div className="mx-auto grid max-w-6xl grid-cols-1 md:grid-cols-2 md:gap-6">
             {serviceCategories.map((c, i) => {

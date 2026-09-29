@@ -40,7 +40,7 @@ const AreasServicedPage = () => {
           the heading and the address, then the towns as numbered pins in three
           columns, Amersham first, each with the journey line from its own
           page. */}
-      <section className="relative overflow-hidden bg-mhts-deep">
+      <section className="relative overflow-clip bg-mhts-deep">
         <div className="absolute inset-0 bg-[radial-gradient(50%_80%_at_85%_30%,hsl(var(--mhts-red)/0.22),transparent_70%)]" />
         <AreaRings />
         <div className="container relative mx-auto max-w-6xl px-4 py-16 md:py-24">

@@ -154,7 +154,7 @@ const BookPage = () => {
     // phone number large on its own band for the reader who would rather call.
     <div className="mhts-theme">
       {/* HERO */}
-      <section className="relative overflow-hidden bg-mhts-deep py-8 md:py-20">
+      <section className="relative overflow-clip bg-mhts-deep py-8 md:py-20">
         <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_50%_0%,hsl(var(--mhts-red)/0.25),transparent_70%)]" />
         <div className="container relative mx-auto max-w-3xl px-4 text-center">
           <p className="mb-4 font-body text-xs font-semibold uppercase tracking-[0.3em] text-mhts-red-light">
@@ -187,10 +187,10 @@ const BookPage = () => {
       <ServicePricing rows={pricingRows} />
 
       {/* TRAFFT WIDGET */}
-      <section id="trafft-booking" className="scroll-mt-24 border-y border-mhts-stone bg-card py-6 md:py-16">
+      <section id="trafft-booking" className="scroll-mt-24 border-y border-mhts-stone bg-card py-4 md:py-16">
         <div className="container mx-auto px-4 max-w-5xl">
-          <div className="text-center mb-10">
-            <span className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-full bg-mhts-red text-white" aria-hidden="true">
+          <div className="mb-5 text-center md:mb-10">
+            <span className="mx-auto mb-4 hidden h-12 w-12 place-items-center rounded-full bg-mhts-red text-white md:grid" aria-hidden="true">
               <CalendarCheck className="h-5 w-5" />
             </span>
             <h2 className="text-2xl text-mhts-ink md:text-3xl">

@@ -27,7 +27,7 @@ import BeforeAfterFade from "@/components/mhts/BeforeAfterFade";
 import GoogleReviews from "@/components/mhts/GoogleReviews";
 import BookingPanel from "@/components/mhts/BookingPanel";
 import StudioMap from "@/components/mhts/StudioMap";
-import { SNAP_HERO_CLASS, SNAP_PHONE_CLASS, SNAP_SECTION_CLASS, snapPageClass } from "@/lib/sectionSnap";
+import { SNAP_HERO_CLASS, SNAP_PHONE_CLASS, SNAP_SECTION_CLASS, SNAP_SPLIT_CLASS, snapPageClass } from "@/lib/sectionSnap";
 import mhtsHero from "@/assets/mhts-hero.jpg";
 import mhtsBefore1 from "@/assets/mhts-before-1.jpg";
 import mhtsAfter1 from "@/assets/mhts-after-1.jpg";
@@ -199,7 +199,7 @@ const MHTSLanding = () => {
   return (
     <div className={`mhts-theme ${snapPageClass()}`}>
       {/* ─── 1. HERO ─── */}
-      <section className={`${S} ${SNAP_HERO_CLASS} relative flex min-h-[72vh] items-center overflow-hidden`}>
+      <section className={`${S} ${SNAP_HERO_CLASS} relative flex min-h-[72vh] items-center overflow-clip`}>
         <ResponsiveImage
           src={mhtsHero}
           alt="Men's Hair To Stay studio"
@@ -258,7 +258,7 @@ const MHTSLanding = () => {
           row. The phone-only third frame and the desktop-only one are the
           same client; the hidden copy is display:none, so it is neither
           downloaded nor read out. */}
-      <section id="mhts-gallery" className={`${S} scroll-mt-24 bg-card md:py-12`}>
+      <section id="mhts-gallery" className={`${S} ${SNAP_SPLIT_CLASS} scroll-mt-24 bg-card md:py-12`}>
         <div className={`${SNAP_PHONE_CLASS} container mx-auto px-4 py-6 md:contents`}>
           <div className="mb-4 text-center md:mb-8">
             <Eyebrow>Real clients</Eyebrow>
@@ -345,7 +345,7 @@ const MHTSLanding = () => {
       </section>
 
       {/* ─── 5. WHY US AND MAINTENANCE, one screen on the dark band ─── */}
-      <section className={`${S} relative overflow-hidden bg-mhts-deep py-10 md:py-12`}>
+      <section className={`${S} relative overflow-clip bg-mhts-deep py-10 md:py-12`}>
         <div className="absolute inset-0 bg-[radial-gradient(60%_80%_at_50%_0%,hsl(var(--mhts-red)/0.22),transparent_65%)]" />
         <div className="container relative mx-auto px-4">
           <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-2.5 md:gap-4">
@@ -558,7 +558,7 @@ const MHTSLanding = () => {
       </section>
 
       {/* ─── FINAL CTA BAND, with the areas line ─── */}
-      <section className={`${S} relative overflow-hidden bg-mhts-deep py-14 md:py-16`}>
+      <section className={`${S} relative overflow-clip bg-mhts-deep py-14 md:py-16`}>
         <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_50%_100%,hsl(var(--mhts-red)/0.25),transparent_65%)]" />
         <div className="container relative mx-auto px-4 text-center">
           <h2 className="text-2xl text-white md:text-3xl">Ready when you are</h2>

@@ -86,7 +86,7 @@ const ContactPage = () => {
           most first visits reach the studio), then email and the visit, the
           hours beside the map, and the towns as chips. */}
       {/* HERO */}
-      <section className="relative overflow-hidden bg-mhts-deep">
+      <section className="relative overflow-clip bg-mhts-deep">
         <div className="absolute inset-0 bg-[radial-gradient(55%_90%_at_0%_0%,hsl(var(--mhts-red)/0.22),transparent_70%)]" />
         <div className="container relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 md:grid-cols-[1.2fr_0.8fr] md:py-20">
           <div>
@@ -259,7 +259,7 @@ const ContactPage = () => {
       </section>
 
       {/* WHY CHOOSE */}
-      <section className="relative overflow-hidden bg-mhts-deep py-8 md:py-20">
+      <section className="relative overflow-clip bg-mhts-deep py-8 md:py-20">
         <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_100%_100%,hsl(var(--mhts-red)/0.2),transparent_70%)]" />
         <div className="container relative mx-auto px-4 max-w-6xl">
           <div className="text-center mb-12">

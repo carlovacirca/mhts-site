@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Shield, Award, Sparkles } from "lucide-react";
 import BeforeAfterFade from "@/components/mhts/BeforeAfterFade";
-import { SNAP_PHONE_CLASS, SNAP_STOP_EACH_CLASS } from "@/lib/sectionSnap";
+import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS, SNAP_STOP_EACH_CLASS } from "@/lib/sectionSnap";
 import { Reveal } from "@/lib/motion";
 import { CtaPair } from "@/components/mhts/CtaButtons";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
@@ -94,7 +94,7 @@ const GalleryPage = () => {
   return (
     <div className="mhts-theme">
       {/* HERO */}
-      <section className="relative overflow-hidden bg-mhts-deep">
+      <section className="relative overflow-clip bg-mhts-deep">
         <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_0%,hsl(var(--mhts-red)/0.22),transparent_70%)]" />
         <div className="container relative mx-auto max-w-3xl px-4 py-14 text-center md:pb-12 md:pt-20">
           <p className="mb-4 font-body text-xs font-semibold uppercase tracking-[0.3em] text-mhts-red-light">
@@ -119,7 +119,7 @@ const GalleryPage = () => {
           of its own; three in a row on a desktop. The phone-only and
           desktop-only copies of the third are the same client, and the hidden
           one is display:none, so it is neither downloaded nor read out. */}
-      <section className="relative overflow-hidden bg-mhts-deep md:pb-24">
+      <section className={`${SNAP_SPLIT_CLASS} relative overflow-clip bg-mhts-deep md:pb-24`}>
         {visible.length === 0 ? (
           <p className="py-12 text-center font-body text-white/75">
             More transformations coming soon for this category.
@@ -200,7 +200,7 @@ const GalleryPage = () => {
       </section>
 
       {/* CTA */}
-      <section className="relative overflow-hidden bg-mhts-deep py-8 md:py-20">
+      <section className="relative overflow-clip bg-mhts-deep py-8 md:py-20">
         <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_50%_100%,hsl(var(--mhts-red)/0.25),transparent_65%)]" />
         <div className="container relative mx-auto px-4 text-center">
           <h2 className="mb-4 text-3xl text-white md:text-4xl">

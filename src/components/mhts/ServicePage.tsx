@@ -8,7 +8,7 @@ import { CtaPair } from "@/components/mhts/CtaButtons";
 import { findCategory } from "@/data/services";
 import { treatments } from "@/data/treatments";
 import { servicePhotos, type Photo } from "@/data/servicePhotos";
-import { SNAP_PHONE_CLASS } from "@/lib/sectionSnap";
+import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
 
 // The layout behind all 18 treatment pages, batch 4b.
 //
@@ -99,7 +99,7 @@ const Hero = ({ hero, photo }: { hero: ServicePageProps["hero"]; photo?: Photo }
   // Treatment (pillar) pages: the page's `service` photograph, full bleed.
   if (photo) {
     return (
-      <section className="relative flex min-h-[64vh] items-center overflow-hidden bg-mhts-deep">
+      <section className="relative flex min-h-[64vh] items-center overflow-clip bg-mhts-deep">
         <ResponsiveImage
           src={photo.src}
           alt={photo.alt}
@@ -120,7 +120,7 @@ const Hero = ({ hero, photo }: { hero: ServicePageProps["hero"]; photo?: Photo }
   // sat beside them in 4b is gone (Carlo's two-photograph rule); the page's
   // `service` photograph is beside "What is it" instead.
   return (
-    <section className="relative overflow-hidden bg-mhts-deep">
+    <section className="relative overflow-clip bg-mhts-deep">
       <div className="absolute inset-0 bg-[radial-gradient(55%_80%_at_0%_100%,hsl(var(--mhts-red)/0.22),transparent_70%)]" />
       <div className="container relative z-10 mx-auto px-4 py-14 md:py-20">
         <div className="max-w-3xl">{intro}</div>
@@ -147,7 +147,7 @@ const Split = ({
   // On a phone the words and the photograph are a screen each (two snap
   // stops); the section's own padding moves into the two halves so both stops
   // start where the section does.
-  <section id={id} className={`scroll-mt-24 md:py-24 ${tone === "sand" ? "bg-mhts-sand" : "bg-card"}`}>
+  <section id={id} className={`${SNAP_SPLIT_CLASS} scroll-mt-24 md:py-24 ${tone === "sand" ? "bg-mhts-sand" : "bg-card"}`}>
     <div className="container mx-auto grid max-w-6xl items-center px-4 md:grid-cols-2 md:gap-14">
       <Reveal className={`${SNAP_PHONE_CLASS} py-10 md:py-0 ${flip ? "md:order-2" : ""}`}>
         <Eyebrow>{block.eyebrow}</Eyebrow>
@@ -191,7 +191,7 @@ const Split = ({
 const Benefits = ({ benefits }: { benefits: ServicePageProps["benefits"] }) => {
   const [first, ...rest] = benefits.items;
   return (
-    <section id="benefits" className="relative scroll-mt-24 overflow-hidden bg-mhts-deep md:py-24">
+    <section id="benefits" className={`${SNAP_SPLIT_CLASS} relative scroll-mt-24 overflow-clip bg-mhts-deep md:py-24`}>
       <div className="absolute inset-0 bg-[radial-gradient(60%_80%_at_100%_0%,hsl(var(--mhts-red)/0.18),transparent_70%)]" />
       <div className="container relative mx-auto max-w-6xl px-4">
         {/* Phone: the heading and the first benefit are one screen, the list
@@ -312,7 +312,7 @@ const Related = ({
   const subs = cat.subServices.filter((s) => s.slug !== subSlug);
   const others = treatments.filter((t) => t.slug !== category);
   return (
-    <section id="related" className="scroll-mt-24 bg-card md:py-24">
+    <section id="related" className={`${SNAP_SPLIT_CLASS} scroll-mt-24 bg-card md:py-24`}>
       <div className="container mx-auto max-w-6xl px-4">
         {/* Phone: the sibling services are one screen, the other three
             treatments the next. */}
@@ -375,7 +375,7 @@ const Related = ({
 };
 
 const Closing = ({ cta }: { cta: ServicePageProps["cta"] }) => (
-  <section className="relative overflow-hidden bg-mhts-deep py-16 md:py-20">
+  <section className="relative overflow-clip bg-mhts-deep py-16 md:py-20">
     <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_50%_100%,hsl(var(--mhts-red)/0.25),transparent_65%)]" />
     <div className="container relative mx-auto px-4 text-center">
       <h2 className="mb-4 text-3xl text-white md:text-4xl">{cta.title}</h2>

@@ -401,6 +401,19 @@
     border-bottom: var(--mhts-cookie-h) solid transparent;
   }
 
+  /* Sections clip with overflow-clip, never overflow-hidden: overflow-hidden
+     makes a section a scroll container of its own, and every stop inside it
+     then belongs to the section, not the page, and is ignored. */
+
+  /* A section split into phone halves (mhts-snap-split) is not a stop
+     itself: its halves are. Left as a stop, it would be one snap area taller
+     than the screen, and the browser may rest anywhere inside such an area,
+     past the stops of its halves. */
+  .mhts-snap-site > :not(.mhts-snap-proximity) > section.mhts-snap-split:not(.hidden),
+  .mhts-snap-site .mhts-snap-page .mhts-snap-section.mhts-snap-split {
+    scroll-snap-align: none;
+  }
+
   /* The first section covers the contact bar too, as the homepage hero does. */
   .mhts-snap-site > :not(.mhts-snap-proximity) > section:first-of-type {
     scroll-margin-top: var(--snap-topbar);
