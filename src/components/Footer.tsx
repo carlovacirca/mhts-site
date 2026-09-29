@@ -17,9 +17,11 @@ import { ADDRESS_LINE, EMAIL, GOOGLE_MAPS_URL, PHONE_DISPLAY, PHONE_TEL, SOCIALS
 // On a phone (batch 4b fixes) the whole footer fits one screen, so it is one
 // stop in the section scroll, even at 360x740 with the bottom Call and Book bar
 // showing: tighter padding, a smaller logo chip, the two link columns side by
-// side, the contact details on as few lines as they will go, and Book and Call
-// side by side. Nothing is dropped; every link is still here. From md up the
-// footer is as it was.
+// side, the social links beside "Visit us", the contact details on as few
+// lines as they will go, and Book and Call side by side. Nothing is dropped;
+// every link is still here. The social links are rendered twice, once for each
+// layout, and the one not in use is display:none. From md up the footer is as
+// it was.
 
 const TikTokIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4 md:h-5 md:w-5" aria-hidden="true">
@@ -37,7 +39,7 @@ const studioLinks = [
 ];
 
 const columnLink =
-  "block py-1 text-sm text-white/70 transition-colors hover:text-white md:py-1.5";
+  "block py-[3px] text-sm text-white/70 transition-colors hover:text-white md:py-1.5";
 
 const heading =
   "mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-light md:mb-2";
@@ -45,11 +47,45 @@ const heading =
 const social =
   "grid h-9 w-9 place-items-center rounded-full border border-white/20 text-white/70 transition-colors hover:border-mhts-red hover:text-white md:h-10 md:w-10";
 
+const Socials = ({ className = "" }: { className?: string }) => (
+  <div className={`gap-2 ${className}`}>
+    <a
+      href={SOCIALS.instagram}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={social}
+      aria-label="Men's Hair To Stay on Instagram"
+    >
+      <Instagram className="h-4 w-4 md:h-5 md:w-5" aria-hidden="true" />
+    </a>
+    <a
+      href={SOCIALS.facebook}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={social}
+      aria-label="Men's Hair To Stay on Facebook"
+    >
+      <Facebook className="h-4 w-4 md:h-5 md:w-5" aria-hidden="true" />
+    </a>
+    <a
+      href={SOCIALS.tiktok}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={social}
+      aria-label="Men's Hair To Stay on TikTok"
+    >
+      <TikTokIcon />
+    </a>
+  </div>
+);
+
 const Footer = () => (
   <footer className="bg-mhts-deep text-white">
     <div className="h-1 w-full bg-mhts-red" />
-    <div className="container mx-auto px-4 py-6 md:py-16">
-      <div className="grid grid-cols-2 gap-x-6 gap-y-5 md:gap-10 lg:grid-cols-4">
+    <div className="container mx-auto px-4 py-4 md:py-16">
+      {/* Phone: the Treatments column is the wider of the two, so "Scalp
+          Micropigmentation" and "Hair System Maintenance" stay on one line. */}
+      <div className="grid grid-cols-[1.3fr_1fr] gap-x-4 gap-y-4 md:grid-cols-2 md:gap-10 lg:grid-cols-4">
         {/* Treatments */}
         <div>
           <div className="mb-3 inline-block rounded-md bg-white p-1.5 md:mb-6 md:rounded-lg md:p-2.5">
@@ -72,37 +108,7 @@ const Footer = () => (
 
         {/* Studio */}
         <div className="md:flex md:flex-col">
-          {/* On a phone the social links sit at the top of this column, level
-              with the logo chip; from md up they sit under the links. */}
-          <div className="mb-3 flex gap-2 md:order-last md:mb-0 md:mt-6">
-            <a
-              href={SOCIALS.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={social}
-              aria-label="Men's Hair To Stay on Instagram"
-            >
-              <Instagram className="h-4 w-4 md:h-5 md:w-5" aria-hidden="true" />
-            </a>
-            <a
-              href={SOCIALS.facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={social}
-              aria-label="Men's Hair To Stay on Facebook"
-            >
-              <Facebook className="h-4 w-4 md:h-5 md:w-5" aria-hidden="true" />
-            </a>
-            <a
-              href={SOCIALS.tiktok}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={social}
-              aria-label="Men's Hair To Stay on TikTok"
-            >
-              <TikTokIcon />
-            </a>
-          </div>
+          <Socials className="hidden md:order-last md:mt-6 md:flex" />
           <div>
             <h3 className={heading}>Studio</h3>
             <nav aria-label="Studio">
@@ -117,7 +123,12 @@ const Footer = () => (
 
         {/* Visit us */}
         <div className="col-span-2 md:col-span-1">
-          <h3 className={heading}>Visit us</h3>
+          {/* On a phone the social links sit beside this heading, where there
+              is room; from md up they sit under the Studio links. */}
+          <div className="flex items-center justify-between md:block">
+            <h3 className={heading}>Visit us</h3>
+            <Socials className="flex md:hidden" />
+          </div>
           <ul className="flex flex-wrap gap-x-4 gap-y-1.5 text-sm text-white/70 md:block md:space-y-3">
             <li className="w-full">
               <a
@@ -189,7 +200,7 @@ const Footer = () => (
     </div>
 
     <div className="border-t border-white/10">
-      <div className="container mx-auto flex flex-wrap items-center justify-center gap-x-2 gap-y-1 px-4 py-3 text-center text-xs text-white/60 md:py-4">
+      <div className="container mx-auto flex flex-wrap items-center justify-center gap-x-2 gap-y-1 px-4 py-2.5 text-center text-xs text-white/60 md:py-4">
         <span>© {new Date().getFullYear()} Men's Hair To Stay. All rights reserved.</span>
         <span aria-hidden="true">·</span>
         <Link to="/privacy-policy" className="underline transition-colors hover:text-white/80">
