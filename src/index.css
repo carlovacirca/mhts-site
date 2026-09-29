@@ -252,6 +252,12 @@
 [data-carousel-ready="1"] [data-carousel-slide] {
   transition: opacity 400ms ease-out;
 }
+/* From md up the reviews are three cards in a row, so none is dimmed. */
+@media (min-width: 768px) {
+  [data-carousel-ready="1"] [data-carousel-slide]:not([data-active="1"]) {
+    opacity: 1;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .mhts-shine::after {

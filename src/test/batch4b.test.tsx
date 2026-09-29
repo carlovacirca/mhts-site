@@ -260,3 +260,36 @@ describe("links kept", () => {
     }
   });
 });
+
+describe("batch 4b fixes: no instructions, reviews as a row on a desktop", () => {
+  beforeEach(() => window.localStorage.clear());
+
+  it("no page tells the reader to drag, swipe or use the arrow keys, visibly or to a screen reader", () => {
+    const pages: React.ReactElement[] = [
+      <MHTSLanding />, <GalleryPage />, <ServicesPage />, <HairSystemsPage />, <SMPTouchUpPage />,
+      <HowItWorksPage />, <FAQPage />, <ContactPage />, <BookPage />, <AreasServicedPage />,
+    ];
+    const INSTRUCTION = /\b(drag|swipe|arrow keys?|use the handle)\b/i;
+    for (const ui of pages) {
+      const { container, unmount } = renderAt(ui);
+      expect(container.textContent).not.toMatch(INSTRUCTION);
+      for (const el of Array.from(container.querySelectorAll("[aria-label],[alt],[title]"))) {
+        const said = [el.getAttribute("aria-label"), el.getAttribute("alt"), el.getAttribute("title")].join(" ");
+        expect(said).not.toMatch(INSTRUCTION);
+      }
+      expect(container.textContent).not.toMatch(/with their permission/i);
+      unmount();
+    }
+  });
+
+  it("the reviews are three cards in a row from md up, with no arrows or dots there", () => {
+    const { container } = renderAt(<MHTSLanding />);
+    const track = container.querySelector('[data-testid="reviews-track"]')!;
+    expect(track.className).toMatch(/\bmd:grid\b/);
+    expect(track.className).toMatch(/\bmd:grid-cols-3\b/);
+    expect(track.className).toMatch(/\bmd:overflow-visible\b/);
+    const controls = container.querySelector('button[aria-label="Next review"]')!.parentElement!;
+    expect(controls.className).toMatch(/\bmd:hidden\b/);
+    for (const card of Array.from(track.children)) expect(card.className).toMatch(/\bmd:snap-align-none\b/);
+  });
+});

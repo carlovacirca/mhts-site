@@ -99,6 +99,9 @@ const GoogleReviews = ({ compact = false }: { compact?: boolean } = {}) => {
   // and switched off entirely for a reader who has asked for reduced motion.
   useEffect(() => {
     if (reduced) return;
+    // From md up the reviews are a plain row of three, so there is nothing to
+    // advance.
+    if (typeof window.matchMedia === "function" && window.matchMedia("(min-width: 768px)").matches) return;
     const timer = window.setInterval(() => {
       if (pausedRef.current) return;
       setActive((current) => {
@@ -162,8 +165,10 @@ const GoogleReviews = ({ compact = false }: { compact?: boolean } = {}) => {
         ref={trackRef}
         data-carousel-ready={ready ? "1" : undefined}
         data-testid="reviews-track"
-        className="mhts-snap-x -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-4 pb-2 md:mx-0 md:px-0"
-        // One review per swipe (snap-always on each card), the next one peeking.
+        className="mhts-snap-x -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-4 pb-2 md:mx-0 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0 md:pb-0"
+        // Phone: one review per swipe (snap-always on each card), the next one
+        // peeking. From md up the three already fit, so they are simply three
+        // cards in a row: no track, no arrows, no dots (batch 4b fixes).
         role="group"
         aria-roledescription="carousel"
         aria-label="Google reviews"
@@ -175,7 +180,7 @@ const GoogleReviews = ({ compact = false }: { compact?: boolean } = {}) => {
             data-active={i === active ? "1" : undefined}
             aria-roledescription="slide"
             aria-label={`Review ${i + 1} of ${reviews.length}, ${r.name}`}
-            className={`flex w-[85%] shrink-0 snap-center snap-always flex-col rounded-xl border border-mhts-stone bg-card sm:w-[60%] md:w-[44%] lg:w-[41%] ${compact ? "p-5" : "p-6"}`}
+            className={`flex w-[85%] shrink-0 snap-center snap-always flex-col rounded-xl border border-mhts-stone bg-card sm:w-[60%] md:w-auto md:snap-align-none ${compact ? "p-5" : "p-6"}`}
           >
             <div className="mb-4 flex items-center gap-3">
               <span
@@ -211,7 +216,7 @@ const GoogleReviews = ({ compact = false }: { compact?: boolean } = {}) => {
           extra layout shift on a phone. The track itself is a native scroller,
           so a reader without JavaScript can still swipe through all three
           reviews; only these two arrows are inert for them. */}
-      <div className={`flex items-center justify-center gap-4 ${compact ? "mt-4" : "mt-6"}`}>
+      <div className={`flex items-center justify-center gap-4 md:hidden ${compact ? "mt-4" : "mt-6"}`}>
         <button
           type="button"
           onClick={() => go(-1)}
