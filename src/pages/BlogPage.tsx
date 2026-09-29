@@ -9,6 +9,7 @@ import { blogPosts, categories } from "@/data/blogPosts";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { visiblePosts, isPreviewRequest } from "@/lib/publishing";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
+import { SNAP_STOP_CLASS } from "@/lib/sectionSnap";
 
 const POSTS_PER_PAGE = 9;
 
@@ -75,6 +76,17 @@ const BlogPage = () => {
   const totalPages = Math.max(1, Math.ceil(filtered.length / POSTS_PER_PAGE));
   const pagePosts = filtered.slice((page - 1) * POSTS_PER_PAGE, page * POSTS_PER_PAGE);
 
+  // Phone list: every post but the latest (it is the card at the top), filtered
+  // by the chosen chip. Its own state, so the desktop tabs are unaffected.
+  const [phoneCategory, setPhoneCategory] = useState("All Posts");
+  const phoneList = useMemo(
+    () =>
+      sortedPosts
+        .filter((p) => p.slug !== featured.slug)
+        .filter((p) => phoneCategory === "All Posts" || p.category === phoneCategory),
+    [sortedPosts, featured.slug, phoneCategory]
+  );
+
   const popularPosts = livePosts.slice(0, 4);
   const recentPosts = [...livePosts].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 4);
 
@@ -85,22 +97,22 @@ const BlogPage = () => {
     // photograph, then the grid and the sidebar.
     <div className="mhts-theme min-h-screen bg-background">
       {/* Masthead */}
-      <section className="border-b border-mhts-stone bg-mhts-sand px-4 pb-8 pt-12 md:pb-10 md:pt-16">
-        <div className="container mx-auto grid max-w-6xl items-end gap-8 md:grid-cols-[1.3fr_1fr]">
+      <section className="border-b border-mhts-stone bg-mhts-sand px-4 pb-5 pt-6 md:pb-10 md:pt-16">
+        <div className="container mx-auto grid max-w-6xl items-end gap-8 px-0 md:grid-cols-[1.3fr_1fr]">
           <div>
-          <div className="mb-5 h-1 w-14 rounded-full bg-mhts-red" />
+          <div className="mb-3 h-1 w-14 rounded-full bg-mhts-red md:mb-5" />
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-4 text-4xl text-mhts-ink md:text-6xl"
+            className="mb-2 text-3xl text-mhts-ink md:mb-4 md:text-6xl"
           >
             Hair Restoration Blog
           </motion.h1>
-          <p className="max-w-2xl text-lg text-muted-foreground md:text-xl">
+          <p className="max-w-2xl text-base text-muted-foreground md:text-xl">
             Expert insights on hair systems, scalp micropigmentation and modern hair loss solutions.
           </p>
           </div>
-          <div className="relative">
+          <div className="relative hidden md:block">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
               value={search}
@@ -113,18 +125,95 @@ const BlogPage = () => {
             />
           </div>
         </div>
+
+        {/* Phone: the latest post, first, as one large card. */}
+        <Link
+          to={`/blog/${featured.slug}`}
+          className="group mt-5 block overflow-hidden rounded-2xl border border-mhts-stone bg-card md:hidden"
+        >
+          {featured.image && (
+            <ResponsiveImage
+              src={featured.image}
+              alt={featured.featuredImageAlt}
+              className="aspect-[16/10] w-full object-cover"
+              sizes="100vw"
+            />
+          )}
+          <div className="p-5">
+            <span className="mb-2 inline-block rounded-full bg-mhts-red px-2.5 py-0.5 text-xs font-semibold text-white">
+              {featured.category}
+            </span>
+            <h2 className="mb-2 text-xl leading-snug text-mhts-ink">{featured.title}</h2>
+            <p className="mb-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground">{featured.excerpt}</p>
+            <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <Calendar className="h-3 w-3" aria-hidden="true" /> {formatDate(featured.date)}
+            </p>
+          </div>
+        </Link>
+      </section>
+
+      {/* Phone: the categories as chips that wrap, then every other post as a
+          compact list, filtered by the chip. "All" is chosen to begin with, so
+          the pre-rendered HTML links every post. The latest post is the card
+          above and is not repeated here. The desktop layout below is as it
+          was, and hidden on a phone. */}
+      <section className="bg-background px-4 py-6 md:hidden" aria-label="All articles">
+        <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by category">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setPhoneCategory(cat)}
+              aria-pressed={phoneCategory === cat}
+              className={`min-h-[36px] rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ${
+                phoneCategory === cat
+                  ? "border-mhts-red bg-mhts-red text-white"
+                  : "border-mhts-stone-deep bg-card text-mhts-ink"
+              }`}
+            >
+              {cat === "All Posts" ? "All" : cat}
+            </button>
+          ))}
+        </div>
+        <ul className="mt-5 divide-y divide-mhts-stone">
+          {phoneList.map((post, i) => (
+            <li key={post.slug} className={i % 6 === 5 ? SNAP_STOP_CLASS : undefined}>
+              <Link to={`/blog/${post.slug}`} className="group flex items-center gap-3.5 py-3">
+                {post.image ? (
+                  <ResponsiveImage
+                    src={post.image}
+                    alt=""
+                    className="h-[72px] w-[72px] shrink-0 rounded-lg object-cover"
+                    sizes="72px"
+                  />
+                ) : (
+                  <span className="h-[72px] w-[72px] shrink-0 rounded-lg bg-mhts-sand" aria-hidden="true" />
+                )}
+                <span className="min-w-0">
+                  <span className="line-clamp-2 text-[15px] font-semibold leading-snug text-mhts-ink group-hover:text-mhts-red-deep">
+                    {post.title}
+                  </span>
+                  <span className="mt-1 block text-xs text-muted-foreground">{formatDate(post.date)}</span>
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+        {phoneList.length === 0 && (
+          <p className="py-10 text-center text-sm text-muted-foreground">No other articles in this category yet.</p>
+        )}
       </section>
 
       {/* Breadcrumbs */}
-      <div className="container mx-auto max-w-6xl px-4 py-4 text-sm text-muted-foreground">
+      <div className="container mx-auto hidden max-w-6xl px-4 py-4 text-sm text-muted-foreground md:block">
         <Link to="/" className="hover:text-foreground">Home</Link>
         <ChevronRight className="inline w-3 h-3 mx-1" />
         <span className="text-foreground">Blog</span>
       </div>
 
       {/* Category filters */}
-      <div className="container mx-auto mb-8 max-w-6xl px-4">
-        {/* Tabs on one line; on a phone the row scrolls sideways. */}
+      <div className="container mx-auto mb-8 hidden max-w-6xl px-4 md:block">
+        {/* Tabs on one line, desktop only; a phone has the chips above. */}
         <div className="mhts-snap-x -mx-4 flex gap-1 overflow-x-auto border-b border-mhts-stone px-4 md:mx-0 md:flex-wrap md:px-0">
           {categories.map((cat) => (
             <button
@@ -148,7 +237,7 @@ const BlogPage = () => {
 
       {/* Featured */}
       {category === "All Posts" && search === "" && (
-        <section className="container mx-auto mb-12 max-w-6xl px-4">
+        <section className="container mx-auto mb-12 hidden max-w-6xl px-4 md:block">
           <Link to={`/blog/${featured.slug}`} className="group block">
             <motion.div
               whileHover={{ y: -4 }}
@@ -187,7 +276,7 @@ const BlogPage = () => {
       )}
 
       {/* Grid + Sidebar */}
-      <section className="container mx-auto grid max-w-6xl gap-10 px-4 pb-20 lg:grid-cols-[1fr_300px]">
+      <section className="container mx-auto hidden max-w-6xl gap-10 px-4 pb-20 md:grid lg:grid-cols-[1fr_300px]">
         {/* Posts */}
         <div>
           {pagePosts.length === 0 ? (
