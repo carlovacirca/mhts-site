@@ -399,13 +399,17 @@ const Related = ({
 
 /**
  * The other three treatments, so every page ends somewhere to go. From md up
- * it reads as the end of the related section (same band, same rule above it);
- * on a phone it opens the closing screen.
+ * it reads as the end of the related section (same band, same rule above it).
+ * On a phone it follows the closing call to action, on the same screen: the
+ * dark band starts its own screen (batch 4b fixes, PR #8: the last card was
+ * cut in half by the dark band sharing its screen), and this band ends with
+ * padding of its own. Rendered once for each layout; the one not in use is
+ * display:none, as the footer's social links are.
  */
-const OtherTreatments = ({ category }: { category: string }) => {
+const OtherTreatments = ({ category, className = "" }: { category: string; className?: string }) => {
   const others = treatments.filter((t) => t.slug !== category);
   return (
-    <div className="bg-card pt-8 md:pb-24 md:pt-0">
+    <div className={`bg-card pb-8 pt-8 md:pb-24 md:pt-0 ${className}`}>
       <div className="container mx-auto max-w-6xl px-4">
         <div className="grid content-center gap-3 border-mhts-stone sm:grid-cols-3 md:mt-12 md:border-t md:pt-8">
           {others.map((t) => {
@@ -467,9 +471,10 @@ const ServicePage = (props: ServicePageProps) => {
         <Faq faq={props.faq} />
         <Related related={props.related} category={props.category} subSlug={props.subSlug} />
       </div>
+      <OtherTreatments category={props.category} className="hidden md:block" />
       <div className={`${SNAP_PHONE_CLASS} md:contents`}>
-        <OtherTreatments category={props.category} />
         <Closing cta={props.cta} />
+        <OtherTreatments category={props.category} className="grow md:hidden" />
       </div>
     </div>
   );

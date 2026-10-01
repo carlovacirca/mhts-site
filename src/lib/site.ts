@@ -32,21 +32,9 @@ export const SOCIALS = {
   tiktok: "https://tiktok.com/@menshairtostay",
 } as const;
 
-/** Opening hours, one definition. Tuesday to Friday, 9:30 to 5. */
-export const OPENING_HOURS = [
-  { day: "Monday", time: "Closed" },
-  { day: "Tuesday", time: "9:30am to 5pm" },
-  { day: "Wednesday", time: "9:30am to 5pm" },
-  { day: "Thursday", time: "9:30am to 5pm" },
-  { day: "Friday", time: "9:30am to 5pm" },
-  { day: "Saturday", time: "Closed" },
-  { day: "Sunday", time: "Closed" },
-] as const;
-
-/** Today's line for the booking panel. Index 0 is Sunday in JS. */
-export const hoursForToday = (now: Date = new Date()) => {
-  const names = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const today = names[now.getDay()];
-  const match = OPENING_HOURS.find((h) => h.day === today);
-  return { day: today, time: match ? match.time : "Closed" };
-};
+/**
+ * The hours as the reader sees them, everywhere: the footer, the contact page,
+ * the homepage and the booking panel. One wording, from here only.
+ */
+export const HOURS_OPEN = "Tuesday to Friday, 9:30am to 5pm";
+export const HOURS_CLOSED = "Closed Saturday to Monday";

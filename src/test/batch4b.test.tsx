@@ -116,7 +116,7 @@ describe("section scroll switch", () => {
   it("uses CSS scroll snap on the page scroller and 100svh, never 100vh", () => {
     expect(css).toMatch(/html:has\(\.mhts-snap-page\)\s*\{[^}]*scroll-snap-type:\s*y mandatory/);
     expect(css).toMatch(/\.mhts-snap-section\s*\{[^}]*scroll-snap-align:\s*start/);
-    expect(css).toMatch(/\.mhts-snap-section\s*\{[^}]*min-height:\s*var\(--snap-screen\)/);
+    expect(css).toMatch(/\.mhts-snap-section\s*\{[^}]*min-height:\s*calc\(var\(--snap-screen\) \+ var\(--snap-bottom\)\)/);
     expect(css).toMatch(/--snap-screen:\s*calc\(100svh - var\(--snap-header\) - var\(--snap-bottom\)\)/);
     expect(css).toMatch(/scroll-padding-top:\s*var\(--snap-header\)/);
     expect(css).toMatch(/scroll-padding-bottom:\s*calc\(var\(--snap-bottom\) \+ var\(--mhts-cookie-h\)\)/);

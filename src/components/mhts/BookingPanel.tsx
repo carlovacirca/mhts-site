@@ -1,6 +1,6 @@
 import { CalendarCheck, Clock, Mail, Phone } from "lucide-react";
 import { setCookieConsent } from "@/lib/cookieConsent";
-import { EMAIL, PHONE_DISPLAY, PHONE_TEL, hoursForToday } from "@/lib/site";
+import { EMAIL, HOURS_CLOSED, HOURS_OPEN, PHONE_DISPLAY, PHONE_TEL } from "@/lib/site";
 
 // What the booking section shows before the reader has answered the cookie
 // banner, which is most first visits. It used to be one line of grey text and
@@ -14,7 +14,6 @@ import { EMAIL, PHONE_DISPLAY, PHONE_TEL, hoursForToday } from "@/lib/site";
 
 /** `compact` tightens the spacing for the homepage, where it has to fit one screen. */
 const BookingPanel = ({ compact = false }: { compact?: boolean } = {}) => {
-  const today = hoursForToday();
   const gap = compact ? "mt-4" : "mt-6";
 
   return (
@@ -54,8 +53,8 @@ const BookingPanel = ({ compact = false }: { compact?: boolean } = {}) => {
         <div className={`${gap} flex items-center gap-2.5 rounded-md bg-mhts-sand px-4 py-3`}>
           <Clock className="h-4 w-4 shrink-0 text-mhts-red" aria-hidden="true" />
           <p className="font-body text-sm text-mhts-ink">
-            <span className="font-semibold">{today.day}:</span> {today.time}
-            <span className="text-muted-foreground"> · Tuesday to Friday, 9:30am to 5pm</span>
+            <span className="font-semibold">{HOURS_OPEN}</span>
+            <span className="text-muted-foreground"> · {HOURS_CLOSED}</span>
           </p>
         </div>
 

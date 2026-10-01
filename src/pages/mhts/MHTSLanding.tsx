@@ -21,7 +21,6 @@ import { latestPosts } from "@/lib/publishing";
 import { useSeo, useJsonLd, localBusinessSchema } from "@/lib/seo";
 import { useCookieConsent } from "@/lib/cookieConsent";
 import { treatments } from "@/data/treatments";
-import { cardPhotoFor } from "@/data/servicePhotos";
 import { ADDRESS_LINE, EMAIL, GOOGLE_MAPS_URL, PHONE_DISPLAY, PHONE_TEL } from "@/lib/site";
 import { BookButton, CallButton, CtaPair } from "@/components/mhts/CtaButtons";
 import BeforeAfterStrip from "@/components/mhts/BeforeAfterStrip";
@@ -31,6 +30,9 @@ import StudioMap from "@/components/mhts/StudioMap";
 import { SNAP_HERO_CLASS, SNAP_PHONE_CLASS, SNAP_SECTION_CLASS, SNAP_SPLIT_CLASS, snapPageClass } from "@/lib/sectionSnap";
 import mhtsHero from "@/assets/mhts-hero.jpg";
 import studioWide from "@/assets/mhts-studio-wide-hero.jpg";
+import consultationRoom from "@/assets/mhts-consultation-room-hero.jpg";
+import studioChair from "@/assets/blog-hair-system-maintenance-studio.jpg";
+import studioBench from "@/assets/mhts-studio-bench-crop.jpg";
 import mhtsBefore1 from "@/assets/mhts-before-1.jpg";
 import mhtsAfter1 from "@/assets/mhts-after-1.jpg";
 import mhtsBefore2 from "@/assets/mhts-before-2.jpg";
@@ -88,13 +90,31 @@ const SeeAllResults = () => (
   </Link>
 );
 
-// Each card uses its treatment page's own `service` photograph
-// (src/data/servicePhotos.ts), so the homepage and the page always agree and
-// no generated face appears here.
-const treatmentCards = treatments.map((t) => {
-  const photo = cardPhotoFor(`/${t.slug}`)!;
-  return { ...t, image: photo.src, imageAlt: photo.alt };
-});
+// Real studio photographs only, a different one on each card (batch 4b
+// fixes, after the PR #8 preview: the service photos read as generated). The
+// fourth is a second crop of the wide studio photo, the bench and basin, as
+// there are only three studio photographs. No client photos here: the three
+// before and afters stay in the strip under the hero.
+const CARD_PHOTOS: Record<string, { src: string; alt: string }> = {
+  "hair-systems": {
+    src: consultationRoom,
+    alt: "The private consultation room at the Men's Hair To Stay studio in Amersham",
+  },
+  "scalp-micropigmentation": {
+    src: studioWide,
+    alt: "The treatment room at the Amersham studio, with the SMP and Men's Hair To Stay banner",
+  },
+  "hair-density": {
+    src: studioChair,
+    alt: "The treatment chair at the Amersham studio",
+  },
+  "hair-system-maintenance": {
+    src: studioBench,
+    alt: "The bench and basin where hair systems are cleaned and refitted at the Amersham studio",
+  },
+};
+
+const treatmentCards = treatments.map((t) => ({ ...t, image: CARD_PHOTOS[t.slug].src, imageAlt: CARD_PHOTOS[t.slug].alt }));
 
 // The four-paragraph trust strip was 10 to 11px grey text on charcoal, which
 // nobody read. Four chips, a few words each. See finding 15.

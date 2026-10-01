@@ -82,7 +82,7 @@ describe("section scroll on every page on a phone", () => {
     const phone = phoneBlock();
     expect(phone).toMatch(/html:has\(\.mhts-snap-site\)\s*\{[^}]*scroll-snap-type:\s*y mandatory/);
     expect(phone).toMatch(/\.mhts-snap-site > :not\(\.mhts-snap-proximity\) > section:not\(\.hidden\)/);
-    expect(phone).toMatch(/min-height:\s*var\(--snap-screen\)/);
+    expect(phone).toMatch(/min-height:\s*calc\(var\(--snap-screen\) \+ var\(--snap-bottom\)\)/);
     // The desktop block still only knows the homepage.
     const desktop = css.slice(css.indexOf("/* ── The homepage, every width ── */"), css.indexOf("/* ── Every page, phone only ── */"));
     expect(desktop).not.toMatch(/mhts-snap-site/);

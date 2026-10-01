@@ -1,5 +1,5 @@
 import { Clock } from "lucide-react";
-import { OPENING_HOURS } from "@/lib/site";
+import { HOURS_CLOSED, HOURS_OPEN } from "@/lib/site";
 
 interface OpeningHoursProps {
   compact?: boolean;
@@ -7,6 +7,10 @@ interface OpeningHoursProps {
   columns?: boolean;
 }
 
+// One line, worded as the footer words it (both read HOURS_OPEN and
+// HOURS_CLOSED in src/lib/site.ts). It was a seven-row table, and the booking
+// panel showed today's hours ahead of the week's, so the same hours were said
+// twice, once under the name of the day (PR #8).
 const OpeningHours = ({ compact, columns }: OpeningHoursProps) => {
   return (
     <div className={compact || columns ? "" : "rounded-xl border border-mhts-stone bg-mhts-sand p-6"}>
@@ -15,14 +19,10 @@ const OpeningHours = ({ compact, columns }: OpeningHoursProps) => {
           <Clock className="h-4 w-4 text-mhts-red" aria-hidden="true" /> Opening Hours
         </h3>
       )}
-      <div className={columns ? "space-y-0.5" : "space-y-1"}>
-        {OPENING_HOURS.map((h) => (
-          <div key={h.day} className="flex justify-between gap-2 text-sm">
-            <span className="font-medium">{h.day}</span>
-            <span className={h.time === "Closed" ? "text-muted-foreground" : "text-mhts-ink"}>{h.time}</span>
-          </div>
-        ))}
-      </div>
+      <p className="font-body text-sm text-mhts-ink">
+        {HOURS_OPEN}
+        <span className="text-muted-foreground"> · {HOURS_CLOSED}</span>
+      </p>
     </div>
   );
 };

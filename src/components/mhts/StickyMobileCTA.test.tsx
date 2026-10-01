@@ -1,9 +1,11 @@
 // The sticky bar moved from the top of a phone screen to the bottom, and it
-// now holds two buttons instead of one. These tests pin the three things that
-// made it worth moving: it stays out of the way until the hero has gone, it is
+// holds two buttons. These tests pin what keeps it out of the way: it shows
+// only once the hero has gone, it fades out while the footer or one of the
+// page's own Book or Call buttons is on screen (batch 4b fixes, PR #8), it is
 // not a keyboard trap while it is hidden, and it sits above the cookie banner
-// rather than on top of it.
-import { describe, it, expect, beforeEach } from "vitest";
+// rather than on top of it. Whether anything sits under it needs real layout,
+// so that is checked in Chromium (docs/reports/batch-4b-fixes.md).
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { render, screen, act } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import StickyMobileCTA from "./StickyMobileCTA";
@@ -12,7 +14,7 @@ import { TestIntersectionObserver } from "@/test/setup";
 
 const bar = () => screen.getByTestId("sticky-mobile-cta");
 
-const renderBar = (withHero: boolean) => {
+const renderBar = (withHero: boolean, page = "") => {
   if (withHero) {
     const sentinel = document.createElement("div");
     sentinel.id = "mhts-hero-end";
@@ -20,39 +22,37 @@ const renderBar = (withHero: boolean) => {
   }
   return render(
     <MemoryRouter>
+      <main dangerouslySetInnerHTML={{ __html: page }} />
+      <footer>Footer</footer>
       <StickyMobileCTA />
     </MemoryRouter>
   );
 };
 
-/** Drive the observer the component attached to the hero sentinel. */
-const heroScrollsAway = (gone: boolean) => {
-  const observer = TestIntersectionObserver.instances.at(-1)!;
+/** The observer watching this element. */
+const observerOf = (el: Element) => TestIntersectionObserver.instances.filter((o) => o.targets.has(el)).at(-1)!;
+
+const fire = (el: Element, on: boolean, top = 10) =>
   act(() => {
-    observer.fire([
-      {
-        isIntersecting: !gone,
-        boundingClientRect: { top: gone ? -400 : 10 } as DOMRect,
-      },
-    ]);
+    observerOf(el).fire([{ target: el, isIntersecting: on, boundingClientRect: { top } as DOMRect }]);
   });
-};
+
+/** Drive the observer the component attached to the hero sentinel. */
+const heroScrollsAway = (gone: boolean) => fire(document.getElementById("mhts-hero-end")!, !gone, gone ? -400 : 10);
 
 describe("StickyMobileCTA", () => {
   beforeEach(() => {
     document.getElementById("mhts-hero-end")?.remove();
     TestIntersectionObserver.instances = [];
   });
+  afterEach(() => document.getElementById("mhts-hero-end")?.remove());
 
   it("holds two equal buttons, Call and Book", () => {
     renderBar(true);
     heroScrollsAway(true);
     const call = screen.getByRole("link", { name: "Call" });
     expect(call).toHaveAttribute("href", "tel:+447947878087");
-    expect(screen.getByRole("link", { name: /Book free consultation/ })).toHaveAttribute(
-      "href",
-      "/book"
-    );
+    expect(screen.getByRole("link", { name: /Book free consultation/ })).toHaveAttribute("href", "/book");
     expect(call.className).toContain("min-h-[48px]");
   });
 
@@ -61,55 +61,59 @@ describe("StickyMobileCTA", () => {
     expect(bar().className).toContain("md:hidden");
   });
 
-  it("stays off screen until the hero has scrolled away, then slides in", () => {
+  it("stays hidden until the hero has scrolled away, and fades rather than moves", () => {
     renderBar(true);
     expect(bar()).toHaveAttribute("data-visible", "0");
-    // Collapsed to nothing rather than translated: sliding it down would move
-    // it on to the cookie banner below it, not off the screen.
-    expect(bar().className).toContain("grid-rows-[0fr]");
-    expect(bar().className).not.toContain("translate-y");
+    expect(bar().className).toContain("opacity-0");
+    expect(bar().className).toContain("invisible");
+    // A fade: nothing slides and nothing collapses, so nothing on the page
+    // moves and nothing is left half showing.
+    expect(bar().className).toContain("transition-[opacity,visibility]");
+    expect(bar().className).not.toMatch(/translate-y|grid-rows/);
 
     heroScrollsAway(true);
     expect(bar()).toHaveAttribute("data-visible", "1");
-    expect(bar().className).toContain("grid-rows-[1fr]");
+    expect(bar().className).toContain("opacity-100");
 
     heroScrollsAway(false);
     expect(bar()).toHaveAttribute("data-visible", "0");
   });
 
-  // Batch 4b fix of a 4a bug. A grid row at 0fr can only shrink its child to
-  // the child's own padding plus border, so a padded child left a 21px strip
-  // (20px of py-2.5, 1px of border-t) at the foot of every phone screen. jsdom
-  // does no layout, so this adds up what the collapsing child can never shrink
-  // below; the pre-render measures the real bar at 390px in Chromium and fails
-  // the build if it is not 0px.
-  it("measures 0px tall when collapsed: the collapsing row has no padding, no border and min-height 0", () => {
+  it("fades out while the footer is on screen, so the page ends on the footer", () => {
     renderBar(true);
-    expect(bar().className).toContain("grid-rows-[0fr]");
-    const row = screen.getByTestId("sticky-mobile-cta-row");
-    expect(row.parentElement).toBe(bar());
-    const classes = row.className.split(/\s+/);
-    expect(classes).toContain("min-h-0");
-    expect(classes).toContain("overflow-hidden");
-    const PX: Record<string, number> = { "0": 0, "0.5": 2, "1": 4, "1.5": 6, "2": 8, "2.5": 10, "3": 12, "4": 16 };
-    let floor = 0;
-    for (const c of classes) {
-      const pad = c.match(/^(?:p|py|pt|pb)-([\d.]+)$/);
-      if (pad) floor += (c.startsWith("py-") || c.startsWith("p-") ? 2 : 1) * (PX[pad[1]] ?? 99);
-      if (/^border(-[tb])?(-\d)?$/.test(c)) floor += c.startsWith("border-t") || c.startsWith("border-b") ? 1 : 2;
-    }
-    expect(floor, "px the collapsed row can never shrink below").toBe(0);
-    // The padding and the rule live one level in, where they collapse with it.
-    const inner = row.firstElementChild as HTMLElement;
-    expect(inner.className).toContain("py-2.5");
-    expect(inner.className).toContain("border-t");
+    heroScrollsAway(true);
+    const footer = document.querySelector("footer")!;
+    fire(footer, true);
+    expect(bar()).toHaveAttribute("data-visible", "0");
+    fire(footer, false);
+    expect(bar()).toHaveAttribute("data-visible", "1");
+  });
+
+  it("fades out while one of the page's own Book or Call buttons is on screen", () => {
+    renderBar(
+      true,
+      '<a href="tel:+447947878087">Call</a><a href="/book">Book</a><a href="#mhts-book">Book</a><a href="/hair-systems">Hair Systems</a>'
+    );
+    heroScrollsAway(true);
+    const [call, book, jump, other] = Array.from(document.querySelectorAll("main a"));
+    expect(observerOf(other)).toBeUndefined();
+
+    fire(book, true);
+    expect(bar()).toHaveAttribute("data-visible", "0");
+    fire(call, true);
+    fire(book, false);
+    expect(bar()).toHaveAttribute("data-visible", "0");
+    fire(call, false);
+    expect(bar()).toHaveAttribute("data-visible", "1");
+    fire(jump, true);
+    expect(bar()).toHaveAttribute("data-visible", "0");
   });
 
   it("is inert to the keyboard and to screen readers while it is hidden", () => {
     renderBar(true);
     expect(bar()).toHaveAttribute("aria-hidden", "true");
     expect(bar().className).toContain("pointer-events-none");
-    for (const link of screen.getAllByRole("link", { hidden: true })) {
+    for (const link of screen.getAllByRole("link", { hidden: true }).filter((l) => bar().contains(l))) {
       expect(link).toHaveAttribute("tabindex", "-1");
     }
 
@@ -127,11 +131,12 @@ describe("StickyMobileCTA", () => {
       window.dispatchEvent(new Event("scroll"));
     });
     expect(bar()).toHaveAttribute("data-visible", "1");
+    Object.defineProperty(window, "scrollY", { value: 0, configurable: true });
   });
 });
 
 describe("Layout puts the bar above the cookie banner, not under it", () => {
-  it("stacks them in one fixed container and reserves room for the bar", () => {
+  it("stacks them in one fixed container, with no room reserved under the footer", () => {
     const { container } = render(
       <MemoryRouter>
         <Layout />
@@ -149,9 +154,9 @@ describe("Layout puts the bar above the cookie banner, not under it", () => {
     // claim the same strip of screen.
     expect(screen.getByTestId("sticky-mobile-cta").className).not.toContain("fixed");
 
-    // And the page reserves the bar's height on phones, so the footer is never
-    // covered and nothing shifts when the bar appears.
-    expect(container.firstElementChild?.className).toContain("pb-[4.5rem]");
-    expect(container.firstElementChild?.className).toContain("md:pb-0");
+    // No room is reserved under the footer: the bar fades out while the
+    // footer is on screen, so the page ends on the footer's dark band rather
+    // than on a white strip with the bar half over it (PR #8).
+    expect(container.firstElementChild?.className).not.toMatch(/pb-\[4\.5rem\]/);
   });
 });

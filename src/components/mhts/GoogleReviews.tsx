@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
+import { stripGutter } from "@/lib/carousel";
 import GoogleMark from "@/components/mhts/GoogleMark";
 import GoogleStars from "@/components/mhts/GoogleStars";
 import { GOOGLE_MAPS_URL } from "@/lib/site";
@@ -67,7 +68,7 @@ const GoogleReviews = ({ compact = false }: { compact?: boolean } = {}) => {
       const slide = track.children[index] as HTMLElement | undefined;
       if (!slide) return;
       track.scrollTo({
-        left: slide.offsetLeft - track.offsetLeft,
+        left: slide.offsetLeft - track.offsetLeft - stripGutter(track),
         behavior: smooth && !reduced ? "smooth" : "auto",
       });
     },

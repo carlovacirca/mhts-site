@@ -33,12 +33,11 @@ describe("BookingPanel, the booking section before consent", () => {
     );
   });
 
-  it("shows today's opening hours", () => {
-    withRouter(<BookingPanel />);
-    const names = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const today = names[new Date().getDay()];
-    expect(screen.getByText(`${today}:`)).toBeInTheDocument();
-    expect(screen.getByText(/Tuesday to Friday, 9:30am to 5pm/)).toBeInTheDocument();
+  it("shows the opening hours in the footer's words, with no day of the week of its own", () => {
+    const { container } = withRouter(<BookingPanel />);
+    expect(container.textContent).toContain("Tuesday to Friday, 9:30am to 5pm · Closed Saturday to Monday");
+    // It used to lead with today ("Thursday: 9:30am to 5pm · Tuesday to Friday, ...").
+    expect(container.textContent).not.toMatch(/(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday):/);
   });
 
   it("can set consent from here, exactly as Accept does", () => {

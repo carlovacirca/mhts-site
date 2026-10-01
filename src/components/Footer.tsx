@@ -3,7 +3,7 @@ import { CalendarCheck, Clock, Facebook, Instagram, Mail, MapPin, Phone } from "
 import mhtsLogoFull from "@/assets/mhts-logo-full.jpeg";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { treatments } from "@/data/treatments";
-import { ADDRESS_LINE, EMAIL, GOOGLE_MAPS_URL, PHONE_DISPLAY, PHONE_TEL, SOCIALS } from "@/lib/site";
+import { ADDRESS_LINE, EMAIL, GOOGLE_MAPS_URL, HOURS_CLOSED, HOURS_OPEN, PHONE_DISPLAY, PHONE_TEL, SOCIALS } from "@/lib/site";
 
 // One dark warm band with a red rule on top, four balanced columns, and the
 // logo on a white chip rather than floating as a JPEG box on a white slab. See
@@ -144,10 +144,10 @@ const Footer = () => (
             <li className="flex w-full items-start gap-2 md:gap-2.5">
               <Clock className="mt-0.5 h-4 w-4 shrink-0 text-mhts-red-light" aria-hidden="true" />
               <span>
-                Tuesday to Friday, 9:30am to 5pm
+                {HOURS_OPEN}
                 <span className="text-white/60 md:hidden"> · </span>
                 <br className="hidden md:inline" />
-                <span className="text-white/60">Closed Saturday to Monday</span>
+                <span className="text-white/60">{HOURS_CLOSED}</span>
               </span>
             </li>
             <li>

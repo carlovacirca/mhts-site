@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { stripGutter } from "@/lib/carousel";
 import BeforeAfterFade from "@/components/mhts/BeforeAfterFade";
 import { Reveal, usePrefersReducedMotion } from "@/lib/motion";
 
@@ -64,7 +65,7 @@ const BeforeAfterStrip = ({ pairs, frameClassName, sizes }: BeforeAfterStripProp
       const track = trackRef.current;
       const slide = track?.children[index] as HTMLElement | undefined;
       if (!track || !slide) return;
-      track.scrollTo({ left: slide.offsetLeft - track.offsetLeft, behavior: reduced ? "auto" : "smooth" });
+      track.scrollTo({ left: slide.offsetLeft - track.offsetLeft - stripGutter(track), behavior: reduced ? "auto" : "smooth" });
     },
     [reduced],
   );

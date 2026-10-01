@@ -13,7 +13,10 @@
 //   screen   the visible area when snapped: the viewport less the sticky header
 //            and the bottom Call and Book bar (--snap-screen). The first screen
 //            also covers the thin contact bar (--snap-first-screen).
-//   height   the snap element's height, as a % of its screen.
+//   height   the snap element's height, as a % of its screen. Not counting its
+//            bottom border: since PR #8 every screen after the first carries
+//            the bar's band as a transparent bottom border, the strip under the
+//            bar, which is never content.
 //   fill     the content inside it, from the top of its first piece of content
 //            to the bottom of its last, as a % of the element's height (or of
 //            the screen, when the element is shorter than a screen). Content is
@@ -77,6 +80,10 @@ function measureInPage() {
   const firstScreen = probe("var(--snap-first-screen)");
 
   const visible = (el) => {
+    // The answer inside a closed <details> still reports a box in Chromium,
+    // though nothing of it is drawn.
+    const shut = el.closest("details:not([open])");
+    if (shut && shut !== el && !el.closest("summary")) return false;
     const cs = getComputedStyle(el);
     if (cs.display === "none" || cs.visibility === "hidden") return false;
     const r = el.getBoundingClientRect();
@@ -150,10 +157,12 @@ function measureInPage() {
   const rows = stops.map((el, i) => {
     const r = el.getBoundingClientRect();
     const top = r.top + scrollY;
-    const isEnd = getComputedStyle(el).scrollSnapAlign.split(" ").includes("end");
+    const cs = getComputedStyle(el);
+    const isEnd = cs.scrollSnapAlign.split(" ").includes("end");
+    const height = r.height - (parseFloat(cs.borderBottomWidth) || 0);
     const scr = i === 0 ? firstScreen : screen;
-    const box = Math.max(r.height, scr);
-    const from = isEnd ? top + r.height - box : top;
+    const box = Math.max(height, scr);
+    const from = isEnd ? top + height - box : top;
     const to = from + box;
     let min = Infinity;
     let max = -Infinity;
@@ -172,9 +181,9 @@ function measureInPage() {
       top: Math.round(top),
       from,
       to,
-      height: Math.round(r.height),
+      height: Math.round(height),
       screen: Math.round(scr),
-      heightPct: Math.round((r.height / scr) * 100),
+      heightPct: Math.round((height / scr) * 100),
       fillPct: Math.round((filled / box) * 100),
     };
   });

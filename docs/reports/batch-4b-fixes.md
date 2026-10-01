@@ -1172,3 +1172,117 @@ Before is `18fc45e` (the photos follow-up); after is this commit. Height is the 
 | 6 | Book free consultation | 118 (17%) | 98% | Footer | 552 (80%) | 89% |
 | 7 | Footer | 552 (80%) | 98% |  | |  |
 
+
+## Third round: the PR #8 preview on an iPhone and an Android phone
+
+Seven fixes from the check of pr-8.menshairtostay.pages.dev on real phones. Only these were changed.
+
+### 1. The bottom Call and Book bar: nothing ever sits under it
+
+- **Each screen ends above the bar.** Every phone screen after the first now fills the phone down to the bottom edge (`100svh` less the header) and carries the bar's height (4.5rem) as a transparent bottom border. Its content therefore fits in `100svh` less the header less the bar, and only the screen's own background is under the bar. This used to be wrong because a screen stopped *at* the bar, so the top of the next screen (its heading, a card) showed under it. `--snap-bottom` in `src/index.css`.
+- **Screens with more than fit.** Some screens hold more than one phone's worth of content, far more at 360x740 than at 390x844 (231 of 334 screens at 360x740 were taller than the room above the bar). New `src/components/SnapGuides.tsx` gives each of those an extra stop where its end sits on the bottom edge, with its bar band under the bar, plus a stop for every further screen of content in between. Those stops are empty zero-height markers in their own layer outside React, placed from measured positions; nothing scrolls the page with JavaScript.
+- **The bar shows only when all of these hold** (`StickyMobileCTA.tsx`): the hero has gone; the footer is not on screen; none of the page's own Book or Call buttons is on screen (an IntersectionObserver on every `tel:`, `/book`, `#mhts-book` and `data-cta` link in `<main>`, looked up again when the page changes); and, once scrolling stops, nothing is in the bar's strip (no words, image, button or card). So on a screen taller than the phone, or between the headings of a blog article, the bar waits rather than covers.
+- **It fades.** Opacity and visibility over 300ms, instead of the collapsing row. Nothing on the page moves when it shows or hides. Hidden, it is transparent, takes no taps, and is out of the tab order and away from screen readers. The pre-render check now confirms a hidden bar is `opacity: 0`, `visibility: hidden` and `pointer-events: none`.
+
+### 2. The footer ends the page
+
+- Layout's permanent `pb-[4.5rem]` is gone. It was the white strip under the copyright line, with the bar half over it. The bar now fades out while the footer is on screen, so nothing needs reserving.
+- The page's canvas (`html`) is the footer's dark colour, so pulling past the end (iOS rubber band, Android overscroll) shows more dark rather than white. The top of the page is the dark contact line, so it suits both ends.
+- The footer's snap stop now ends on the bottom edge (`scroll-padding-bottom` is only the cookie banner's height).
+- Checked in Chromium at 390x844 and 360x740 on every route: at the end of the page the bar is hidden and the footer reaches the bottom of the screen. I could not run iOS Safari or Android Chrome here. `100svh` is the height with the browser's toolbars showing, so with Safari's bottom toolbar showing each screen fits exactly. When the toolbar hides, the screen grows and the extra room at the bottom is the next screen's top. The bar's "nothing under it" check uses the live screen height, so it allows for that.
+
+### 3. Link preview image
+
+- `public/og-image.jpg` was a static file with no script. New `scripts/og-image.mjs` rebuilds it in Chromium with DM Sans: the same logo chip, eyebrow, rule, line, contact line and studio photograph (`mhts-studio-wide-hero`, same crop and fade), at 1200x630. "Hair Systems & SMP" is now one weight throughout (300, the weight "Hair Systems" already had), so SMP no longer stands out. Every text row is within 2px of where it was. Run it with `node scripts/og-image.mjs`.
+- All 42 pages other than the blog articles (including /blog and the 404) have `og:image` and `twitter:image` set to `https://menshairtostay.co.uk/og-image.jpg`, checked in the pre-rendered `dist`. Blog articles keep their own hero, as before. The filename is unchanged and it is not long-cached. Facebook, WhatsApp and LinkedIn keep a preview they have already fetched until it is re-scraped (for example with Facebook's Sharing Debugger).
+
+### 4. Room before dark sections
+
+- Every service page (the 4 treatments and 14 sub-services, all from `ServicePage.tsx`) had the "other treatments" cards and the dark closing call to action on one phone screen, and the cards had no bottom padding, so the dark band cut the last card. On a phone the dark band now starts its own screen and the other treatments follow it in the same screen, with their own padding (`pb-8`). From md up nothing changed. The other treatments are rendered once for each layout, and the one not in use is `display:none`, as the footer's social links are. The related cards above keep their own `pb-6`.
+- Every other route was checked for a dark section that starts part way into a screen: /contact's "Why Choose" (not a call to action; the section above ends with its own padding), the areas pages (the dark call to action follows another dark band, "Your Free Consultation", which starts the screen) and /gallery (already its own screen). /book's "Prefer to Call?" is red, not dark, and follows the questions with clear space. Those were left as they were.
+
+### 5. Homepage treatment cards
+
+Real studio photographs only, a different one per card, with new alt text:
+
+| Card | Photo | Alt |
+|---|---|---|
+| Hair Systems | `mhts-consultation-room-hero` | The private consultation room at the Men's Hair To Stay studio in Amersham |
+| Scalp Micropigmentation | `mhts-studio-wide-hero` | The treatment room at the Amersham studio, with the SMP and Men's Hair To Stay banner |
+| Hair Density | `blog-hair-system-maintenance-studio` | The treatment chair at the Amersham studio |
+| Hair System Maintenance | `mhts-studio-bench-crop` (new: a 760x570 crop of the wide studio photo, the bench and basin) | The bench and basin where hair systems are cleaned and refitted at the Amersham studio |
+
+There are only three studio photographs in `src/assets`, hence the crop. No client photographs: the three before and afters stay in the strip under the hero. /services and the area pages still use the service photographs; they were not in this list.
+
+### 6. Swipeable strips
+
+- Below md, every strip (`.mhts-snap-x`: homepage treatments, reviews, before and afters and blog; related services on service pages; area and /book cards; the /blog chips) runs edge to edge with the page's 1rem gutter as its padding, and now also has `scroll-padding-inline: 1rem` from one rule. The snap line is therefore the gutter, and the first card starts where the page's text starts.
+- The two strips that move on by themselves (reviews, before and afters) scrolled a card to `offsetLeft`, which is the screen's edge, and had no scroll-padding. When they looped back to the first card, it sat flush against the edge. They now subtract the gutter (`stripGutter`, `src/lib/carousel.ts`).
+- In Chromium every strip's first card loads at x = 16 at both sizes. I could not reproduce the cut-off first card in Chromium, so I can't confirm the iOS case is fixed until it is checked on the phone.
+
+### 7. Hours
+
+`HOURS_OPEN` ("Tuesday to Friday, 9:30am to 5pm") and `HOURS_CLOSED` ("Closed Saturday to Monday") in `src/lib/site.ts` are the only place the words exist. The footer, the contact page (the "Opening Hours" box, formerly a seven-row table), the homepage contact card and the booking panel (on the homepage and /book, the source of "Thursday: 9:30am to 5pm · …") all read them. `hoursForToday` and `OPENING_HOURS` are removed. The structured data in `seo.ts` keeps its own machine-readable hours, as before.
+
+### Tests
+
+- New `src/test/stickyBar.test.ts` (Chromium, via `scripts/bar-check.mjs`): every route with phone screens, plus two blog articles and the 404, at 390x844 and at 360x740. It walks each page a screen at a time and fails if the bar ever shows over content, shows at the end of the page, or leaves more than 1px under the footer (1px is rounding, and the canvas there is dark).
+- New `src/test/pr8-fixes.test.tsx`: four different real studio photos on the homepage cards, no client photo, a distinct alt on each; the hours wording on the contact page, /book, the homepage and the footer, and only in `site.ts`; the strip gutter rule.
+- Updated: the StickyMobileCTA tests (fade, footer, in-page buttons, inert while hidden, no reserved strip in Layout), the BookingPanel hours test, and two CSS assertions for the new screen height. `scripts/snap-screens.mjs` leaves a screen's bar band out of its height, and leaves out the text inside a closed `<details>`, which Chromium measures although nothing of it is drawn.
+
+### The bar, every route
+
+Page Down from the top to the end, in Chromium, with no cookie banner. Each cell is "stops / stops where the bar showed". At every stop where it showed, nothing was under it. At the end of every page it was hidden and the footer met the bottom edge.
+
+At 360x740 the bar shows far less often. Most screens there hold more than fits above the bar, and Page Down rests at their tops with words under the bar's strip, so it stays hidden. A swipe can also rest at the extra end-of-screen stops, where it does show.
+
+| Route | 390x844 | 360x740 |
+|---|---|---|
+| `/` | 11 / 5 | 11 / 0 |
+| `/hair-systems` | 9 / 5 | 9 / 0 |
+| `/hair-systems/non-surgical-hair-replacement` | 9 / 6 | 9 / 0 |
+| `/hair-systems/hair-replacement-service` | 9 / 5 | 9 / 0 |
+| `/hair-systems/initial-consultation-and-fitting` | 9 / 6 | 9 / 0 |
+| `/hair-systems/hair-system-colouring` | 9 / 5 | 9 / 0 |
+| `/hair-systems/hair-system-styling` | 9 / 6 | 9 / 3 |
+| `/scalp-micropigmentation` | 9 / 5 | 9 / 0 |
+| `/scalp-micropigmentation/full-smp-treatment` | 9 / 3 | 9 / 0 |
+| `/scalp-micropigmentation/smp-touch-up-session` | 9 / 5 | 9 / 0 |
+| `/scalp-micropigmentation/smp-consultation` | 9 / 6 | 9 / 0 |
+| `/hair-density` | 9 / 5 | 9 / 0 |
+| `/hair-density/density-treatment-consultation` | 9 / 5 | 9 / 1 |
+| `/hair-density/thinning-hair-treatment` | 9 / 6 | 9 / 3 |
+| `/hair-density/crown-coverage-treatment` | 9 / 6 | 9 / 0 |
+| `/hair-system-maintenance` | 9 / 1 | 9 / 0 |
+| `/hair-system-maintenance/hair-system-reattachment-and-restyling` | 9 / 5 | 9 / 1 |
+| `/hair-system-maintenance/hair-system-base-clean-and-reattach` | 9 / 5 | 9 / 2 |
+| `/hair-system-maintenance/hair-system-full-maintenance-package` | 10 / 5 | 10 / 0 |
+| `/how-it-works` | 10 / 2 | 10 / 1 |
+| `/faq` | 9 / 1 | 9 / 0 |
+| `/areas-serviced` | 5 / 1 | 5 / 0 |
+| `/areas/amersham` | 8 / 3 | 8 / 1 |
+| `/areas/chesham` | 8 / 5 | 8 / 2 |
+| `/areas/little-chalfont` | 8 / 3 | 8 / 1 |
+| `/areas/chalfont-st-giles` | 8 / 5 | 8 / 1 |
+| `/areas/chalfont-st-peter` | 8 / 5 | 8 / 1 |
+| `/areas/beaconsfield` | 8 / 5 | 8 / 1 |
+| `/areas/gerrards-cross` | 8 / 5 | 8 / 1 |
+| `/areas/high-wycombe` | 8 / 5 | 8 / 1 |
+| `/areas/rickmansworth` | 8 / 5 | 8 / 1 |
+| `/areas/chorleywood` | 8 / 5 | 8 / 1 |
+| `/areas/watford` | 8 / 5 | 8 / 1 |
+| `/areas/berkhamsted` | 8 / 5 | 8 / 1 |
+| `/blog` | 6 / 3 | 6 / 2 |
+| `/book` | 6 / 0 | 6 / 0 |
+| `/privacy-policy` | 7 / 1 | 7 / 0 |
+| `/gallery` | 8 / 4 | 8 / 2 |
+| `/contact` | 5 / 1 | 5 / 0 |
+| `/services` | 6 / 3 | 6 / 3 |
+| `/blog/autumn-hair-shedding-explained` | 16 / 0 | 20 / 0 |
+| `/blog/hair-systems-vs-scalp-micropigmentation` | 44 / 0 | 53 / 0 |
+| `/no-such-page` | 3 / 0 | 3 / 0 |
+
+### Not sure
+
+- **360x740.** Most phone screens are taller than the room above the bar there (up to 135% of it), so on a small phone the bar is hidden at most stops. Making every screen fit at 360x740 means reworking each page's phone layout, which is a bigger job than this list.
+- **iOS Safari and Android Chrome** were not available here; everything above was measured in Chromium. The two things to look at on the phones are the strips' first card on load (item 6) and the footer's end with Safari's toolbar showing (item 2).

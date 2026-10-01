@@ -149,6 +149,14 @@
   * {
     @apply border-border;
   }
+  /* The page ends on the footer's dark band. The canvas behind the page is the
+     same colour, so pulling past the end of the page on a phone (iOS rubber
+     band, Android overscroll) shows more of the footer, never a white strip.
+     The top of the page is the dark contact line, so the same colour suits
+     both ends. The body paints the page's own light background. */
+  html {
+    background-color: hsl(var(--mhts-deep));
+  }
   body {
     @apply bg-background text-foreground;
     font-family: 'DM Sans', 'DM Sans Fallback', Arial, sans-serif;
@@ -222,6 +230,17 @@
 }
 .mhts-snap-x::-webkit-scrollbar {
   display: none;
+}
+/* On a phone every strip runs edge to edge (-mx-4) with the page's 1rem
+   gutter as its padding (px-4), so its first card lines up with the gutter.
+   The snap line sits on the gutter too, so on load, after a swipe and after a
+   strip moves on by itself, a card starts where the page's text starts, never
+   cut off at the screen's edge. Two strips had no scroll-padding, so their
+   snap line was the screen's edge (PR #8). */
+@media (max-width: 767.98px) {
+  .mhts-snap-x {
+    scroll-padding-inline: 1rem;
+  }
 }
 
 /* ── Before and after, one frame per client (batch 4b fixes) ─────────────
@@ -337,9 +356,12 @@
    The measurements the sizing depends on:
      --snap-topbar  the thin contact bar above the header, which scrolls away
      --snap-header  the sticky header: h-20 plus its 1px rule, h-24 from md
-     --snap-bottom  the bottom Call and Book bar on a phone. The same 4.5rem
-                    Layout already reserves, so it never changes as the bar
-                    shows and hides, and nothing shifts. None on a desktop.
+     --snap-bottom  the bottom Call and Book bar on a phone (69px, rounded up
+                    to 4.5rem). Every screen after the first fills the phone
+                    down to the bottom edge and carries this much transparent
+                    border at its foot, so its content ends above the bar and
+                    only the screen's own background ever sits under it
+                    (batch 4b fixes, PR #8). None on a desktop.
      --mhts-cookie-h the cookie banner's live height, set by the banner while
                     it is open and 0 otherwise. */
 :root {
@@ -371,15 +393,14 @@
     /* The header is already allowed for by scroll-padding. The sections'
        own scroll-mt-24 would count it twice. */
     scroll-margin-top: 0;
-    min-height: var(--snap-screen);
+    min-height: calc(var(--snap-screen) + var(--snap-bottom));
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* While the cookie banner is open, each section grows by its height at
-       the bottom (only if its content needs the room), so nothing sits under
-       the banner. The border is transparent: the section's own background
-       shows through it. */
-    border-bottom: var(--mhts-cookie-h) solid transparent;
+    /* The bottom bar's band and, while the cookie banner is open, its height
+       too, so nothing sits under either. The border is transparent: the
+       section's own background shows through it. */
+    border-bottom: calc(var(--snap-bottom) + var(--mhts-cookie-h)) solid transparent;
   }
 
   /* The hero also covers the contact bar above the header, so its snap point
@@ -388,6 +409,9 @@
   .mhts-snap-page .mhts-snap-hero {
     scroll-margin-top: var(--snap-topbar);
     min-height: var(--snap-first-screen);
+    /* The hero is the whole first screen: the bar stays out of it (it carries
+       its own Book and Call buttons, StickyMobileCTA). */
+    border-bottom-width: var(--mhts-cookie-h);
     justify-content: flex-start;
     align-items: stretch;
   }
@@ -412,7 +436,10 @@
   html:has(.mhts-snap-site) {
     scroll-snap-type: y mandatory;
     scroll-padding-top: var(--snap-header);
-    scroll-padding-bottom: calc(var(--snap-bottom) + var(--mhts-cookie-h));
+    /* The bar's band is inside each screen (its bottom border), not padding
+       on the page, so a stop aligned to its end (the footer, the end of a
+       screen taller than the phone) rests on the bottom edge. */
+    scroll-padding-bottom: var(--mhts-cookie-h);
   }
 
   /* A screen: a page's own top-level section, or any block marked
@@ -426,11 +453,11 @@
   .mhts-snap-site .mhts-snap-phone {
     scroll-snap-align: start;
     scroll-margin-top: 0;
-    min-height: var(--snap-screen);
+    min-height: calc(var(--snap-screen) + var(--snap-bottom));
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    border-bottom: var(--mhts-cookie-h) solid transparent;
+    border-bottom: calc(var(--snap-bottom) + var(--mhts-cookie-h)) solid transparent;
   }
   /* The homepage's sections are screens at every width; on a phone they too
      start at the top. */
@@ -469,6 +496,7 @@
   .mhts-snap-site > :not(.mhts-snap-proximity) > section.mhts-snap-before-footer {
     scroll-snap-align: none;
     min-height: 0;
+    border-bottom-width: 0;
   }
 
   /* Sections clip with overflow-clip, never overflow-hidden: overflow-hidden
@@ -481,6 +509,9 @@
   .mhts-snap-site > :not(.mhts-snap-proximity) > section.mhts-snap-split:not(.hidden),
   .mhts-snap-site .mhts-snap-page .mhts-snap-section.mhts-snap-split {
     scroll-snap-align: none;
+    /* Its screens carry the bar's band; it adds none of its own. */
+    min-height: 0;
+    border-bottom-width: 0;
   }
 
   /* The first screen covers the contact bar too, as the homepage hero does. */
@@ -488,6 +519,7 @@
   .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-phone:first-child {
     scroll-margin-top: var(--snap-topbar);
     min-height: var(--snap-first-screen);
+    border-bottom-width: var(--mhts-cookie-h);
   }
 
   /* Anchors inside a screen, as on the homepage. */

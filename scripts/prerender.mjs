@@ -167,10 +167,12 @@ async function main() {
   };
 
   // The sticky bottom bar on a phone, while it is hidden at the top of a page,
-  // must take up no room at all. In batch 4a its collapsing row kept its
-  // padding and border, so a 21px strip with the tops of the Call and Book
-  // buttons showed at the foot of every phone screen. Measured here, in a real
-  // browser at phone width, because jsdom cannot lay anything out.
+  // must show nothing at all. In batch 4a a collapsing row left a 21px strip
+  // with the tops of the Call and Book buttons at the foot of every phone
+  // screen. Since the batch 4b fixes (PR #8) the bar fades rather than
+  // collapses, so hidden means fully transparent, invisible and untappable.
+  // Measured here, in a real browser at phone width, because jsdom cannot
+  // compute styles after a transition.
   const measureCollapsedBar = async () => {
     const phone = await browser.newContext({ viewport: { width: 390, height: 844 } });
     const out = [];
@@ -178,14 +180,17 @@ async function main() {
       const page = await phone.newPage();
       await page.goto(baseUrl + path, { waitUntil: "networkidle", timeout: 60000 });
       await page.evaluate(() => window.scrollTo(0, 0));
-      await page.waitForTimeout(400);
+      await page.waitForTimeout(600);
       const bar = await page.evaluate(() => {
         const el = document.querySelector('[data-testid="sticky-mobile-cta"]');
-        return el ? { visible: el.getAttribute("data-visible"), height: el.getBoundingClientRect().height } : null;
+        if (!el) return null;
+        const cs = getComputedStyle(el);
+        return { visible: el.getAttribute("data-visible"), opacity: cs.opacity, visibility: cs.visibility, events: cs.pointerEvents };
       });
       if (!bar) out.push(path + ": the sticky bottom bar is missing");
       else if (bar.visible !== "0") out.push(path + ": the sticky bottom bar is showing at the top of the page");
-      else if (bar.height !== 0) out.push(path + ": the collapsed sticky bottom bar is " + bar.height + "px tall at 390px, not 0");
+      else if (bar.opacity !== "0" || bar.visibility !== "hidden" || bar.events !== "none")
+        out.push(path + ": the hidden sticky bottom bar can still be seen or tapped at 390px (" + JSON.stringify(bar) + ")");
       await page.close();
     }
     await phone.close();
