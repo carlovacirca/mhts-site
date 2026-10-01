@@ -1,5 +1,52 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap');
 
+/* A fallback that is the same size as DM Sans.
+
+   Measured on the built page with document.fonts.check confirming each weight
+   had actually loaded (node_modules/.mhts-tools/font-metrics3.mjs):
+
+     width         DM Sans runs wider than Arial, and by a different amount at
+                   each weight: 1.042x at 400, 1.009x at 600, 1.026x at 700
+     line height   DM Sans 1.302em against Arial's 1.150em at every weight
+
+   While the web font downloads, every line is laid out at the wrong width and
+   13 per cent too short, then reflows when it arrives. On the phone homepage
+   that one swap was 0.05 of layout shift, more than the live site scores in
+   total, and on a long h1 it changed the number of lines the headline took.
+
+   One face per weight, because a single average left enough error to move a
+   wrap point. In each, size-adjust matches the width and the three vertical
+   overrides multiply out to 1.302em of line box.
+
+   Re-measure with that script if the heading font ever changes. */
+@font-face {
+  font-family: 'DM Sans Fallback';
+  font-weight: 300 400;
+  src: local('Arial'), local('Helvetica'), local('Liberation Sans');
+  size-adjust: 104.23%;
+  ascent-override: 98.35%;
+  descent-override: 23.02%;
+  line-gap-override: 3.55%;
+}
+@font-face {
+  font-family: 'DM Sans Fallback';
+  font-weight: 500 600;
+  src: local('Arial'), local('Helvetica'), local('Liberation Sans');
+  size-adjust: 100.9%;
+  ascent-override: 101.6%;
+  descent-override: 23.78%;
+  line-gap-override: 3.66%;
+}
+@font-face {
+  font-family: 'DM Sans Fallback';
+  font-weight: 700 900;
+  src: local('Arial'), local('Helvetica'), local('Liberation Sans');
+  size-adjust: 102.55%;
+  ascent-override: 99.96%;
+  descent-override: 23.4%;
+  line-gap-override: 3.6%;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,22 +60,33 @@
     --card-foreground: 0 0% 8%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 8%;
-    --primary: 152 40% 18%;
-    --primary-foreground: 43 55% 55%;
+    /* Primary, accent and ring are the MHTS brand, not Georges Barbers.
+       Every shadcn component on this site inherits these three, so pointing
+       them at the logo red is what stops the green and the gold leaking on to
+       an MHTS page. See docs/DESIGN-AUDIT.md finding 5. */
+    --primary: 2.8 78% 48.2%;
+    --primary-foreground: 0 0% 100%;
     --secondary: 220 8% 14%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 93%;
-    --muted-foreground: 0 0% 40%;
-    --accent: 43 55% 55%;
-    --accent-foreground: 152 40% 18%;
+    --muted: 35 25% 95%;
+    --muted-foreground: 33 9% 33%;
+    --accent: 3 75% 95.3%;
+    --accent-foreground: 3 81% 40%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 88%;
-    --input: 0 0% 88%;
-    --ring: 152 40% 18%;
+    /* Batch 4b. Both were #E5DED4, 1.3:1 on white, so a text field's edge
+       all but disappeared (WCAG 1.4.11 asks 3:1 for the edge of a control).
+       --input is the stone-deep of the brand, 4.96:1 on white. --border is
+       the default edge of everything else shadcn draws, a warm grey at
+       3.60:1 on white, 3.45:1 on the page background and 3.21:1 on sand.
+       Checked by scripts/contrast.mjs. */
+    --border: 30 10% 52%;
+    --input: 28.7 10.4% 43.3%;
+    --ring: 2.8 78% 48.2%;
     --radius: 0.5rem;
 
-    /* Accent palette (originally Georges Barbers brand colours, now shared accents) */
+    /* Georges Barbers brand. Kept for the other sites that share this theme
+       file; nothing on an MHTS page may reference them. */
     --gb-black: 0 0% 0%;
     --gb-green: 152 40% 18%;
     --gb-green-light: 152 30% 28%;
@@ -36,12 +94,42 @@
     --gb-gold-light: 43 50% 70%;
     --gb-cream: 40 30% 95%;
 
-    /* Men's Hair To Stay brand */
+    /* ── Men's Hair To Stay brand ──────────────────────────────────────────
+       Measured from the logo and checked for contrast. The figures below are
+       the WCAG ratios that decide where each one may be used; they are
+       re-checked by scripts/contrast.mjs, which fails on anything under AA.
+
+         red        #DB241B  white on it 4.91:1  fills: buttons, stars, icons,
+                             rules, the active menu item. Never small text on
+                             a light background.
+         red-deep   #B81C14  on sand 5.82:1, on white 6.26:1. The text red:
+                             eyebrows, links, anything under 24px.
+         red-light  #FF7A6E  the text red on a dark band: 7.09:1 on deep,
+                             6.19:1 on ink. The brand red is only 3.2:1 there.
+         red-tint   #FCEBEA  the soft circle behind a red icon.
+         ink        #212327  text and dark bands. Unchanged charcoal.
+         sand       #F6F1EA  warm off-white, replaces the cold light grey.
+         stone      #D9CFC2  warm card edges and dividers. Decorative only.
+         stone-deep #7A6E63  the border on anything the reader can operate:
+                             outline buttons, inactive dots. 4.96:1 on white,
+                             4.41:1 on sand, so a control is always findable.
+         deep       #1C1512  the deep warm dark behind feature bands. */
+    --mhts-red: 2.8 78% 48.2%;
+    --mhts-red-deep: 3 81% 40%;
+    --mhts-red-light: 5 100% 71.6%;
+    --mhts-red-tint: 3 75% 95.3%;
+    --mhts-ink: 220 8% 14%;
+    --mhts-sand: 35 40% 94.1%;
+    --mhts-stone: 34 23% 80.6%;
+    --mhts-stone-deep: 28.7 10.4% 43.3%;
+    --mhts-deep: 18 22% 9%;
+
+    /* Kept so the pages not yet redesigned keep rendering. charcoal is ink. */
     --mhts-charcoal: 220 8% 14%;
     --mhts-navy: 220 20% 20%;
-    --mhts-slate: 220 10% 30%;
+    --mhts-slate: 33 9% 33%;
     --mhts-white: 0 0% 98%;
-    --mhts-light: 220 10% 96%;
+    --mhts-light: 35 40% 94.1%;
 
     /* Shared */
     --whatsapp: 142 70% 35%;
@@ -61,12 +149,40 @@
   * {
     @apply border-border;
   }
+  /* The canvas behind the page is the page's own light colour, which is
+     what shows above the white header when a phone is pulled past the top.
+     Past the end, the footer's dark band carries on instead (footer rule
+     below), so the page never ends on a white strip. */
+  html {
+    background-color: hsl(var(--background));
+  }
+  /* A deep shadow of the footer's own colour, hanging below it. It takes no
+     room and cannot be scrolled to; it only shows when a phone is pulled past
+     the end of the page (iOS rubber band, Android overscroll), and it covers
+     the sub-pixel sliver left when the page's height rounds up. */
+  footer {
+    box-shadow: 0 100vh 0 100vh hsl(var(--mhts-deep));
+  }
+  /* The footer is one whole screen: everything under the sticky header, on a
+     phone and on a desktop. At the end of any page its top edge sits right
+     under the header and its bottom edge on the bottom of the screen, with
+     nothing of the section above showing. dvh follows the mobile browser's
+     bars as they show and hide; vh is the fallback for browsers without it.
+     The header's height is --snap-header (81px, 97px from md). Its content
+     is spread evenly down that height (Footer.tsx). A min-height, so on a
+     screen too short for the content it grows rather than cuts anything. */
+  footer {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - var(--snap-header));
+    min-height: calc(100dvh - var(--snap-header));
+  }
   body {
     @apply bg-background text-foreground;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'DM Sans', 'DM Sans Fallback', Arial, sans-serif;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'DM Sans', 'DM Sans Fallback', Arial, sans-serif;
   }
 }
 
@@ -75,8 +191,424 @@
   display: none !important;
 }
 
+/* Headings carry the page now. They were weight 300 with wide tracking, which
+   read as faint on the dark hero and gave every section the same flat voice.
+   See docs/DESIGN-AUDIT.md finding 6. Body copy is untouched at 400. */
 .mhts-theme h1, .mhts-theme h2, .mhts-theme h3, .mhts-theme h4 {
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 300;
-  letter-spacing: 0.02em;
+  font-family: 'DM Sans', 'DM Sans Fallback', Arial, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.mhts-theme h1 {
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+/* ── The shine on the primary Book button ────────────────────────────────
+   One button on the page, never any other. A diagonal highlight crosses it
+   every 5 seconds. It lives on a pseudo-element, so it is not serialised into
+   the pre-rendered HTML and cannot be captured mid-sweep. */
+.mhts-shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.mhts-shine::after {
+  content: "";
+  position: absolute;
+  top: -60%;
+  bottom: -60%;
+  left: 0;
+  width: 55%;
+  background: linear-gradient(
+    100deg,
+    hsl(0 0% 100% / 0) 0%,
+    hsl(0 0% 100% / 0.42) 50%,
+    hsl(0 0% 100% / 0) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+  /* transform, not left: animating a layout property made every sweep of the
+     shine register as cumulative layout shift, for ever, on every page with a
+     Book button on it. A transform is composited and moves nothing. */
+  transform: translateX(-160%) rotate(12deg);
+  animation: mhts-shine-sweep 5s ease-in-out infinite;
+}
+
+@keyframes mhts-shine-sweep {
+  0%, 62% { transform: translateX(-160%) rotate(12deg); }
+  92%, 100% { transform: translateX(260%) rotate(12deg); }
+}
+
+/* A horizontal scroller that snaps, used by the before and after row and the
+   reviews carousel. Both work with no JavaScript at all: the reader swipes. */
+.mhts-snap-x {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.mhts-snap-x::-webkit-scrollbar {
+  display: none;
+}
+/* On a phone every strip runs edge to edge (-mx-4) with the page's 1rem
+   gutter as its padding (px-4), so its first card lines up with the gutter.
+   The snap line sits on the gutter too, so on load, after a swipe and after a
+   strip moves on by itself, a card starts where the page's text starts, never
+   cut off at the screen's edge. Two strips had no scroll-padding, so their
+   snap line was the screen's edge (PR #8). */
+@media (max-width: 767.98px) {
+  .mhts-snap-x {
+    scroll-padding-inline: 1rem;
+  }
+}
+
+/* ── Homepage treatment cards: one gradient across the grid ─────────────
+   Charcoal (ink) top left to the logo's deep red bottom right, with a soft
+   warm glow, sized to the whole grid. Each card paints the same gradient and
+   shifts it by its own place in the grid, so the four read as one panel cut
+   into four, gaps and all. With the image size 2 cards + 1 gap, a position
+   of 100% moves it exactly one card and one gap; from lg the four are one
+   row and the gradient runs left to right.
+   White text is AA everywhere on it: 15:1 on ink, 6.5:1 on red-deep, and
+   5.9:1 where the glow is brightest (white at 90% there: 5.0:1). */
+.mhts-treat-grid {
+  --treat-gap: 0.75rem;
+  gap: var(--treat-gap);
+}
+.mhts-treat-card {
+  background-image:
+    radial-gradient(45% 45% at 72% 70%, hsl(var(--mhts-red) / 0.3), transparent 70%),
+    linear-gradient(135deg, hsl(var(--mhts-ink)) 0%, hsl(var(--mhts-ink)) 12%, hsl(var(--mhts-red-deep)) 100%);
+  background-size: calc(200% + var(--treat-gap)) calc(200% + var(--treat-gap));
+  background-repeat: no-repeat;
+}
+.mhts-treat-grid > :nth-child(1) .mhts-treat-card { background-position: 0% 0%; }
+.mhts-treat-grid > :nth-child(2) .mhts-treat-card { background-position: 100% 0%; }
+.mhts-treat-grid > :nth-child(3) .mhts-treat-card { background-position: 0% 100%; }
+.mhts-treat-grid > :nth-child(4) .mhts-treat-card { background-position: 100% 100%; }
+@media (min-width: 640px) {
+  .mhts-treat-grid { --treat-gap: 1rem; }
+}
+@media (min-width: 1024px) {
+  .mhts-treat-grid { --treat-gap: 1.25rem; }
+  .mhts-treat-card {
+    background-image:
+      radial-gradient(30% 90% at 80% 60%, hsl(var(--mhts-red) / 0.3), transparent 70%),
+      linear-gradient(90deg, hsl(var(--mhts-ink)) 0%, hsl(var(--mhts-ink)) 6%, hsl(var(--mhts-red-deep)) 100%);
+    background-size: calc(400% + 3 * var(--treat-gap)) 100%;
+  }
+  .mhts-treat-grid > :nth-child(1) .mhts-treat-card { background-position: 0% 0%; }
+  .mhts-treat-grid > :nth-child(2) .mhts-treat-card { background-position: 33.333% 0%; }
+  .mhts-treat-grid > :nth-child(3) .mhts-treat-card { background-position: 66.667% 0%; }
+  .mhts-treat-grid > :nth-child(4) .mhts-treat-card { background-position: 100% 0%; }
+}
+
+/* ── Before and after, one frame per client (batch 4b fixes) ─────────────
+   Before shows for 2.5s, fades to After over 0.8s, After holds 2.5s, fades
+   back: a 6.6s loop. Paused until the frame is on screen; BeforeAfterFade's
+   IntersectionObserver sets data-playing. Opacity lives in the stylesheet,
+   never inline, so the pre-render cannot save a frame mid-fade. */
+.mhts-ba-after {
+  opacity: 0;
+  animation: mhts-ba-fade 6.6s ease-in-out infinite;
+  animation-play-state: paused;
+}
+.mhts-ba[data-playing="1"] .mhts-ba-after {
+  animation-play-state: running;
+}
+@keyframes mhts-ba-fade {
+  0%, 37.9% { opacity: 0; }
+  50%, 87.9% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* On a phone, a frame in a before and after strip (BeforeAfterStrip) does not
+   loop on its own: the strip says which photograph shows (data-phase) and the
+   frame cross-fades when that changes. From md up the frames loop as above. */
+@media (max-width: 767.98px) {
+  .mhts-ba[data-phase] .mhts-ba-after {
+    animation: none;
+    opacity: 0;
+    transition: opacity 600ms ease-in-out;
+  }
+  .mhts-ba[data-phase="after"] .mhts-ba-after {
+    opacity: 1;
+  }
+  /* The results page on a phone, one client per screen: Before for 2s, a
+     0.5s fade, After for 2s, a 0.5s fade back. */
+  .mhts-ba-quick .mhts-ba-after {
+    animation-name: mhts-ba-fade-quick;
+    animation-duration: 5s;
+  }
+}
+@keyframes mhts-ba-fade-quick {
+  0%, 40% { opacity: 0; }
+  50%, 90% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* The reviews carousel dims the cards either side of the one in view. The rule
+   only applies once JavaScript has marked the track ready, so with scripting
+   off every review is at full opacity and fully readable. */
+[data-carousel-ready="1"] [data-carousel-slide]:not([data-active="1"]) {
+  opacity: 0.45;
+}
+[data-carousel-ready="1"] [data-carousel-slide] {
+  transition: opacity 400ms ease-out;
+}
+/* From md up the reviews are three cards in a row, so none is dimmed. */
+@media (min-width: 768px) {
+  [data-carousel-ready="1"] [data-carousel-slide]:not([data-active="1"]) {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mhts-shine::after {
+    animation: none;
+    display: none;
+  }
+  [data-carousel-ready="1"] [data-carousel-slide] {
+    transition: none;
+  }
+  /* Before and after: no fade. Both photographs side by side, still, each
+     with its own label. */
+  .mhts-ba {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+  .mhts-ba .mhts-ba-before,
+  .mhts-ba .mhts-ba-after {
+    position: relative;
+    inset: auto;
+    height: 100%;
+  }
+  .mhts-ba .mhts-ba-after,
+  .mhts-ba[data-phase] .mhts-ba-after {
+    opacity: 1;
+    animation: none;
+    transition: none;
+  }
+  /* Nothing on the site may move for a reader who has asked it not to. */
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Section scroll (batch 4b, extended to every page on a phone in the
+   batch 4b fixes) ───────────────────────────────────────────────────────
+   Switched on and off by SECTION_SNAP in src/lib/sectionSnap.ts, which is
+   where the reasoning lives. CSS scroll snap only: nothing here or anywhere
+   else moves the page with JavaScript.
+
+     Desktop (md and up): the homepage only, as in 4b.
+     Phone (below md): every page. Each page's top-level sections, and any
+       element marked mhts-snap-phone, are screens: each fills one screen,
+       content from the top, and is a snap stop. Long sections are split into
+       screens and short ones grouped (src/test/snapScreens.test.ts holds the
+       rule). Blog articles use proximity, with stops only at the hero and
+       each h2, so the page never jumps mid-paragraph.
+
+   The measurements the sizing depends on:
+     --snap-header  the sticky header: h-20 plus its 1px rule, h-24 from md
+     --snap-bottom  the bottom Call and Book bar on a phone (69px, rounded up
+                    to 4.5rem). Every screen after the first fills the phone
+                    down to the bottom edge and carries this much transparent
+                    border at its foot, so its content ends above the bar and
+                    only the screen's own background ever sits under it
+                    (batch 4b fixes, PR #8). None on a desktop.
+     --mhts-cookie-h the cookie banner's live height, set by the banner while
+                    it is open and 0 otherwise. */
+:root {
+  --snap-header: 81px;
+  --snap-bottom: 4.5rem;
+  --mhts-cookie-h: 0px;
+  --snap-screen: calc(100svh - var(--snap-header) - var(--snap-bottom));
+  /* The first screen: everything under the header. (A 28px contact strip
+     sat above the header until PR #8's third review removed it.) */
+  --snap-first-screen: calc(100svh - var(--snap-header));
+}
+@media (min-width: 768px) {
+  :root {
+    --snap-header: 97px;
+    --snap-bottom: 0px;
+  }
+}
+
+/* Every rule is behind no-preference, so reduced motion turns all of it off. */
+@media (prefers-reduced-motion: no-preference) {
+  /* ── The homepage, every width ── */
+  html:has(.mhts-snap-page) {
+    scroll-snap-type: y mandatory;
+    scroll-padding-top: var(--snap-header);
+    scroll-padding-bottom: calc(var(--snap-bottom) + var(--mhts-cookie-h));
+  }
+
+  .mhts-snap-page .mhts-snap-section {
+    scroll-snap-align: start;
+    /* The header is already allowed for by scroll-padding. The sections'
+       own scroll-mt-24 would count it twice. */
+    scroll-margin-top: 0;
+    min-height: calc(var(--snap-screen) + var(--snap-bottom));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* The bottom bar's band and, while the cookie banner is open, its height
+       too, so nothing sits under either. The border is transparent: the
+       section's own background shows through it. */
+    border-bottom: calc(var(--snap-bottom) + var(--mhts-cookie-h)) solid transparent;
+  }
+
+  /* The hero's snap point is the very top of the page and it fills the first
+     screen exactly. Its content sits from the top, so the banner opening
+     never moves it. */
+  .mhts-snap-page .mhts-snap-hero {
+    scroll-margin-top: 0;
+    min-height: var(--snap-first-screen);
+    /* The hero is the whole first screen: the bar stays out of it (it carries
+       its own Book and Call buttons, StickyMobileCTA). */
+    border-bottom-width: var(--mhts-cookie-h);
+    justify-content: flex-start;
+    align-items: stretch;
+  }
+
+  /* An anchor inside a section (#mhts-areas, in the closing screen) is not a
+     snap stop, so after the jump the browser moves to the nearest stop, which
+     could be the footer's end with the anchor scrolled out of sight. Half a
+     screen of margin puts the target position nearer its own section's start,
+     so the jump lands on the section that holds it, anchor in view. */
+  .mhts-snap-page .mhts-snap-section [id] {
+    scroll-margin-top: 50svh;
+  }
+
+  /* The footer is the last stop, a whole screen under the header. */
+  html:has(.mhts-snap-page) footer {
+    scroll-snap-align: start;
+    scroll-margin-top: 0;
+  }
+}
+
+/* ── Every page, phone only ── */
+@media (max-width: 767.98px) and (prefers-reduced-motion: no-preference) {
+  html:has(.mhts-snap-site) {
+    scroll-snap-type: y mandatory;
+    scroll-padding-top: var(--snap-header);
+    /* The bar's band is inside each screen (its bottom border), not padding
+       on the page, so a stop aligned to its end (the footer, the end of a
+       screen taller than the phone) rests on the bottom edge. */
+    scroll-padding-bottom: var(--mhts-cookie-h);
+  }
+
+  /* A screen: a page's own top-level section, or any block marked
+     mhts-snap-phone (a section split into screens, or several short sections
+     grouped into one screen). Each fills one screen and is a snap stop, with
+     its content laid out from the top (Carlo's rule after the 4b fixes
+     preview: a full, sensible screen, never a line floating in the middle).
+     :not(.hidden) keeps a desktop-only section (hidden md:block) hidden: this
+     rule sets display, and would otherwise show it on a phone. */
+  .mhts-snap-site > :not(.mhts-snap-proximity) > section:not(.hidden),
+  .mhts-snap-site .mhts-snap-phone {
+    scroll-snap-align: start;
+    scroll-margin-top: 0;
+    min-height: calc(var(--snap-screen) + var(--snap-bottom));
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-bottom: calc(var(--snap-bottom) + var(--mhts-cookie-h)) solid transparent;
+  }
+  /* The homepage's sections are screens at every width; on a phone they too
+     start at the top. */
+  .mhts-snap-page .mhts-snap-section:not(.mhts-snap-hero) {
+    justify-content: flex-start;
+  }
+
+  /* Sections grouped into one screen are not screens themselves. The last
+     one takes whatever height is left, so its band of colour runs to the
+     bottom of the screen. */
+  .mhts-snap-site .mhts-snap-phone > section {
+    scroll-snap-align: none;
+    min-height: 0;
+    border-bottom: 0;
+  }
+  .mhts-snap-site .mhts-snap-phone > section:last-child {
+    flex-grow: 1;
+  }
+
+  /* An element that takes the rest of its screen: a photograph that grows to
+     fill what the words leave. Every element between it and the screen passes
+     the height down (mhts-fill-chain). */
+  .mhts-snap-site .mhts-fill-chain {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  .mhts-snap-site .mhts-fill {
+    flex: 1 1 0;
+    min-height: 9rem;
+    aspect-ratio: auto;
+  }
+
+  /* A short last band (a row of related links) is not a screen of its own.
+     The footer is a whole screen of its own now, so the band ends the screen
+     before it: its stop rests with the band's bottom on the bottom edge. */
+  .mhts-snap-site > :not(.mhts-snap-proximity) > section.mhts-snap-before-footer {
+    scroll-snap-align: end;
+    min-height: 0;
+    border-bottom-width: 0;
+  }
+
+  /* Sections clip with overflow-clip, never overflow-hidden: overflow-hidden
+     makes a section a scroll container of its own, and every stop inside it
+     then belongs to the section, not the page, and is ignored. */
+
+  /* A section split into screens (mhts-snap-split) is not a stop itself: its
+     screens are. Left as a stop, it would be one snap area taller than the
+     screen, and the browser may rest anywhere inside such an area. */
+  .mhts-snap-site > :not(.mhts-snap-proximity) > section.mhts-snap-split:not(.hidden),
+  .mhts-snap-site .mhts-snap-page .mhts-snap-section.mhts-snap-split {
+    scroll-snap-align: none;
+    /* Its screens carry the bar's band; it adds none of its own. */
+    min-height: 0;
+    border-bottom-width: 0;
+  }
+
+  /* The first screen is the hero's size, as on the homepage. */
+  .mhts-snap-site > :not(.mhts-snap-proximity) > section:first-child,
+  .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-phone:first-child {
+    scroll-margin-top: 0;
+    min-height: var(--snap-first-screen);
+    border-bottom-width: var(--mhts-cookie-h);
+  }
+
+  /* Anchors inside a screen, as on the homepage. */
+  .mhts-snap-site > :not(.mhts-snap-proximity) > section [id],
+  .mhts-snap-site .mhts-snap-phone [id] {
+    scroll-margin-top: 50svh;
+  }
+
+  /* Blog articles: proximity, and stops only at the hero and each h2. */
+  html:has(.mhts-snap-site .mhts-snap-proximity) {
+    scroll-snap-type: y proximity;
+  }
+  .mhts-snap-site .mhts-snap-proximity .mhts-snap-point {
+    scroll-snap-align: start;
+    scroll-margin-top: 1rem;
+  }
+  /* The article's hero is the first stop: the very top of the page. */
+  .mhts-snap-site .mhts-snap-proximity .mhts-snap-point-top {
+    scroll-snap-align: start;
+    scroll-margin-top: 0;
+  }
+
+  /* The footer is one whole phone screen and the last stop: its top under
+     the header, its bottom on the bottom edge. */
+  html:has(.mhts-snap-site) footer {
+    scroll-snap-align: start;
+    scroll-margin-top: 0;
+  }
 }

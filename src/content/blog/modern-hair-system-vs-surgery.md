@@ -6,8 +6,8 @@ metaDescription: Discover how a modern hair system works, why men choose it over
 category: Hair Systems
 publishDate: 2026-07-27
 readTime: 6 min read
-heroImage: "@/assets/blog-hair-system-fitting-hero.jpg"
-heroImageAlt: Man with a full natural hairline after a hair system fitting at Men's Hair To Stay in Amersham
+heroImage: "@/assets/blog-hair-system-vs-surgery.jpg"
+heroImageAlt: A hair system on a styling head beside a tray of instruments on a white table
 faqs:
   - q: What is a hair system made of?
     a: A modern hair system is typically made from 100% human hair attached to a lightweight base of ultra-thin lace, bio skin or monofilament. The hair is matched to your natural colour, density and growth direction, and the base is designed to sit flush against the scalp and be undetectable at the hairline.

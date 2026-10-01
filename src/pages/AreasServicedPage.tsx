@@ -1,6 +1,13 @@
+import { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { MapPin, ArrowRight, ChevronRight } from "lucide-react";
+import { MapPin, ChevronRight } from "lucide-react";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
+import { Reveal } from "@/lib/motion";
+import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
+import ResponsiveImage from "@/components/ResponsiveImage";
+import studioWide from "@/assets/mhts-studio-wide-hero.jpg";
+import { ADDRESS_LINE } from "@/lib/site";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 
 const areas = [
   { name: "Amersham", slug: "amersham", desc: "Our home base, 11 Chesham Road, HP6 5HN. Specialist hair replacement and SMP." },
@@ -30,55 +37,123 @@ const AreasServicedPage = () => {
   });
 
   return (
-    <div className="bg-mhts-light">
-      <section className="py-20">
-        <div className="container mx-auto px-4 max-w-5xl">
-          <div className="text-center mb-14">
-            <p className="text-mhts-slate uppercase tracking-[0.2em] text-xs mb-3 font-body">Service Areas</p>
-            <h1 className="text-3xl md:text-5xl text-mhts-charcoal font-light tracking-wide mb-6">
+    <div className="mhts-theme">
+      {/* Batch 4b. The areas used to be twelve identical grey boxes under a
+          centred heading. Now the studio is the fixed point: a dark band with
+          the heading and the address, then the towns as numbered pins in three
+          columns, Amersham first, each with the journey line from its own
+          page. */}
+      <section className="relative overflow-clip bg-mhts-deep">
+        <div className="absolute inset-0 bg-[radial-gradient(50%_80%_at_85%_30%,hsl(var(--mhts-red)/0.22),transparent_70%)]" />
+        <AreaRings />
+        <div className="mhts-fill-chain container relative mx-auto max-w-6xl px-4 py-8 md:py-24">
+          <div className="max-w-3xl">
+            <p className="mb-4 font-body text-xs font-semibold uppercase tracking-[0.2em] text-mhts-red-light">Service Areas</p>
+            <h1 className="mb-6 text-3xl leading-tight text-white md:text-5xl">
               Hair Replacement & SMP Across Buckinghamshire &amp; Hertfordshire
             </h1>
-            <div className="w-12 h-px bg-mhts-charcoal mx-auto mb-6" />
-            <p className="text-foreground/80 font-body max-w-2xl mx-auto">
+            <p className="mb-8 max-w-2xl font-body text-white/80">
               Based in Amersham, our specialist technicians serve clients across Buckinghamshire and into
               Hertfordshire with non-surgical hair replacement systems, scalp micropigmentation (SMP) and
               ongoing maintenance. Choose your town below for details specific to your journey.
             </p>
+            <p className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 font-body text-sm text-white/85">
+              <MapPin className="h-4 w-4 text-mhts-red-light" aria-hidden="true" />
+              {ADDRESS_LINE}
+            </p>
           </div>
+          {/* Phone only: the studio every town travels to, filling the first
+              screen. */}
+          <ResponsiveImage
+            src={studioWide}
+            alt="The Men's Hair To Stay studio in Amersham"
+            className="mhts-fill mt-8 aspect-[16/10] w-full rounded-2xl object-cover md:hidden"
+            sizes="100vw"
+          />
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {areas.map((a) => (
-              <Link
-                key={a.name}
-                to={`/areas/${a.slug}`}
-                className="group bg-card rounded-sm p-6 border border-border hover:border-mhts-slate/40 transition-colors"
-              >
-                <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-mhts-charcoal mt-1 shrink-0" />
-                  <div className="flex-1">
-                    <h2 className="text-xl text-mhts-charcoal font-light tracking-wide mb-2">{a.name}</h2>
-                    <p className="text-foreground/80 font-body text-sm mb-3">{a.desc}</p>
-                    <span className="inline-flex items-center gap-1 text-mhts-charcoal text-sm font-body group-hover:gap-2 transition-all">
-                      Hair replacement in {a.name} <ChevronRight className="w-4 h-4" />
-                    </span>
+      <section className={`${SNAP_SPLIT_CLASS} bg-mhts-sand md:py-20`}>
+        <div className="container mx-auto max-w-6xl px-4">
+          {/* On a phone the towns are three screens of four, the last with Book
+              and Call. From md up the three lists are display:contents, so the
+              twelve towns are one grid exactly as before. */}
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4 lg:grid-cols-3">
+            {[
+              [0, 4],
+              [4, 8],
+              [8, 12],
+            ].map(([from, to]) => {
+              const last = to === areas.length;
+              const list = (
+                <ol start={from + 1} className={`${last ? "" : `${SNAP_PHONE_CLASS} py-8`} grid gap-3 md:contents md:py-0`}>
+                  {areas.slice(from, to).map((a, j) => {
+                    const i = from + j;
+                    return (
+                      <Reveal as="li" key={a.name} delay={(i % 3) * 0.06}>
+                        <Link
+                          to={`/areas/${a.slug}`}
+                          className={`group flex h-full flex-col rounded-xl border px-4 py-3 transition-all hover:-translate-y-1 hover:shadow-lg md:p-6 ${
+                            i === 0 ? "border-mhts-red bg-mhts-red text-white" : "border-mhts-stone bg-card hover:border-mhts-red"
+                          }`}
+                        >
+                          <div className="mb-2 flex items-center gap-3 md:mb-4">
+                            <span
+                              className={`grid h-8 w-8 shrink-0 place-items-center rounded-full font-body text-xs font-bold md:h-9 md:w-9 ${
+                                i === 0 ? "bg-white text-mhts-red-deep" : "bg-mhts-red-tint text-mhts-red-deep"
+                              }`}
+                            >
+                              {i === 0 ? <MapPin className="h-4 w-4" aria-hidden="true" /> : String(i).padStart(2, "0")}
+                            </span>
+                            <h2 className={`text-lg md:text-xl ${i === 0 ? "text-white" : "text-mhts-ink"}`}>{a.name}</h2>
+                          </div>
+                          <p className={`mb-2 flex-1 font-body text-sm leading-snug md:mb-5 md:leading-relaxed ${i === 0 ? "text-white" : "text-foreground/80"}`}>
+                            {a.desc}
+                          </p>
+                          <span
+                            className={`inline-flex items-center gap-1 font-body text-sm font-semibold transition-all group-hover:gap-2 ${
+                              i === 0 ? "text-white" : "text-mhts-red-deep"
+                            }`}
+                          >
+                            Hair replacement in {a.name} <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                          </span>
+                        </Link>
+                      </Reveal>
+                    );
+                  })}
+                </ol>
+              );
+              if (!last) return <Fragment key={from}>{list}</Fragment>;
+              return (
+                <div key={from} className={`${SNAP_PHONE_CLASS} gap-3 py-5 md:contents md:py-0`}>
+                  {list}
+                  <div className="mt-2 grid gap-2 md:col-span-full md:mt-8 md:flex md:flex-row md:items-center md:justify-center md:gap-3">
+                    <BookButton size="lg" label="Book Free Consultation" />
+                    <CallButton size="lg" />
                   </div>
                 </div>
-              </Link>
-            ))}
-          </div>
-
-          <div className="text-center mt-14">
-            <Link
-              to="/book"
-              className="inline-flex items-center gap-2 bg-mhts-charcoal text-mhts-white px-8 py-3 rounded-sm hover:bg-mhts-slate transition-colors font-body tracking-wide"
-            >
-              Book Free Consultation <ArrowRight className="w-4 h-4" />
-            </Link>
+              );
+            })}
           </div>
         </div>
       </section>
     </div>
   );
 };
+
+/** Concentric rings behind the heading: the studio as the centre of the map. Decorative. */
+const AreaRings = () => (
+  <svg
+    className="pointer-events-none absolute -right-24 top-1/2 hidden h-[560px] w-[560px] -translate-y-1/2 md:block"
+    viewBox="0 0 200 200"
+    aria-hidden="true"
+  >
+    {[30, 55, 80, 98].map((r) => (
+      <circle key={r} cx="100" cy="100" r={r} fill="none" stroke="white" strokeOpacity="0.1" strokeDasharray="2 3" />
+    ))}
+    <circle cx="100" cy="100" r="6" fill="hsl(var(--mhts-red))" />
+    <circle cx="100" cy="100" r="12" fill="none" stroke="hsl(var(--mhts-red))" strokeOpacity="0.5" />
+  </svg>
+);
 
 export default AreasServicedPage;

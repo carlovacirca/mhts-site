@@ -6,8 +6,8 @@ metaDescription: Discover comprehensive hair loss solutions designed for women i
 category: Hair Loss Solutions
 publishDate: 2026-04-02
 readTime: 28 min read
-heroImage: "@/assets/blog-aug11.jpg"
-heroImageAlt: Woman exploring hair restoration options during consultation
+heroImage: "@/assets/blog-womens-hair-loss.jpg"
+heroImageAlt: A woman with long brown hair by a window, seen from behind
 faqs:
   - q: Is hair loss in women different from men?
     a: Yes. Women typically experience diffuse thinning across the crown and parting rather than a receding hairline or bald patches.

@@ -1,8 +1,11 @@
-# Builds, tests and deploys the site to Cloudflare Pages (project: menshairtostay).
+# Builds, tests, pre-renders and deploys the site to Cloudflare Pages
+# (project: menshairtostay).
 #
 # - Pull requests: build, test, and deploy a preview at pr-<number>.menshairtostay.pages.dev (never live). A post that fails validation fails here,
 #   which is what blocks a bad generated post from being merged.
 # - Push to main: build, test, then deploy.
+# - Every night just after midnight UK time: rebuild and redeploy, so the baked
+#   HTML keeps up with the calendar. See the schedule block below.
 #
 # Pushes to main deploy to PRODUCTION (menshairtostay.co.uk). Stage 1 of the
 # rollout deployed to a preview URL first; see AUTOMATION.md task 0b.
@@ -17,6 +20,21 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    # Every page is now pre-rendered, so what the site says is decided at build
+    # time. Several things on it depend on today's date: the /blog listing, the
+    # homepage latest-posts strip, the related posts under each article, the
+    # Blog structured data, and whether a scheduled post's URL is a page or a
+    # 404. Without a rebuild those would stay frozen at whatever was true when
+    # the last commit landed, so a post dated Monday would still 404 on Monday
+    # morning if nothing had been pushed.
+    #
+    # Two entries because GitHub cron is UTC only and the UK is not. 23:05 UTC
+    # is 00:05 in British Summer Time; 00:05 UTC is 00:05 in GMT. Whichever one
+    # is the real UK midnight does the work and the other is a harmless second
+    # rebuild the same day.
+    - cron: "5 23 * * *"
+    - cron: "5 0 * * *"
 
 concurrency:
   group: deploy-${{ github.ref }}
@@ -29,7 +47,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     permissions:
       contents: read
     steps:
@@ -43,11 +61,28 @@ jobs:
       - name: Install
         run: npm ci --no-audit --no-fund
 
+      # Pre-rendering drives a real browser over every route, and so does the
+      # phone snap-screen test (src/test/snapScreens.test.ts). Chromium is not
+      # in the runner image, so it is installed here, before the tests, and
+      # cached between runs.
+      - name: Cache Chromium
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
       - name: Test
         run: npm test
 
-      - name: Build
-        run: npm run build
+      # vite build, then scripts/prerender.mjs writes the finished HTML for
+      # every route. The script fails the build if a sitemap URL did not
+      # produce a file, which matters because dist/404.html turns off
+      # Cloudflare Pages' single-page-app fallback.
+      - name: Build and pre-render
+        run: npm run build:prerender
 
       - name: Deploy to Cloudflare Pages
         if: github.event_name != 'pull_request'
