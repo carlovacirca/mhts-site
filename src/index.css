@@ -249,6 +249,47 @@
   }
 }
 
+/* ── Homepage treatment cards: one gradient across the grid ─────────────
+   Charcoal (ink) top left to the logo's deep red bottom right, with a soft
+   warm glow, sized to the whole grid. Each card paints the same gradient and
+   shifts it by its own place in the grid, so the four read as one panel cut
+   into four, gaps and all. With the image size 2 cards + 1 gap, a position
+   of 100% moves it exactly one card and one gap; from lg the four are one
+   row and the gradient runs left to right.
+   White text is AA everywhere on it: 15:1 on ink, 6.5:1 on red-deep, and
+   5.9:1 where the glow is brightest (white at 90% there: 5.0:1). */
+.mhts-treat-grid {
+  --treat-gap: 0.75rem;
+  gap: var(--treat-gap);
+}
+.mhts-treat-card {
+  background-image:
+    radial-gradient(45% 45% at 72% 70%, hsl(var(--mhts-red) / 0.3), transparent 70%),
+    linear-gradient(135deg, hsl(var(--mhts-ink)) 0%, hsl(var(--mhts-ink)) 12%, hsl(var(--mhts-red-deep)) 100%);
+  background-size: calc(200% + var(--treat-gap)) calc(200% + var(--treat-gap));
+  background-repeat: no-repeat;
+}
+.mhts-treat-grid > :nth-child(1) .mhts-treat-card { background-position: 0% 0%; }
+.mhts-treat-grid > :nth-child(2) .mhts-treat-card { background-position: 100% 0%; }
+.mhts-treat-grid > :nth-child(3) .mhts-treat-card { background-position: 0% 100%; }
+.mhts-treat-grid > :nth-child(4) .mhts-treat-card { background-position: 100% 100%; }
+@media (min-width: 640px) {
+  .mhts-treat-grid { --treat-gap: 1rem; }
+}
+@media (min-width: 1024px) {
+  .mhts-treat-grid { --treat-gap: 1.25rem; }
+  .mhts-treat-card {
+    background-image:
+      radial-gradient(30% 90% at 80% 60%, hsl(var(--mhts-red) / 0.3), transparent 70%),
+      linear-gradient(90deg, hsl(var(--mhts-ink)) 0%, hsl(var(--mhts-ink)) 6%, hsl(var(--mhts-red-deep)) 100%);
+    background-size: calc(400% + 3 * var(--treat-gap)) 100%;
+  }
+  .mhts-treat-grid > :nth-child(1) .mhts-treat-card { background-position: 0% 0%; }
+  .mhts-treat-grid > :nth-child(2) .mhts-treat-card { background-position: 33.333% 0%; }
+  .mhts-treat-grid > :nth-child(3) .mhts-treat-card { background-position: 66.667% 0%; }
+  .mhts-treat-grid > :nth-child(4) .mhts-treat-card { background-position: 100% 0%; }
+}
+
 /* ── Before and after, one frame per client (batch 4b fixes) ─────────────
    Before shows for 2.5s, fades to After over 0.8s, After holds 2.5s, fades
    back: a 6.6s loop. Paused until the frame is on screen; BeforeAfterFade's

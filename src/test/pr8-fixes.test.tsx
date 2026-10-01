@@ -18,7 +18,7 @@ const renderAt = (ui: React.ReactElement, path = "/") =>
 
 const src = (root: string) => readFileSync(join(__dirname, "..", root), "utf8");
 
-describe("homepage treatment cards (third review: no photographs, a colour each)", () => {
+describe("homepage treatment cards (no photographs; one gradient across all four)", () => {
   const cards = (container: HTMLElement) =>
     Array.from(container.querySelectorAll<HTMLAnchorElement>("#mhts-services [data-treatment-card]"));
 
@@ -42,10 +42,25 @@ describe("homepage treatment cards (third review: no photographs, a colour each)
     expect(container.querySelectorAll("#mhts-services img, #mhts-services picture")).toHaveLength(0);
   });
 
-  it("each have their own colour", () => {
+  it("share one style: the same classes on every card, white text, no colour of their own", () => {
     const { container } = renderAt(<MHTSLanding />);
-    const backgrounds = cards(container).map((c) => c.className.match(/\bbg-\S+/)![0]);
-    expect(new Set(backgrounds).size).toBe(4);
+    const list = cards(container);
+    expect(new Set(list.map((c) => c.className)).size).toBe(1);
+    expect(list[0].className).toMatch(/\bmhts-treat-card\b/);
+    expect(list[0].className).toMatch(/\btext-white\b/);
+    expect(list[0].className).not.toMatch(/\bbg-/);
+    const icons = list.map((c) => c.querySelector("svg")!.parentElement!.className);
+    expect(new Set(icons).size).toBe(1);
+  });
+
+  it("show one gradient sized to the whole grid, each card its own slice of it", () => {
+    const css = src("index.css");
+    expect(css).toMatch(/\.mhts-treat-card \{[^}]*linear-gradient\(135deg, hsl\(var\(--mhts-ink\)\)[^}]*hsl\(var\(--mhts-red-deep\)\) 100%\)/);
+    expect(css).toMatch(/background-size: calc\(200% \+ var\(--treat-gap\)\) calc\(200% \+ var\(--treat-gap\)\)/);
+    expect(css).toMatch(/background-size: calc\(400% \+ 3 \* var\(--treat-gap\)\) 100%/);
+    for (const pos of ["0% 0%", "100% 0%", "0% 100%", "100% 100%", "33.333% 0%", "66.667% 0%"]) {
+      expect(css).toContain(`background-position: ${pos};`);
+    }
   });
 
   it("sit two by two up to lg and four in a row from lg, with equal rows and no swiping", () => {

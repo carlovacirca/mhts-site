@@ -88,43 +88,11 @@ const SeeAllResults = () => (
   </Link>
 );
 
-// No photographs (PR #8, third review): each treatment has its own colour
-// instead, from a palette built on the logo red and the warm neutrals, so the
-// four read apart at a glance and the whole section fits one phone screen.
-// Every pairing of text and background is AA: white on red-deep 6.5:1, on
-// terracotta 6.4:1, on the deep charcoal 18:1; ink on sand 14:1 with the
-// red-deep link 5.8:1. The lighter line of text is white at 90%, 5.6:1 or more.
-const CARD_TONES: Record<string, { card: string; icon: string; text: string; line: string; cta: string; glow?: string }> = {
-  "hair-systems": {
-    card: "bg-mhts-red-deep border-mhts-red-deep",
-    icon: "bg-white/15 text-white",
-    text: "text-white",
-    line: "text-white/90",
-    cta: "text-white",
-  },
-  "scalp-micropigmentation": {
-    card: "bg-mhts-deep border-mhts-deep",
-    icon: "bg-mhts-red text-white",
-    text: "text-white",
-    line: "text-white/90",
-    cta: "text-white",
-    glow: "bg-[radial-gradient(90%_70%_at_100%_0%,hsl(var(--mhts-red)/0.45),transparent_70%)]",
-  },
-  "hair-density": {
-    card: "bg-[#9A4527] border-[#9A4527]",
-    icon: "bg-white/15 text-white",
-    text: "text-white",
-    line: "text-white/90",
-    cta: "text-white",
-  },
-  "hair-system-maintenance": {
-    card: "bg-mhts-sand border-mhts-stone",
-    icon: "bg-mhts-red text-white",
-    text: "text-mhts-ink",
-    line: "text-mhts-ink/80",
-    cta: "text-mhts-red-deep",
-  },
-};
+// No photographs, and one colour style for all four (PR #8, third and fourth
+// reviews): one gradient, charcoal to the logo's deep red with a soft warm
+// glow, laid across the whole grid as if it were one panel cut into four.
+// Each card shows its own slice of it (.mhts-treat-* in src/index.css). White
+// text is AA at every point of it (5.9:1 at the brightest, under the glow).
 
 // The four-paragraph trust strip was 10 to 11px grey text on charcoal, which
 // nobody read. Four chips, a few words each. See finding 15.
@@ -324,31 +292,27 @@ const MHTSLanding = () => {
               swiping: the heading and all four cards are one phone screen,
               above the bottom bar, down to 360x740. Equal heights from the
               grid's equal rows; the whole card is the link. */}
-          <div className="mx-auto grid max-w-5xl auto-rows-fr grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
-            {treatments.map((t, i) => {
-              const tone = CARD_TONES[t.slug];
-              return (
-                <Reveal key={t.slug} delay={i * 0.06} className="h-full">
-                  <Link
-                    to={`/${t.slug}`}
-                    data-treatment-card={t.slug}
-                    className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border p-3.5 shadow-sm transition-[transform,box-shadow] duration-200 hover:shadow-lg motion-safe:hover:-translate-y-1 motion-safe:active:scale-[0.98] sm:p-5 ${tone.card}`}
-                  >
-                    {tone.glow && <span className={`pointer-events-none absolute inset-0 ${tone.glow}`} aria-hidden="true" />}
-                    <span className={`relative mb-3 grid h-11 w-11 place-items-center rounded-xl sm:mb-4 sm:h-14 sm:w-14 ${tone.icon}`}>
-                      <t.icon className="h-6 w-6 sm:h-7 sm:w-7" aria-hidden="true" />
-                    </span>
-                    <h3 lang="en-GB" className={`relative mb-1 hyphens-auto break-words text-[15px] font-semibold leading-snug sm:mb-2 sm:text-lg ${tone.text}`}>
-                      {t.name}
-                    </h3>
-                    <p className={`relative flex-1 font-body text-[13px] leading-snug sm:text-sm sm:leading-relaxed ${tone.line}`}>{t.line}</p>
-                    <span className={`relative mt-3 inline-flex items-center gap-1.5 font-body text-[13px] font-semibold transition-[gap] group-hover:gap-2.5 sm:mt-4 sm:text-sm ${tone.cta}`}>
-                      See treatment <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                    </span>
-                  </Link>
-                </Reveal>
-              );
-            })}
+          <div className="mhts-treat-grid mx-auto grid max-w-5xl auto-rows-fr grid-cols-2 lg:grid-cols-4">
+            {treatments.map((t, i) => (
+              <Reveal key={t.slug} delay={i * 0.06} className="h-full">
+                <Link
+                  to={`/${t.slug}`}
+                  data-treatment-card={t.slug}
+                  className="mhts-treat-card group flex h-full flex-col rounded-2xl p-3.5 text-white shadow-sm transition-[transform,box-shadow] duration-200 hover:shadow-lg motion-safe:hover:-translate-y-1 motion-safe:active:scale-[0.98] sm:p-5"
+                >
+                  <span className="mb-3 grid h-11 w-11 place-items-center rounded-full bg-white/15 ring-1 ring-white/20 sm:mb-4 sm:h-14 sm:w-14">
+                    <t.icon className="h-6 w-6 text-white sm:h-7 sm:w-7" aria-hidden="true" />
+                  </span>
+                  <h3 lang="en-GB" className="mb-1 hyphens-auto break-words text-[15px] font-semibold leading-snug text-white sm:mb-2 sm:text-lg">
+                    {t.name}
+                  </h3>
+                  <p className="flex-1 font-body text-[13px] leading-snug text-white/90 sm:text-sm sm:leading-relaxed">{t.line}</p>
+                  <span className="mt-3 inline-flex items-center gap-1.5 font-body text-[13px] font-semibold text-white transition-[gap] group-hover:gap-2.5 sm:mt-4 sm:text-sm">
+                    See treatment <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                </Link>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
