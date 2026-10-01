@@ -31,6 +31,25 @@ const panelLinks = [
   { to: "/contact", label: "Contact" },
 ];
 
+/**
+ * Back to the very top of the homepage, every time. A phone that is still
+ * gliding after a swipe can ignore a single jump, and the section scroll can
+ * pull the page back to the nearest section, so the snap is lifted and the
+ * jump repeated for a few frames (about 0.2s), then the snap comes back.
+ */
+const scrollHomeToTop = () => {
+  const html = document.documentElement;
+  const snap = html.style.scrollSnapType;
+  html.style.scrollSnapType = "none";
+  let frames = 0;
+  const jump = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    if (++frames < 12) requestAnimationFrame(jump);
+    else requestAnimationFrame(() => (html.style.scrollSnapType = snap));
+  };
+  jump();
+};
+
 const BrandHeader = () => {
   const [open, setOpen] = useState(false);
   const [treatmentsOpen, setTreatmentsOpen] = useState(false);
@@ -170,7 +189,7 @@ const BrandHeader = () => {
             <Link
               to="/"
               onClick={() => {
-                if (location.pathname === "/") window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+                if (location.pathname === "/") scrollHomeToTop();
               }}
               className="flex shrink-0 items-center"
               aria-label="Men's Hair To Stay home"
