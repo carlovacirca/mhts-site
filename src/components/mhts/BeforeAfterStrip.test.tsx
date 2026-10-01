@@ -30,7 +30,7 @@ const stubMedia = ({ phone, reduced }: { phone: boolean; reduced: boolean }) => 
     addEventListener: () => {},
     removeEventListener: () => {},
     dispatchEvent: () => {},
-  })) as typeof window.matchMedia;
+  })) as unknown as typeof window.matchMedia;
 };
 
 const renderStrip = () => {

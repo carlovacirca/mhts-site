@@ -4,7 +4,7 @@
 // now, and the two rules that matter most: every page taken out of the menu is
 // still linked from the footer, and the phone panel is a proper dialog that
 // traps focus and gives it back.
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import BrandHeader from "./BrandHeader";
@@ -35,6 +35,14 @@ describe("BrandHeader, desktop", () => {
     const home = screen.getAllByRole("link", { name: "Men's Hair To Stay home" });
     expect(home).toHaveLength(1);
     expect(screen.queryByRole("link", { name: "Back to home" })).toBeNull();
+  });
+
+  it("takes the reader back to the homepage hero from anywhere on the homepage", () => {
+    renderHeader("/");
+    const scrollTo = vi.spyOn(window, "scrollTo").mockImplementation(() => {});
+    fireEvent.click(screen.getByRole("link", { name: "Men's Hair To Stay home" }));
+    expect(scrollTo).toHaveBeenCalledWith({ top: 0, left: 0, behavior: "auto" });
+    scrollTo.mockRestore();
   });
 
   it("opens a Treatments dropdown of the four money pages, each with its own line", () => {

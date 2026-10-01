@@ -164,7 +164,17 @@ const BrandHeader = () => {
           <div className="flex h-20 items-center justify-between gap-4 md:h-24">
             {/* One route home, not two. The home icon that sat beside the logo
                 did the same job as the logo. */}
-            <Link to="/" className="flex shrink-0 items-center" aria-label="Men's Hair To Stay home">
+            {/* Always lands on the homepage hero. From another page the route
+                change scrolls to the top (ScrollToTop in App.tsx); on the
+                homepage itself the route does not change, so this does it. */}
+            <Link
+              to="/"
+              onClick={() => {
+                if (location.pathname === "/") window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+              }}
+              className="flex shrink-0 items-center"
+              aria-label="Men's Hair To Stay home"
+            >
               <ResponsiveImage
                 src={mhtsLogoFull}
                 alt="Men's Hair To Stay"
