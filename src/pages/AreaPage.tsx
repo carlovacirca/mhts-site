@@ -1,7 +1,7 @@
 import { useParams, Navigate, Link } from "react-router-dom";
 import { ChevronRight, MapPin, ShieldCheck } from "lucide-react";
 import { Reveal } from "@/lib/motion";
-import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS, SNAP_STOP_EACH_CLASS } from "@/lib/sectionSnap";
+import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { CtaPair } from "@/components/mhts/CtaButtons";
 import { cardPhotoFor } from "@/data/servicePhotos";
@@ -9,6 +9,19 @@ import studioPhoto from "@/assets/mhts-studio-wide-hero.jpg";
 import { useSeo, useJsonLd, useOpenGraph, localBusinessSchema, breadcrumbSchema, SITE_URL } from "@/lib/seo";
 import { findArea } from "@/data/areas";
 import { serviceCategories } from "@/data/services";
+
+/**
+ * Body text for a block of words that is one phone screen on its own. The
+ * towns' introductions run from about 640 to 1,070 characters, so the longer ones
+ * are set a size smaller on a phone to stay within one screen. From md up
+ * every page is the same size, as before.
+ */
+const screenText = (paragraphs: string[]) => {
+  const chars = paragraphs.reduce((n, p) => n + p.length, 0);
+  if (chars > 1000) return "text-sm leading-relaxed md:text-base md:leading-relaxed";
+  if (chars > 800) return "text-[15px] leading-relaxed md:text-base md:leading-relaxed";
+  return "leading-relaxed";
+};
 
 const AreaPage = () => {
   const { slug } = useParams();
@@ -51,7 +64,9 @@ const AreaPage = () => {
   // consultation on the one dark band. Every word comes from src/data/areas.ts
   // as before.
   return (
-    <div className="mhts-theme">
+    // From md up the wrapper is a flex column only so that the order classes
+    // below keep the desktop exactly as it was; see the consultation band.
+    <div className="mhts-theme md:flex md:flex-col">
       {/* HERO */}
       <section className="relative overflow-clip bg-mhts-deep">
         <div className="absolute inset-0 bg-[radial-gradient(55%_90%_at_0%_100%,hsl(var(--mhts-red)/0.22),transparent_70%)]" />
@@ -102,17 +117,18 @@ const AreaPage = () => {
             <h2 className="mb-6 text-3xl text-mhts-ink md:text-4xl">
               Hair Replacement Near {area.name}
             </h2>
-            <div className="space-y-5 font-body leading-relaxed text-foreground/80">
+            <div className={`space-y-5 font-body text-foreground/80 ${screenText(area.introParagraphs)}`}>
               {area.introParagraphs.map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
             </div>
           </Reveal>
           <Reveal as="figure" from="right" className={`${SNAP_PHONE_CLASS} py-8 md:py-0 md:pt-10`}>
+            {/* On a phone the photograph fills the screen above the address. */}
             <ResponsiveImage
               src={studioPhoto}
               alt="The Men's Hair To Stay studio in Amersham"
-              className="aspect-[4/3] w-full rounded-2xl object-cover"
+              className="mhts-fill aspect-[4/3] w-full rounded-2xl object-cover"
               sizes="(max-width: 768px) 100vw, 500px"
             />
             <figcaption className="mt-4 flex items-start gap-3 rounded-xl border-l-4 border-mhts-red bg-mhts-sand p-5">
@@ -129,7 +145,7 @@ const AreaPage = () => {
       {/* SERVICES */}
       <section className="bg-mhts-sand py-8 md:py-24">
         <div className="container mx-auto max-w-6xl px-4">
-          <div className="mb-10">
+          <div className="mb-6 md:mb-10">
             <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">
               What We Offer
             </p>
@@ -137,17 +153,19 @@ const AreaPage = () => {
               Services Available to {area.name} Clients
             </h2>
           </div>
-          <div className={`grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 ${SNAP_STOP_EACH_CLASS}`}>
+          {/* A swipeable strip on a phone, one card per swipe with the next
+              peeking, as on the homepage; two and then four across from sm. */}
+          <div className="mhts-snap-x -mx-4 flex snap-x snap-mandatory scroll-pl-4 gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
             {serviceCategories.map((c, i) => {
               const photo = cardPhotoFor(`/${c.slug}`);
               return (
-                <Reveal key={c.slug} delay={i * 0.06}>
+                <Reveal key={c.slug} delay={i * 0.06} className="w-[78%] shrink-0 snap-start snap-always sm:w-auto sm:snap-align-none">
                   <Link
                     to={`/${c.slug}`}
                     className="group flex h-full flex-col overflow-hidden rounded-xl border border-mhts-stone bg-card transition-all hover:-translate-y-1 hover:border-mhts-red hover:shadow-lg"
                   >
                     {photo && (
-                      <div className="aspect-[4/3] overflow-hidden">
+                      <div className="aspect-square overflow-hidden sm:aspect-[4/3]">
                         <ResponsiveImage
                           src={photo.src}
                           alt=""
@@ -186,7 +204,7 @@ const AreaPage = () => {
               Why {area.name} Clients Choose Us
             </h2>
           </div>
-          <div className="grid gap-6 font-body leading-relaxed text-foreground/80 md:grid-cols-2 md:gap-10">
+          <div className={`grid gap-6 font-body text-foreground/80 md:grid-cols-2 md:gap-10 ${screenText(area.whyChooseParagraphs)}`}>
             {area.whyChooseParagraphs.map((p, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <p className={i === 0 ? "border-l-4 border-mhts-red pl-5" : "border-l-4 border-mhts-stone pl-5"}>{p}</p>
@@ -196,11 +214,51 @@ const AreaPage = () => {
         </div>
       </section>
 
+      {/* FAQ */}
+      {/* On a phone the questions are a screen of their own, set a little
+          larger so the screen is full. */}
+      <section className="bg-mhts-sand py-8 md:order-2 md:py-24">
+        <div className="container mx-auto grid max-w-6xl gap-8 px-4 md:gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <div>
+            <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">
+              Questions From {area.name}
+            </p>
+            <h2 className="text-3xl text-mhts-ink md:text-4xl">
+              Frequently Asked
+            </h2>
+          </div>
+          <div className="space-y-4 md:space-y-3">
+            {area.faqs.map((f) => (
+              <details
+                key={f.q}
+                className="group rounded-xl border border-mhts-stone bg-card px-5 py-7 transition-colors open:border-mhts-red md:p-6"
+              >
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-4">
+                  <span className="font-body text-lg font-semibold leading-snug text-mhts-ink md:text-base md:leading-normal">
+                    {f.q}
+                  </span>
+                  <ChevronRight className="mt-0.5 h-5 w-5 shrink-0 text-mhts-red transition-transform group-open:rotate-90" aria-hidden="true" />
+                </summary>
+                <p className="mt-4 font-body text-sm leading-relaxed text-muted-foreground">
+                  {f.a}
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Phone: the free consultation and the booking band are one screen, so
+          the consultation sits after the questions in the source. From md up
+          the wrapper is display:contents and the order classes put the bands
+          back exactly where they were. The consultation band has no links or
+          buttons, so the desktop keyboard order is unchanged. */}
+      <div className={`${SNAP_PHONE_CLASS} md:contents`}>
       {/* CONSULTATION, on the one dark band */}
-      <section className="relative overflow-clip bg-mhts-deep py-8 md:py-20">
+      <section className="relative overflow-clip bg-mhts-deep pb-2 pt-6 md:order-1 md:py-20">
         <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_100%_0%,hsl(var(--mhts-red)/0.2),transparent_70%)]" />
         <div className="container relative mx-auto grid max-w-5xl items-center gap-8 px-4 md:grid-cols-[auto_1fr] md:gap-12">
-          <span className="grid h-16 w-16 place-items-center rounded-2xl bg-mhts-red" aria-hidden="true">
+          <span className="hidden h-16 w-16 place-items-center rounded-2xl bg-mhts-red md:grid" aria-hidden="true">
             <ShieldCheck className="h-8 w-8 text-white" />
           </span>
           <div>
@@ -215,52 +273,21 @@ const AreaPage = () => {
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="bg-mhts-sand py-8 md:py-24">
-        <div className="container mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-          <div>
-            <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">
-              Questions From {area.name}
-            </p>
-            <h2 className="text-3xl text-mhts-ink md:text-4xl">
-              Frequently Asked
-            </h2>
-          </div>
-          <div className="space-y-3">
-            {area.faqs.map((f) => (
-              <details
-                key={f.q}
-                className="group rounded-xl border border-mhts-stone bg-card p-5 transition-colors open:border-mhts-red md:p-6"
-              >
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-4">
-                  <span className="font-body font-semibold text-mhts-ink">
-                    {f.q}
-                  </span>
-                  <ChevronRight className="mt-0.5 h-5 w-5 shrink-0 text-mhts-red transition-transform group-open:rotate-90" aria-hidden="true" />
-                </summary>
-                <p className="mt-4 font-body text-sm leading-relaxed text-muted-foreground">
-                  {f.a}
-                </p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA BANNER */}
-      <section className="relative overflow-clip bg-mhts-deep py-8 md:py-20">
+      <section className="relative overflow-clip bg-mhts-deep pb-6 pt-6 md:order-3 md:py-20">
         <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_50%_100%,hsl(var(--mhts-red)/0.25),transparent_65%)]" />
         <div className="container relative mx-auto px-4 text-center">
           <h2 className="mb-4 text-3xl text-white md:text-4xl">
             Book Your Free Consultation from {area.name}
           </h2>
-          <p className="mx-auto mb-8 max-w-xl font-body text-white/75">
+          <p className="mx-auto mb-6 max-w-xl font-body text-white/75 md:mb-8">
             Speak to our specialist team at 11 Chesham Road, Amersham, free, confidential and no
             obligation.
           </p>
           <CtaPair size="lg" tone="dark" label="Book Free Consultation" className="justify-center" />
         </div>
       </section>
+      </div>
     </div>
   );
 };

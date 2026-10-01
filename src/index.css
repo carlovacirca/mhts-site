@@ -243,6 +243,31 @@
   100% { opacity: 0; }
 }
 
+/* On a phone, a frame in a before and after strip (BeforeAfterStrip) does not
+   loop on its own: the strip says which photograph shows (data-phase) and the
+   frame cross-fades when that changes. From md up the frames loop as above. */
+@media (max-width: 767.98px) {
+  .mhts-ba[data-phase] .mhts-ba-after {
+    animation: none;
+    opacity: 0;
+    transition: opacity 600ms ease-in-out;
+  }
+  .mhts-ba[data-phase="after"] .mhts-ba-after {
+    opacity: 1;
+  }
+  /* The results page on a phone, one client per screen: Before for 2s, a
+     0.5s fade, After for 2s, a 0.5s fade back. */
+  .mhts-ba-quick .mhts-ba-after {
+    animation-name: mhts-ba-fade-quick;
+    animation-duration: 5s;
+  }
+}
+@keyframes mhts-ba-fade-quick {
+  0%, 40% { opacity: 0; }
+  50%, 90% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
 /* The reviews carousel dims the cards either side of the one in view. The rule
    only applies once JavaScript has marked the track ready, so with scripting
    off every review is at full opacity and fully readable. */
@@ -280,9 +305,11 @@
     inset: auto;
     height: 100%;
   }
-  .mhts-ba .mhts-ba-after {
+  .mhts-ba .mhts-ba-after,
+  .mhts-ba[data-phase] .mhts-ba-after {
     opacity: 1;
     animation: none;
+    transition: none;
   }
   /* Nothing on the site may move for a reader who has asked it not to. */
   *, *::before, *::after {
@@ -301,10 +328,11 @@
 
      Desktop (md and up): the homepage only, as in 4b.
      Phone (below md): every page. Each page's top-level sections, and any
-       element marked mhts-snap-phone, fill one screen and are snap stops.
-       Long lists add mhts-snap-stop points so no stop is far more than a
-       screen from the next. Blog articles use proximity, with stops only at
-       the hero and each h2, so the page never jumps mid-paragraph.
+       element marked mhts-snap-phone, are screens: each fills one screen,
+       content from the top, and is a snap stop. Long sections are split into
+       screens and short ones grouped (src/test/snapScreens.test.ts holds the
+       rule). Blog articles use proximity, with stops only at the hero and
+       each h2, so the page never jumps mid-paragraph.
 
    The measurements the sizing depends on:
      --snap-topbar  the thin contact bar above the header, which scrolls away
@@ -387,7 +415,11 @@
     scroll-padding-bottom: calc(var(--snap-bottom) + var(--mhts-cookie-h));
   }
 
-  /* A page's own top-level sections, and any block marked mhts-snap-phone.
+  /* A screen: a page's own top-level section, or any block marked
+     mhts-snap-phone (a section split into screens, or several short sections
+     grouped into one screen). Each fills one screen and is a snap stop, with
+     its content laid out from the top (Carlo's rule after the 4b fixes
+     preview: a full, sensible screen, never a line floating in the middle).
      :not(.hidden) keeps a desktop-only section (hidden md:block) hidden: this
      rule sets display, and would otherwise show it on a phone. */
   .mhts-snap-site > :not(.mhts-snap-proximity) > section:not(.hidden),
@@ -397,43 +429,70 @@
     min-height: var(--snap-screen);
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     border-bottom: var(--mhts-cookie-h) solid transparent;
+  }
+  /* The homepage's sections are screens at every width; on a phone they too
+     start at the top. */
+  .mhts-snap-page .mhts-snap-section:not(.mhts-snap-hero) {
+    justify-content: flex-start;
+  }
+
+  /* Sections grouped into one screen are not screens themselves. The last
+     one takes whatever height is left, so its band of colour runs to the
+     bottom of the screen. */
+  .mhts-snap-site .mhts-snap-phone > section {
+    scroll-snap-align: none;
+    min-height: 0;
+    border-bottom: 0;
+  }
+  .mhts-snap-site .mhts-snap-phone > section:last-child {
+    flex-grow: 1;
+  }
+
+  /* An element that takes the rest of its screen: a photograph that grows to
+     fill what the words leave. Every element between it and the screen passes
+     the height down (mhts-fill-chain). */
+  .mhts-snap-site .mhts-fill-chain {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  .mhts-snap-site .mhts-fill {
+    flex: 1 1 0;
+    min-height: 9rem;
+    aspect-ratio: auto;
+  }
+
+  /* A short last band (a row of related links) is not a screen of its own:
+     it shares the footer's screen, which ends the page. */
+  .mhts-snap-site > :not(.mhts-snap-proximity) > section.mhts-snap-before-footer {
+    scroll-snap-align: none;
+    min-height: 0;
   }
 
   /* Sections clip with overflow-clip, never overflow-hidden: overflow-hidden
      makes a section a scroll container of its own, and every stop inside it
      then belongs to the section, not the page, and is ignored. */
 
-  /* A section split into phone halves (mhts-snap-split) is not a stop
-     itself: its halves are. Left as a stop, it would be one snap area taller
-     than the screen, and the browser may rest anywhere inside such an area,
-     past the stops of its halves. */
+  /* A section split into screens (mhts-snap-split) is not a stop itself: its
+     screens are. Left as a stop, it would be one snap area taller than the
+     screen, and the browser may rest anywhere inside such an area. */
   .mhts-snap-site > :not(.mhts-snap-proximity) > section.mhts-snap-split:not(.hidden),
   .mhts-snap-site .mhts-snap-page .mhts-snap-section.mhts-snap-split {
     scroll-snap-align: none;
   }
 
-  /* The first section covers the contact bar too, as the homepage hero does. */
-  .mhts-snap-site > :not(.mhts-snap-proximity) > section:first-of-type {
+  /* The first screen covers the contact bar too, as the homepage hero does. */
+  .mhts-snap-site > :not(.mhts-snap-proximity) > section:first-child,
+  .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-phone:first-child {
     scroll-margin-top: var(--snap-topbar);
     min-height: var(--snap-first-screen);
-    justify-content: flex-start;
   }
 
-  /* A stop inside a long section (a list of questions, a list of posts), so
-     the next stop is never far more than a screen away. mhts-snap-stop marks
-     one element; mhts-snap-stop-each makes every child after the first one;
-     mhts-snap-stop-deep every grandchild (the privacy policy's paragraphs). */
-  .mhts-snap-site .mhts-snap-stop,
-  .mhts-snap-site .mhts-snap-stop-each > * + *,
-  .mhts-snap-site .mhts-snap-stop-deep > * > * {
-    scroll-snap-align: start;
-    scroll-margin-top: 0.75rem;
-  }
-
-  /* Anchors inside a section, as on the homepage. */
-  .mhts-snap-site > :not(.mhts-snap-proximity) > section [id] {
+  /* Anchors inside a screen, as on the homepage. */
+  .mhts-snap-site > :not(.mhts-snap-proximity) > section [id],
+  .mhts-snap-site .mhts-snap-phone [id] {
     scroll-margin-top: 50svh;
   }
 

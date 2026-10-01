@@ -59,6 +59,6 @@ describe("BeforeAfterFade", () => {
     expect(css).toMatch(/\.mhts-ba\[data-playing="1"\] \.mhts-ba-after\s*\{[^}]*running/);
     const reduce = css.slice(css.indexOf("@media (prefers-reduced-motion: reduce)"));
     expect(reduce).toMatch(/\.mhts-ba\s*\{[^}]*grid-template-columns:\s*1fr 1fr/);
-    expect(reduce).toMatch(/\.mhts-ba \.mhts-ba-after\s*\{[^}]*opacity:\s*1;[^}]*animation:\s*none/);
+    expect(reduce).toMatch(/\.mhts-ba \.mhts-ba-after,\s*\.mhts-ba\[data-phase\] \.mhts-ba-after\s*\{[^}]*opacity:\s*1;[^}]*animation:\s*none/);
   });
 });

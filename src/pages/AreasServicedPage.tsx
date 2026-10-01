@@ -1,8 +1,11 @@
+import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { MapPin, ChevronRight } from "lucide-react";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
 import { Reveal } from "@/lib/motion";
-import { SNAP_STOP_EACH_CLASS } from "@/lib/sectionSnap";
+import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
+import ResponsiveImage from "@/components/ResponsiveImage";
+import studioWide from "@/assets/mhts-studio-wide-hero.jpg";
 import { ADDRESS_LINE } from "@/lib/site";
 import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 
@@ -43,7 +46,7 @@ const AreasServicedPage = () => {
       <section className="relative overflow-clip bg-mhts-deep">
         <div className="absolute inset-0 bg-[radial-gradient(50%_80%_at_85%_30%,hsl(var(--mhts-red)/0.22),transparent_70%)]" />
         <AreaRings />
-        <div className="container relative mx-auto max-w-6xl px-4 py-16 md:py-24">
+        <div className="mhts-fill-chain container relative mx-auto max-w-6xl px-4 py-8 md:py-24">
           <div className="max-w-3xl">
             <p className="mb-4 font-body text-xs font-semibold uppercase tracking-[0.2em] text-mhts-red-light">Service Areas</p>
             <h1 className="mb-6 text-3xl leading-tight text-white md:text-5xl">
@@ -59,49 +62,78 @@ const AreasServicedPage = () => {
               {ADDRESS_LINE}
             </p>
           </div>
+          {/* Phone only: the studio every town travels to, filling the first
+              screen. */}
+          <ResponsiveImage
+            src={studioWide}
+            alt="The Men's Hair To Stay studio in Amersham"
+            className="mhts-fill mt-8 aspect-[16/10] w-full rounded-2xl object-cover md:hidden"
+            sizes="100vw"
+          />
         </div>
       </section>
 
-      <section className="bg-mhts-sand py-8 md:py-20">
+      <section className={`${SNAP_SPLIT_CLASS} bg-mhts-sand md:py-20`}>
         <div className="container mx-auto max-w-6xl px-4">
-          {/* On a phone every town is a stop. */}
-          <ol className={`grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3 ${SNAP_STOP_EACH_CLASS}`}>
-            {areas.map((a, i) => (
-              <Reveal as="li" key={a.name} delay={(i % 3) * 0.06}>
-                <Link
-                  to={`/areas/${a.slug}`}
-                  className={`group flex h-full flex-col rounded-xl border p-6 transition-all hover:-translate-y-1 hover:shadow-lg ${
-                    i === 0 ? "border-mhts-red bg-mhts-red text-white" : "border-mhts-stone bg-card hover:border-mhts-red"
-                  }`}
-                >
-                  <div className="mb-4 flex items-center gap-3">
-                    <span
-                      className={`grid h-9 w-9 shrink-0 place-items-center rounded-full font-body text-xs font-bold ${
-                        i === 0 ? "bg-white text-mhts-red-deep" : "bg-mhts-red-tint text-mhts-red-deep"
-                      }`}
-                    >
-                      {i === 0 ? <MapPin className="h-4 w-4" aria-hidden="true" /> : String(i).padStart(2, "0")}
-                    </span>
-                    <h2 className={`text-xl ${i === 0 ? "text-white" : "text-mhts-ink"}`}>{a.name}</h2>
+          {/* On a phone the towns are three screens of four, the last with Book
+              and Call. From md up the three lists are display:contents, so the
+              twelve towns are one grid exactly as before. */}
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4 lg:grid-cols-3">
+            {[
+              [0, 4],
+              [4, 8],
+              [8, 12],
+            ].map(([from, to]) => {
+              const last = to === areas.length;
+              const list = (
+                <ol start={from + 1} className={`${last ? "" : `${SNAP_PHONE_CLASS} py-8`} grid gap-3 md:contents md:py-0`}>
+                  {areas.slice(from, to).map((a, j) => {
+                    const i = from + j;
+                    return (
+                      <Reveal as="li" key={a.name} delay={(i % 3) * 0.06}>
+                        <Link
+                          to={`/areas/${a.slug}`}
+                          className={`group flex h-full flex-col rounded-xl border px-4 py-3 transition-all hover:-translate-y-1 hover:shadow-lg md:p-6 ${
+                            i === 0 ? "border-mhts-red bg-mhts-red text-white" : "border-mhts-stone bg-card hover:border-mhts-red"
+                          }`}
+                        >
+                          <div className="mb-2 flex items-center gap-3 md:mb-4">
+                            <span
+                              className={`grid h-8 w-8 shrink-0 place-items-center rounded-full font-body text-xs font-bold md:h-9 md:w-9 ${
+                                i === 0 ? "bg-white text-mhts-red-deep" : "bg-mhts-red-tint text-mhts-red-deep"
+                              }`}
+                            >
+                              {i === 0 ? <MapPin className="h-4 w-4" aria-hidden="true" /> : String(i).padStart(2, "0")}
+                            </span>
+                            <h2 className={`text-lg md:text-xl ${i === 0 ? "text-white" : "text-mhts-ink"}`}>{a.name}</h2>
+                          </div>
+                          <p className={`mb-2 flex-1 font-body text-sm leading-snug md:mb-5 md:leading-relaxed ${i === 0 ? "text-white" : "text-foreground/80"}`}>
+                            {a.desc}
+                          </p>
+                          <span
+                            className={`inline-flex items-center gap-1 font-body text-sm font-semibold transition-all group-hover:gap-2 ${
+                              i === 0 ? "text-white" : "text-mhts-red-deep"
+                            }`}
+                          >
+                            Hair replacement in {a.name} <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                          </span>
+                        </Link>
+                      </Reveal>
+                    );
+                  })}
+                </ol>
+              );
+              if (!last) return <Fragment key={from}>{list}</Fragment>;
+              return (
+                <div key={from} className={`${SNAP_PHONE_CLASS} gap-3 py-5 md:contents md:py-0`}>
+                  {list}
+                  <div className="mt-2 grid gap-2 md:col-span-full md:mt-8 md:flex md:flex-row md:items-center md:justify-center md:gap-3">
+                    <BookButton size="lg" label="Book Free Consultation" />
+                    <CallButton size="lg" />
                   </div>
-                  <p className={`mb-5 flex-1 font-body text-sm leading-relaxed ${i === 0 ? "text-white" : "text-foreground/80"}`}>
-                    {a.desc}
-                  </p>
-                  <span
-                    className={`inline-flex items-center gap-1 font-body text-sm font-semibold transition-all group-hover:gap-2 ${
-                      i === 0 ? "text-white" : "text-mhts-red-deep"
-                    }`}
-                  >
-                    Hair replacement in {a.name} <ChevronRight className="h-4 w-4" aria-hidden="true" />
-                  </span>
-                </Link>
-              </Reveal>
-            ))}
-          </ol>
-
-          <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <BookButton size="lg" label="Book Free Consultation" />
-            <CallButton size="lg" />
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

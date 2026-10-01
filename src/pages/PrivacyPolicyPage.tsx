@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
-import { CalendarCheck, Mail, Phone, MapPin } from "lucide-react";
+import { CalendarCheck, ChevronRight, Mail, Phone, MapPin } from "lucide-react";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
 import { CtaPair } from "@/components/mhts/CtaButtons";
-import { SNAP_STOP_DEEP_CLASS } from "@/lib/sectionSnap";
+import ResponsiveImage from "@/components/ResponsiveImage";
+import studioWide from "@/assets/mhts-studio-wide-hero.jpg";
+import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
 
 // The contents list, in page order. Each label is the section's own heading.
 const sections = [
@@ -35,7 +37,7 @@ const PrivacyPolicyPage = () => {
           the sections in a reading column with a rule between each. The words
           are unchanged. */}
       {/* HERO */}
-      <section className="border-b border-mhts-stone bg-mhts-sand py-12 md:py-16">
+      <section className="border-b border-mhts-stone bg-mhts-sand py-8 md:py-16">
         <div className="container mx-auto max-w-6xl px-4">
           <p className="mb-4 inline-block rounded-full bg-mhts-red-tint px-3 py-1 font-body text-xs font-semibold uppercase tracking-[0.2em] text-mhts-red-deep">
             Legal
@@ -46,11 +48,28 @@ const PrivacyPolicyPage = () => {
           <p className="max-w-xl font-body text-lg text-muted-foreground">
             Last updated: 12 July 2026
           </p>
+          {/* Phone only: the contents list, as rows, completes the first
+              screen. From lg up it is the rail beside the text. */}
+          <nav aria-label="On this page" className="mt-6 md:hidden">
+            <ol className="divide-y divide-mhts-stone border-y border-mhts-stone">
+              {sections.map((sec) => (
+                <li key={sec.id}>
+                  <a
+                    href={`#${sec.id}`}
+                    className="flex items-center justify-between py-3.5 font-body text-[15px] text-mhts-ink transition-colors hover:text-mhts-red-deep"
+                  >
+                    {sec.label}
+                    <ChevronRight className="h-4 w-4 text-mhts-red" aria-hidden="true" />
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
         </div>
       </section>
 
       {/* CONTENT */}
-      <section className="py-8 md:py-16">
+      <section className={`${SNAP_SPLIT_CLASS} md:py-16`}>
         <div className="container mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-[240px_1fr] lg:gap-16">
         <nav aria-label="On this page" className="hidden lg:sticky lg:top-28 lg:block lg:self-start">
           <ol className="space-y-1 border-l-2 border-mhts-stone">
@@ -66,10 +85,13 @@ const PrivacyPolicyPage = () => {
             ))}
           </ol>
         </nav>
-        {/* On a phone each paragraph and list is a stop, so no Page Down skips
-            one. */}
-        <div className={`max-w-3xl divide-y divide-mhts-stone font-body leading-relaxed text-foreground/80 [&>div]:py-9 [&>div:first-child]:pt-0 ${SNAP_STOP_DEEP_CLASS}`}>
-          <div>
+        {/* On a phone the sections are grouped into screens (the wrappers
+            below, display:contents from md up). The rule between sections and
+            their spacing are set on each section rather than from the parent,
+            so the wrappers change nothing on a desktop. */}
+        <div className="max-w-3xl font-body text-[15px] leading-relaxed text-foreground/80 md:text-base md:leading-relaxed">
+          <div className={`${SNAP_PHONE_CLASS} md:contents`}>
+          <div className="pb-6 md:pb-9">
             <h2 id="who-we-are" className="mb-4 scroll-mt-28 text-2xl text-mhts-ink">
               Who we are
             </h2>
@@ -81,7 +103,7 @@ const PrivacyPolicyPage = () => {
             </p>
           </div>
 
-          <div>
+          <div className="border-t border-mhts-stone py-6 md:py-9">
             <h2 id="what-data-we-collect" className="mb-4 scroll-mt-28 text-2xl text-mhts-ink">
               What data we collect
             </h2>
@@ -100,8 +122,10 @@ const PrivacyPolicyPage = () => {
               these forms.
             </p>
           </div>
+          </div>
 
-          <div>
+          <div className={`${SNAP_PHONE_CLASS} md:contents`}>
+          <div className="border-t border-mhts-stone py-6 md:py-9">
             <h2 id="how-we-use-your-data" className="mb-4 scroll-mt-28 text-2xl text-mhts-ink">
               How we use your data
             </h2>
@@ -120,7 +144,7 @@ const PrivacyPolicyPage = () => {
             </p>
           </div>
 
-          <div>
+          <div className="border-t border-mhts-stone pt-6 md:pt-9">
             <h2 id="third-party-services-we-use" className="mb-4 scroll-mt-28 text-2xl text-mhts-ink">
               Third-party services we use
             </h2>
@@ -140,13 +164,19 @@ const PrivacyPolicyPage = () => {
                 site.
               </li>
             </ul>
+          </div>
+          </div>
+          <div className={`${SNAP_PHONE_CLASS} md:contents`}>
+          {/* "Third-party services" carries on: one section on a desktop, the
+              end of it opens the next screen on a phone. */}
+          <div className="pb-6 md:pb-9">
             <p className="mt-4">
               These providers process data on our behalf and are only used for the purposes
               described above.
             </p>
           </div>
 
-          <div>
+          <div className="border-t border-mhts-stone pt-6 md:pt-9">
             <h2 id="cookies-and-analytics" className="mb-4 scroll-mt-28 text-2xl text-mhts-ink">
               Cookies and analytics
             </h2>
@@ -165,6 +195,10 @@ const PrivacyPolicyPage = () => {
               change your mind at any time by clearing your browser's cookies for this site,
               which will bring the banner back on your next visit.
             </p>
+          </div>
+          </div>
+          <div className={`${SNAP_PHONE_CLASS} md:contents`}>
+          <div className="pb-6 md:pb-9">
             <p>
               The Google Maps that shows where the studio is also sets cookies, so it is
               held back in the same way. Until you accept, we show a drawn map and the
@@ -174,7 +208,7 @@ const PrivacyPolicyPage = () => {
             </p>
           </div>
 
-          <div>
+          <div className="border-t border-mhts-stone py-6 md:py-9">
             <h2 id="how-long-we-keep-your-data" className="mb-4 scroll-mt-28 text-2xl text-mhts-ink">
               How long we keep your data
             </h2>
@@ -187,7 +221,7 @@ const PrivacyPolicyPage = () => {
             </p>
           </div>
 
-          <div>
+          <div className="border-t border-mhts-stone py-6 md:py-9">
             <h2 id="your-rights" className="mb-4 scroll-mt-28 text-2xl text-mhts-ink">
               Your rights
             </h2>
@@ -199,7 +233,9 @@ const PrivacyPolicyPage = () => {
             </p>
           </div>
 
-          <div>
+          </div>
+          <div className={`${SNAP_PHONE_CLASS} md:contents`}>
+          <div className="border-t border-mhts-stone py-6 md:py-9">
             <h2 id="contact-us-about-your-data" className="mb-4 scroll-mt-28 text-2xl text-mhts-ink">
               Contact us about your data
             </h2>
@@ -225,12 +261,26 @@ const PrivacyPolicyPage = () => {
               </p>
             </div>
           </div>
+          {/* Phone only: the call to action closes the last screen. From md
+              up it is the dark band below. */}
+          <div className="mhts-fill-chain rounded-2xl bg-mhts-deep px-5 py-6 text-center md:hidden">
+            <h2 className="mb-4 text-2xl text-white">Ready to get started?</h2>
+            <CtaPair size="lg" tone="dark" label="Book Free Consultation" className="justify-center" />
+            {/* The studio, filling the rest of the screen. */}
+            <ResponsiveImage
+              src={studioWide}
+              alt="The Men's Hair To Stay studio in Amersham"
+              className="mhts-fill mt-5 aspect-[16/10] w-full rounded-xl object-cover"
+              sizes="100vw"
+            />
+          </div>
+          </div>
         </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="relative overflow-clip bg-mhts-deep py-14 md:py-16">
+      {/* CTA. From md up; on a phone it closes the last screen above. */}
+      <section className="relative hidden overflow-clip bg-mhts-deep py-14 md:block md:py-16">
         <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_50%_100%,hsl(var(--mhts-red)/0.25),transparent_65%)]" />
         <div className="container relative mx-auto px-4 text-center">
           <h2 className="mb-8 text-3xl text-white md:text-4xl">

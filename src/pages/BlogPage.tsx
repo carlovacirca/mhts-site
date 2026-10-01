@@ -9,7 +9,7 @@ import { blogPosts, categories } from "@/data/blogPosts";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { visiblePosts, isPreviewRequest } from "@/lib/publishing";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
-import { SNAP_STOP_CLASS } from "@/lib/sectionSnap";
+import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
 
 const POSTS_PER_PAGE = 9;
 
@@ -87,6 +87,21 @@ const BlogPage = () => {
     [sortedPosts, featured.slug, phoneCategory]
   );
 
+  // The phone list in screens: the chips count as two rows, five or six rows
+  // a screen, spread evenly.
+  const phoneScreens = useMemo(() => {
+    const units = phoneList.length + 2;
+    const count = Math.max(1, Math.ceil(units / 6));
+    const screens: (typeof phoneList)[] = [];
+    let at = 0;
+    for (let k = 0; k < count; k++) {
+      const size = Math.floor(units / count) + (k < units % count ? 1 : 0) - (k === 0 ? 2 : 0);
+      screens.push(phoneList.slice(at, at + size));
+      at += size;
+    }
+    return screens;
+  }, [phoneList]);
+
   const popularPosts = livePosts.slice(0, 4);
   const recentPosts = [...livePosts].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 4);
 
@@ -157,51 +172,62 @@ const BlogPage = () => {
           the pre-rendered HTML links every post. The latest post is the card
           above and is not repeated here. The desktop layout below is as it
           was, and hidden on a phone. */}
-      <section className="bg-background px-4 py-6 md:hidden" aria-label="All articles">
-        <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by category">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              onClick={() => setPhoneCategory(cat)}
-              aria-pressed={phoneCategory === cat}
-              className={`min-h-[36px] rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ${
-                phoneCategory === cat
-                  ? "border-mhts-red bg-mhts-red text-white"
-                  : "border-mhts-stone-deep bg-card text-mhts-ink"
-              }`}
-            >
-              {cat === "All Posts" ? "All" : cat}
-            </button>
-          ))}
-        </div>
-        <ul className="mt-5 divide-y divide-mhts-stone">
-          {phoneList.map((post, i) => (
-            <li key={post.slug} className={i % 6 === 5 ? SNAP_STOP_CLASS : undefined}>
-              <Link to={`/blog/${post.slug}`} className="group flex items-center gap-3.5 py-3">
-                {post.image ? (
-                  <ResponsiveImage
-                    src={post.image}
-                    alt=""
-                    className="h-[72px] w-[72px] shrink-0 rounded-lg object-cover"
-                    sizes="72px"
-                  />
-                ) : (
-                  <span className="h-[72px] w-[72px] shrink-0 rounded-lg bg-mhts-sand" aria-hidden="true" />
-                )}
-                <span className="min-w-0">
-                  <span className="line-clamp-2 text-[15px] font-semibold leading-snug text-mhts-ink group-hover:text-mhts-red-deep">
-                    {post.title}
-                  </span>
-                  <span className="mt-1 block text-xs text-muted-foreground">{formatDate(post.date)}</span>
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        {phoneList.length === 0 && (
-          <p className="py-10 text-center text-sm text-muted-foreground">No other articles in this category yet.</p>
-        )}
+      {/* Phone: the list is split into screens of five or six rows (the chips
+          count as two), as evenly as the number of posts allows, so no screen
+          is left with one or two. */}
+      <section className={`${SNAP_SPLIT_CLASS} bg-background px-4 md:hidden`} aria-label="All articles">
+        {phoneScreens.map((rows, k) => (
+          <div key={k} className={`${SNAP_PHONE_CLASS} py-6`}>
+            {k === 0 && (
+              <div className="mb-3 flex flex-wrap gap-2" role="group" aria-label="Filter by category">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    type="button"
+                    onClick={() => setPhoneCategory(cat)}
+                    aria-pressed={phoneCategory === cat}
+                    className={`min-h-[36px] rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ${
+                      phoneCategory === cat
+                        ? "border-mhts-red bg-mhts-red text-white"
+                        : "border-mhts-stone-deep bg-card text-mhts-ink"
+                    }`}
+                  >
+                    {cat === "All Posts" ? "All" : cat}
+                  </button>
+                ))}
+              </div>
+            )}
+            {rows.length > 0 && (
+              <ul className="divide-y divide-mhts-stone">
+                {rows.map((post) => (
+                  <li key={post.slug}>
+                    <Link to={`/blog/${post.slug}`} className="group flex items-center gap-3.5 py-4">
+                      {post.image ? (
+                        <ResponsiveImage
+                          src={post.image}
+                          alt=""
+                          className="h-20 w-20 shrink-0 rounded-lg object-cover"
+                          sizes="80px"
+                        />
+                      ) : (
+                        <span className="h-20 w-20 shrink-0 rounded-lg bg-mhts-sand" aria-hidden="true" />
+                      )}
+                      <span className="min-w-0">
+                        <span className="line-clamp-2 text-[15px] font-semibold leading-snug text-mhts-ink group-hover:text-mhts-red-deep">
+                          {post.title}
+                        </span>
+                        <span className="mt-1 block text-xs text-muted-foreground">{formatDate(post.date)}</span>
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {k === 0 && phoneList.length === 0 && (
+              <p className="py-10 text-center text-sm text-muted-foreground">No other articles in this category yet.</p>
+            )}
+          </div>
+        ))}
       </section>
 
       {/* Breadcrumbs */}

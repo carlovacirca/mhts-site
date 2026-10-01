@@ -1,8 +1,12 @@
 import "@testing-library/jest-dom";
 
+// A test that runs in node rather than jsdom (src/test/snapScreens.test.ts,
+// which drives a real browser) has no window, and needs none of this.
+const hasWindow = typeof window !== "undefined";
+
 // jsdom has no matchMedia. Tests that need a specific answer (reduced motion,
 // for instance) override this with their own stub.
-Object.defineProperty(window, "matchMedia", {
+if (hasWindow) Object.defineProperty(window, "matchMedia", {
   writable: true,
   configurable: true,
   value: (query: string) => ({
@@ -55,22 +59,22 @@ class TestIntersectionObserver implements IntersectionObserver {
   }
 }
 
-Object.defineProperty(window, "IntersectionObserver", {
+if (hasWindow) Object.defineProperty(window, "IntersectionObserver", {
   writable: true,
   configurable: true,
   value: TestIntersectionObserver,
 });
-Object.defineProperty(globalThis, "IntersectionObserver", {
+if (hasWindow) Object.defineProperty(globalThis, "IntersectionObserver", {
   writable: true,
   configurable: true,
   value: TestIntersectionObserver,
 });
 
 // jsdom implements neither of these, and the carousel calls both.
-if (!Element.prototype.scrollTo) {
+if (hasWindow && !Element.prototype.scrollTo) {
   Element.prototype.scrollTo = function scrollTo() {};
 }
-if (!Element.prototype.hasPointerCapture) {
+if (hasWindow && !Element.prototype.hasPointerCapture) {
   Element.prototype.hasPointerCapture = () => false;
   Element.prototype.setPointerCapture = () => {};
   Element.prototype.releasePointerCapture = () => {};

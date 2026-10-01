@@ -24,12 +24,13 @@ import { treatments } from "@/data/treatments";
 import { cardPhotoFor } from "@/data/servicePhotos";
 import { ADDRESS_LINE, EMAIL, GOOGLE_MAPS_URL, PHONE_DISPLAY, PHONE_TEL } from "@/lib/site";
 import { BookButton, CallButton, CtaPair } from "@/components/mhts/CtaButtons";
-import BeforeAfterFade from "@/components/mhts/BeforeAfterFade";
+import BeforeAfterStrip from "@/components/mhts/BeforeAfterStrip";
 import GoogleReviews from "@/components/mhts/GoogleReviews";
 import BookingPanel from "@/components/mhts/BookingPanel";
 import StudioMap from "@/components/mhts/StudioMap";
 import { SNAP_HERO_CLASS, SNAP_PHONE_CLASS, SNAP_SECTION_CLASS, SNAP_SPLIT_CLASS, snapPageClass } from "@/lib/sectionSnap";
 import mhtsHero from "@/assets/mhts-hero.jpg";
+import studioWide from "@/assets/mhts-studio-wide-hero.jpg";
 import mhtsBefore1 from "@/assets/mhts-before-1.jpg";
 import mhtsAfter1 from "@/assets/mhts-after-1.jpg";
 import mhtsBefore2 from "@/assets/mhts-before-2.jpg";
@@ -73,10 +74,10 @@ const beforeAfterPairs = [
   },
 ];
 
-// Phone: a 16:10 landscape frame, two of which fit one screen under the heading.
-// Desktop: a 4:5 frame, three across.
-const BA_FRAME = "aspect-[16/10] md:aspect-[4/5]";
-const BA_SIZES = "(max-width: 768px) 100vw, 290px";
+// Phone: a square frame, one client at a time in the strip. Desktop: a 4:5
+// frame, three across.
+const BA_FRAME = "aspect-square md:aspect-[4/5]";
+const BA_SIZES = "(max-width: 768px) 85vw, 290px";
 
 const SeeAllResults = () => (
   <Link
@@ -244,17 +245,15 @@ const MHTSLanding = () => {
       <div id="mhts-hero-end" aria-hidden="true" />
 
       {/* ─── 2. BEFORE AND AFTER, directly under the hero ─── */}
-      {/* One frame per client that fades from Before to After on its own; no
-          handle, no swipe, no instructions (Carlo, after the 4b preview). On a
-          phone the clients are stacked two to a screen: the first screen is
-          the heading and clients one and two, the second is client three and
-          the link, each its own snap stop. On a desktop the three sit in one
-          row. The phone-only third frame and the desktop-only one are the
-          same client; the hidden copy is display:none, so it is neither
-          downloaded nor read out. */}
-      <section id="mhts-gallery" className={`${S} ${SNAP_SPLIT_CLASS} scroll-mt-24 bg-card md:py-12`}>
-        <div className={`${SNAP_PHONE_CLASS} container mx-auto px-4 py-6 md:contents`}>
-          <div className="mb-4 text-center md:mb-8">
+      {/* One frame per client that fades from Before to After; no handle and
+          no instructions. On a phone the clients take turns in a swipeable
+          strip like the reviews: Before 2s, After 2s, then the next client
+          (BeforeAfterStrip). On a desktop the three sit in one row, each
+          looping on its own, as before. */}
+      <section id="mhts-gallery" className={`${S} scroll-mt-24 bg-card py-8 md:py-12`}>
+        {/* display:contents from md up, so the row sits exactly as before. */}
+        <div className="container mx-auto px-4 md:contents">
+          <div className="mb-5 text-center md:mb-8">
             <Eyebrow>Real clients</Eyebrow>
             <h2 className="text-3xl text-mhts-ink md:text-4xl">Before and after</h2>
             <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />
@@ -262,21 +261,8 @@ const MHTSLanding = () => {
               Three of our own clients, photographed at the studio.
             </p>
           </div>
-          <div className="mx-auto grid w-full max-w-4xl grid-cols-1 gap-4 md:grid-cols-3 md:gap-6 md:px-4">
-            {beforeAfterPairs.map((pair, i) => (
-              <Reveal key={pair.label} delay={i * 0.06} className={i === 2 ? "hidden md:block" : undefined}>
-                <BeforeAfterFade {...pair} caption={pair.label} frameClassName={BA_FRAME} sizes={BA_SIZES} />
-              </Reveal>
-            ))}
-          </div>
-          <div className="mt-8 hidden justify-center md:flex">
-            <SeeAllResults />
-          </div>
-        </div>
-        {/* Phone only: the third client and the link, one screen of their own. */}
-        <div className={`${SNAP_PHONE_CLASS} container mx-auto px-4 py-8 md:hidden`}>
-          <BeforeAfterFade {...beforeAfterPairs[2]} caption={beforeAfterPairs[2].label} frameClassName={BA_FRAME} sizes={BA_SIZES} />
-          <div className="mt-8 flex justify-center">
+          <BeforeAfterStrip pairs={beforeAfterPairs} frameClassName={BA_FRAME} sizes={BA_SIZES} />
+          <div className="mt-4 flex justify-center md:mt-8">
             <SeeAllResults />
           </div>
         </div>
@@ -313,7 +299,7 @@ const MHTSLanding = () => {
                   to={`/${t.slug}`}
                   className="group flex h-full flex-col overflow-hidden rounded-xl border border-mhts-stone bg-card transition-all hover:-translate-y-1 hover:shadow-lg"
                 >
-                  <div className="aspect-[4/3] overflow-hidden">
+                  <div className="aspect-square overflow-hidden sm:aspect-[4/3]">
                     <ResponsiveImage
                       src={t.image}
                       alt={t.imageAlt}
@@ -355,7 +341,7 @@ const MHTSLanding = () => {
             ))}
           </div>
 
-          <div className="mx-auto mt-8 flex max-w-4xl flex-col gap-6 rounded-xl border border-mhts-stone bg-card p-6 md:mt-12 md:flex-row md:items-center md:p-8">
+          <div className="mx-auto mt-10 flex max-w-4xl flex-col gap-6 rounded-xl border border-mhts-stone bg-card p-7 md:mt-12 md:flex-row md:items-center md:p-8">
             <div className="md:flex-1">
               <h2 className="text-xl text-mhts-ink md:text-2xl">Maintenance and aftercare</h2>
               <p className="mt-2 font-body text-sm leading-relaxed text-muted-foreground">
@@ -363,7 +349,7 @@ const MHTSLanding = () => {
                 undetectable and SMP even.
               </p>
             </div>
-            <ul className="grid gap-2 md:flex-1 md:grid-cols-2">
+            <ul className="grid gap-3 md:flex-1 md:grid-cols-2 md:gap-2">
               {maintenanceTips.map((tip) => (
                 <li key={tip} className="flex items-start gap-2 font-body text-sm text-foreground/80">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-mhts-red" aria-hidden="true" />
@@ -380,7 +366,7 @@ const MHTSLanding = () => {
         <div className="container mx-auto px-4">
           <div className="mb-6 text-center md:mb-8">
             <Eyebrow>Your questions answered</Eyebrow>
-            <h2 className="text-2xl text-mhts-ink md:text-4xl">
+            <h2 className="text-3xl text-mhts-ink md:text-4xl">
               Frequently Asked Questions About Hair Systems &amp; SMP
             </h2>
             <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />
@@ -389,7 +375,7 @@ const MHTSLanding = () => {
             <Accordion type="single" collapsible className="w-full">
               {homeFaqs.map((f, i) => (
                 <AccordionItem key={i} value={`q${i + 1}`}>
-                  <AccordionTrigger className="text-left font-semibold text-mhts-ink hover:text-mhts-red-deep">
+                  <AccordionTrigger className="py-5 text-left font-semibold text-mhts-ink hover:text-mhts-red-deep md:py-4">
                     {f.q}
                   </AccordionTrigger>
                   <AccordionContent className="font-body leading-relaxed text-foreground/80">
@@ -398,7 +384,7 @@ const MHTSLanding = () => {
                 </AccordionItem>
               ))}
             </Accordion>
-            <div className="mt-6 text-center">
+            <div className="mt-8 text-center md:mt-6">
               <Link
                 to="/faq"
                 className="inline-flex items-center gap-2 rounded-md border border-mhts-stone-deep px-7 py-3 font-body text-sm font-semibold text-mhts-ink transition-colors hover:border-mhts-red hover:text-mhts-red-deep"
@@ -552,9 +538,9 @@ const MHTSLanding = () => {
       </section>
 
       {/* ─── FINAL CTA BAND, with the areas line ─── */}
-      <section className={`${S} relative overflow-clip bg-mhts-deep py-14 md:py-16`}>
+      <section className={`${S} relative overflow-clip bg-mhts-deep py-10 md:py-16`}>
         <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_50%_100%,hsl(var(--mhts-red)/0.25),transparent_65%)]" />
-        <div className="container relative mx-auto px-4 text-center">
+        <div className="mhts-fill-chain container relative mx-auto px-4 text-center">
           <h2 className="text-2xl text-white md:text-3xl">Ready when you are</h2>
           <p className="mx-auto mt-3 max-w-lg font-body text-white/75">
             The first consultation is free and takes about half an hour. Nothing is discussed
@@ -565,8 +551,17 @@ const MHTSLanding = () => {
             <CallButton size="lg" tone="dark" />
           </div>
 
+          {/* Phone only: the studio the reader is being invited to, filling
+              the screen between the buttons and the areas line. */}
+          <ResponsiveImage
+            src={studioWide}
+            alt="The Men's Hair To Stay studio in Amersham"
+            className="mhts-fill mt-8 aspect-[16/10] w-full rounded-xl object-cover md:hidden"
+            sizes="100vw"
+          />
+
           {/* Areas, one line of links rather than a section of its own. */}
-          <div id="mhts-areas" className="mx-auto mt-12 max-w-3xl scroll-mt-24 border-t border-white/15 pt-6">
+          <div id="mhts-areas" className="mx-auto mt-8 max-w-3xl scroll-mt-24 border-t border-white/15 pt-6 md:mt-12">
             <p className="font-body text-sm leading-relaxed text-white/75">
               <span className="font-semibold text-white">Serving </span>
               {areas.map((area, i) => (

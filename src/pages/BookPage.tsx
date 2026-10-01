@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Reveal } from "@/lib/motion";
-import { SNAP_STOP_CLASS, SNAP_STOP_EACH_CLASS } from "@/lib/sectionSnap";
+import { SNAP_BEFORE_FOOTER_CLASS, SNAP_PHONE_CLASS } from "@/lib/sectionSnap";
+import ResponsiveImage from "@/components/ResponsiveImage";
+import consultationRoom from "@/assets/mhts-consultation-room-hero.jpg";
 import { Phone, CalendarCheck } from "lucide-react";
 import { useSeo, useJsonLd, breadcrumbSchema } from "@/lib/seo";
 import { useCookieConsent } from "@/lib/cookieConsent";
@@ -156,7 +158,7 @@ const BookPage = () => {
       {/* HERO */}
       <section className="relative overflow-clip bg-mhts-deep py-8 md:py-20">
         <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_50%_0%,hsl(var(--mhts-red)/0.25),transparent_70%)]" />
-        <div className="container relative mx-auto max-w-3xl px-4 text-center">
+        <div className="mhts-fill-chain container relative mx-auto max-w-3xl px-4 text-center">
           <p className="mb-4 font-body text-xs font-semibold uppercase tracking-[0.3em] text-mhts-red-light">
             Reserve Your Appointment
           </p>
@@ -180,6 +182,14 @@ const BookPage = () => {
             </button>
             <CallButton size="lg" tone="dark" />
           </div>
+          {/* Phone only: the private room the consultation happens in, filling
+              the first screen. */}
+          <ResponsiveImage
+            src={consultationRoom}
+            alt="The private consultation room at the Amersham studio"
+            className="mhts-fill mt-8 aspect-[16/10] w-full rounded-2xl object-cover md:hidden"
+            sizes="100vw"
+          />
         </div>
       </section>
 
@@ -218,9 +228,7 @@ const BookPage = () => {
                be, on most first visits. The consent rule is unchanged, Trafft
                still loads only after Accept, but the reader now gets a way to
                book either way. See docs/DESIGN-AUDIT.md finding 12. */
-            <div className={SNAP_STOP_CLASS}>
-              <BookingPanel compact />
-            </div>
+            <BookingPanel compact />
           )}
         </div>
       </section>
@@ -228,24 +236,27 @@ const BookPage = () => {
       {/* APPOINTMENT TYPES */}
       <section className="bg-mhts-sand py-8 md:py-20">
         <div className="container mx-auto px-4">
-          <div className="mx-auto mb-12 max-w-6xl">
+          <div className="mx-auto mb-6 max-w-6xl md:mb-12">
             <h2 className="text-3xl text-mhts-ink md:text-4xl">
               Appointment Types
             </h2>
-            <div className="mt-5 h-1 w-14 rounded-full bg-mhts-red" />
-            <p className="mt-5 max-w-2xl font-body text-foreground/75">
+            <div className="mt-4 h-1 w-14 rounded-full bg-mhts-red md:mt-5" />
+            <p className="mt-4 max-w-2xl font-body text-foreground/75 md:mt-5">
               From your first free consultation to ongoing hair system
               maintenance and SMP, choose the right appointment for you.
             </p>
           </div>
-          {/* Three across at most. Five in a row made each card 200px wide. */}
-          <div className={`mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3 ${SNAP_STOP_EACH_CLASS}`}>
+          {/* Three across at most. Five in a row made each card 200px wide. On
+              a phone the five are a swipeable strip, one card per swipe with
+              the next peeking, so the heading, the cards and the buttons are
+              one screen. */}
+          <div className="mhts-snap-x -mx-4 flex snap-x snap-mandatory scroll-pl-4 gap-4 overflow-x-auto px-4 pb-2 sm:mx-auto sm:grid sm:max-w-6xl sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 md:gap-5 lg:grid-cols-3">
             {appointments.map((a, i) => (
               <Reveal
                 as="article"
                 key={a.title}
                 delay={(i % 3) * 0.06}
-                className={`flex flex-col rounded-xl border bg-card p-6 ${a.isFree ? "border-mhts-red border-t-4" : "border-mhts-stone"}`}
+                className={`flex w-[82%] shrink-0 snap-start snap-always flex-col rounded-xl border bg-card p-6 sm:w-auto sm:snap-align-none ${a.isFree ? "border-mhts-red border-t-4" : "border-mhts-stone"}`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <h3 className="text-lg text-mhts-ink">
@@ -266,7 +277,7 @@ const BookPage = () => {
               </Reveal>
             ))}
           </div>
-          <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+          <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row md:mt-10">
             <button
               onClick={() => scrollToWidget()}
               className="inline-flex items-center justify-center gap-2 rounded-md bg-mhts-red px-7 py-3.5 font-body font-semibold tracking-wide text-white transition-colors hover:bg-mhts-red-deep"
@@ -279,14 +290,16 @@ const BookPage = () => {
         </div>
       </section>
 
+      {/* Phone: the booking questions and "Prefer to call?" are one screen. */}
+      <div className={`${SNAP_PHONE_CLASS} md:contents`}>
       {/* FAQ */}
-      <section className="bg-card py-8 md:py-20">
-        <div className="container mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+      <section className="bg-card pb-5 pt-7 md:py-20">
+        <div className="container mx-auto grid max-w-6xl gap-6 px-4 md:gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <div>
             <h2 className="text-3xl text-mhts-ink md:text-4xl">
               Booking Questions Answered
             </h2>
-            <div className="mt-5 h-1 w-14 rounded-full bg-mhts-red" />
+            <div className="mt-4 h-1 w-14 rounded-full bg-mhts-red md:mt-5" />
           </div>
           <Accordion type="single" collapsible className="rounded-xl border border-mhts-stone bg-card px-6">
             {faqs.map((f, i) => (
@@ -304,7 +317,7 @@ const BookPage = () => {
       </section>
 
       {/* PREFER TO CALL */}
-      <section className="bg-mhts-red py-14 md:py-16">
+      <section className="bg-mhts-red pb-8 pt-6 md:py-16">
         <div className="container mx-auto grid max-w-5xl items-center gap-6 px-4 text-center md:grid-cols-[1fr_auto] md:text-left">
           <div>
             <h2 className="text-3xl text-white md:text-4xl">
@@ -324,26 +337,32 @@ const BookPage = () => {
           </a>
         </div>
       </section>
+      </div>
 
-      {/* RELATED LINKS */}
-      <section className="bg-mhts-deep py-14">
+      {/* RELATED LINKS. On a phone a line of links that shares the footer's
+          screen; from md up the pills, as before. */}
+      <section className={`${SNAP_BEFORE_FOOTER_CLASS} bg-mhts-deep py-4 md:py-14`}>
         <div className="container mx-auto px-4 text-center">
-          <p className="mb-5 font-body text-xs uppercase tracking-[0.2em] text-white/60">
+          <p className="mb-2 font-body text-xs uppercase tracking-[0.2em] text-white/60 md:mb-5">
             Explore More
           </p>
-          <div className="flex flex-wrap justify-center gap-3 font-body text-sm">
-            <Link to="/how-it-works" className="rounded-full border border-white/20 px-4 py-2 text-white/85 transition-colors hover:border-white hover:text-white">
-              How Hair Replacement Works
-            </Link>
-            <Link to="/services" className="rounded-full border border-white/20 px-4 py-2 text-white/85 transition-colors hover:border-white hover:text-white">
-              View Our Services
-            </Link>
-            <Link to="/gallery" className="rounded-full border border-white/20 px-4 py-2 text-white/85 transition-colors hover:border-white hover:text-white">
-              Before &amp; After Gallery
-            </Link>
-            <Link to="/faq" className="rounded-full border border-white/20 px-4 py-2 text-white/85 transition-colors hover:border-white hover:text-white">
-              Hair Replacement FAQs
-            </Link>
+          <div className="flex flex-wrap justify-center gap-x-2 gap-y-1 font-body text-sm md:gap-3">
+            {[
+              { to: "/how-it-works", label: "How Hair Replacement Works" },
+              { to: "/services", label: "View Our Services" },
+              { to: "/gallery", label: "Before & After Gallery" },
+              { to: "/faq", label: "Hair Replacement FAQs" },
+            ].map((l, i) => (
+              <span key={l.to} className="inline-flex items-center gap-2">
+                {i > 0 && <span aria-hidden="true" className="text-white/40 md:hidden">·</span>}
+                <Link
+                  to={l.to}
+                  className="text-white/85 underline underline-offset-4 transition-colors hover:border-white hover:text-white md:rounded-full md:border md:border-white/20 md:px-4 md:py-2 md:no-underline"
+                >
+                  {l.label}
+                </Link>
+              </span>
+            ))}
           </div>
         </div>
       </section>

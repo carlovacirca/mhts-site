@@ -74,7 +74,7 @@ const Eyebrow = ({ children, dark = false }: { children: ReactNode; dark?: boole
   </p>
 );
 
-const Hero = ({ hero, photo }: { hero: ServicePageProps["hero"]; photo?: Photo }) => {
+const Hero = ({ hero, photo, fact }: { hero: ServicePageProps["hero"]; photo?: Photo; fact: string }) => {
   const intro = (
     <>
       {hero.back ? (
@@ -93,6 +93,17 @@ const Hero = ({ hero, photo }: { hero: ServicePageProps["hero"]; photo?: Photo }
       <p className="mb-8 max-w-xl font-body text-lg text-white/80">{hero.lead}</p>
       {/* Call sits beside Book on every call to action on the site. */}
       <CtaPair size="lg" tone="dark" href="/#mhts-book" />
+      {/* Phone only: the key fact of "What is it" joins the first screen,
+          rather than standing alone on a screen of its own (Carlo, after the
+          4b fixes preview). From md up it stays beside the text it quotes. */}
+      <div aria-hidden="true" className="mt-10 border-l-4 border-mhts-red-light pl-5 md:hidden">
+        {/* A short fact gets the large quote mark too, so the screen is not
+            left half empty; a long one already fills it. */}
+        {fact.length < 60 && (
+          <span className="mb-1 block font-body text-5xl font-bold leading-none text-mhts-red-light">&ldquo;</span>
+        )}
+        <p className="text-[1.4rem] font-semibold leading-snug text-white">{fact}</p>
+      </div>
     </>
   );
 
@@ -136,6 +147,7 @@ const Split = ({
   photo,
   flip,
   tone,
+  together = false,
 }: {
   id: string;
   block: TextBlock;
@@ -143,39 +155,54 @@ const Split = ({
   photo?: Photo;
   flip?: boolean;
   tone: "white" | "sand";
+  /**
+   * Phone: the words and the photograph share one screen, the photograph
+   * taking whatever height the words leave ("Who it's for"). Otherwise the
+   * words are one screen and the photograph fills the next ("What is it",
+   * whose key fact has moved up to the hero on a phone).
+   */
+  together?: boolean;
 }) => (
-  // On a phone the words and the photograph are a screen each (two snap
-  // stops); the section's own padding moves into the two halves so both stops
-  // start where the section does.
-  <section id={id} className={`${SNAP_SPLIT_CLASS} scroll-mt-24 md:py-24 ${tone === "sand" ? "bg-mhts-sand" : "bg-card"}`}>
-    <div className="container mx-auto grid max-w-6xl items-center px-4 md:grid-cols-2 md:gap-14">
-      <Reveal className={`${SNAP_PHONE_CLASS} py-10 md:py-0 ${flip ? "md:order-2" : ""}`}>
+  <section
+    id={id}
+    className={`${together ? "" : SNAP_SPLIT_CLASS} scroll-mt-24 md:py-24 ${together ? "py-8" : ""} ${tone === "sand" ? "bg-mhts-sand" : "bg-card"}`}
+  >
+    <div className={`container mx-auto grid max-w-6xl items-center px-4 md:grid-cols-2 md:gap-14 ${together ? "mhts-fill-chain gap-6" : ""}`}>
+      <Reveal className={`${together ? "" : `${SNAP_PHONE_CLASS} py-10`} md:py-0 ${flip ? "md:order-2" : ""}`}>
         <Eyebrow>{block.eyebrow}</Eyebrow>
         <h2 className="mb-6 text-3xl leading-tight text-mhts-ink md:text-4xl">{block.title}</h2>
-        <div className="space-y-5 font-body leading-relaxed text-foreground/80">{block.body}</div>
+        <div className="space-y-6 font-body leading-[1.7] text-foreground/80 md:space-y-5 md:leading-relaxed">{block.body}</div>
       </Reveal>
       {photo ? (
-      <Reveal as="figure" from={flip ? "left" : "right"} className={`${SNAP_PHONE_CLASS} relative py-10 md:py-0 ${flip ? "md:order-1" : ""}`}>
+      <Reveal
+        as="figure"
+        from={flip ? "left" : "right"}
+        className={`${together ? "mhts-fill-chain" : `${SNAP_PHONE_CLASS} py-10`} relative md:py-0 ${flip ? "md:order-1" : ""}`}
+      >
+        {/* On a phone the photograph grows to fill its screen (mhts-fill). */}
         <ResponsiveImage
           src={photo.src}
           alt={photo.alt}
-          className={`aspect-[4/3] w-full rounded-2xl object-cover ${photo.wide ? "" : "md:aspect-[5/6]"}`}
+          className={`mhts-fill aspect-[4/3] w-full rounded-2xl object-cover ${photo.wide ? "" : "md:aspect-[5/6]"}`}
           sizes="(max-width: 768px) 100vw, 560px"
         />
         {/* The key fact. It repeats a line of the text beside it, so it is
-            hidden from screen readers rather than read out twice. */}
+            hidden from screen readers rather than read out twice. When the
+            photograph has a screen of its own on a phone, the fact is in the
+            hero instead. */}
         <figcaption
           aria-hidden="true"
-          className={`relative -mt-10 mx-4 rounded-xl border-l-4 border-mhts-red bg-card p-5 shadow-xl md:absolute md:bottom-6 md:mx-0 md:mt-0 md:max-w-[80%] ${
+          className={`relative -mt-10 mx-4 rounded-xl border-l-4 border-mhts-red bg-card p-5 shadow-xl md:absolute md:bottom-6 md:mx-0 md:mt-0 md:block md:max-w-[80%] ${
             flip ? "md:-right-6" : "md:-left-6"
-          }`}
+          } ${together ? "" : "hidden"}`}
         >
           <p className="text-lg font-semibold leading-snug text-mhts-ink">{block.fact}</p>
         </figcaption>
       </Reveal>
       ) : (
-      // No photograph: the key fact alone, set large, as a pull quote.
-      <Reveal as="figure" from={flip ? "left" : "right"} className={`${SNAP_PHONE_CLASS} py-10 md:py-0 ${flip ? "md:order-1" : ""}`}>
+      // No photograph: the key fact alone, set large, as a pull quote. From
+      // md up only; on a phone it is in the hero.
+      <Reveal as="figure" from={flip ? "left" : "right"} className={`hidden md:block md:py-0 ${flip ? "md:order-1" : ""}`}>
         <div className="border-l-4 border-mhts-red pl-6">
           <span aria-hidden="true" className="mb-2 block font-body text-5xl font-bold leading-none text-mhts-red">&ldquo;</span>
           <figcaption aria-hidden="true">
@@ -190,30 +217,34 @@ const Split = ({
 
 const Benefits = ({ benefits }: { benefits: ServicePageProps["benefits"] }) => {
   const [first, ...rest] = benefits.items;
+  // On a phone the heading, the first benefit and the list are one screen: a
+  // list of short lines gets more room between them so the screen is full.
+  const restChars = rest.reduce((n, b) => n + b.text.length, 0);
+  const listGap = restChars < 230 ? "gap-y-6" : restChars < 330 ? "gap-y-5" : "gap-y-4";
   return (
-    <section id="benefits" className={`${SNAP_SPLIT_CLASS} relative scroll-mt-24 overflow-clip bg-mhts-deep md:py-24`}>
+    <section id="benefits" className="relative scroll-mt-24 overflow-clip bg-mhts-deep py-8 md:py-24">
       <div className="absolute inset-0 bg-[radial-gradient(60%_80%_at_100%_0%,hsl(var(--mhts-red)/0.18),transparent_70%)]" />
       <div className="container relative mx-auto max-w-6xl px-4">
-        {/* Phone: the heading and the first benefit are one screen, the list
-            the next. */}
-        <div className="grid lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 md:gap-10">
-          <Reveal className={`${SNAP_PHONE_CLASS} py-10 md:py-0`}>
+        {/* Phone: the heading, the first benefit and the list are one screen
+            (a heading always shares its screen with what it heads). */}
+        <div className="grid gap-5 md:gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+          <Reveal>
             <Eyebrow dark>{benefits.eyebrow}</Eyebrow>
-            <h2 className="mb-8 text-3xl text-white md:text-4xl">{benefits.title}</h2>
+            <h2 className="mb-6 text-3xl text-white md:mb-8 md:text-4xl">{benefits.title}</h2>
             {first && (
-              <div className="rounded-2xl bg-mhts-red p-7 md:p-8">
-                <first.icon className="mb-5 h-8 w-8 text-white" aria-hidden="true" />
-                <p className="text-2xl font-semibold leading-snug text-white md:text-[1.7rem]">{first.text}</p>
+              <div className="rounded-2xl bg-mhts-red p-5 md:p-8">
+                <first.icon className="mb-3 h-6 w-6 text-white md:mb-5 md:h-8 md:w-8" aria-hidden="true" />
+                <p className="text-xl font-semibold leading-snug text-white md:text-[1.7rem]">{first.text}</p>
               </div>
             )}
           </Reveal>
-          <ul className={`${SNAP_PHONE_CLASS} grid content-center gap-x-8 gap-y-5 py-10 sm:grid-cols-2 md:gap-y-6 md:py-0`}>
+          <ul className={`grid content-center gap-x-8 sm:grid-cols-2 md:gap-y-6 ${listGap}`}>
             {rest.map((b, i) => (
-              <Reveal as="li" key={b.text} delay={i * 0.05} className="flex items-start gap-4">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-mhts-red-light/15">
-                  <b.icon className="h-5 w-5 text-mhts-red-light" aria-hidden="true" />
+              <Reveal as="li" key={b.text} delay={i * 0.05} className="flex items-start gap-3 md:gap-4">
+                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-mhts-red-light/15 md:h-10 md:w-10">
+                  <b.icon className="h-4 w-4 text-mhts-red-light md:h-5 md:w-5" aria-hidden="true" />
                 </span>
-                <p className="pt-2 font-body text-[15px] leading-relaxed text-white/85">{b.text}</p>
+                <p className="pt-1 font-body text-[15px] leading-snug text-white/85 md:pt-2 md:leading-relaxed">{b.text}</p>
               </Reveal>
             ))}
           </ul>
@@ -256,7 +287,16 @@ const Steps = ({ steps }: { steps: ServicePageProps["steps"] }) => (
         {/* The rule the numbers hang on. */}
         <span className="absolute bottom-6 left-[1.4rem] top-6 w-0.5 bg-mhts-stone" aria-hidden="true" />
         {steps.items.map((step, i) => (
-          <Reveal as="li" key={step.title} delay={i * 0.06} className="relative flex gap-4 pb-4 last:pb-0 md:gap-6 md:pb-9">
+          <Reveal
+            as="li"
+            key={step.title}
+            delay={i * 0.06}
+            // On a phone the process is one screen: fewer steps get more room
+            // between them, six get less, so it is full but not over.
+            className={`relative flex gap-4 last:pb-0 md:gap-6 md:pb-9 ${
+              steps.items.length > 5 ? "pb-5" : steps.items.length < 5 ? "pb-8" : "pb-7"
+            }`}
+          >
             <span className="relative z-[1] grid h-11 w-11 shrink-0 place-items-center rounded-full bg-mhts-red font-body text-sm font-bold text-white ring-4 ring-card md:h-12 md:w-12">
               {String(i + 1).padStart(2, "0")}
             </span>
@@ -271,21 +311,25 @@ const Steps = ({ steps }: { steps: ServicePageProps["steps"] }) => (
   </section>
 );
 
+// On a phone the questions share a screen with the related services, so a
+// long list sits a little tighter than a short one.
 const Faq = ({ faq }: { faq: ServicePageProps["faq"] }) => (
-  <section id="faq" className="scroll-mt-24 bg-mhts-sand py-7 md:py-24">
-    <div className="container mx-auto grid max-w-6xl gap-4 px-4 md:gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+  <section id="faq" className="scroll-mt-24 bg-mhts-sand pb-4 pt-6 md:py-24">
+    <div className="container mx-auto grid max-w-6xl gap-3 px-4 md:gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
       <div>
         <Eyebrow>{faq.eyebrow}</Eyebrow>
         <h2 className="text-3xl text-mhts-ink md:text-4xl">{faq.title}</h2>
       </div>
-      <div className="space-y-2 md:space-y-3">
+      <div className={`md:space-y-3 ${faq.items.length > 3 ? "space-y-2" : "space-y-3"}`}>
         {faq.items.map((f) => (
           <details
             key={f.q}
-            className="group rounded-xl border border-mhts-stone bg-card px-4 py-3.5 transition-colors open:border-mhts-red md:p-6"
+            className={`group rounded-xl border border-mhts-stone bg-card px-4 transition-colors open:border-mhts-red md:p-6 ${
+              faq.items.length > 4 ? "py-2.5" : faq.items.length > 3 ? "py-3.5" : "py-4"
+            }`}
           >
             <summary className="flex cursor-pointer list-none items-start justify-between gap-4">
-              <span className="font-body font-semibold text-mhts-ink">{f.q}</span>
+              <span className="font-body text-[15px] font-semibold text-mhts-ink md:text-base">{f.q}</span>
               <ChevronRight
                 className="mt-0.5 h-5 w-5 shrink-0 text-mhts-red transition-transform group-open:rotate-90"
                 aria-hidden="true"
@@ -310,24 +354,23 @@ const Related = ({
 }) => {
   const cat = findCategory(category)!;
   const subs = cat.subServices.filter((s) => s.slug !== subSlug);
-  const others = treatments.filter((t) => t.slug !== category);
   return (
-    <section id="related" className={`${SNAP_SPLIT_CLASS} scroll-mt-24 bg-card md:py-24`}>
+    <section id="related" className="scroll-mt-24 bg-card pb-6 pt-4 md:pb-0 md:pt-24">
       <div className="container mx-auto max-w-6xl px-4">
-        {/* Phone: the sibling services are one screen, the other three
-            treatments the next. */}
-        <div className={`${SNAP_PHONE_CLASS} py-7 md:py-0`}>
+        <div>
         <div className="mb-4 md:mb-10">
           <Eyebrow>{related.eyebrow}</Eyebrow>
-          <h2 className="text-3xl text-mhts-ink md:text-4xl">{related.title}</h2>
+          <h2 className="text-2xl text-mhts-ink md:text-4xl">{related.title}</h2>
         </div>
         {/* Three across at most. Five in a row made each card 180px wide. The
-            cards carry no photographs: a service page shows two, its own. */}
-        <div className="grid gap-3 sm:grid-cols-2 md:gap-5 lg:grid-cols-3">
+            cards carry no photographs: a service page shows two, its own. On a
+            phone they are a swipeable strip, one card per swipe with the next
+            peeking, so they share a screen with the questions above. */}
+        <div className="mhts-snap-x -mx-4 flex snap-x snap-mandatory scroll-pl-4 gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 md:gap-5 lg:grid-cols-3">
           {subs.map((sub, i) => {
             const path = `/${cat.slug}/${sub.slug}`;
             return (
-              <Reveal key={sub.slug} delay={i * 0.06}>
+              <Reveal key={sub.slug} delay={i * 0.06} className="w-[80%] shrink-0 snap-start snap-always sm:w-auto sm:snap-align-none">
                 <Link
                   to={path}
                   className="group flex h-full flex-col overflow-hidden rounded-xl border border-mhts-stone bg-card transition-all hover:-translate-y-1 hover:border-mhts-red hover:shadow-lg"
@@ -349,15 +392,28 @@ const Related = ({
         </div>
 
         </div>
+      </div>
+    </section>
+  );
+};
 
-        {/* The other three treatments, so every page ends somewhere to go. */}
-        <div className={`${SNAP_PHONE_CLASS} grid content-center gap-3 border-mhts-stone py-10 sm:grid-cols-3 md:mt-12 md:border-t md:pb-0 md:pt-8`}>
+/**
+ * The other three treatments, so every page ends somewhere to go. From md up
+ * it reads as the end of the related section (same band, same rule above it);
+ * on a phone it opens the closing screen.
+ */
+const OtherTreatments = ({ category }: { category: string }) => {
+  const others = treatments.filter((t) => t.slug !== category);
+  return (
+    <div className="bg-card pt-8 md:pb-24 md:pt-0">
+      <div className="container mx-auto max-w-6xl px-4">
+        <div className="grid content-center gap-3 border-mhts-stone sm:grid-cols-3 md:mt-12 md:border-t md:pt-8">
           {others.map((t) => {
             return (
               <Link
                 key={t.slug}
                 to={`/${t.slug}`}
-                className="group flex items-center gap-4 rounded-xl border border-mhts-stone bg-mhts-sand p-3 pr-4 transition-colors hover:border-mhts-red"
+                className="group flex items-center gap-4 rounded-xl border border-mhts-stone bg-mhts-sand px-4 py-5 transition-colors hover:border-mhts-red md:p-3 md:pr-4"
               >
                 <span className="min-w-0">
                   <span className="block font-body text-sm font-semibold text-mhts-ink group-hover:text-mhts-red-deep">
@@ -370,12 +426,12 @@ const Related = ({
           })}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
 const Closing = ({ cta }: { cta: ServicePageProps["cta"] }) => (
-  <section className="relative overflow-clip bg-mhts-deep py-16 md:py-20">
+  <section className="relative overflow-clip bg-mhts-deep py-10 md:py-20">
     <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_50%_100%,hsl(var(--mhts-red)/0.25),transparent_65%)]" />
     <div className="container relative mx-auto px-4 text-center">
       <h2 className="mb-4 text-3xl text-white md:text-4xl">{cta.title}</h2>
@@ -395,16 +451,26 @@ const ServicePage = (props: ServicePageProps) => {
           page: `service` in the hero, `studio` beside "Who it's for". A
           sub-service page: `service` beside "What is it", `studio` beside
           "Who it's for". */}
-      <Hero hero={props.hero} photo={isPillar ? photos.service : undefined} />
+      {/* On a phone each block below is a screen (src/index.css). The two
+          wrappers group short blocks into one full screen on a phone and are
+          display:contents from md up, so the desktop is exactly as it was:
+          the questions share a screen with the related services, and the
+          other treatments with the closing call to action. */}
+      <Hero hero={props.hero} photo={isPillar ? photos.service : undefined} fact={props.about.fact} />
       {props.pricing && <ServicePricing rows={props.pricing} />}
       <Split id="about" block={props.about} photo={isPillar ? undefined : photos.service} tone="white" />
       <Benefits benefits={props.benefits} />
       {props.included && <Included included={props.included} />}
-      <Split id="who" block={props.who} photo={photos.studio} flip tone="sand" />
+      <Split id="who" block={props.who} photo={photos.studio} flip tone="sand" together />
       <Steps steps={props.steps} />
-      <Faq faq={props.faq} />
-      <Related related={props.related} category={props.category} subSlug={props.subSlug} />
-      <Closing cta={props.cta} />
+      <div className={`${SNAP_PHONE_CLASS} md:contents`}>
+        <Faq faq={props.faq} />
+        <Related related={props.related} category={props.category} subSlug={props.subSlug} />
+      </div>
+      <div className={`${SNAP_PHONE_CLASS} md:contents`}>
+        <OtherTreatments category={props.category} />
+        <Closing cta={props.cta} />
+      </div>
     </div>
   );
 };

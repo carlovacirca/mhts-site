@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Reveal } from "@/lib/motion";
 import { CtaPair } from "@/components/mhts/CtaButtons";
-import { SNAP_PHONE_CLASS, SNAP_STOP_CLASS, SNAP_STOP_EACH_CLASS } from "@/lib/sectionSnap";
+import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import consultationRoom from "@/assets/mhts-consultation-room-hero.jpg";
 import baseMaterials from "@/assets/mhts-hair-system-base-materials-hero.jpg";
@@ -91,6 +91,82 @@ const serviceGroups = [
   },
 ];
 
+/**
+ * Steps `from` to `to` hung off the rail. Each step is a phone screen (the
+ * first shares one with the heading); from md up the lists run on as one
+ * timeline.
+ */
+const StepList = ({ from, to }: { from: number; to: number }) => (
+  <ol start={from + 1} className={`relative ${from === 0 ? "mhts-fill-chain" : ""}`}>
+    {/* The rail. Left edge on a phone, the middle from md up. */}
+    <span className="absolute bottom-0 left-6 top-0 w-0.5 bg-mhts-stone md:left-1/2 md:-translate-x-1/2" aria-hidden="true" />
+    {steps.slice(from, to).map((step, j) => {
+      const i = from + j;
+      const Icon = step.icon;
+      const photo = stepPhotos[i];
+      const flip = i % 2 === 1;
+      return (
+        <li
+          key={step.title}
+          className={`relative grid gap-4 pl-16 md:grid-cols-2 md:gap-20 md:pl-0 ${i === steps.length - 1 ? "md:pb-0" : "md:pb-14"} ${
+            i === 0 ? "mhts-fill-chain" : `${SNAP_PHONE_CLASS} py-8 md:py-0`
+          }`}
+        >
+          {/* The node on the rail */}
+          <span className={`absolute left-6 z-[1] -translate-x-1/2 md:left-1/2 md:top-0 ${i === 0 ? "top-0" : "top-8"}`} aria-hidden="true">
+            <span className="grid h-12 w-12 place-items-center rounded-full bg-mhts-red text-white ring-8 ring-card">
+              <Icon className="h-5 w-5" />
+            </span>
+          </span>
+          <Reveal as="figure" from={flip ? "right" : "left"} className={`mhts-fill-chain ${flip ? "md:order-2" : ""}`}>
+            <ResponsiveImage
+              src={photo.src}
+              alt={photo.alt}
+              className="mhts-fill aspect-[2/1] w-full rounded-2xl object-cover md:aspect-[16/10]"
+              sizes="(max-width: 768px) 100vw, 520px"
+            />
+          </Reveal>
+          <Reveal from={flip ? "left" : "right"} className={flip ? "md:order-1 md:text-right" : ""}>
+            <span className="mb-2 block font-body text-xs font-semibold uppercase tracking-[0.2em] text-mhts-red-deep">
+              Step {String(i + 1).padStart(2, "0")}
+            </span>
+            <h3 className="mb-3 text-xl text-mhts-ink md:text-2xl">
+              {step.title}
+            </h3>
+            <p className="font-body text-sm leading-snug text-foreground/80 md:text-base md:leading-relaxed">
+              {step.desc}
+            </p>
+          </Reveal>
+        </li>
+      );
+    })}
+  </ol>
+);
+
+const ServiceGroupCard = ({ group, i }: { group: (typeof serviceGroups)[number]; i: number }) => (
+  <Reveal delay={i * 0.08} className="h-full rounded-xl border border-mhts-stone bg-card p-7">
+    <span className="mb-4 grid h-10 w-10 place-items-center rounded-full bg-mhts-red-tint">
+      <Sparkles className="h-5 w-5 text-mhts-red" aria-hidden="true" />
+    </span>
+    <h3 className="mb-5 text-lg text-mhts-ink">
+      {group.title}
+    </h3>
+    <ul className="divide-y divide-mhts-stone/60">
+      {group.items.map((item) => (
+        <li key={item.label}>
+          <Link
+            to={item.to}
+            className="group flex items-center justify-between gap-2 py-4 font-body text-[15px] text-foreground/80 transition-colors hover:text-mhts-red-deep md:py-2.5 md:text-sm"
+          >
+            <span>{item.label}</span>
+            <ChevronRight className="h-4 w-4 shrink-0 text-mhts-red transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+          </Link>
+        </li>
+      ))}
+    </ul>
+  </Reveal>
+);
+
 const HowItWorksPage = () => {
   useSeo({
     title: "Hair Replacement Process | 4-Step Hair System & SMP",
@@ -154,58 +230,24 @@ const HowItWorksPage = () => {
         </div>
       </section>
 
-      {/* 4-STEP TIMELINE */}
-      <section className="bg-card py-8 md:py-24">
+      {/* 4-STEP TIMELINE. Phone: the heading and step one are a screen, then
+          each step a screen of its own, its photograph filling what the words
+          leave. Step one sits in a list of its own so it can share a screen
+          with the heading; the rail runs on unbroken from md up. */}
+      <section className={`${SNAP_SPLIT_CLASS} bg-card md:py-24`}>
         <div className="container mx-auto max-w-6xl px-4">
-          <div className="mb-14 text-center">
-            <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">
-              Your Journey
-            </p>
-            <h2 className="text-3xl text-mhts-ink md:text-4xl">
-              The 4-Step Process
-            </h2>
+          <div className={`${SNAP_PHONE_CLASS} py-8 md:block md:py-0`}>
+            <div className="mb-6 text-center md:mb-14">
+              <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">
+                Your Journey
+              </p>
+              <h2 className="text-3xl text-mhts-ink md:text-4xl">
+                The 4-Step Process
+              </h2>
+            </div>
+            <StepList from={0} to={1} />
           </div>
-
-          <ol className="relative">
-            {/* The rail. Left edge on a phone, the middle from md up. */}
-            <span className="absolute bottom-0 left-6 top-0 w-0.5 bg-mhts-stone md:left-1/2 md:-translate-x-1/2" aria-hidden="true" />
-            {steps.map((step, i) => {
-              const Icon = step.icon;
-              const photo = stepPhotos[i];
-              const flip = i % 2 === 1;
-              return (
-                // Phone: the heading and step one are a screen, then each
-                // step after it a screen of its own.
-                <li key={step.title} className={`relative grid gap-4 pb-6 pl-16 last:pb-0 md:grid-cols-2 md:gap-20 md:pb-14 md:pl-0 ${i > 0 ? SNAP_PHONE_CLASS : ""}`}>
-                  {/* The node on the rail */}
-                  <span className="absolute left-6 top-0 z-[1] -translate-x-1/2 md:left-1/2" aria-hidden="true">
-                    <span className="grid h-12 w-12 place-items-center rounded-full bg-mhts-red text-white ring-8 ring-card">
-                      <Icon className="h-5 w-5" />
-                    </span>
-                  </span>
-                  <Reveal as="figure" from={flip ? "right" : "left"} className={flip ? "md:order-2" : ""}>
-                    <ResponsiveImage
-                      src={photo.src}
-                      alt={photo.alt}
-                      className="aspect-[2/1] w-full rounded-2xl object-cover md:aspect-[16/10]"
-                      sizes="(max-width: 768px) 100vw, 520px"
-                    />
-                  </Reveal>
-                  <Reveal from={flip ? "left" : "right"} className={flip ? "md:order-1 md:text-right" : ""}>
-                    <span className="mb-2 block font-body text-xs font-semibold uppercase tracking-[0.2em] text-mhts-red-deep">
-                      Step {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <h3 className="mb-3 text-xl text-mhts-ink md:text-2xl">
-                      {step.title}
-                    </h3>
-                    <p className="font-body text-sm leading-snug text-foreground/80 md:text-base md:leading-relaxed">
-                      {step.desc}
-                    </p>
-                  </Reveal>
-                </li>
-              );
-            })}
-          </ol>
+          <StepList from={1} to={steps.length} />
         </div>
       </section>
 
@@ -223,7 +265,7 @@ const HowItWorksPage = () => {
           </div>
           <ul className="grid gap-x-8 gap-y-3 sm:grid-cols-2 md:gap-y-4">
             {whyChoose.map((item, i) => (
-              <Reveal as="li" key={item} delay={i * 0.04} className={`flex items-start gap-3 font-body leading-snug text-white/85 md:leading-relaxed ${i === 3 ? SNAP_STOP_CLASS : ""}`}>
+              <Reveal as="li" key={item} delay={i * 0.04} className="flex items-start gap-3 font-body leading-snug text-white/85 md:leading-relaxed">
                 <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-mhts-red-light" aria-hidden="true" />
                 <span>{item}</span>
               </Reveal>
@@ -232,45 +274,29 @@ const HowItWorksPage = () => {
         </div>
       </section>
 
-      {/* SERVICE OPTIONS */}
-      <section className="bg-mhts-sand py-8 md:py-24">
+      {/* SERVICE OPTIONS. Phone: the heading and the first group are one
+          screen, the other two groups the next. From md up the two wrappers
+          are display:contents and the heading spans the grid, so the three
+          cards sit in one row under it exactly as before. */}
+      <section className={`${SNAP_SPLIT_CLASS} bg-mhts-sand md:py-24`}>
         <div className="container mx-auto max-w-6xl px-4">
-          <div className="mb-10">
-            <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">
-              What We Offer
-            </p>
-            <h2 className="text-3xl text-mhts-ink md:text-4xl">
-              Our Service Options
-            </h2>
-          </div>
-          <div className={`grid grid-cols-1 gap-5 md:grid-cols-3 ${SNAP_STOP_EACH_CLASS}`}>
-            {serviceGroups.map((group, i) => (
-              <Reveal
-                key={group.title}
-                delay={i * 0.08}
-                className="h-full rounded-xl border border-mhts-stone bg-card p-7"
-              >
-                <span className="mb-4 grid h-10 w-10 place-items-center rounded-full bg-mhts-red-tint">
-                  <Sparkles className="h-5 w-5 text-mhts-red" aria-hidden="true" />
-                </span>
-                <h3 className="mb-5 text-lg text-mhts-ink">
-                  {group.title}
-                </h3>
-                <ul className="divide-y divide-mhts-stone/60">
-                  {group.items.map((item) => (
-                    <li key={item.label}>
-                      <Link
-                        to={item.to}
-                        className="group flex items-center justify-between gap-2 py-2.5 font-body text-sm text-foreground/80 transition-colors hover:text-mhts-red-deep"
-                      >
-                        <span>{item.label}</span>
-                        <ChevronRight className="h-4 w-4 shrink-0 text-mhts-red transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </Reveal>
-            ))}
+          <div className="md:grid md:grid-cols-3 md:gap-5">
+            <div className={`${SNAP_PHONE_CLASS} py-8 md:contents`}>
+              <div className="mb-10 md:col-span-3 md:mb-5">
+                <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">
+                  What We Offer
+                </p>
+                <h2 className="text-3xl text-mhts-ink md:text-4xl">
+                  Our Service Options
+                </h2>
+              </div>
+              <ServiceGroupCard group={serviceGroups[0]} i={0} />
+            </div>
+            <div className={`${SNAP_PHONE_CLASS} gap-5 py-8 md:contents`}>
+              {serviceGroups.slice(1).map((group, j) => (
+                <ServiceGroupCard key={group.title} group={group} i={j + 1} />
+              ))}
+            </div>
           </div>
         </div>
       </section>

@@ -61,11 +61,10 @@ jobs:
       - name: Install
         run: npm ci --no-audit --no-fund
 
-      - name: Test
-        run: npm test
-
-      # Pre-rendering drives a real browser over every route. Chromium is not
-      # in the runner image, so it is installed here and cached between runs.
+      # Pre-rendering drives a real browser over every route, and so does the
+      # phone snap-screen test (src/test/snapScreens.test.ts). Chromium is not
+      # in the runner image, so it is installed here, before the tests, and
+      # cached between runs.
       - name: Cache Chromium
         uses: actions/cache@v4
         with:
@@ -74,6 +73,9 @@ jobs:
 
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
+
+      - name: Test
+        run: npm test
 
       # vite build, then scripts/prerender.mjs writes the finished HTML for
       # every route. The script fails the build if a sitemap URL did not

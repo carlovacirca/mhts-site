@@ -6,7 +6,8 @@ import { Reveal } from "@/lib/motion";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { CtaPair } from "@/components/mhts/CtaButtons";
 import { cardPhotoFor } from "@/data/servicePhotos";
-import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS, SNAP_STOP_CLASS } from "@/lib/sectionSnap";
+import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
+import studioWide from "@/assets/mhts-studio-wide-hero.jpg";
 
 const ServicesPage = () => {
   useSeo({
@@ -25,12 +26,22 @@ const ServicesPage = () => {
   // overview is a real way in to all eighteen treatment pages.
   return (
     <div className="mhts-theme">
-      <section className="relative overflow-clip bg-mhts-deep py-14 md:py-20">
+      <section className="relative overflow-clip bg-mhts-deep py-10 md:py-20">
         <div className="absolute inset-0 bg-[radial-gradient(50%_90%_at_50%_0%,hsl(var(--mhts-red)/0.25),transparent_70%)]" />
-        <div className="container relative mx-auto px-4 text-center">
+        <div className="mhts-fill-chain container relative mx-auto px-4 text-center">
           <p className="mb-4 font-body text-xs font-semibold uppercase tracking-[0.3em] text-mhts-red-light">What We Offer</p>
           <h1 className="text-4xl text-white md:text-5xl">Our Services</h1>
           <div className="mx-auto mt-5 h-1 w-14 rounded-full bg-mhts-red" />
+          {/* Phone only: the studio, and Book and Call, so the first screen is
+              a full one rather than a heading alone. The buttons are the ones
+              from the end of the page, which from md up stay there. */}
+          <ResponsiveImage
+            src={studioWide}
+            alt="The Men's Hair To Stay studio in Amersham"
+            className="mhts-fill mt-8 aspect-[16/10] w-full rounded-2xl object-cover md:hidden"
+            sizes="100vw"
+          />
+          <CtaPair className="mt-6 justify-center md:hidden" size="lg" tone="dark" />
         </div>
       </section>
       <section className={`${SNAP_SPLIT_CLASS} bg-mhts-sand pb-8 md:py-20`}>
@@ -85,7 +96,7 @@ const ServicesPage = () => {
               );
             })}
           </div>
-          <CtaPair className={`mt-4 justify-center md:mt-12 ${SNAP_STOP_CLASS}`} size="lg" />
+          <CtaPair className="mt-12 hidden justify-center md:flex" size="lg" />
         </div>
       </section>
     </div>

@@ -34,6 +34,12 @@ interface BeforeAfterFadeProps {
   frameClassName?: string;
   sizes?: string;
   className?: string;
+  /**
+   * Set by a strip that runs the timing itself (BeforeAfterStrip, on a
+   * phone): which photograph shows. The frame then cross-fades only when this
+   * changes, instead of looping on its own. Ignored from md up.
+   */
+  phase?: "before" | "after";
 }
 
 const BeforeAfterFade = ({
@@ -45,6 +51,7 @@ const BeforeAfterFade = ({
   frameClassName = "aspect-square",
   sizes = "(max-width: 768px) 100vw, 360px",
   className = "",
+  phase,
 }: BeforeAfterFadeProps) => {
   const frameRef = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(false);
@@ -68,6 +75,7 @@ const BeforeAfterFade = ({
         ref={frameRef}
         data-testid="before-after-fade"
         data-playing={playing ? "1" : "0"}
+        data-phase={phase}
         className={`mhts-ba relative w-full overflow-hidden rounded-lg border border-mhts-stone bg-mhts-sand ${frameClassName}`}
       >
         <div className="mhts-ba-before absolute inset-0">
