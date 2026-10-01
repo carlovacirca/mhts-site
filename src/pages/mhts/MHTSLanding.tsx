@@ -4,6 +4,7 @@ import { Reveal } from "@/lib/motion";
 import {
   Award,
   CheckCircle2,
+  ArrowRight,
   ChevronRight,
   Clock,
   Lock,
@@ -30,9 +31,6 @@ import StudioMap from "@/components/mhts/StudioMap";
 import { SNAP_HERO_CLASS, SNAP_PHONE_CLASS, SNAP_SECTION_CLASS, SNAP_SPLIT_CLASS, snapPageClass } from "@/lib/sectionSnap";
 import mhtsHero from "@/assets/mhts-hero.jpg";
 import studioWide from "@/assets/mhts-studio-wide-hero.jpg";
-import consultationRoom from "@/assets/mhts-consultation-room-hero.jpg";
-import studioChair from "@/assets/blog-hair-system-maintenance-studio.jpg";
-import studioBench from "@/assets/mhts-studio-bench-crop.jpg";
 import mhtsBefore1 from "@/assets/mhts-before-1.jpg";
 import mhtsAfter1 from "@/assets/mhts-after-1.jpg";
 import mhtsBefore2 from "@/assets/mhts-before-2.jpg";
@@ -90,31 +88,43 @@ const SeeAllResults = () => (
   </Link>
 );
 
-// Real studio photographs only, a different one on each card (batch 4b
-// fixes, after the PR #8 preview: the service photos read as generated). The
-// fourth is a second crop of the wide studio photo, the bench and basin, as
-// there are only three studio photographs. No client photos here: the three
-// before and afters stay in the strip under the hero.
-const CARD_PHOTOS: Record<string, { src: string; alt: string }> = {
+// No photographs (PR #8, third review): each treatment has its own colour
+// instead, from a palette built on the logo red and the warm neutrals, so the
+// four read apart at a glance and the whole section fits one phone screen.
+// Every pairing of text and background is AA: white on red-deep 6.5:1, on
+// terracotta 6.4:1, on the deep charcoal 18:1; ink on sand 14:1 with the
+// red-deep link 5.8:1. The lighter line of text is white at 90%, 5.6:1 or more.
+const CARD_TONES: Record<string, { card: string; icon: string; text: string; line: string; cta: string; glow?: string }> = {
   "hair-systems": {
-    src: consultationRoom,
-    alt: "The private consultation room at the Men's Hair To Stay studio in Amersham",
+    card: "bg-mhts-red-deep border-mhts-red-deep",
+    icon: "bg-white/15 text-white",
+    text: "text-white",
+    line: "text-white/90",
+    cta: "text-white",
   },
   "scalp-micropigmentation": {
-    src: studioWide,
-    alt: "The treatment room at the Amersham studio, with the SMP and Men's Hair To Stay banner",
+    card: "bg-mhts-deep border-mhts-deep",
+    icon: "bg-mhts-red text-white",
+    text: "text-white",
+    line: "text-white/90",
+    cta: "text-white",
+    glow: "bg-[radial-gradient(90%_70%_at_100%_0%,hsl(var(--mhts-red)/0.45),transparent_70%)]",
   },
   "hair-density": {
-    src: studioChair,
-    alt: "The treatment chair at the Amersham studio",
+    card: "bg-[#9A4527] border-[#9A4527]",
+    icon: "bg-white/15 text-white",
+    text: "text-white",
+    line: "text-white/90",
+    cta: "text-white",
   },
   "hair-system-maintenance": {
-    src: studioBench,
-    alt: "The bench and basin where hair systems are cleaned and refitted at the Amersham studio",
+    card: "bg-mhts-sand border-mhts-stone",
+    icon: "bg-mhts-red text-white",
+    text: "text-mhts-ink",
+    line: "text-mhts-ink/80",
+    cta: "text-mhts-red-deep",
   },
 };
-
-const treatmentCards = treatments.map((t) => ({ ...t, image: CARD_PHOTOS[t.slug].src, imageAlt: CARD_PHOTOS[t.slug].alt }));
 
 // The four-paragraph trust strip was 10 to 11px grey text on charcoal, which
 // nobody read. Four chips, a few words each. See finding 15.
@@ -303,43 +313,42 @@ const MHTSLanding = () => {
       </section>
 
       {/* ─── 4. TREATMENTS ─── */}
-      <section id="mhts-services" className={`${S} scroll-mt-24 bg-card py-10 md:py-12`}>
+      <section id="mhts-services" className={`${S} scroll-mt-24 bg-card py-6 md:py-12`}>
         <div className="container mx-auto px-4">
-          <div className="mb-6 text-center md:mb-10">
+          <div className="mb-4 text-center md:mb-10">
             <Eyebrow>What we do</Eyebrow>
             <h2 className="text-3xl text-mhts-ink md:text-4xl">Our treatments</h2>
             <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />
           </div>
-          {/* A swipeable strip on a phone, one card per swipe with the next
-              one peeking; four across from lg. */}
-          <div className="mhts-snap-x -mx-4 flex snap-x snap-mandatory scroll-pl-4 gap-4 overflow-x-auto px-4 pb-2 sm:mx-auto sm:grid sm:max-w-5xl sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 lg:grid-cols-4">
-            {treatmentCards.map((t, i) => (
-              <Reveal key={t.slug} delay={i * 0.06} className="w-[72%] shrink-0 snap-start snap-always sm:w-auto sm:snap-align-none">
-                <Link
-                  to={`/${t.slug}`}
-                  className="group flex h-full flex-col overflow-hidden rounded-xl border border-mhts-stone bg-card transition-all hover:-translate-y-1 hover:shadow-lg"
-                >
-                  <div className="aspect-square overflow-hidden sm:aspect-[4/3]">
-                    <ResponsiveImage
-                      src={t.image}
-                      alt={t.imageAlt}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      sizes="(max-width: 640px) 75vw, (max-width: 1024px) 50vw, 280px"
-                    />
-                  </div>
-                  <div className="flex flex-1 flex-col p-4 sm:p-5">
-                    <span className="mb-3 grid h-9 w-9 place-items-center rounded-full bg-mhts-red-tint sm:h-10 sm:w-10">
-                      <t.icon className="h-4 w-4 text-mhts-red sm:h-5 sm:w-5" aria-hidden="true" />
+          {/* Two by two on a phone and a tablet, four in a row from lg. No
+              swiping: the heading and all four cards are one phone screen,
+              above the bottom bar, down to 360x740. Equal heights from the
+              grid's equal rows; the whole card is the link. */}
+          <div className="mx-auto grid max-w-5xl auto-rows-fr grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
+            {treatments.map((t, i) => {
+              const tone = CARD_TONES[t.slug];
+              return (
+                <Reveal key={t.slug} delay={i * 0.06} className="h-full">
+                  <Link
+                    to={`/${t.slug}`}
+                    data-treatment-card={t.slug}
+                    className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border p-3.5 shadow-sm transition-[transform,box-shadow] duration-200 hover:shadow-lg motion-safe:hover:-translate-y-1 motion-safe:active:scale-[0.98] sm:p-5 ${tone.card}`}
+                  >
+                    {tone.glow && <span className={`pointer-events-none absolute inset-0 ${tone.glow}`} aria-hidden="true" />}
+                    <span className={`relative mb-3 grid h-11 w-11 place-items-center rounded-xl sm:mb-4 sm:h-14 sm:w-14 ${tone.icon}`}>
+                      <t.icon className="h-6 w-6 sm:h-7 sm:w-7" aria-hidden="true" />
                     </span>
-                    <h3 className="mb-2 text-base text-mhts-ink">{t.name}</h3>
-                    <p className="flex-1 font-body text-sm leading-relaxed text-muted-foreground">{t.line}</p>
-                    <span className="mt-3 inline-flex items-center gap-1.5 font-body text-sm font-semibold text-mhts-red-deep transition-all group-hover:gap-2.5 sm:mt-4">
-                      See treatment <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                    <h3 lang="en-GB" className={`relative mb-1 hyphens-auto break-words text-[15px] font-semibold leading-snug sm:mb-2 sm:text-lg ${tone.text}`}>
+                      {t.name}
+                    </h3>
+                    <p className={`relative flex-1 font-body text-[13px] leading-snug sm:text-sm sm:leading-relaxed ${tone.line}`}>{t.line}</p>
+                    <span className={`relative mt-3 inline-flex items-center gap-1.5 font-body text-[13px] font-semibold transition-[gap] group-hover:gap-2.5 sm:mt-4 sm:text-sm ${tone.cta}`}>
+                      See treatment <ArrowRight className="h-4 w-4" aria-hidden="true" />
                     </span>
-                  </div>
-                </Link>
-              </Reveal>
-            ))}
+                  </Link>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>

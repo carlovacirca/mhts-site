@@ -12,7 +12,7 @@
 // Definitions (kept here so the test and the report agree):
 //   screen   the visible area when snapped: the viewport less the sticky header
 //            and the bottom Call and Book bar (--snap-screen). The first screen
-//            also covers the thin contact bar (--snap-first-screen).
+//            is everything under the header (--snap-first-screen).
 //   height   the snap element's height, as a % of its screen. Not counting its
 //            bottom border: since PR #8 every screen after the first carries
 //            the bar's band as a transparent bottom border, the strip under the
@@ -190,7 +190,7 @@ function measureInPage() {
 
   // Content no screen shows: it sits between two stops and the page never
   // rests on it.
-  // (The contact line above the header is seen at the top of the page.)
+  // (Anything above the first stop is seen at the top of the page.)
   const firstTop = stops.length ? stops[0].getBoundingClientRect().top + scrollY : 0;
   const unseen = content.filter((c) => c.bottom > firstTop && !rows.some((r) => (c.top + c.bottom) / 2 >= r.from && (c.top + c.bottom) / 2 <= r.to));
   const unseenPx = unseen.length ? Math.round(Math.max(...unseen.map((c) => c.bottom)) - Math.min(...unseen.map((c) => c.top))) : 0;

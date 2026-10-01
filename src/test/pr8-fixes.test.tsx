@@ -1,6 +1,6 @@
-// Batch 4b fixes, second review (PR #8, checked on an iPhone and an Android
-// phone): the homepage treatment cards show real studio photographs only, the
-// hours read the same everywhere from one source, and every swipeable strip
+// Batch 4b fixes, second and third reviews (PR #8, checked on an iPhone and an
+// Android phone): the homepage treatment cards are colour, not photographs,
+// the hours read the same everywhere from one source, and every swipeable strip
 // lines its first card up with the page's gutter. The bottom bar and the
 // footer need real layout and are checked in Chromium (stickyBar.test.ts).
 import { describe, it, expect } from "vitest";
@@ -13,58 +13,61 @@ import ContactPage from "@/pages/ContactPage";
 import BookPage from "@/pages/BookPage";
 import Footer from "@/components/Footer";
 import { treatments } from "@/data/treatments";
-import { getPicture } from "@/lib/images";
-import studioWide from "@/assets/mhts-studio-wide-hero.jpg";
-import consultationRoom from "@/assets/mhts-consultation-room-hero.jpg";
-import studioChair from "@/assets/blog-hair-system-maintenance-studio.jpg";
-import studioBench from "@/assets/mhts-studio-bench-crop.jpg";
-import before1 from "@/assets/mhts-before-1.jpg";
-import after1 from "@/assets/mhts-after-1.jpg";
-import before2 from "@/assets/mhts-before-2.jpg";
-import after2 from "@/assets/mhts-after-2.jpg";
-import before3 from "@/assets/mhts-before-3.jpg";
-import after3 from "@/assets/mhts-after-3.jpg";
-
 const renderAt = (ui: React.ReactElement, path = "/") =>
   render(<MemoryRouter initialEntries={[path]}>{ui}</MemoryRouter>);
 
 const src = (root: string) => readFileSync(join(__dirname, "..", root), "utf8");
 
-/** A page renders the resized variant of an image; this is its URL. */
-const rendered = (s: string) => getPicture(s)?.src ?? s;
+describe("homepage treatment cards (third review: no photographs, a colour each)", () => {
+  const cards = (container: HTMLElement) =>
+    Array.from(container.querySelectorAll<HTMLAnchorElement>("#mhts-services [data-treatment-card]"));
 
-/** The real studio photographs in src/assets. Never a generated image, never a client. */
-const STUDIO: Record<string, string> = {
-  [rendered(studioWide)]: "the wide studio",
-  [rendered(consultationRoom)]: "the consultation room",
-  [rendered(studioChair)]: "the treatment chair",
-  [rendered(studioBench)]: "the bench and basin (a second crop of the wide studio)",
-};
-const CLIENTS = [before1, after1, before2, after2, before3, after3].map(rendered);
-
-describe("homepage treatment cards", () => {
-  it("show a different real studio photograph on each of the four cards, each with its own alt text", () => {
+  it("are the four treatments, each card one link with an icon, the name, one line and See treatment", () => {
     const { container } = renderAt(<MHTSLanding />);
-    const cards = Array.from(container.querySelectorAll<HTMLAnchorElement>("#mhts-services a")).filter((a) =>
-      treatments.some((t) => a.getAttribute("href") === `/${t.slug}`)
-    );
-    expect(cards).toHaveLength(4);
-    const photos = cards.map((card) => {
-      const img = card.querySelector("img")!;
-      const name = STUDIO[img.getAttribute("src")!];
-      expect(name, `${card.getAttribute("href")}: ${img.getAttribute("src")}`).toBeDefined();
-      expect(img.getAttribute("alt")).toMatch(/studio/i);
-      return { name, alt: img.getAttribute("alt") };
+    const list = cards(container);
+    expect(list.map((c) => c.getAttribute("href"))).toEqual(treatments.map((t) => `/${t.slug}`));
+    list.forEach((card, i) => {
+      expect(card.tagName).toBe("A");
+      expect(card.querySelector("svg")).not.toBeNull();
+      expect(card.querySelector("h3")!.textContent).toBe(treatments[i].name);
+      expect(card.textContent).toContain(treatments[i].line);
+      expect(card.textContent).toContain("See treatment");
+      // Nothing else to tap inside the card.
+      expect(card.querySelectorAll("a, button")).toHaveLength(0);
     });
-    expect(new Set(photos.map((p) => p.name)).size).toBe(4);
-    expect(new Set(photos.map((p) => p.alt)).size).toBe(4);
   });
 
-  it("never use a client's before or after photograph", () => {
+  it("carry no image of any kind", () => {
     const { container } = renderAt(<MHTSLanding />);
-    for (const img of container.querySelectorAll("#mhts-services img")) {
-      expect(CLIENTS).not.toContain(img.getAttribute("src"));
+    expect(container.querySelectorAll("#mhts-services img, #mhts-services picture")).toHaveLength(0);
+  });
+
+  it("each have their own colour", () => {
+    const { container } = renderAt(<MHTSLanding />);
+    const backgrounds = cards(container).map((c) => c.className.match(/\bbg-\S+/)![0]);
+    expect(new Set(backgrounds).size).toBe(4);
+  });
+
+  it("sit two by two up to lg and four in a row from lg, with equal rows and no swiping", () => {
+    const { container } = renderAt(<MHTSLanding />);
+    const grid = cards(container)[0].parentElement!.parentElement!;
+    expect(grid.className).toMatch(/\bgrid\b/);
+    expect(grid.className).toMatch(/\bgrid-cols-2\b/);
+    expect(grid.className).toMatch(/\blg:grid-cols-4\b/);
+    expect(grid.className).toMatch(/\bauto-rows-fr\b/);
+    expect(grid.className).not.toMatch(/overflow-x|snap-x|mhts-snap-x/);
+  });
+
+  it("move on hover or press only when motion is allowed", () => {
+    const { container } = renderAt(<MHTSLanding />);
+    for (const card of cards(container)) {
+      expect(card.className).not.toMatch(/(^|\s)(hover|active):(-?translate|scale)/);
+      expect(card.className).toMatch(/motion-safe:hover:-translate-y-1/);
     }
+  });
+
+  it("leave no unused image behind", () => {
+    expect(() => src("assets/mhts-studio-bench-crop.jpg")).toThrow();
   });
 });
 

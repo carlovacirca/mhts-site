@@ -149,13 +149,19 @@
   * {
     @apply border-border;
   }
-  /* The page ends on the footer's dark band. The canvas behind the page is the
-     same colour, so pulling past the end of the page on a phone (iOS rubber
-     band, Android overscroll) shows more of the footer, never a white strip.
-     The top of the page is the dark contact line, so the same colour suits
-     both ends. The body paints the page's own light background. */
+  /* The canvas behind the page is the page's own light colour, which is
+     what shows above the white header when a phone is pulled past the top.
+     Past the end, the footer's dark band carries on instead (footer rule
+     below), so the page never ends on a white strip. */
   html {
-    background-color: hsl(var(--mhts-deep));
+    background-color: hsl(var(--background));
+  }
+  /* A deep shadow of the footer's own colour, hanging below it. It takes no
+     room and cannot be scrolled to; it only shows when a phone is pulled past
+     the end of the page (iOS rubber band, Android overscroll), and it covers
+     the sub-pixel sliver left when the page's height rounds up. */
+  footer {
+    box-shadow: 0 100vh 0 100vh hsl(var(--mhts-deep));
   }
   body {
     @apply bg-background text-foreground;
@@ -354,7 +360,6 @@
        each h2, so the page never jumps mid-paragraph.
 
    The measurements the sizing depends on:
-     --snap-topbar  the thin contact bar above the header, which scrolls away
      --snap-header  the sticky header: h-20 plus its 1px rule, h-24 from md
      --snap-bottom  the bottom Call and Book bar on a phone (69px, rounded up
                     to 4.5rem). Every screen after the first fills the phone
@@ -365,12 +370,13 @@
      --mhts-cookie-h the cookie banner's live height, set by the banner while
                     it is open and 0 otherwise. */
 :root {
-  --snap-topbar: 28px;
   --snap-header: 81px;
   --snap-bottom: 4.5rem;
   --mhts-cookie-h: 0px;
   --snap-screen: calc(100svh - var(--snap-header) - var(--snap-bottom));
-  --snap-first-screen: calc(100svh - var(--snap-topbar) - var(--snap-header));
+  /* The first screen: everything under the header. (A 28px contact strip
+     sat above the header until PR #8's third review removed it.) */
+  --snap-first-screen: calc(100svh - var(--snap-header));
 }
 @media (min-width: 768px) {
   :root {
@@ -403,11 +409,11 @@
     border-bottom: calc(var(--snap-bottom) + var(--mhts-cookie-h)) solid transparent;
   }
 
-  /* The hero also covers the contact bar above the header, so its snap point
-     is the very top of the page and it fills the first screen exactly. Its
-     content sits from the top, so the banner opening never moves it. */
+  /* The hero's snap point is the very top of the page and it fills the first
+     screen exactly. Its content sits from the top, so the banner opening
+     never moves it. */
   .mhts-snap-page .mhts-snap-hero {
-    scroll-margin-top: var(--snap-topbar);
+    scroll-margin-top: 0;
     min-height: var(--snap-first-screen);
     /* The hero is the whole first screen: the bar stays out of it (it carries
        its own Book and Call buttons, StickyMobileCTA). */
@@ -514,10 +520,10 @@
     border-bottom-width: 0;
   }
 
-  /* The first screen covers the contact bar too, as the homepage hero does. */
+  /* The first screen is the hero's size, as on the homepage. */
   .mhts-snap-site > :not(.mhts-snap-proximity) > section:first-child,
   .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-phone:first-child {
-    scroll-margin-top: var(--snap-topbar);
+    scroll-margin-top: 0;
     min-height: var(--snap-first-screen);
     border-bottom-width: var(--mhts-cookie-h);
   }
@@ -539,7 +545,7 @@
   /* The article's hero is the first stop: the very top of the page. */
   .mhts-snap-site .mhts-snap-proximity .mhts-snap-point-top {
     scroll-snap-align: start;
-    scroll-margin-top: var(--snap-topbar);
+    scroll-margin-top: 0;
   }
 
   /* The footer fits one phone screen and is the last stop. */

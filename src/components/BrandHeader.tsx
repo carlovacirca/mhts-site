@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { CalendarCheck, ChevronDown, Mail, MapPin, Menu, Phone, X } from "lucide-react";
+import { CalendarCheck, ChevronDown, Menu, Phone, X } from "lucide-react";
 import { treatments } from "@/data/treatments";
 import mhtsLogoFull from "@/assets/mhts-logo-full.jpeg";
 import ResponsiveImage from "@/components/ResponsiveImage";
-import { EMAIL, GOOGLE_MAPS_URL, ADDRESS_LINE, PHONE_DISPLAY, PHONE_TEL } from "@/lib/site";
+import { PHONE_DISPLAY, PHONE_TEL } from "@/lib/site";
 
 // The menu repeated itself: a home icon and a logo that both went home, a
 // Services link with a dropdown that listed the same services again and then a
@@ -157,26 +157,6 @@ const BrandHeader = () => {
 
   return (
     <>
-      {/* Top bar */}
-      <div className="flex items-center justify-between bg-mhts-ink px-4 py-1.5 text-xs text-white/80">
-        <div className="flex items-center gap-4">
-          <a href={`tel:${PHONE_TEL}`} data-cta="call" className="flex items-center gap-1.5 transition-colors hover:text-white">
-            <Phone className="h-3 w-3" aria-hidden="true" /> {PHONE_DISPLAY}
-          </a>
-          <a href={`mailto:${EMAIL}`} className="hidden items-center gap-1.5 transition-colors hover:text-white sm:flex">
-            <Mail className="h-3 w-3" aria-hidden="true" /> {EMAIL}
-          </a>
-        </div>
-        <a
-          href={GOOGLE_MAPS_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden items-center gap-1.5 transition-colors hover:text-white sm:flex"
-        >
-          <MapPin className="h-3.5 w-3.5 shrink-0" aria-hidden="true" /> {ADDRESS_LINE}
-        </a>
-      </div>
-
       {/* Main nav */}
       <header className="sticky top-0 z-50 border-b border-mhts-stone bg-card/95 shadow-sm backdrop-blur-md">
         <div className="container mx-auto px-4">

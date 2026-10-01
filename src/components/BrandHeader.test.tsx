@@ -91,6 +91,19 @@ describe("BrandHeader, desktop", () => {
     expect(screen.getAllByRole("link", { name: /Book free consultation/ }).length).toBeGreaterThan(0);
   });
 
+  it("has no contact strip above the logo at any size: no phone, email or address up there", () => {
+    const { container } = renderHeader();
+    // The header is the only thing rendered; nothing may sit before it.
+    expect(container.firstElementChild?.tagName).toBe("HEADER");
+    expect(container.querySelector('a[href^="mailto:"]')).toBeNull();
+    expect(container.querySelector('a[href*="google.com/maps"]')).toBeNull();
+    expect(container.textContent).not.toContain("info@menshairtostay.co.uk");
+    expect(container.textContent).not.toContain("Chesham Road");
+    // Call stays: beside Book on a desktop, and in the phone menu.
+    const header = container.querySelector("header")!;
+    expect(within(header).getAllByRole("link", { name: /Call 07947 878087/ }).length).toBeGreaterThan(0);
+  });
+
   it("no longer shows a full-width Book bar above the fold on phones", () => {
     const { container } = renderHeader();
     // The old bar was the only element with this exact pair of classes.

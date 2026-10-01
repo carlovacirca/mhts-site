@@ -1201,7 +1201,7 @@ Seven fixes from the check of pr-8.menshairtostay.pages.dev on real phones. Only
 - Every service page (the 4 treatments and 14 sub-services, all from `ServicePage.tsx`) had the "other treatments" cards and the dark closing call to action on one phone screen, and the cards had no bottom padding, so the dark band cut the last card. On a phone the dark band now starts its own screen and the other treatments follow it in the same screen, with their own padding (`pb-8`). From md up nothing changed. The other treatments are rendered once for each layout, and the one not in use is `display:none`, as the footer's social links are. The related cards above keep their own `pb-6`.
 - Every other route was checked for a dark section that starts part way into a screen: /contact's "Why Choose" (not a call to action; the section above ends with its own padding), the areas pages (the dark call to action follows another dark band, "Your Free Consultation", which starts the screen) and /gallery (already its own screen). /book's "Prefer to Call?" is red, not dark, and follows the questions with clear space. Those were left as they were.
 
-### 5. Homepage treatment cards
+### 5. Homepage treatment cards (superseded: see the fourth round below)
 
 Real studio photographs only, a different one per card, with new alt text:
 
@@ -1286,3 +1286,39 @@ At 360x740 the bar shows far less often. Most screens there hold more than fits 
 
 - **360x740.** Most phone screens are taller than the room above the bar there (up to 135% of it), so on a small phone the bar is hidden at most stops. Making every screen fit at 360x740 means reworking each page's phone layout, which is a bigger job than this list.
 - **iOS Safari and Android Chrome** were not available here; everything above was measured in Chromium. The two things to look at on the phones are the strips' first card on load (item 6) and the footer's end with Safari's toolbar showing (item 2).
+
+## Fourth round: homepage treatments and the header strip
+
+### Our treatments, in colour
+
+- The photographs are gone from all four cards, the studio photos and the crop alike. `src/assets/mhts-studio-bench-crop.jpg` was used nowhere else and is deleted. The other three studio photos are still used by the service pages and the homepage's closing screen.
+- No carousel and no swiping. The cards sit two by two on a phone and a tablet, and four in a row from lg. The grid's rows are equal (`auto-rows-fr`), so the cards are all the same height.
+- Each treatment has its own colour, built around the logo red and the warm neutrals:
+
+| Card | Background | Text | AA |
+|---|---|---|---|
+| Hair Systems | red-deep `#B81C14` | white, line white 90% | 6.5:1, 5.6:1 |
+| Scalp Micropigmentation | deep charcoal `#1C1512` with a red glow in the corner | white | 18:1 (over 7:1 where the glow is strongest) |
+| Hair Density | terracotta `#9A4527` | white, line white 90% | 6.4:1, 5.7:1 |
+| Hair System Maintenance | sand `#F6F1EA`, stone edge | ink, line ink 80%, red-deep link | 14:1, over 7:1, 5.8:1 |
+
+- Each card has a large icon on its own tile, the treatment's name, its one line from `src/data/treatments.ts` (the same line the menu uses), and "See treatment" with an arrow. The whole card is one link, with nothing else to tap inside it.
+- On hover a card lifts 4px and its shadow deepens, and the arrow moves out a little. On press it shrinks to 98%. The lift and the press only apply under `motion-safe`, so with reduced motion only the shadow changes.
+- On a phone the section's padding is trimmed (py-6), so the eyebrow, the heading and all four cards are one screen, above the bar:
+
+| Size | Section starts | Last card ends | Bar starts |
+|---|---|---|---|
+| 390x844 | 81px | 644px | 775px |
+| 360x740 | 81px | 644px | 671px |
+| 1280x900 | four in a row, cards 260px tall, the section centred in its screen as before | | |
+
+### The header strip
+
+- The thin dark strip above the logo (phone, email, address) is removed at every size. Call is still in the hero and the bottom bar on a phone, beside Book in the desktop header, and in the phone menu. The footer keeps the email and the address.
+- The section scroll allowed for that strip's 28px (`--snap-topbar`). It is gone, so each page's first screen is now everything under the header.
+- The top of the page is now the white header, so the page's canvas (shown when a phone is pulled past the top) is the page's light colour again. Past the end, the footer carries on dark: a shadow of its own colour hangs below it. The shadow takes no room and cannot be scrolled to, and it also covers the sub-pixel sliver where the page height rounds up.
+
+### Tests
+
+- `src/test/pr8-fixes.test.tsx`: the four cards are one link each, with an icon, the name, the line and "See treatment"; no image in the section; four different colours; the 2/4 grid with equal rows and no swiping; the lift only under motion-safe; the crop file is gone.
+- `src/components/BrandHeader.test.tsx`: nothing renders before the header, there is no email or address in it, and Call is still there.

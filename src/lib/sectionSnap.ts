@@ -44,7 +44,7 @@ export const SECTION_SNAP = true;
 export const SNAP_SITE_CLASS = "mhts-snap-site";
 export const SNAP_PAGE_CLASS = "mhts-snap-page";
 export const SNAP_SECTION_CLASS = "mhts-snap-section";
-/** The homepage's first section: it also covers the thin contact bar above the header. */
+/** The homepage's first section: it fills the first screen under the header. */
 export const SNAP_HERO_CLASS = "mhts-snap-hero";
 /**
  * A block that is its own one-screen stop on a phone only: one screen of a
