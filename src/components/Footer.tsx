@@ -14,14 +14,16 @@ import { ADDRESS_LINE, EMAIL, GOOGLE_MAPS_URL, HOURS_CLOSED, HOURS_OPEN, PHONE_D
 // where they keep their site-wide internal link. Nothing that left the menu is
 // unlinked.
 //
-// On a phone (batch 4b fixes) the whole footer fits one screen, so it is one
-// stop in the section scroll, even at 360x740 with the bottom Call and Book bar
-// showing: tighter padding, a smaller logo chip, the two link columns side by
-// side, the social links beside "Visit us", the contact details on as few
-// lines as they will go, and Book and Call side by side. Nothing is dropped;
-// every link is still here. The social links are rendered twice, once for each
-// layout, and the one not in use is display:none. From md up the footer is as
-// it was.
+// The footer is exactly one screen under the sticky header, at every width
+// (PR #8), and the last stop in the section scroll: at the end of any page
+// its top sits under the header and its bottom on the bottom of the screen.
+// Its content is spread evenly down that height. On a phone (batch 4b fixes)
+// the content is compact so it fits even a 375x667 screen: tighter padding, a
+// smaller logo chip, the two link columns side by side, the social links
+// beside "Visit us", the contact details on as few lines as they will go, and
+// Book and Call side by side. Nothing is dropped; every link is still here.
+// The social links are rendered twice, once for each layout, and the one not
+// in use is display:none.
 
 const TikTokIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4 md:h-5 md:w-5" aria-hidden="true">
@@ -82,10 +84,13 @@ const Socials = ({ className = "" }: { className?: string }) => (
 const Footer = () => (
   <footer className="bg-mhts-deep text-white">
     <div className="h-1 w-full bg-mhts-red" />
-    <div className="container mx-auto px-4 py-4 md:py-16">
+    {/* The footer is one screen tall (src/index.css). This block takes the
+        height the rule and the copyright line leave, and its rows share the
+        spare room evenly above, between and below them. */}
+    <div className="container mx-auto flex flex-1 flex-col px-4 py-4 md:py-10">
       {/* Phone: the Treatments column is the wider of the two, so "Scalp
           Micropigmentation" and "Hair System Maintenance" stay on one line. */}
-      <div className="grid grid-cols-[1.3fr_1fr] gap-x-4 gap-y-4 md:grid-cols-2 md:gap-10 lg:grid-cols-4">
+      <div className="grid flex-1 grid-cols-[1.3fr_1fr] content-evenly gap-x-4 gap-y-4 md:grid-cols-2 md:gap-10 lg:grid-cols-4">
         {/* Treatments */}
         <div>
           <div className="mb-3 inline-block rounded-md bg-white p-1.5 md:mb-6 md:rounded-lg md:p-2.5">

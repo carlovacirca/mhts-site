@@ -160,7 +160,9 @@ function measureInPage() {
     const cs = getComputedStyle(el);
     const isEnd = cs.scrollSnapAlign.split(" ").includes("end");
     const height = r.height - (parseFloat(cs.borderBottomWidth) || 0);
-    const scr = i === 0 ? firstScreen : screen;
+    // The first screen and the footer are each everything under the header:
+    // the bottom bar is hidden on both.
+    const scr = i === 0 || el.tagName === "FOOTER" ? firstScreen : screen;
     const box = Math.max(height, scr);
     const from = isEnd ? top + height - box : top;
     const to = from + box;

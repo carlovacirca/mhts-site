@@ -163,6 +163,20 @@
   footer {
     box-shadow: 0 100vh 0 100vh hsl(var(--mhts-deep));
   }
+  /* The footer is one whole screen: everything under the sticky header, on a
+     phone and on a desktop. At the end of any page its top edge sits right
+     under the header and its bottom edge on the bottom of the screen, with
+     nothing of the section above showing. dvh follows the mobile browser's
+     bars as they show and hide; vh is the fallback for browsers without it.
+     The header's height is --snap-header (81px, 97px from md). Its content
+     is spread evenly down that height (Footer.tsx). A min-height, so on a
+     screen too short for the content it grows rather than cuts anything. */
+  footer {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - var(--snap-header));
+    min-height: calc(100dvh - var(--snap-header));
+  }
   body {
     @apply bg-background text-foreground;
     font-family: 'DM Sans', 'DM Sans Fallback', Arial, sans-serif;
@@ -472,9 +486,10 @@
     scroll-margin-top: 50svh;
   }
 
-  /* The footer is the last stop, so the end of the page is always reachable. */
+  /* The footer is the last stop, a whole screen under the header. */
   html:has(.mhts-snap-page) footer {
-    scroll-snap-align: end;
+    scroll-snap-align: start;
+    scroll-margin-top: 0;
   }
 }
 
@@ -538,10 +553,11 @@
     aspect-ratio: auto;
   }
 
-  /* A short last band (a row of related links) is not a screen of its own:
-     it shares the footer's screen, which ends the page. */
+  /* A short last band (a row of related links) is not a screen of its own.
+     The footer is a whole screen of its own now, so the band ends the screen
+     before it: its stop rests with the band's bottom on the bottom edge. */
   .mhts-snap-site > :not(.mhts-snap-proximity) > section.mhts-snap-before-footer {
-    scroll-snap-align: none;
+    scroll-snap-align: end;
     min-height: 0;
     border-bottom-width: 0;
   }
@@ -589,8 +605,10 @@
     scroll-margin-top: 0;
   }
 
-  /* The footer fits one phone screen and is the last stop. */
+  /* The footer is one whole phone screen and the last stop: its top under
+     the header, its bottom on the bottom edge. */
   html:has(.mhts-snap-site) footer {
-    scroll-snap-align: end;
+    scroll-snap-align: start;
+    scroll-margin-top: 0;
   }
 }

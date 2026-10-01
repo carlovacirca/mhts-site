@@ -93,8 +93,19 @@ export async function checkRoute(browser, base, route, viewport) {
   const rests = [];
   let last = -1;
   for (let k = 0; k < 60; k++) {
-    // The bar is decided once scrolling stops, then fades over 300ms.
-    await page.waitForTimeout(650);
+    // A rest is where the page has stopped: the same scroll position over
+    // several checks. On a busy machine a Page Down can take longer than any
+    // fixed wait, and a page still moving is not a rest. The bar is decided
+    // once scrolling stops, then fades over 300ms.
+    let still = 0;
+    let at = -1;
+    for (let t = 0; t < 40 && still < 3; t++) {
+      await page.waitForTimeout(150);
+      const y = await page.evaluate(() => scrollY);
+      still = y === at ? still + 1 : 0;
+      at = y;
+    }
+    await page.waitForTimeout(500);
     const rest = await page.evaluate((fn) => {
       const bar = document.querySelector('[data-testid="sticky-mobile-cta"]');
       const footer = document.querySelector("footer").getBoundingClientRect();
