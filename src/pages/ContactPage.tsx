@@ -9,6 +9,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
+import StudioMap from "@/components/mhts/StudioMap";
+import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
+import { EMAIL, PHONE_DISPLAY, PHONE_TEL } from "@/lib/site";
+import { Reveal } from "@/lib/motion";
+import { SNAP_BEFORE_FOOTER_CLASS, SNAP_PHONE_CLASS } from "@/lib/sectionSnap";
+import ResponsiveImage from "@/components/ResponsiveImage";
+import studioPhoto from "@/assets/mhts-consultation-room-hero.jpg";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
@@ -68,72 +75,110 @@ const ContactPage = () => {
     const body = encodeURIComponent(
       `Name: ${result.data.name}\nEmail: ${result.data.email}\nPhone: ${result.data.phone || ", "}\nService: ${result.data.service || ", "}\n\n${result.data.message}`
     );
-    window.location.href = `mailto:georgesbarbers1991@gmail.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:info@menshairtostay.co.uk?subject=${subject}&body=${body}`;
     toast({ title: "Opening your email app", description: "Your message has been prepared. Send it to complete your enquiry." });
   };
 
   return (
     <div className="mhts-theme">
+      {/* Batch 4b. Contact is laid out as a switchboard: the studio beside
+          the heading, the phone as the first and largest way in (it is how
+          most first visits reach the studio), then email and the visit, the
+          hours beside the map, and the towns as chips. */}
       {/* HERO */}
-      <section className="bg-mhts-charcoal py-20">
-        <div className="container mx-auto px-4 text-center max-w-3xl">
-          <p className="text-mhts-white/60 uppercase tracking-[0.3em] text-xs mb-4 font-body">Get in Touch</p>
-          <h1 className="text-3xl md:text-5xl font-light tracking-wide text-mhts-white leading-tight">
-            Contact Men's Hair To Stay, Hair Replacement Specialist in Amersham
-          </h1>
-          <div className="w-12 h-px bg-mhts-white/40 mx-auto my-6" />
-          <p className="text-mhts-white/70 font-body leading-relaxed">
-            Speak with our specialist team about hair systems, scalp micropigmentation (SMP), thinning hair treatments and maintenance. Free, confidential consultations for men experiencing hair loss across Amersham, Chesham, High Wycombe, Beaconsfield and the wider Buckinghamshire area.
-          </p>
+      <section className="relative overflow-clip bg-mhts-deep">
+        <div className="absolute inset-0 bg-[radial-gradient(55%_90%_at_0%_0%,hsl(var(--mhts-red)/0.22),transparent_70%)]" />
+        <div className="container relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-8 md:grid-cols-[1.2fr_0.8fr] md:py-20">
+          <div>
+            <p className="mb-4 font-body text-xs font-semibold uppercase tracking-[0.3em] text-mhts-red-light">Get in Touch</p>
+            <h1 className="text-3xl leading-tight text-white md:text-5xl">
+              Contact Men's Hair To Stay, Hair Replacement Specialist in Amersham
+            </h1>
+            <div className="my-4 h-1 w-14 rounded-full bg-mhts-red md:my-6" />
+            <p className="font-body text-[15px] leading-snug text-white/80 md:text-base md:leading-relaxed">
+              Speak with our specialist team about hair systems, scalp micropigmentation (SMP), thinning hair treatments and maintenance. Free, confidential consultations for men experiencing hair loss across Amersham, Chesham, High Wycombe, Beaconsfield and the wider Buckinghamshire area.
+            </p>
+            {/* Phone only: Call and Email in the first screen, with the words
+                of the Phone and Email cards (which are the desktop's second
+                band, display:none here). There is no WhatsApp number to add. */}
+            <div className="mt-6 grid gap-5 md:hidden">
+              <div>
+                <h2 className="text-xl text-white">Phone</h2>
+                <p className="mt-1 font-body text-sm text-white/75">Call to book a hair replacement consultation or ask about hair systems, SMP and maintenance.</p>
+                <a href={`tel:${PHONE_TEL}`} data-cta="call" className="mt-3 flex items-center justify-center gap-2 rounded-xl bg-mhts-red px-5 py-3.5 font-body text-lg font-semibold text-white transition-colors hover:bg-mhts-red-deep">
+                  <Phone className="h-5 w-5" aria-hidden="true" /> {PHONE_DISPLAY}
+                </a>
+              </div>
+              <div>
+                <h2 className="text-xl text-white">Email</h2>
+                <p className="mt-1 font-body text-sm text-white/75">Send us a confidential enquiry and our specialist team will reply within one working day.</p>
+                <a href={`mailto:${EMAIL}`} className="mt-3 flex items-center justify-center gap-2 rounded-xl border border-white/30 px-5 py-3.5 font-body font-semibold text-white transition-colors hover:border-white">
+                  <Mail className="h-5 w-5" aria-hidden="true" /> Email Us
+                </a>
+              </div>
+            </div>
+          </div>
+          <Reveal as="figure" from="right" className="hidden md:block">
+            <ResponsiveImage
+              src={studioPhoto}
+              alt="The private consultation room at the Amersham studio"
+              className="aspect-[4/5] w-full rounded-2xl object-cover shadow-2xl"
+              sizes="40vw"
+            />
+          </Reveal>
         </div>
       </section>
 
-      {/* CONTACT GRID */}
-      <section className="py-16">
+      {/* CONTACT GRID. From md up. On a phone its three cards are spread over
+          the screens they belong to: Phone and Email in the hero, the visit
+          beside the form. */}
+      <section className="hidden bg-mhts-sand py-8 md:block md:py-20">
         <div className="container mx-auto px-4 max-w-6xl">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <article className="bg-card border border-border rounded-sm p-8 text-center flex flex-col">
-              <Phone className="w-7 h-7 text-mhts-charcoal mx-auto mb-4" />
-              <h2 className="text-lg text-mhts-charcoal font-medium tracking-wide">Phone</h2>
-              <p className="text-foreground/75 font-body text-sm mt-3 flex-1">Call to book a hair replacement consultation or ask about hair systems, SMP and maintenance.</p>
-              <a href="tel:07947878087" className="mt-5 inline-flex items-center justify-center gap-2 bg-mhts-charcoal text-mhts-white px-5 py-2.5 rounded-sm hover:bg-mhts-navy transition-colors font-body text-sm">
-                <Phone className="w-4 h-4" /> 07947 878087
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-[1.25fr_1fr_1fr] md:gap-5">
+            <article className="flex flex-col rounded-2xl bg-mhts-red p-8 text-white">
+              <span className="mb-4 grid h-12 w-12 place-items-center rounded-full bg-white/15" aria-hidden="true">
+                <Phone className="h-6 w-6 text-white" />
+              </span>
+              <h2 className="text-2xl text-white">Phone</h2>
+              <p className="mt-3 flex-1 font-body text-sm text-white">Call to book a hair replacement consultation or ask about hair systems, SMP and maintenance.</p>
+              <a href="tel:07947878087" data-cta="call" className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-white px-5 py-3.5 font-body text-lg font-semibold text-mhts-red-deep transition-colors hover:bg-mhts-sand">
+                <Phone className="w-5 h-5" /> 07947 878087
               </a>
             </article>
 
-            <article className="bg-card border border-border rounded-sm p-8 text-center flex flex-col">
-              <Mail className="w-7 h-7 text-mhts-charcoal mx-auto mb-4" />
-              <h2 className="text-lg text-mhts-charcoal font-medium tracking-wide">Email</h2>
-              <p className="text-foreground/75 font-body text-sm mt-3 flex-1">Send us a confidential enquiry and our specialist team will reply within one working day.</p>
-              <a href="mailto:georgesbarbers1991@gmail.com" className="mt-5 inline-flex items-center justify-center gap-2 bg-mhts-charcoal text-mhts-white px-5 py-2.5 rounded-sm hover:bg-mhts-navy transition-colors font-body text-sm break-all">
+            <article className="flex flex-col rounded-2xl border border-mhts-stone bg-card p-8">
+              <span className="mb-4 grid h-12 w-12 place-items-center rounded-full bg-mhts-red-tint" aria-hidden="true">
+                <Mail className="h-6 w-6 text-mhts-red" />
+              </span>
+              <h2 className="text-xl text-mhts-ink">Email</h2>
+              <p className="mt-3 flex-1 font-body text-sm text-foreground/75">Send us a confidential enquiry and our specialist team will reply within one working day.</p>
+              <a href="mailto:info@menshairtostay.co.uk" className="mt-5 inline-flex items-center justify-center gap-2 rounded-md border border-mhts-stone-deep px-5 py-2.5 font-body text-sm font-semibold text-mhts-ink transition-colors hover:border-mhts-red hover:text-mhts-red-deep">
                 <Mail className="w-4 h-4" /> Email Us
               </a>
             </article>
 
-            <article className="bg-card border border-border rounded-sm p-8 text-center flex flex-col">
-              <MapPin className="w-7 h-7 text-mhts-charcoal mx-auto mb-4" />
-              <h2 className="text-lg text-mhts-charcoal font-medium tracking-wide">Visit Our Studio</h2>
-              <p className="text-foreground/75 font-body text-sm mt-3 flex-1">11 Chesham Road, Amersham HP6 5HN. Discreet, private hair replacement clinic in Buckinghamshire.</p>
-              <Link to="/book" className="mt-5 inline-flex items-center justify-center gap-2 bg-mhts-charcoal text-mhts-white px-5 py-2.5 rounded-sm hover:bg-mhts-navy transition-colors font-body text-sm">
-                <CalendarCheck className="w-4 h-4" /> Book a Visit
-              </Link>
+            <article className="flex flex-col rounded-2xl border border-mhts-stone bg-card p-8">
+              <span className="mb-4 grid h-12 w-12 place-items-center rounded-full bg-mhts-red-tint" aria-hidden="true">
+                <MapPin className="h-6 w-6 text-mhts-red" />
+              </span>
+              <h2 className="text-xl text-mhts-ink">Visit Our Studio</h2>
+              <p className="mt-3 flex-1 font-body text-sm text-foreground/75">11 Chesham Road, Amersham HP6 5HN. Discreet, private hair replacement clinic in Buckinghamshire.</p>
+              <div className="mt-5 grid gap-2">
+                <BookButton size="sm" label="Book a visit" />
+                <CallButton size="sm" label={`Call ${PHONE_DISPLAY}`} />
+              </div>
             </article>
           </div>
 
-          {/* Hours */}
-          <div className="mt-10 max-w-md mx-auto">
-            <h3 className="text-center text-mhts-charcoal font-medium tracking-wide mb-4">Studio Opening Hours</h3>
-            <OpeningHours />
-          </div>
         </div>
       </section>
 
       {/* FORM */}
-      <section className="py-16 bg-mhts-light">
+      <section className="bg-card py-8 md:py-16">
         <div className="container mx-auto px-4 max-w-3xl">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl text-mhts-charcoal font-light tracking-wide">Get in Touch</h2>
-            <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-5" />
+          <div className="mb-6 text-center md:mb-10">
+            <h2 className="text-3xl text-mhts-ink md:text-4xl">Get in Touch</h2>
+            <div className="mx-auto mt-5 h-1 w-14 rounded-full bg-mhts-red" />
             <p className="text-foreground/75 font-body mt-5">All enquiries are 100% confidential. No obligation, no pressure.</p>
           </div>
           {/* FORM TEMPORARILY DISABLED, pending Formspree integration. Restore this block once a Formspree form ID is wired up; handleSubmit/contactSchema/form state above are left intact for a quick restore.
@@ -179,94 +224,127 @@ const ContactPage = () => {
             </Button>
           </form>
           */}
-          <div className="bg-card border border-border rounded-sm p-8 md:p-10 text-center">
+          <div className="rounded-2xl border border-mhts-stone bg-mhts-sand p-8 text-center md:p-10">
             <p className="text-foreground/80 font-body leading-relaxed mb-6">
               Call or email us directly and our specialist team will get back to you.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="tel:07947878087" className="inline-flex items-center justify-center gap-2 bg-mhts-charcoal text-mhts-white px-6 py-3 rounded-sm hover:bg-mhts-navy transition-colors font-body text-sm">
+              <a href="tel:07947878087" data-cta="call" className="inline-flex items-center justify-center gap-2 rounded-md bg-mhts-red px-6 py-3 font-body font-semibold text-white transition-colors hover:bg-mhts-red-deep">
                 <Phone className="w-4 h-4" /> Call 07947 878087
               </a>
-              <a href="mailto:georgesbarbers1991@gmail.com" className="inline-flex items-center justify-center gap-2 bg-mhts-charcoal text-mhts-white px-6 py-3 rounded-sm hover:bg-mhts-navy transition-colors font-body text-sm break-all">
-                <Mail className="w-4 h-4" /> georgesbarbers1991@gmail.com
+              <a href="mailto:info@menshairtostay.co.uk" className="inline-flex items-center justify-center gap-2 break-all rounded-md border border-mhts-stone-deep bg-card px-6 py-3 font-body font-semibold text-mhts-ink transition-colors hover:border-mhts-red hover:text-mhts-red-deep">
+                <Mail className="w-4 h-4" /> info@menshairtostay.co.uk
               </a>
+            </div>
+          </div>
+          {/* Phone only: the visit card, from the desktop's contact band. */}
+          <article className="mt-5 rounded-2xl border border-mhts-stone bg-card p-6 md:hidden">
+            <h2 className="flex items-center gap-2 text-xl text-mhts-ink">
+              <MapPin className="h-5 w-5 text-mhts-red" aria-hidden="true" /> Visit Our Studio
+            </h2>
+            <p className="mt-2 font-body text-sm text-foreground/75">11 Chesham Road, Amersham HP6 5HN. Discreet, private hair replacement clinic in Buckinghamshire.</p>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <BookButton size="sm" label="Book a visit" />
+              <CallButton size="sm" label="Call" />
+            </div>
+          </article>
+        </div>
+      </section>
+
+      {/* MAP */}
+      <section className="bg-mhts-sand py-8 md:py-20">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="mb-5 md:mb-8">
+            <h2 className="text-3xl text-mhts-ink md:text-4xl">Find Our Amersham Studio</h2>
+            <div className="mt-4 h-1 w-14 rounded-full bg-mhts-red md:mt-5" />
+            <p className="text-foreground/75 font-body mt-4 md:mt-5">11 Chesham Road, Amersham HP6 5HN, easy parking, discreet entrance.</p>
+          </div>
+          {/* Google's embed sets cookies, so it waits for Accept like GA4 and
+              the booking calendar already did. Before that the reader gets the
+              address, a drawn map and a way out to Google Maps, rather than a
+              grey rectangle. See docs/HEALTH-CHECK.md finding 16. */}
+          <div className="grid items-start gap-4 md:grid-cols-[1.4fr_1fr] md:gap-6">
+            <StudioMap compact />
+            {/* Hours */}
+            <div>
+              <h3 className="mb-2 text-mhts-ink md:mb-4">Studio Opening Hours</h3>
+              <OpeningHours />
             </div>
           </div>
         </div>
       </section>
 
-      {/* MAP */}
-      <section className="py-16">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl text-mhts-charcoal font-light tracking-wide">Find Our Amersham Studio</h2>
-            <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-5" />
-            <p className="text-foreground/75 font-body mt-5">11 Chesham Road, Amersham HP6 5HN, easy parking, discreet entrance.</p>
-          </div>
-          <div className="rounded-sm overflow-hidden border border-border">
-            <iframe
-              src="https://www.google.com/maps?q=11+Chesham+Road+Amersham+HP6+5HN&output=embed"
-              width="100%"
-              height="420"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Men's Hair To Stay, Amersham studio location"
-            />
-          </div>
-        </div>
-      </section>
-
+      {/* Phone: the towns and why choose us are one screen. */}
+      <div className={`${SNAP_PHONE_CLASS} md:contents`}>
       {/* SERVICE AREAS */}
-      <section className="py-16 bg-mhts-light">
+      <section className="bg-card pb-4 pt-6 md:py-16">
         <div className="container mx-auto px-4 max-w-4xl text-center">
-          <h2 className="text-3xl md:text-4xl text-mhts-charcoal font-light tracking-wide">Hair Replacement Across Buckinghamshire</h2>
-          <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-5" />
-          <p className="text-foreground/80 font-body mt-5 leading-relaxed max-w-2xl mx-auto">
+          <h2 className="text-2xl text-mhts-ink md:text-4xl">Hair Replacement Across Buckinghamshire</h2>
+          <div className="mx-auto mt-3 h-1 w-14 rounded-full bg-mhts-red md:mt-5" />
+          <p className="mx-auto mt-3 max-w-2xl font-body text-[15px] leading-snug text-foreground/80 md:mt-5 md:text-base md:leading-relaxed">
             Our Amersham hair replacement clinic welcomes clients from across Buckinghamshire and the surrounding area for hair systems, scalp micropigmentation, thinning hair treatments and ongoing maintenance.
           </p>
-          <ul className="mt-8 flex flex-wrap justify-center gap-3">
+          <ul className="mt-4 grid grid-cols-3 gap-1.5 md:mt-8 md:flex md:flex-wrap md:justify-center md:gap-3">
             {serviceAreas.map((a) => (
-              <li key={a} className="px-4 py-2 bg-card border border-border rounded-sm text-mhts-charcoal text-sm font-body">{a}</li>
+              <li key={a} className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-mhts-stone bg-mhts-sand px-1 py-1 font-body text-xs text-mhts-ink md:px-4 md:py-2 md:text-sm"><MapPin className="hidden h-3.5 w-3.5 text-mhts-red md:block" aria-hidden="true" />{a}</li>
             ))}
           </ul>
         </div>
       </section>
 
       {/* WHY CHOOSE */}
-      <section className="py-16">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl text-mhts-charcoal font-light tracking-wide">Why Choose Men's Hair To Stay</h2>
-            <div className="w-12 h-px bg-mhts-charcoal mx-auto mt-5" />
+      <section className="relative overflow-clip bg-mhts-deep pb-8 pt-5 md:py-20">
+        <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_100%_100%,hsl(var(--mhts-red)/0.2),transparent_70%)]" />
+        <div className="container relative mx-auto px-4 max-w-6xl">
+          <div className="mb-4 text-center md:mb-12">
+            <h2 className="text-2xl text-white md:text-4xl">Why Choose Men's Hair To Stay</h2>
+            <div className="mx-auto mt-4 h-1 w-14 rounded-full bg-mhts-red md:mt-5" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-6">
             {[
               { icon: ShieldCheck, title: "Free Consultations", desc: "Confidential, no-obligation hair loss assessment with a specialist, no pressure to proceed." },
               { icon: Award, title: "Specialist Expertise", desc: "Years of experience fitting hair systems, performing SMP and supporting men through hair loss." },
               { icon: Lock, title: "100% Confidential", desc: "Discreet private studio in Amersham. Your details and visits are kept completely confidential." },
             ].map((c) => (
-              <article key={c.title} className="bg-card border border-border rounded-sm p-8 text-center">
-                <c.icon className="w-7 h-7 text-mhts-charcoal mx-auto mb-4" />
-                <h3 className="text-lg text-mhts-charcoal font-medium tracking-wide">{c.title}</h3>
-                <p className="text-foreground/75 font-body text-sm mt-3 leading-relaxed">{c.desc}</p>
+              // Phone: a compact row, icon beside the words. From md up: as before.
+              <article key={c.title} className="grid grid-cols-[auto_1fr] gap-x-4 md:block md:rounded-2xl md:border md:border-white/10 md:bg-white/5 md:p-8 md:text-center">
+                <span className="row-span-2 grid h-10 w-10 place-items-center rounded-full bg-mhts-red-light/15 md:mx-auto md:mb-4 md:h-12 md:w-12" aria-hidden="true">
+                  <c.icon className="h-5 w-5 text-mhts-red-light md:h-6 md:w-6" />
+                </span>
+                <h3 className="text-base text-white md:text-lg">{c.title}</h3>
+                <p className="mt-1 font-body text-sm leading-snug text-white/80 md:mt-3 md:leading-relaxed">{c.desc}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
+      </div>
 
       {/* RELATED LINKS */}
-      <section className="py-16 bg-mhts-charcoal">
+      {/* On a phone this row of links shares the footer's screen. */}
+      <section className={`${SNAP_BEFORE_FOOTER_CLASS} border-t border-white/10 bg-mhts-deep py-4 md:py-12`}>
         <div className="container mx-auto px-4 text-center">
-          <p className="text-mhts-white/50 uppercase tracking-[0.2em] text-xs mb-5 font-body">Explore More</p>
-          <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-body">
-            <Link to="/book" className="text-mhts-white/80 hover:text-mhts-white transition-colors">Book an Appointment</Link>
-            <Link to="/services" className="text-mhts-white/80 hover:text-mhts-white transition-colors">View Our Services</Link>
-            <Link to="/how-it-works" className="text-mhts-white/80 hover:text-mhts-white transition-colors">How Hair Replacement Works</Link>
-            <Link to="/gallery" className="text-mhts-white/80 hover:text-mhts-white transition-colors">Before &amp; After Gallery</Link>
-            <Link to="/faq" className="text-mhts-white/80 hover:text-mhts-white transition-colors">Hair Replacement FAQs</Link>
+          <p className="mb-2 font-body text-xs uppercase tracking-[0.2em] text-white/60 md:mb-5">Explore More</p>
+          {/* Phone: a line of links, short enough to share the footer's
+              screen. From md up: the pills, as before. */}
+          <div className="flex flex-wrap justify-center gap-x-2 gap-y-1 font-body text-sm md:gap-3">
+            {[
+              { to: "/book", label: "Book an Appointment" },
+              { to: "/services", label: "View Our Services" },
+              { to: "/how-it-works", label: "How Hair Replacement Works" },
+              { to: "/gallery", label: "Before & After Gallery" },
+              { to: "/faq", label: "Hair Replacement FAQs" },
+            ].map((l, i) => (
+              <span key={l.to} className="inline-flex items-center gap-2">
+                {i > 0 && <span aria-hidden="true" className="text-white/40 md:hidden">·</span>}
+                <Link
+                  to={l.to}
+                  className="text-white/85 underline underline-offset-4 transition-colors hover:border-white hover:text-white md:rounded-full md:border md:border-white/20 md:px-4 md:py-2 md:no-underline"
+                >
+                  {l.label}
+                </Link>
+              </span>
+            ))}
           </div>
         </div>
       </section>

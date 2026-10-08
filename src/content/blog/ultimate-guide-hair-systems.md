@@ -7,7 +7,7 @@ category: Hair Systems
 publishDate: 2026-05-07
 readTime: 15 min read
 heroImage: "@/assets/blog-hair-systems-guide.jpg"
-heroImageAlt: Professional hair system fitting consultation showing natural-looking hair replacement
+heroImageAlt: Hands holding a hair system up to the light to show its fine lace base
 featured: true
 faqs:
   - q: How long does a hair system last?

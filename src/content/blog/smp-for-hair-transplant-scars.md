@@ -6,8 +6,8 @@ metaDescription: Camouflaging strip and FUE scars with SMP. What the clinical li
 category: Scalp Micropigmentation
 publishDate: 2026-09-28
 readTime: 9 min read
-heroImage: "@/assets/mhts-smp-healed-result-back-hero.jpg"
-heroImageAlt: Healed scalp micropigmentation on a closely shaved head, viewed from behind, showing even stippled density
+heroImage: "@/assets/blog-smp-scars.jpg"
+heroImageAlt: The back of a shaved head where scalp micropigmentation softens a horizontal transplant scar
 faqs:
   - q: Can SMP cover a strip harvest scar?
     a: This is one of the applications the clinical literature lists explicitly, including wide or obvious scars from strip harvesting. It works by reducing the contrast between the pale hairless scar and the stubbled scalp around it, so the scar becomes minimally detectable rather than disappearing.
