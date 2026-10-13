@@ -129,6 +129,8 @@ describe("section scroll, reduced motion", () => {
   const SNAP_MEDIA = [
     "@media (prefers-reduced-motion: no-preference)",
     "@media (max-width: 767.98px) and (prefers-reduced-motion: no-preference)",
+    // Tablets, laptops and desktops: every page (desktop brief, Oct 2026).
+    "@media (min-width: 768px) and (prefers-reduced-motion: no-preference)",
   ];
   it("is off completely: every snap rule and the full-screen sizing sit behind no-preference", () => {
     for (const prop of ["scroll-snap-type", "scroll-snap-align", "scroll-padding-top", "scroll-padding-bottom"]) {

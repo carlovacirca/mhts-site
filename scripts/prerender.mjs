@@ -99,6 +99,9 @@ async function render(page, baseUrl, routePath) {
   // Strip what must not be baked, and stamp the flag src/lib/prerender.ts reads.
   await page.evaluate(() => {
     document.querySelectorAll("[data-prerender-strip]").forEach((el) => el.remove());
+    // SnapGuides' stops are measured for this pass's viewport; a phone or a
+    // laptop places its own on load, so none are saved into the HTML.
+    document.querySelectorAll("[data-snap-guides]").forEach((el) => el.remove());
     // The toast library injects its own 14 KB stylesheet on mount. Baking it
     // adds 14 KB to every page for something that cannot appear before
     // JavaScript runs, and the library injects it again anyway.

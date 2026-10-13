@@ -613,6 +613,54 @@
   }
 }
 
+/* ── Every page on tablets, laptops and desktops (768px and up) ──
+   The same section scroll as the phone, sized for a bigger screen (Carlo's
+   desktop brief, Oct 2026). Each page's top-level sections are screens:
+   one screen under the header, content centred in it. The phone's splits
+   and groupings (mhts-snap-phone) are phone only, so here a whole section
+   is one screen. A section taller than the screen gets extra stops from
+   SnapGuides, so nothing can be skipped. Blog articles keep proximity with
+   stops at the hero and each h2. Nothing here applies under 768px. */
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  html:has(.mhts-snap-site) {
+    scroll-snap-type: y mandatory;
+    scroll-padding-top: var(--snap-header);
+  }
+  html:has(.mhts-snap-site .mhts-snap-proximity) {
+    scroll-snap-type: y proximity;
+  }
+  .mhts-snap-site > :not(.mhts-snap-proximity):not(.mhts-snap-page) > section:not(.md\:hidden) {
+    scroll-snap-align: start;
+    scroll-margin-top: 0;
+    min-height: var(--snap-screen);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .mhts-snap-site > :not(.mhts-snap-proximity):not(.mhts-snap-page) > section:first-child {
+    min-height: var(--snap-first-screen);
+  }
+  .mhts-snap-site > :not(.mhts-snap-proximity):not(.mhts-snap-page) > section.mhts-snap-before-footer {
+    scroll-snap-align: end;
+    min-height: 0;
+  }
+  .mhts-snap-site > :not(.mhts-snap-proximity):not(.mhts-snap-page) > section [id] {
+    scroll-margin-top: 50svh;
+  }
+  .mhts-snap-site .mhts-snap-proximity .mhts-snap-point {
+    scroll-snap-align: start;
+    scroll-margin-top: 1rem;
+  }
+  .mhts-snap-site .mhts-snap-proximity .mhts-snap-point-top {
+    scroll-snap-align: start;
+    scroll-margin-top: 0;
+  }
+  html:has(.mhts-snap-site) footer {
+    scroll-snap-align: start;
+    scroll-margin-top: 0;
+  }
+}
+
 /* ── Homepage screens on tablets, laptops and desktops (768px and up) ──
    Each homepage section is one screen under the header (rules above). The
    designs stay exactly as they are; only their scale follows the height of

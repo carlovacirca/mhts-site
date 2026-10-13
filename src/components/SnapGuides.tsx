@@ -65,6 +65,9 @@ const SnapGuides = () => {
   const { pathname } = useLocation();
   useEffect(() => {
     if (!SECTION_SNAP || typeof ResizeObserver === "undefined") return;
+    // A layer left from an earlier pass (an older pre-rendered page) holds
+    // stops measured for another screen: drop it before placing our own.
+    document.querySelectorAll("[data-snap-guides]").forEach((el) => el.remove());
     const layer = document.createElement("div");
     layer.setAttribute("aria-hidden", "true");
     layer.dataset.snapGuides = "1";
