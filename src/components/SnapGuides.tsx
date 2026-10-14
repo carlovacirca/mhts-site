@@ -86,9 +86,15 @@ const desktopPages = (el: HTMLElement, screen: number) => {
       // The last page: pad it to a whole screen.
       const short = line - end;
       if (at > top && short > 1) {
-        el.style.setProperty("--snap-pad-base", getComputedStyle(el).paddingBottom);
-        el.style.setProperty("--snap-pad", `${Math.ceil(short)}px`);
-        el.setAttribute("data-snap-pad", "");
+        // A sticky sidebar stays whole only while its own container runs to
+        // the end of the screen, so the padding goes there.
+        const sticky = Array.from(el.querySelectorAll<HTMLElement>("aside, nav, div")).find(
+          (n) => getComputedStyle(n).position === "sticky",
+        );
+        const padEl = sticky?.parentElement ?? el;
+        padEl.style.setProperty("--snap-pad-base", getComputedStyle(padEl).paddingBottom);
+        padEl.style.setProperty("--snap-pad", `${Math.ceil(short)}px`);
+        padEl.setAttribute("data-snap-pad", "");
       }
       break;
     }

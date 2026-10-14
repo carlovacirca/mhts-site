@@ -379,6 +379,10 @@ const FAQPage = () => {
     // the list. The category label under each question was 10px (health
     // check 39); it is 12px now. Every question and answer is unchanged.
     <div className="mhts-theme min-h-screen bg-mhts-sand print:bg-white">
+      {/* From md up the title and the first questions share the first
+          stop (Carlo, Oct 2026). On a phone this wrapper is display:
+          contents. */}
+      <div className="mhts-snap-desk">
       {/* Hero */}
       <section className="relative overflow-clip bg-mhts-deep text-white">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_90%_at_15%_0%,hsl(var(--mhts-red)/0.25),transparent_70%)]" />
@@ -388,9 +392,9 @@ const FAQPage = () => {
         >
           ?
         </span>
-        <div className="container relative mx-auto px-4 py-8 md:py-20">
+        <div className="container relative mx-auto px-4 py-8 md:py-10 lg:py-8">
           {/* Breadcrumb */}
-          <nav aria-label="Breadcrumb" className="text-sm mb-6 text-mhts-white/70">
+          <nav aria-label="Breadcrumb" className="mhts-faq-short-hide text-sm mb-6 text-mhts-white/70 md:mb-4">
             <ol className="flex flex-wrap items-center gap-1.5">
               <li>
                 <Link to="/" className="hover:text-mhts-red-light transition-colors">
@@ -421,15 +425,15 @@ const FAQPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-3xl"
+            className="max-w-3xl lg:max-w-none"
           >
             <span className="inline-flex items-center gap-2 text-xs tracking-widest uppercase text-mhts-red-light mb-4">
               <HelpCircle className="w-4 h-4" /> Knowledge Base
             </span>
-            <h1 className="mb-5 text-4xl leading-tight md:text-6xl">
+            <h1 className="mb-5 text-4xl leading-tight md:text-6xl lg:mb-3">
               Frequently Asked <span className="text-mhts-red-light">Questions</span>
             </h1>
-            <p className="text-lg md:text-xl text-mhts-white/80 max-w-2xl">
+            <p className="mhts-faq-short-hide text-lg md:text-xl text-mhts-white/80 max-w-2xl">
               Everything you need to know about hair systems, scalp
               micropigmentation, and non-surgical hair restoration.
             </p>
@@ -449,11 +453,13 @@ const FAQPage = () => {
       </section>
 
       {/* FAQ list, with the search and filter rail beside it */}
-      <section className={`${SNAP_SPLIT_CLASS} container mx-auto px-4 md:py-16`}>
+      <section className={`${SNAP_SPLIT_CLASS} container mx-auto px-4 md:pb-16 md:pt-10`}>
         <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[300px_1fr] lg:gap-12">
-          <aside className="hidden md:block lg:sticky lg:top-28 lg:self-start print:hidden">
+          {/* Not sticky: with the desktop stops it would slide under the header
+              at the end of the list (Carlo, Oct 2026: nothing cut off). */}
+          <aside className="hidden md:block lg:self-start print:hidden">
             {rail}
-            <div className="mt-4 hidden rounded-2xl bg-mhts-deep p-5 lg:block">
+            <div className="mhts-faq-rail-cta mt-4 hidden rounded-2xl bg-mhts-deep p-5 lg:block">
               <div className="flex flex-col gap-2">
                 <BookButton size="sm" href="/#mhts-book" />
                 <CallButton size="sm" tone="dark" />
@@ -562,6 +568,8 @@ const FAQPage = () => {
           </div>
         </div>
       </section>
+
+      </div>
 
       {/* Phone: still have questions and explore more are one screen. */}
       <div className={`${SNAP_PHONE_CLASS} md:contents`}>

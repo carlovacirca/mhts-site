@@ -785,3 +785,25 @@
     flex: none !important;
   }
 }
+
+/* FAQ page, 1024px up: the Book and Call card in the sticky rail would not
+   fit whole beside the first questions on a short laptop, so it is left out
+   there (Book and Call stay in the header). */
+@media (min-width: 1024px) and (max-height: 819px) {
+  .mhts-faq-rail-cta.mhts-faq-rail-cta { display: none; }
+}
+/* And on a very short laptop the hero drops its breadcrumb and intro line so
+   the search and filters fit whole beside the first question. */
+@media (min-width: 1024px) and (max-height: 719px) {
+  .mhts-faq-short-hide.mhts-faq-short-hide { display: none; }
+}
+
+/* From 768px up nothing inside a page sticks while it scrolls: with the
+   section stops a sticky sidebar (FAQ, blog listing, privacy contents)
+   slides under the header at the end of its list and shows cut off
+   (Carlo, Oct 2026: nothing cut off on a stop). The header stays sticky. */
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .mhts-snap-site :is(.sticky, .md\:sticky, .lg\:sticky) {
+    position: static;
+  }
+}
