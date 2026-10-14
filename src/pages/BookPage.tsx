@@ -290,6 +290,10 @@ const BookPage = () => {
         </div>
       </section>
 
+      {/* From md up the questions, "Prefer to call?" and the related links
+          are one grouped screen (Carlo, Oct 2026). On a phone this wrapper is
+          display: contents. */}
+      <div className="mhts-snap-desk">
       {/* Phone: the booking questions and "Prefer to call?" are one screen. */}
       <div className={`${SNAP_PHONE_CLASS} md:contents`}>
       {/* FAQ */}
@@ -366,6 +370,7 @@ const BookPage = () => {
           </div>
         </div>
       </section>
+      </div>
     </div>
   );
 };

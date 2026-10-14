@@ -26,7 +26,11 @@ const ServicesPage = () => {
   // overview is a real way in to all eighteen treatment pages.
   return (
     <div className="mhts-theme">
-      <section className="relative overflow-clip bg-mhts-deep py-10 md:py-20">
+      {/* From md up the title and the four treatments are one screen on one
+          dark band (Carlo, Oct 2026). On a phone this wrapper is display:
+          contents and the screens are as before. */}
+      <div className="mhts-snap-desk mhts-desk-dark mhts-desk-glow">
+      <section className="relative overflow-clip bg-mhts-deep py-10 md:pb-6 md:pt-10">
         <div className="absolute inset-0 bg-[radial-gradient(50%_90%_at_50%_0%,hsl(var(--mhts-red)/0.25),transparent_70%)]" />
         <div className="mhts-fill-chain container relative mx-auto px-4 text-center">
           <p className="mb-4 font-body text-xs font-semibold uppercase tracking-[0.3em] text-mhts-red-light">What We Offer</p>
@@ -44,16 +48,16 @@ const ServicesPage = () => {
           <CtaPair className="mt-6 justify-center md:hidden" size="lg" tone="dark" />
         </div>
       </section>
-      <section className={`${SNAP_SPLIT_CLASS} bg-mhts-sand pb-8 md:py-20`}>
+      <section className={`${SNAP_SPLIT_CLASS} bg-mhts-sand pb-8 md:pb-10 md:pt-2`}>
         <div className="container mx-auto px-4">
-          <div className="mx-auto grid max-w-6xl grid-cols-1 md:grid-cols-2 md:gap-6">
+          <div className="mx-auto grid max-w-6xl grid-cols-1 md:grid-cols-2 md:gap-6 lg:max-w-7xl lg:grid-cols-4 lg:gap-5">
             {serviceCategories.map((c, i) => {
               const photo = cardPhotoFor(`/${c.slug}`);
               return (
                 // On a phone each treatment is a screen of its own.
                 <div key={c.slug} className={SNAP_PHONE_CLASS}>
                 <Reveal from="scale" delay={(i % 2) * 0.08} className="flex h-full flex-col overflow-hidden rounded-2xl border border-mhts-stone bg-card">
-                  <Link to={`/${c.slug}`} className="group relative block aspect-[16/9] overflow-hidden">
+                  <Link to={`/${c.slug}`} className="group relative block aspect-[16/9] overflow-hidden md:aspect-auto md:h-36 lg:aspect-[16/9] lg:h-auto">
                     {photo && (
                       <ResponsiveImage
                         src={photo.src}
@@ -64,11 +68,11 @@ const ServicesPage = () => {
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-mhts-deep via-mhts-deep/40 to-transparent" />
                     <div className="absolute inset-x-0 bottom-0 p-6">
-                      <h2 className="mb-1 text-2xl text-white">{c.name}</h2>
+                      <h2 className="mb-1 text-2xl text-white lg:text-xl">{c.name}</h2>
                       <p className="font-body text-sm text-white/85">{c.tagline}</p>
                     </div>
                   </Link>
-                  <div className="flex flex-1 flex-col p-6">
+                  <div className="flex flex-1 flex-col p-6 lg:p-5">
                     <ul className="flex-1 divide-y divide-mhts-stone/70">
                       {c.subServices.map((sub) => (
                         <li key={sub.slug}>
@@ -96,9 +100,10 @@ const ServicesPage = () => {
               );
             })}
           </div>
-          <CtaPair className="mt-12 hidden justify-center md:flex" size="lg" />
+          <CtaPair className="mt-12 hidden justify-center md:mt-8 md:flex" size="lg" tone="dark" />
         </div>
       </section>
+      </div>
     </div>
   );
 };

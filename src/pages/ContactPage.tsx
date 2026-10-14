@@ -274,6 +274,10 @@ const ContactPage = () => {
         </div>
       </section>
 
+      {/* From md up the towns, why choose us and the related links share one
+          screen (Carlo, Oct 2026). On a phone this wrapper is display:
+          contents. */}
+      <div className="mhts-snap-desk">
       {/* Phone: the towns and why choose us are one screen. */}
       <div className={`${SNAP_PHONE_CLASS} md:contents`}>
       {/* SERVICE AREAS */}
@@ -348,6 +352,7 @@ const ContactPage = () => {
           </div>
         </div>
       </section>
+      </div>
     </div>
   );
 };

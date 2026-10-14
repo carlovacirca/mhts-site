@@ -99,7 +99,9 @@ describe("section scroll switch", () => {
     const { container } = renderAt(<MHTSLanding />);
     const page = container.querySelector(".mhts-theme")!;
     expect(page.classList.contains(SNAP_PAGE_CLASS)).toBe(true);
-    const sections = Array.from(page.children).filter((el) => el.tagName === "SECTION");
+    // Sections may sit in a desktop group (mhts-snap-desk, display: contents
+    // on a phone); they are still the page's sections.
+    const sections = Array.from(page.querySelectorAll(":scope > section, :scope > .mhts-snap-desk > section"));
     expect(sections.length).toBeGreaterThanOrEqual(9);
     for (const s of sections) expect(s.classList.contains(SNAP_SECTION_CLASS)).toBe(true);
     expect(sections[0].classList.contains(SNAP_HERO_CLASS)).toBe(true);

@@ -99,10 +99,13 @@ const GalleryPage = () => {
   // column.
   return (
     <div className="mhts-theme">
+      {/* From md up the title and the three clients are one screen (Carlo,
+          Oct 2026). On a phone this wrapper is display: contents. */}
+      <div className="mhts-snap-desk">
       {/* HERO */}
       <section className="relative overflow-clip bg-mhts-deep">
         <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_0%,hsl(var(--mhts-red)/0.22),transparent_70%)]" />
-        <div className="mhts-fill-chain container relative mx-auto max-w-3xl px-4 py-10 text-center md:pb-12 md:pt-20">
+        <div className="mhts-fill-chain container relative mx-auto max-w-3xl px-4 py-10 text-center md:pb-4 md:pt-10">
           <p className="mb-4 font-body text-xs font-semibold uppercase tracking-[0.3em] text-mhts-red-light">
             Real Results
           </p>
@@ -131,14 +134,14 @@ const GalleryPage = () => {
           own: no dragging, no swiping, no lightbox and no instructions. On a
           phone each client is a screen of its own; three in a row on a
           desktop. */}
-      <section className={`${SNAP_SPLIT_CLASS} relative overflow-clip bg-mhts-deep md:pb-24`}>
+      <section className={`${SNAP_SPLIT_CLASS} relative overflow-clip bg-mhts-deep md:pb-10 md:pt-4`}>
         {visible.length === 0 ? (
           <p className="py-12 text-center font-body text-white/75">
             More transformations coming soon for this category.
           </p>
         ) : (
           <div className="container relative mx-auto px-4">
-            <div className="mx-auto grid max-w-6xl grid-cols-1 md:grid-cols-3 md:gap-6">
+            <div className="mx-auto grid max-w-6xl grid-cols-1 md:grid-cols-3 md:gap-6 lg:max-w-4xl">
               {visible.map((item, idx) => (
                 // Phone: the hair system clients first, then the other results
                 // (the maintenance regroom). There are no real SMP photographs
@@ -154,9 +157,14 @@ const GalleryPage = () => {
         )}
       </section>
 
+      </div>
+
+      {/* From md up the three kinds of result and why clients trust us share
+          one screen on a dark red band (Carlo, Oct 2026). */}
+      <div className="mhts-snap-desk mhts-desk-dark mhts-desk-diag">
       {/* CATEGORY COPY, three columns */}
       {/* One screen on a phone: the three kinds of result, compact. */}
-      <section className="bg-mhts-sand py-8 md:py-20">
+      <section className="bg-mhts-sand py-8 md:pb-6 md:pt-12">
         <div className="container mx-auto grid max-w-6xl gap-3 px-4 md:grid-cols-3 md:gap-6">
           {[
             {
@@ -185,7 +193,7 @@ const GalleryPage = () => {
       </section>
 
       {/* SOCIAL PROOF */}
-      <section className="bg-card py-8 md:py-20">
+      <section className="bg-card py-8 md:pb-12 md:pt-6">
         <div className="mhts-fill-chain container mx-auto max-w-5xl px-4">
           <h2 className="mb-8 text-center text-3xl text-mhts-ink md:mb-10 md:text-4xl">
             Why Clients Trust Men's Hair To Stay
@@ -216,6 +224,8 @@ const GalleryPage = () => {
           />
         </div>
       </section>
+
+      </div>
 
       {/* CTA */}
       <section className="relative overflow-clip bg-mhts-deep py-8 md:py-20">
