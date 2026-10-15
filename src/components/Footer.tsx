@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { CalendarCheck, Clock, Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
-import mhtsLogoFull from "@/assets/mhts-logo-full.jpeg";
+import mhtsLogoFull from "@/assets/mhts-logo.svg";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { treatments } from "@/data/treatments";
 import { ADDRESS_LINE, EMAIL, GOOGLE_MAPS_URL, HOURS_CLOSED, HOURS_OPEN, PHONE_DISPLAY, PHONE_TEL, SOCIALS } from "@/lib/site";
@@ -96,6 +96,8 @@ const Footer = () => (
           <div className="mb-3 inline-block rounded-md bg-white p-1.5 md:mb-6 md:rounded-lg md:p-2.5">
             <ResponsiveImage
               src={mhtsLogoFull}
+              width={1560}
+              height={1064}
               alt="Men's Hair To Stay"
               className="h-8 w-auto object-contain md:h-12"
               sizes="180px"

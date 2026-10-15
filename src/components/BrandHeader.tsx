@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { CalendarCheck, ChevronDown, Menu, Phone, X } from "lucide-react";
 import { treatments } from "@/data/treatments";
-import mhtsLogoFull from "@/assets/mhts-logo-full.jpeg";
+import mhtsLogoFull from "@/assets/mhts-logo.svg";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { PHONE_DISPLAY, PHONE_TEL } from "@/lib/site";
 
@@ -176,6 +176,8 @@ const BrandHeader = () => {
             >
               <ResponsiveImage
                 src={mhtsLogoFull}
+                width={1560}
+                height={1064}
                 alt="Men's Hair To Stay"
                 className="h-12 w-auto object-contain md:h-16"
                 sizes="160px"
@@ -289,6 +291,8 @@ const BrandHeader = () => {
             <div className="flex items-center justify-between border-b border-mhts-stone px-4 py-3">
               <ResponsiveImage
                 src={mhtsLogoFull}
+                width={1560}
+                height={1064}
                 alt="Men's Hair To Stay"
                 className="h-10 w-auto object-contain"
                 sizes="120px"
