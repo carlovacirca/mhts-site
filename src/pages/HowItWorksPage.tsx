@@ -3,7 +3,7 @@ import { Reveal } from "@/lib/motion";
 import { CtaPair } from "@/components/mhts/CtaButtons";
 import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
 import ResponsiveImage from "@/components/ResponsiveImage";
-import consultationRoom from "@/assets/mhts-consultation-room-hero.jpg";
+import consultationRoom from "@/assets/mhts-consultation-room-hero-v2.jpg";
 import baseMaterials from "@/assets/mhts-hair-system-base-materials-hero.jpg";
 import hairline from "@/assets/mhts-hair-system-hairline-hero.jpg";
 import maintenanceWork from "@/assets/mhts-hair-system-maintenance-hero.jpg";
@@ -97,9 +97,11 @@ const serviceGroups = [
  * timeline.
  */
 const StepList = ({ from, to }: { from: number; to: number }) => (
-  <ol start={from + 1} className={`relative ${from === 0 ? "mhts-fill-chain" : ""}`}>
-    {/* The rail. Left edge on a phone, the middle from md up. */}
-    <span className="absolute bottom-0 left-6 top-0 w-0.5 bg-mhts-stone md:left-1/2 md:-translate-x-1/2" aria-hidden="true" />
+  <ol start={from + 1} className={`relative md:contents ${from === 0 ? "mhts-fill-chain" : ""}`}>
+    {/* The rail down the left edge on a phone. From md up the steps sit in a
+        grid (two across, four from lg) and each node carries its own piece
+        of the rail. */}
+    <span className="absolute bottom-0 left-6 top-0 w-0.5 bg-mhts-stone md:hidden" aria-hidden="true" />
     {steps.slice(from, to).map((step, j) => {
       const i = from + j;
       const Icon = step.icon;
@@ -108,32 +110,32 @@ const StepList = ({ from, to }: { from: number; to: number }) => (
       return (
         <li
           key={step.title}
-          className={`relative grid gap-4 pl-16 md:grid-cols-2 md:gap-20 md:pl-0 ${i === steps.length - 1 ? "md:pb-0" : "md:pb-14"} ${
+          className={`relative grid gap-4 pl-16 md:flex md:flex-col md:gap-0 md:pb-0 md:pl-0 ${
             i === 0 ? "mhts-fill-chain" : `${SNAP_PHONE_CLASS} py-8 md:py-0`
           }`}
         >
           {/* The node on the rail */}
-          <span className={`absolute left-6 z-[1] -translate-x-1/2 md:left-1/2 md:top-0 ${i === 0 ? "top-0" : "top-8"}`} aria-hidden="true">
-            <span className="grid h-12 w-12 place-items-center rounded-full bg-mhts-red text-white ring-8 ring-card">
+          <span className={`absolute left-6 z-[1] -translate-x-1/2 md:static md:order-2 md:my-3 md:flex md:translate-x-0 md:items-center md:gap-3 md:after:h-0.5 md:after:flex-1 md:after:bg-mhts-red-light/40 md:after:content-[''] ${i === 0 ? "top-0" : "top-8"}`} aria-hidden="true">
+            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-mhts-red text-white ring-8 ring-card md:ring-mhts-deep">
               <Icon className="h-5 w-5" />
             </span>
           </span>
-          <Reveal as="figure" from={flip ? "right" : "left"} className={`mhts-fill-chain ${flip ? "md:order-2" : ""}`}>
+          <Reveal as="figure" from={flip ? "right" : "left"} className="mhts-fill-chain md:order-1">
             <ResponsiveImage
               src={photo.src}
               alt={photo.alt}
-              className="mhts-fill aspect-[2/1] w-full rounded-2xl object-cover md:aspect-[16/10]"
+              className="mhts-fill aspect-[2/1] w-full rounded-2xl object-cover md:aspect-auto md:h-40 lg:aspect-[16/10] lg:h-auto"
               sizes="(max-width: 768px) 100vw, 520px"
             />
           </Reveal>
-          <Reveal from={flip ? "left" : "right"} className={flip ? "md:order-1 md:text-right" : ""}>
+          <Reveal from={flip ? "left" : "right"} className="md:order-3">
             <span className="mb-2 block font-body text-xs font-semibold uppercase tracking-[0.2em] text-mhts-red-deep">
               Step {String(i + 1).padStart(2, "0")}
             </span>
             <h3 className="mb-3 text-xl text-mhts-ink md:text-2xl">
               {step.title}
             </h3>
-            <p className="font-body text-sm leading-snug text-foreground/80 md:text-base md:leading-relaxed">
+            <p className="font-body text-sm leading-snug text-foreground/80 md:text-base md:leading-relaxed lg:text-sm">
               {step.desc}
             </p>
           </Reveal>
@@ -144,11 +146,11 @@ const StepList = ({ from, to }: { from: number; to: number }) => (
 );
 
 const ServiceGroupCard = ({ group, i }: { group: (typeof serviceGroups)[number]; i: number }) => (
-  <Reveal delay={i * 0.08} className="h-full rounded-xl border border-mhts-stone bg-card p-7">
-    <span className="mb-4 grid h-10 w-10 place-items-center rounded-full bg-mhts-red-tint">
+  <Reveal delay={i * 0.08} className="h-full rounded-xl border border-mhts-stone bg-card p-7 md:p-5">
+    <span className="mb-4 grid h-10 w-10 place-items-center rounded-full bg-mhts-red-tint md:mb-3">
       <Sparkles className="h-5 w-5 text-mhts-red" aria-hidden="true" />
     </span>
-    <h3 className="mb-5 text-lg text-mhts-ink">
+    <h3 className="mb-5 text-lg text-mhts-ink md:mb-2">
       {group.title}
     </h3>
     <ul className="divide-y divide-mhts-stone/60">
@@ -156,7 +158,7 @@ const ServiceGroupCard = ({ group, i }: { group: (typeof serviceGroups)[number];
         <li key={item.label}>
           <Link
             to={item.to}
-            className="group flex items-center justify-between gap-2 py-4 font-body text-[15px] text-foreground/80 transition-colors hover:text-mhts-red-deep md:py-2.5 md:text-sm"
+            className="group flex items-center justify-between gap-2 py-4 font-body text-[15px] text-foreground/80 transition-colors hover:text-mhts-red-deep md:py-2 md:text-sm"
           >
             <span>{item.label}</span>
             <ChevronRight className="h-4 w-4 shrink-0 text-mhts-red transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
@@ -234,10 +236,13 @@ const HowItWorksPage = () => {
           each step a screen of its own, its photograph filling what the words
           leave. Step one sits in a list of its own so it can share a screen
           with the heading; the rail runs on unbroken from md up. */}
-      <section className={`${SNAP_SPLIT_CLASS} bg-card md:py-24`}>
-        <div className="container mx-auto max-w-6xl px-4">
-          <div className={`${SNAP_PHONE_CLASS} py-8 md:block md:py-0`}>
-            <div className="mb-6 text-center md:mb-14">
+      {/* From lg up the four steps run across one screen; tablets keep the
+          rail down the middle. Dark band from md up (Carlo, Oct 2026). */}
+      <div className="mhts-snap-desk mhts-desk-dark mhts-desk-ember">
+      <section className={`${SNAP_SPLIT_CLASS} bg-card md:py-10`}>
+        <div className="container mx-auto max-w-6xl px-4 md:grid md:grid-cols-2 md:gap-x-6 md:gap-y-4 lg:grid-cols-4">
+          <div className={`${SNAP_PHONE_CLASS} py-8 md:contents md:py-0`}>
+            <div className="mb-6 text-center md:col-span-2 md:mb-2 lg:col-span-4">
               <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">
                 Your Journey
               </p>
@@ -250,9 +255,13 @@ const HowItWorksPage = () => {
           <StepList from={1} to={steps.length} />
         </div>
       </section>
+      </div>
 
+      {/* From md up the why-us band and the service options share one screen
+          (Carlo, Oct 2026). On a phone this wrapper is display: contents. */}
+      <div className="mhts-snap-desk">
       {/* WHY CHOOSE, on the dark band */}
-      <section className="relative overflow-clip bg-mhts-deep py-8 md:py-24">
+      <section className="relative overflow-clip bg-mhts-deep py-8 md:py-12">
         <div className="absolute inset-0 bg-[radial-gradient(60%_80%_at_0%_100%,hsl(var(--mhts-red)/0.2),transparent_70%)]" />
         <div className="container relative mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           <div>
@@ -278,7 +287,7 @@ const HowItWorksPage = () => {
           screen, the other two groups the next. From md up the two wrappers
           are display:contents and the heading spans the grid, so the three
           cards sit in one row under it exactly as before. */}
-      <section className={`${SNAP_SPLIT_CLASS} bg-mhts-sand md:py-24`}>
+      <section className={`${SNAP_SPLIT_CLASS} bg-mhts-sand md:py-12`}>
         <div className="container mx-auto max-w-6xl px-4">
           <div className="md:grid md:grid-cols-3 md:gap-5">
             <div className={`${SNAP_PHONE_CLASS} py-8 md:contents`}>
@@ -300,6 +309,8 @@ const HowItWorksPage = () => {
           </div>
         </div>
       </section>
+
+      </div>
 
       {/* CTA */}
       <section className="relative overflow-clip bg-mhts-deep py-8 md:py-20">

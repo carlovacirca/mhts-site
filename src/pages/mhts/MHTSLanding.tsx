@@ -30,7 +30,7 @@ import BookingPanel from "@/components/mhts/BookingPanel";
 import StudioMap from "@/components/mhts/StudioMap";
 import { SNAP_HERO_CLASS, SNAP_PHONE_CLASS, SNAP_SECTION_CLASS, SNAP_SPLIT_CLASS, snapPageClass } from "@/lib/sectionSnap";
 import mhtsHero from "@/assets/mhts-hero.jpg";
-import studioWide from "@/assets/mhts-studio-wide-hero.jpg";
+import studioWide from "@/assets/mhts-studio-wide-hero-v2.jpg";
 import mhtsBefore1 from "@/assets/mhts-before-1.jpg";
 import mhtsAfter1 from "@/assets/mhts-after-1.jpg";
 import mhtsBefore2 from "@/assets/mhts-before-2.jpg";
@@ -158,7 +158,7 @@ const Eyebrow = ({ children }: { children: React.ReactNode }) => (
 
 const MHTSLanding = () => {
   useSeo({
-    title: "Hair Replacement Systems & SMP in Amersham | 8+ Years",
+    title: "Hair Replacement Systems & SMP in Amersham | Men's Hair To Stay",
     description:
       "Professional non-surgical hair replacement systems and scalp micropigmentation (SMP) in Amersham. Free consultation. Specialist technicians. 100% confidential.",
     canonicalPath: "/",
@@ -248,7 +248,7 @@ const MHTSLanding = () => {
           strip like the reviews: Before 2s, After 2s, then the next client
           (BeforeAfterStrip). On a desktop the three sit in one row, each
           looping on its own, as before. */}
-      <section id="mhts-gallery" className={`${S} scroll-mt-24 bg-card py-8 md:py-12`}>
+      <section id="mhts-gallery" className={`${S} mhts-desk-dark mhts-desk-glow scroll-mt-24 bg-card py-8 md:py-12`}>
         {/* display:contents from md up, so the row sits exactly as before. */}
         <div className="container mx-auto px-4 md:contents">
           <div className="mb-5 text-center md:mb-8">
@@ -280,10 +280,13 @@ const MHTSLanding = () => {
         </div>
       </section>
 
+      {/* ─── 4 and 5 share one screen from md up, on one dark band (Carlo,
+          Oct 2026). On a phone the wrapper is display: contents. ─── */}
+      <div className="mhts-snap-desk mhts-desk-dark mhts-desk-ember">
       {/* ─── 4. TREATMENTS ─── */}
-      <section id="mhts-services" className={`${S} scroll-mt-24 bg-card py-6 md:py-12`}>
+      <section id="mhts-services" className={`${S} scroll-mt-24 bg-card py-6 md:pb-5 md:pt-10`}>
         <div className="container mx-auto px-4">
-          <div className="mb-4 text-center md:mb-10">
+          <div className="mb-4 text-center md:mb-6">
             <Eyebrow>What we do</Eyebrow>
             <h2 className="text-3xl text-mhts-ink md:text-4xl">Our treatments</h2>
             <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />
@@ -318,7 +321,7 @@ const MHTSLanding = () => {
       </section>
 
       {/* ─── 5. WHY US AND MAINTENANCE, one screen on the dark band ─── */}
-      <section className={`${S} relative overflow-clip bg-mhts-deep py-10 md:py-12`}>
+      <section className={`${S} relative overflow-clip bg-mhts-deep py-10 md:pb-10 md:pt-5`}>
         <div className="absolute inset-0 bg-[radial-gradient(60%_80%_at_50%_0%,hsl(var(--mhts-red)/0.22),transparent_65%)]" />
         <div className="container relative mx-auto px-4">
           <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-2.5 md:gap-4">
@@ -334,7 +337,7 @@ const MHTSLanding = () => {
             ))}
           </div>
 
-          <div className="mx-auto mt-10 flex max-w-4xl flex-col gap-6 rounded-xl border border-mhts-stone bg-card p-7 md:mt-12 md:flex-row md:items-center md:p-8">
+          <div className="mx-auto mt-10 flex max-w-4xl flex-col gap-6 rounded-xl border border-mhts-stone bg-card p-7 md:mt-6 md:flex-row md:items-center md:p-6">
             <div className="md:flex-1">
               <h2 className="text-xl text-mhts-ink md:text-2xl">Maintenance and aftercare</h2>
               <p className="mt-2 font-body text-sm leading-relaxed text-muted-foreground">
@@ -354,8 +357,10 @@ const MHTSLanding = () => {
         </div>
       </section>
 
+      </div>
+
       {/* ─── 6. FAQ, four questions ─── */}
-      <section className={`${S} bg-card py-10 md:py-12`}>
+      <section className={`${S} mhts-home-faq bg-card py-10 md:bg-mhts-sand md:py-12`}>
         <div className="container mx-auto px-4">
           <div className="mb-6 text-center md:mb-8">
             <Eyebrow>Your questions answered</Eyebrow>
@@ -390,7 +395,7 @@ const MHTSLanding = () => {
       </section>
 
       {/* ─── 7. LATEST FROM THE BLOG ─── */}
-      <section className={`${S} bg-mhts-sand py-10 md:py-12`}>
+      <section className={`${S} mhts-home-blog mhts-desk-dark mhts-desk-diag bg-mhts-sand py-10 md:py-12`}>
         <div className="container mx-auto px-4">
           <div className="mb-6 text-center md:mb-8">
             <Eyebrow>From the blog</Eyebrow>
@@ -459,7 +464,7 @@ const MHTSLanding = () => {
       </section>
 
       {/* ─── 8. BOOK ─── */}
-      <section id="mhts-book" className={`${S} scroll-mt-24 bg-card pt-8 md:pt-12`}>
+      <section id="mhts-book" className={`${S} scroll-mt-24 bg-card pt-8 md:bg-mhts-sand md:pt-12`}>
         <div className="w-full">
           <div className="container mx-auto mb-6 px-4 text-center md:mb-8">
             <Eyebrow>Free, private, no obligation</Eyebrow>
@@ -488,7 +493,7 @@ const MHTSLanding = () => {
       </section>
 
       {/* ─── 9. CONTACT, hours and the map ─── */}
-      <section id="mhts-contact" className={`${S} scroll-mt-24 bg-mhts-sand py-6 md:py-12`}>
+      <section id="mhts-contact" className={`${S} mhts-desk-dark mhts-desk-ember scroll-mt-24 bg-mhts-sand py-6 md:py-12`}>
         <div className="container mx-auto px-4">
           <div className="mx-auto grid max-w-4xl grid-cols-1 items-start gap-4 md:grid-cols-2 md:gap-6">
             <div className="rounded-xl border border-mhts-stone bg-card p-5 md:p-6">

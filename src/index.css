@@ -242,6 +242,34 @@
   92%, 100% { transform: translateX(260%) rotate(12deg); }
 }
 
+/* ── The booking calendar's loading state (BookingCalendar.tsx) ──────────
+   A slow light passes over the skeleton while Trafft loads. Transform only,
+   on a pseudo-element; with reduced motion the skeleton is still. */
+.mhts-skeleton {
+  overflow: hidden;
+}
+.mhts-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    hsl(0 0% 100% / 0) 35%,
+    hsl(0 0% 100% / 0.45) 50%,
+    hsl(0 0% 100% / 0) 65%
+  );
+  pointer-events: none;
+  transform: translateX(-100%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .mhts-skeleton::after {
+    animation: mhts-skeleton-sweep 1.6s ease-in-out infinite;
+  }
+}
+@keyframes mhts-skeleton-sweep {
+  to { transform: translateX(100%); }
+}
+
 /* A horizontal scroller that snaps, used by the before and after row and the
    reviews carousel. Both work with no JavaScript at all: the reader swipes. */
 .mhts-snap-x {
@@ -512,6 +540,7 @@
      :not(.hidden) keeps a desktop-only section (hidden md:block) hidden: this
      rule sets display, and would otherwise show it on a phone. */
   .mhts-snap-site > :not(.mhts-snap-proximity) > section:not(.hidden),
+  .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-desk > section:not(.hidden),
   .mhts-snap-site .mhts-snap-phone {
     scroll-snap-align: start;
     scroll-margin-top: 0;
@@ -556,7 +585,8 @@
   /* A short last band (a row of related links) is not a screen of its own.
      The footer is a whole screen of its own now, so the band ends the screen
      before it: its stop rests with the band's bottom on the bottom edge. */
-  .mhts-snap-site > :not(.mhts-snap-proximity) > section.mhts-snap-before-footer {
+  .mhts-snap-site > :not(.mhts-snap-proximity) > section.mhts-snap-before-footer,
+  .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-desk > section.mhts-snap-before-footer {
     scroll-snap-align: end;
     min-height: 0;
     border-bottom-width: 0;
@@ -570,6 +600,7 @@
      screens are. Left as a stop, it would be one snap area taller than the
      screen, and the browser may rest anywhere inside such an area. */
   .mhts-snap-site > :not(.mhts-snap-proximity) > section.mhts-snap-split:not(.hidden),
+  .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-desk > section.mhts-snap-split:not(.hidden),
   .mhts-snap-site .mhts-snap-page .mhts-snap-section.mhts-snap-split {
     scroll-snap-align: none;
     /* Its screens carry the bar's band; it adds none of its own. */
@@ -579,6 +610,7 @@
 
   /* The first screen is the hero's size, as on the homepage. */
   .mhts-snap-site > :not(.mhts-snap-proximity) > section:first-child,
+  .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-desk:first-child > section:first-child,
   .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-phone:first-child {
     scroll-margin-top: 0;
     min-height: var(--snap-first-screen);
@@ -587,6 +619,7 @@
 
   /* Anchors inside a screen, as on the homepage. */
   .mhts-snap-site > :not(.mhts-snap-proximity) > section [id],
+  .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-desk > section [id],
   .mhts-snap-site .mhts-snap-phone [id] {
     scroll-margin-top: 50svh;
   }
@@ -610,5 +643,260 @@
   html:has(.mhts-snap-site) footer {
     scroll-snap-align: start;
     scroll-margin-top: 0;
+  }
+}
+
+/* ── Every page on tablets, laptops and desktops (768px and up) ──
+   The same section scroll as the phone, sized for a bigger screen (Carlo's
+   desktop brief, Oct 2026). Each page's top-level sections are screens:
+   one screen under the header, content centred in it. The phone's splits
+   and groupings (mhts-snap-phone) are phone only, so here a whole section
+   is one screen. A section taller than the screen gets extra stops from
+   SnapGuides, so nothing can be skipped. Blog articles keep proximity with
+   stops at the hero and each h2. Nothing here applies under 768px.
+   A phone wrapper at the top of a page (mhts-snap-phone md:contents) is not
+   there from 768px up, so each section in it is a screen of its own, as if
+   it were the page's own: before this the questions, related services and
+   closing call to action of every treatment page, and the closing bands of
+   the area pages, were never a stop and the reader could not rest on them. */
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  html:has(.mhts-snap-site) {
+    scroll-snap-type: y mandatory;
+    scroll-padding-top: var(--snap-header);
+  }
+  html:has(.mhts-snap-site .mhts-snap-proximity) {
+    scroll-snap-type: y proximity;
+  }
+  .mhts-snap-site > :not(.mhts-snap-proximity):not(.mhts-snap-page) > section:not(.md\:hidden),
+  .mhts-snap-site > :not(.mhts-snap-proximity):not(.mhts-snap-page) > .md\:contents > section:not(.md\:hidden) {
+    scroll-snap-align: start;
+    scroll-margin-top: 0;
+    min-height: var(--snap-screen);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .mhts-snap-site > :not(.mhts-snap-proximity):not(.mhts-snap-page) > section:first-child {
+    min-height: var(--snap-first-screen);
+  }
+  .mhts-snap-site > :not(.mhts-snap-proximity):not(.mhts-snap-page) > section.mhts-snap-before-footer {
+    scroll-snap-align: end;
+    min-height: 0;
+  }
+  .mhts-snap-site > :not(.mhts-snap-proximity):not(.mhts-snap-page) > section [id],
+  .mhts-snap-site > :not(.mhts-snap-proximity):not(.mhts-snap-page) > .md\:contents > section [id] {
+    scroll-margin-top: 50svh;
+  }
+  .mhts-snap-site .mhts-snap-proximity .mhts-snap-point {
+    scroll-snap-align: start;
+    scroll-margin-top: 1rem;
+  }
+  .mhts-snap-site .mhts-snap-proximity .mhts-snap-point-top {
+    scroll-snap-align: start;
+    scroll-margin-top: 0;
+  }
+  html:has(.mhts-snap-site) footer {
+    scroll-snap-align: start;
+    scroll-margin-top: 0;
+  }
+}
+
+/* ── Desktop screens that group sections (mhts-snap-desk) ──
+   A wrapper around two or more sections that share one screen from 768px
+   up (Carlo, Oct 2026: a title band and its content, or two short bands,
+   are one stop). On a phone the wrapper is display: contents and every
+   phone rule sees the sections inside it as before, so the phone screens
+   do not change. */
+@media (max-width: 767.98px) {
+  .mhts-snap-desk { display: contents; }
+}
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-desk {
+    scroll-snap-align: start;
+    scroll-margin-top: 0;
+    min-height: var(--snap-screen);
+    display: flex;
+    flex-direction: column;
+  }
+  .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-desk:first-child {
+    min-height: var(--snap-first-screen);
+  }
+  .mhts-snap-site .mhts-snap-desk > section,
+  .mhts-snap-site .mhts-snap-desk > .md\:contents > section,
+  .mhts-snap-site .mhts-snap-page .mhts-snap-desk > .mhts-snap-section {
+    scroll-snap-align: none;
+    min-height: 0;
+    flex: none;
+  }
+  /* The last band takes what is left, so the screen ends on its colour. */
+  .mhts-snap-site .mhts-snap-desk > section:last-child,
+  .mhts-snap-site .mhts-snap-desk > .md\:contents:last-child > section:last-child,
+  .mhts-snap-site .mhts-snap-page .mhts-snap-desk > .mhts-snap-section:last-child {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+/* ── Dark bands on tablets, laptops and desktops (mhts-desk-dark) ──
+   Carlo, Oct 2026: too much white on the desktop site. A section (or a
+   grouped screen) marked mhts-desk-dark takes the brand's deep and red from
+   768px up, in one of three treatments, and its own words turn light. Cards
+   inside it (bg-card) keep their own colours. The phone is not touched: the
+   class does nothing under 768px. */
+@media (min-width: 768px) {
+  .mhts-desk-dark.mhts-desk-dark {
+    background-color: hsl(var(--mhts-deep));
+    color: #fff;
+    position: relative;
+    isolation: isolate;
+  }
+  .mhts-desk-dark.mhts-desk-glow {
+    background-image: radial-gradient(60% 70% at 50% 0%, hsl(var(--mhts-red) / 0.24), transparent 70%);
+  }
+  .mhts-desk-dark.mhts-desk-diag {
+    background-image: linear-gradient(135deg, hsl(var(--mhts-deep)) 0%, hsl(var(--mhts-deep)) 35%, hsl(var(--mhts-red-deep) / 0.55) 120%);
+  }
+  .mhts-desk-dark.mhts-desk-ember {
+    background-image:
+      radial-gradient(55% 75% at 0% 100%, hsl(var(--mhts-red) / 0.26), transparent 70%),
+      radial-gradient(40% 50% at 100% 0%, hsl(var(--mhts-red) / 0.14), transparent 70%);
+  }
+  /* Bands inside a dark grouped screen let its background through. */
+  .mhts-desk-dark > section { background-color: transparent; }
+  .mhts-desk-dark :is(.text-mhts-ink, .text-foreground):not(.mhts-desk-dark .bg-card:not(section) *) { color: #fff; }
+  .mhts-desk-dark :is(.text-muted-foreground, .text-foreground\/80, .text-foreground\/75):not(.mhts-desk-dark .bg-card:not(section) *) { color: rgb(255 255 255 / 0.76); }
+  .mhts-desk-dark .text-mhts-red-deep:not(.mhts-desk-dark .bg-card:not(section) *) { color: hsl(var(--mhts-red-light)); }
+  .mhts-desk-dark .border-mhts-stone-deep:not(.mhts-desk-dark .bg-card:not(section) *) { border-color: rgb(255 255 255 / 0.45); }
+  .mhts-desk-dark .bg-mhts-red-tint:not(.mhts-desk-dark .bg-card:not(section) *) { background-color: hsl(var(--mhts-red-light) / 0.15); }
+  .mhts-desk-dark .text-mhts-red:not(.mhts-desk-dark .bg-card:not(section) *) { color: hsl(var(--mhts-red-light)); }
+  .mhts-desk-dark .border-mhts-stone:not(.mhts-desk-dark .bg-card:not(section) *):not(.bg-card) { border-color: rgb(255 255 255 / 0.16); }
+  /* The treatment cards' first slice is charcoal: a hairline keeps it off
+     the deep band. */
+  .mhts-desk-dark .mhts-treat-card { box-shadow: 0 0 0 1px rgb(255 255 255 / 0.12); }
+}
+
+/* ── Fitting a screen to the window (768px and up) ──
+   Carlo, Oct 2026: every section is one screen on any laptop, desktop or
+   tablet, and nothing on a stop is ever cut off. SnapGuides measures each
+   screen once the page has laid out (and again on resize) and, where its
+   content is taller than the room under the header, sets --snap-zoom so it
+   fits whole; homepage sections and grouped screens may also grow a little
+   on a tall screen. zoom scales content and layout together, so nothing
+   overlaps. data-snap-fit says what scales: a section's content
+   ("section"), a homepage section's content and padding ("home"), or each
+   band of a grouped screen ("group"). The pre-render strips all of it, and
+   nothing here applies under 768px. */
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  [data-snap-fit="section"] > :not(.absolute) {
+    zoom: var(--snap-zoom, 1);
+  }
+  .mhts-snap-page .mhts-snap-section[data-snap-fit="home"] {
+    padding-top: calc(3rem * var(--snap-zoom, 1));
+    padding-bottom: calc(3rem * var(--snap-zoom, 1));
+  }
+  [data-snap-fit="home"] > :not(.absolute):not(.md\:contents),
+  [data-snap-fit="home"] > .md\:contents > * {
+    zoom: var(--snap-zoom, 1);
+  }
+  [data-snap-fit="group"] > section,
+  [data-snap-fit="group"] > .md\:contents > section {
+    zoom: var(--snap-zoom, 1);
+  }
+  /* While a screen is measured, it is its natural height. */
+  /* SnapGuides' page breaks on a screen taller than the window. */
+  [data-snap-break] {
+    margin-top: calc(var(--snap-break-base, 0px) + var(--snap-break, 0px)) !important;
+  }
+  [data-snap-pad] {
+    padding-bottom: calc(var(--snap-pad-base, 0px) + var(--snap-pad, 0px)) !important;
+  }
+  [data-snap-measure] {
+    min-height: 0 !important;
+  }
+  [data-snap-measure] > section,
+  [data-snap-measure] > .md\:contents > section {
+    min-height: 0 !important;
+    flex: none !important;
+  }
+}
+
+/* ── The booking calendar's stop (768px and up) ──
+   Once the reader has accepted cookies, /book's calendar stop holds Trafft's
+   calendar, 1000px tall. Fitted like any other stop it was zoomed to about
+   0.65, its text down to 8 or 9px, or below the zoom floor paged with a stop
+   line through it. Instead the stop (mhts-snap-embed, which SnapGuides never
+   fits) is exactly one screen, and the calendar takes the room its heading
+   leaves, at most its own 1000px, and scrolls inside its own frame. On a
+   short window the heading drops its icon, then its line, so the calendar
+   keeps a usable height. Phones, and readers with reduced motion, keep the
+   1000px calendar. */
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .mhts-snap-site .mhts-snap-embed {
+    height: var(--snap-screen);
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  .mhts-snap-embed > .container {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .mhts-snap-embed .mhts-embed-head {
+    margin-bottom: 1.5rem;
+  }
+  .mhts-snap-embed .mhts-embed-frame {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 20rem;
+    max-height: 1000px;
+  }
+  /* Trafft gives its iframe a minimum height, and a height of its own when
+     the calendar resizes itself: here the frame decides. */
+  .mhts-snap-embed .embedded-booking iframe {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+}
+@media (min-width: 768px) and (max-height: 999px) and (prefers-reduced-motion: no-preference) {
+  .mhts-snap-embed .mhts-embed-icon {
+    display: none;
+  }
+}
+@media (min-width: 768px) and (max-height: 719px) and (prefers-reduced-motion: no-preference) {
+  .mhts-snap-site .mhts-snap-embed {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+  .mhts-snap-embed .mhts-embed-head {
+    margin-bottom: 1rem;
+  }
+  .mhts-snap-embed .mhts-embed-lede {
+    display: none;
+  }
+}
+
+/* FAQ page, 1024px up: the Book and Call card in the sticky rail would not
+   fit whole beside the first questions on a short laptop, so it is left out
+   there (Book and Call stay in the header). */
+@media (min-width: 1024px) and (max-height: 819px) {
+  .mhts-faq-rail-cta.mhts-faq-rail-cta { display: none; }
+}
+/* And on a very short laptop the hero drops its breadcrumb and intro line so
+   the search and filters fit whole beside the first question. */
+@media (min-width: 1024px) and (max-height: 719px) {
+  .mhts-faq-short-hide.mhts-faq-short-hide { display: none; }
+}
+
+/* From 768px up nothing inside a page sticks while it scrolls: with the
+   section stops a sticky sidebar (FAQ, blog listing, privacy contents)
+   slides under the header at the end of its list and shows cut off
+   (Carlo, Oct 2026: nothing cut off on a stop). The header stays sticky. */
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .mhts-snap-site :is(.sticky, .md\:sticky, .lg\:sticky) {
+    position: static;
   }
 }

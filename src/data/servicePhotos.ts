@@ -34,9 +34,9 @@ import svcMaintenance from "@/assets/mhts-svc-hair-system-maintenance.jpg";
 import svcReattachment from "@/assets/mhts-svc-reattachment-and-restyling.jpg";
 import svcBaseClean from "@/assets/mhts-svc-base-clean-and-reattach.jpg";
 import svcFullMaintenance from "@/assets/mhts-svc-full-maintenance-package.jpg";
-import studioWide from "@/assets/mhts-studio-wide-hero.jpg";
-import consultationRoom from "@/assets/mhts-consultation-room-hero.jpg";
-import studioChair from "@/assets/blog-hair-system-maintenance-studio.jpg";
+import studioWide from "@/assets/mhts-studio-wide-hero-v2.jpg";
+import consultationRoom from "@/assets/mhts-consultation-room-hero-v2.jpg";
+import studioChair from "@/assets/mhts-studio-chair-v2.jpg";
 
 export interface Photo {
   src: string;

@@ -69,3 +69,4 @@ export const snapSiteClass = (on: boolean = SECTION_SNAP): string => (on ? SNAP_
 
 /** The class for a blog article's wrapper. Empty when the switch is off. */
 export const snapProximityClass = (on: boolean = SECTION_SNAP): string => (on ? SNAP_PROXIMITY_CLASS : "");
+

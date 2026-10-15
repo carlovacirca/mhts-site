@@ -5,7 +5,7 @@ import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { CtaPair } from "@/components/mhts/CtaButtons";
 import { cardPhotoFor } from "@/data/servicePhotos";
-import studioPhoto from "@/assets/mhts-studio-wide-hero.jpg";
+import studioPhoto from "@/assets/mhts-studio-wide-hero-v2.jpg";
 import { useSeo, useJsonLd, useOpenGraph, localBusinessSchema, breadcrumbSchema, SITE_URL } from "@/lib/seo";
 import { findArea } from "@/data/areas";
 import { serviceCategories } from "@/data/services";
@@ -251,8 +251,9 @@ const AreaPage = () => {
       {/* Phone: the free consultation and the booking band are one screen, so
           the consultation sits after the questions in the source. From md up
           the wrapper is display:contents and the order classes put the bands
-          back exactly where they were. The consultation band has no links or
-          buttons, so the desktop keyboard order is unchanged. */}
+          back exactly where they were, each a stop of its own. The
+          consultation band has no links or buttons, so the desktop keyboard
+          order is unchanged. */}
       <div className={`${SNAP_PHONE_CLASS} md:contents`}>
       {/* CONSULTATION, on the one dark band */}
       <section className="relative overflow-clip bg-mhts-deep pb-2 pt-6 md:order-1 md:py-20">

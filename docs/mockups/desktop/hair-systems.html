@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en-GB" class="snap">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MHTS Service Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mock.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+    <symbol id="i-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 12.9L17 22l-5-3-5 3 1.5-9.1"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M16 11l2 2 4-4"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L20 10.7l-6.1 1.9L12 18.5l-1.9-5.9L4 10.7l6.1-1.9z"/><path d="M19 3v4M17 5h4"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></symbol>
+    <symbol id="i-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1"/><circle cx="17.5" cy="10.5" r="1"/><circle cx="8.5" cy="7.5" r="1"/><circle cx="6.5" cy="12.5" r="1"/><path d="M12 2a10 10 0 0 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.3 0-1.1.9-2 2-2h2.4A5.6 5.6 0 0 0 22 9.8C22 5.5 17.5 2 12 2z"/></symbol>
+    <symbol id="i-waves" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6c2-1.5 4-1.5 6 0s4 1.5 6 0 4-1.5 6 0M2 12c2-1.5 4-1.5 6 0s4 1.5 6 0 4-1.5 6 0M2 18c2-1.5 4-1.5 6 0s4 1.5 6 0 4-1.5 6 0"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
+    <symbol id="i-smile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></symbol>
+    <symbol id="i-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></symbol>
+    <symbol id="i-fb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></symbol>
+    <symbol id="i-tt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V2a5 5 0 0 0 5 5"/></symbol>
+    <symbol id="i-g" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.6 12.2c0-.8-.1-1.5-.2-2.2H12v4.2h5.9a5 5 0 0 1-2.2 3.3v2.7h3.6c2.1-1.9 3.3-4.8 3.3-8z"/><path fill="#34A853" d="M12 23c3 0 5.5-1 7.3-2.7l-3.6-2.8c-1 .7-2.2 1.1-3.7 1.1-2.9 0-5.3-1.9-6.2-4.5H2.1v2.8A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.8 14.1a6.6 6.6 0 0 1 0-4.2V7.1H2.1a11 11 0 0 0 0 9.8z"/><path fill="#EA4335" d="M12 5.4c1.6 0 3.1.6 4.2 1.7l3.2-3.2A11 11 0 0 0 2.1 7.1l3.7 2.8C6.7 7.3 9.1 5.4 12 5.4z"/></symbol>
+  </defs>
+</svg>
+
+<a class="skip" href="#main">Skip to content</a>
+<p class="mock-note">Desktop and tablet mockup. The phone layout is approved and does not change; open this on a laptop or tablet.</p>
+<header class="hdr">
+  <div class="hdr-in">
+    <a class="hdr-logo" href="hair-systems.html" aria-label="Men's Hair To Stay home"><img src="img/logo.png" alt="" width="88" height="60"></a>
+    <nav class="nav" aria-label="Main">
+      <button type="button" aria-expanded="false" aria-current="page" style="color:var(--red-deep)">Treatments <svg aria-hidden="true"><use href="#i-down"/></svg></button>
+      <a href="#">Results</a>
+      <a class="opt" href="#">How it works</a>
+      <a href="#">Blog</a>
+      <a href="#">Contact</a>
+    </nav>
+    <div class="hdr-right">
+      <p class="hdr-hours"><strong>Tue to Fri, 9:30am to 5pm</strong>11 Chesham Road, Amersham</p>
+      <a class="btn btn-outline btn-sm" href="tel:07947878087" aria-label="Call 07947 878087"><svg aria-hidden="true"><use href="#i-phone"/></svg><span class="lbl">07947 878087</span></a>
+      <a class="btn btn-primary btn-sm" href="#book"><svg aria-hidden="true"><use href="#i-cal"/></svg>Book<span class="long">free consultation</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+  <!-- 1. Hero -->
+  <section class="scr flush hero" aria-labelledby="hero-h">
+    <div class="hero-copy on-dark glow">
+      <nav aria-label="Breadcrumb" class="small" style="color:rgba(255,255,255,.7)"><a href="hair-systems.html" style="color:inherit">Home</a> / <a href="#" style="color:inherit">Services</a> / <span style="color:#fff">Hair Systems</span></nav>
+      <p class="eyebrow">Hair systems</p>
+      <h1 id="hero-h">Real Hair. Natural Results. <em>Zero Surgery.</em></h1>
+      <p class="lead" style="max-width:38ch">Premium hair systems for men in Amersham and across Buckinghamshire. Look and feel like yourself again, without going under the knife.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary shine" href="#"><svg aria-hidden="true"><use href="#i-cal"/></svg>Book free consultation</a>
+        <a class="btn btn-outline" href="tel:07947878087"><svg aria-hidden="true"><use href="#i-phone"/></svg>Call 07947 878087</a>
+      </div>
+      <div class="trust"><span>Free first consultation</span><span>No obligation</span><span>Private studio</span></div>
+    </div>
+    <div class="hero-media"><img src="img/t-hs.webp" alt="A hair system being styled at the studio" fetchpriority="high"></div>
+  </section>
+
+  <!-- 2. What is a hair system: text beside a real photo, the key line as a caption -->
+  <section class="scr bg-white" aria-labelledby="what-h">
+    <div class="split fill">
+      <div class="col">
+        <p class="eyebrow">About</p>
+        <h2 id="what-h">What Is a Hair System?</h2>
+        <p>Hair systems are the most advanced form of non-surgical hair replacement available today. Also known as hair pieces or hair units, modern hair systems are crafted from real human hair and fitted to a virtually undetectable base that sits against your scalp. The result is a full, natural head of hair that you can style, wash and live your life in with complete confidence.</p>
+        <p class="hide-short">At Men's Hair To Stay, we custom-fit every hair system to your head shape, hair colour, texture and density, so no two systems are ever the same.</p>
+      </div>
+      <figure class="media" style="margin:0"><img src="img/hairline.webp" alt="Close-up of a natural looking hairline" loading="lazy"><figcaption class="qbar">No two systems are ever the same.</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- 3. Benefits -->
+  <section class="scr bg-deep on-dark glow" aria-labelledby="ben-h">
+    <div class="split fill" style="grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:center">
+      <div class="col">
+        <p class="eyebrow">Why choose a hair system</p>
+        <h2 id="ben-h">The Benefits</h2>
+        <div class="feature"><svg width="28" height="28" aria-hidden="true" style="display:block;margin-bottom:10px"><use href="#i-spark"/></svg>100% human hair for a completely natural look and feel</div>
+      </div>
+      <ul class="benefits">
+        <li><span class="ic"><svg aria-hidden="true"><use href="#i-palette"/></svg></span>Custom matched to your exact colour, texture and density</li>
+        <li><span class="ic"><svg aria-hidden="true"><use href="#i-shield"/></svg></span>No surgery, no downtime, no risk</li>
+        <li><span class="ic"><svg aria-hidden="true"><use href="#i-waves"/></svg></span>Swim, gym and sleep in your system with the right maintenance</li>
+        <li><span class="ic"><svg aria-hidden="true"><use href="#i-zap"/></svg></span>Immediate results from your very first fitting</li>
+        <li><span class="ic"><svg aria-hidden="true"><use href="#i-clock"/></svg></span>Long-lasting with regular professional maintenance</li>
+        <li><span class="ic"><svg aria-hidden="true"><use href="#i-smile"/></svg></span>Confidence-boosting results from day one</li>
+        <li><span class="ic"><svg aria-hidden="true"><use href="#i-pin"/></svg></span>Locally available in Amersham with ongoing support</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. Process and pricing on one screen -->
+  <section class="scr bg-white" aria-labelledby="proc-h">
+    <div class="head-row">
+      <div><p class="eyebrow">The process</p><h2 id="proc-h">What to Expect</h2></div>
+    </div>
+    <ol class="steps" style="list-style:none;margin:0;padding:0">
+      <li class="step"><b>01</b><h3>Free Consultation</h3><p>We assess your hair loss, discuss your goals and recommend the right system for you.</p></li>
+      <li class="step"><b>02</b><h3>Custom Design</h3><p>Your system is matched to your hair colour, density, texture and base size.</p></li>
+      <li class="step"><b>03</b><h3>Fitting Day</h3><p>Your system is professionally fitted and styled to blend seamlessly with your natural hair.</p></li>
+      <li class="step"><b>04</b><h3>Aftercare Guidance</h3><p>We walk you through home care and maintenance routines.</p></li>
+      <li class="step"><b>05</b><h3>Ongoing Support</h3><p>Regular maintenance appointments keep your system looking perfect.</p></li>
+    </ol>
+    <div class="split keep fill" style="align-items:center">
+      <div class="col">
+        <p class="eyebrow">Pricing</p>
+        <h3 style="font-size:var(--h2)" id="cost-h">What It Costs</h3>
+        <p><strong>Your initial consultation is always free</strong>, no obligation, no pressure. We'll assess your hair loss and confirm exact pricing for your treatment plan before you commit to anything.</p>
+      </div>
+      <div class="prices" aria-labelledby="cost-h">
+        <div><span>Initial Consultation &amp; Fitting</span><span>Free</span></div>
+        <div><span>Non-Surgical Hair Replacement</span><span>Contact us for pricing</span></div>
+        <div><span>Hair Replacement Service</span><span>Contact us for pricing</span></div>
+        <div><span>Hair System Colouring</span><span>Contact us for pricing</span></div>
+        <div><span>Hair System Styling</span><span>Contact us for pricing</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Who it's for -->
+  <section class="scr bg-sand" aria-labelledby="who-h">
+    <div class="split fill">
+      <div class="media"><img src="img/studio2.webp" alt="The studio at 11 Chesham Road, Amersham" loading="lazy"></div>
+      <div class="col">
+        <p class="eyebrow">Suitability</p>
+        <h2 id="who-h">Who It's For</h2>
+        <p>Hair systems are ideal for men who are experiencing any stage of hair loss, from a receding hairline to complete baldness. Whether your hair loss is caused by genetics, alopecia, medical treatment or any other reason, a hair system can restore your full head of hair without surgery.</p>
+        <p class="small" style="color:var(--muted)">Clients come from:</p>
+        <div class="chips"><span>Amersham</span><span>Chesham</span><span>Beaconsfield</span><span>High Wycombe</span><span>Rickmansworth</span><span>Chorleywood</span><span>Chalfont St Giles</span><span>Chalfont St Peter</span><span>Gerrards Cross</span><span>Watford</span><span>Uxbridge</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. FAQ -->
+  <section class="scr bg-white" aria-labelledby="faq-h">
+    <div class="faq fill">
+      <div class="col">
+        <p class="eyebrow">Questions</p>
+        <h2 id="faq-h">Frequently Asked</h2>
+        <a class="btn btn-outline" href="#" style="align-self:flex-start">View all FAQs <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <div class="callcard hide-short"><svg aria-hidden="true"><use href="#i-phone"/></svg><div><span class="small" style="color:var(--muted)">Rather talk it through?</span><br><a href="tel:07947878087">07947 878087</a></div></div>
+      </div>
+      <div class="acc">
+        <details open><summary>Are hair systems noticeable?<svg aria-hidden="true"><use href="#i-down"/></svg></summary><p>Modern hair systems are virtually undetectable. Our systems use ultra-thin lace or skin bases that sit flush against your scalp, making them impossible to spot even up close.</p></details>
+        <details><summary>How long does a hair system last?<svg aria-hidden="true"><use href="#i-down"/></svg></summary><p>With professional maintenance, a well-looked-after hair system typically lasts between 3 to 6 months before needing to be replaced.</p></details>
+        <details><summary>Can I wash and style my hair system normally?<svg aria-hidden="true"><use href="#i-down"/></svg></summary><p>Yes. You can wash, style, and even use heat tools on your hair system just like natural hair.</p></details>
+        <details><summary>Do you serve areas outside Amersham?<svg aria-hidden="true"><use href="#i-down"/></svg></summary><p>Yes. We serve clients across Chesham, Beaconsfield, Rickmansworth, Gerrards Cross, High Wycombe, Watford, Uxbridge and the surrounding areas.</p></details>
+        <details><summary>What is the first step?<svg aria-hidden="true"><use href="#i-down"/></svg></summary><p>Book a free consultation. We will assess your hair loss, answer all your questions and create a plan tailored to you.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Explore the services under this treatment -->
+  <section class="scr bg-sand" aria-labelledby="ex-h">
+    <div class="head-row">
+      <div><p class="eyebrow">Explore</p><h2 id="ex-h">Hair Systems Services</h2></div>
+      <a class="link" href="#">All treatments <svg width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    </div>
+    <div class="subs fill">
+      <a class="card sub" href="#"><div><h3>Non-Surgical Hair Replacement</h3><p>A complete hair replacement solution without surgery, downtime, or commitment.</p></div><span class="link">Learn more <svg width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></span></a>
+      <a class="card sub" href="#"><div><h3>Hair Replacement Service</h3><p>Our full hair replacement service from consultation through to fitting and aftercare.</p></div><span class="link">Learn more <svg width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></span></a>
+      <a class="card sub" href="#"><div><h3>Initial Consultation &amp; Fitting</h3><p>A confidential consultation, precise measurements, colour matching and your first fit.</p></div><span class="link">Learn more <svg width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></span></a>
+      <a class="card sub" href="#"><div><h3>Hair System Colouring</h3><p>Expert colouring and toning to keep your system blended with your natural hair.</p></div><span class="link">Learn more <svg width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></span></a>
+      <a class="card sub" href="#"><div><h3>Hair System Styling</h3><p>Cutting and styling tailored to your face shape and personal preference.</p></div><span class="link">Learn more <svg width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></span></a>
+      <a class="card sub alt on-dark" href="#"><div><h3>Related treatments</h3><p>Scalp Micropigmentation, Hair Density and Hair System Maintenance.</p></div><span class="link">See them <svg width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></span></a>
+    </div>
+  </section>
+
+<section class="scr final bg-deep on-dark" aria-labelledby="final-h">
+  <div class="cta glow">
+    <h2 id="final-h">Ready to Get Your Hair Back?</h2>
+    <p class="lead">Book your free no-obligation consultation with Men's Hair To Stay in Amersham today.</p>
+    <div class="cta-row" style="justify-content:center">
+      <a class="btn btn-primary shine" href="#book"><svg aria-hidden="true"><use href="#i-cal"/></svg>Book free consultation</a>
+      <a class="btn btn-outline" href="tel:07947878087"><svg aria-hidden="true"><use href="#i-phone"/></svg>Call 07947 878087</a>
+    </div>
+    <p class="areas">Serving <a href="#">Amersham</a>, <a href="#">Chesham</a>, <a href="#">High Wycombe</a>, <a href="#">Beaconsfield</a>, <a href="#">Chalfont St Giles</a>, <a href="#">Little Chalfont</a>, <a href="#">Gerrards Cross</a> and <a href="#">the rest of Buckinghamshire</a>.</p>
+  </div>
+  <footer class="ftr">
+    <div class="ftr-grid">
+      <div>
+        <a class="logo" href="hair-systems.html" aria-label="Men's Hair To Stay home"><img src="img/logo.png" alt="" width="70" height="48"></a>
+        <p>Private hair replacement studio in Amersham. Hair systems, scalp micropigmentation and density treatments for men.</p>
+      </div>
+      <div>
+        <h2>Treatments</h2>
+        <ul><li><a href="hair-systems.html">Hair Systems</a></li><li><a href="#">Scalp Micropigmentation</a></li><li><a href="#">Hair Density</a></li><li><a href="#">Hair System Maintenance</a></li></ul>
+      </div>
+      <div>
+        <h2>Studio</h2>
+        <ul><li><a href="#">How It Works</a></li><li><a href="#">Results</a></li><li><a href="#">FAQ</a></li><li><a href="#">Areas Serviced</a></li><li><a href="#">Blog</a></li></ul>
+      </div>
+      <div>
+        <h2>Visit us</h2>
+        <ul><li>11 Chesham Road, Amersham HP6 5HN</li><li>Tuesday to Friday, 9:30am to 5pm</li><li><a href="tel:07947878087">07947 878087</a></li><li><a href="mailto:info@menshairtostay.co.uk">info@menshairtostay.co.uk</a></li></ul>
+        <div class="social">
+          <a href="#" aria-label="Instagram"><svg aria-hidden="true"><use href="#i-ig"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg aria-hidden="true"><use href="#i-fb"/></svg></a>
+          <a href="#" aria-label="TikTok"><svg aria-hidden="true"><use href="#i-tt"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="base"><span>&copy; 2026 Men's Hair To Stay. All rights reserved.</span><a href="#">Privacy Policy</a></div>
+  </footer>
+</section>
+
+</main>
+<span class="mock-badge" id="vp">Mockup</span>
+<script>
+  (function () {
+    var b = document.getElementById('vp');
+    function u() { b.textContent = 'Mockup ' + window.innerWidth + ' x ' + window.innerHeight; }
+    u(); window.addEventListener('resize', u);
+  })();
+</script>
+</body>
+</html>
