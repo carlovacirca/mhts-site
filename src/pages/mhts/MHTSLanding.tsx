@@ -158,7 +158,7 @@ const Eyebrow = ({ children }: { children: React.ReactNode }) => (
 
 const MHTSLanding = () => {
   useSeo({
-    title: "Hair Replacement Systems & SMP in Amersham | 8+ Years",
+    title: "Hair Replacement Systems & SMP in Amersham | Men's Hair To Stay",
     description:
       "Professional non-surgical hair replacement systems and scalp micropigmentation (SMP) in Amersham. Free consultation. Specialist technicians. 100% confidential.",
     canonicalPath: "/",
