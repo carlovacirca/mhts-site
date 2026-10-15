@@ -53,7 +53,9 @@ const items: GalleryItem[] = [
 /**
  * One client: the frame, with the service as its caption. On a phone each
  * client is a screen of its own: a tall frame, Before for 2 seconds, After for
- * 2 seconds (mhts-ba-quick, src/index.css).
+ * 2 seconds (mhts-ba-quick, src/index.css). The frame is never taller than
+ * the screen leaves room for (8rem for the card and caption), so a client is
+ * always one stop, browser bars and all (Carlo, Oct 2026).
  */
 const ClientFrame = ({ item, wave }: { item: GalleryItem; wave: number }) => (
   <div className="rounded-2xl border border-white/10 bg-white/5 p-3 [&_figcaption]:text-base [&_figcaption]:font-semibold [&_figcaption]:text-white md:[&_figcaption]:text-sm">
@@ -63,7 +65,7 @@ const ClientFrame = ({ item, wave }: { item: GalleryItem; wave: number }) => (
       beforeAlt={`Before, ${item.service}`}
       afterAlt={`After, ${item.service}`}
       caption={item.service}
-      frameClassName="mhts-ba-quick aspect-[2/3] md:aspect-[4/5]"
+      frameClassName="mhts-ba-quick aspect-[2/3] max-md:max-h-[calc(var(--snap-screen)_-_8rem)] md:aspect-[4/5]"
       sizes="(max-width: 768px) 100vw, 360px"
       wave={wave}
     />
