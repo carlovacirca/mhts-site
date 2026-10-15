@@ -124,7 +124,7 @@ const BeforeAfterStrip = ({ pairs, frameClassName, sizes }: BeforeAfterStripProp
         role="group"
         aria-roledescription="carousel"
         aria-label="Before and after, three clients"
-        className="mhts-snap-x -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 md:mx-auto md:grid md:w-full md:max-w-4xl md:grid-cols-3 md:gap-6 md:overflow-visible md:pb-0"
+        className="mhts-snap-x -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 md:mx-auto md:grid md:w-full md:max-w-6xl md:grid-cols-3 md:gap-8 md:overflow-visible md:pb-0"
       >
         {pairs.map((pair, i) => (
           <div

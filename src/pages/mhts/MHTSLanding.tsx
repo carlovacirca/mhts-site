@@ -74,10 +74,13 @@ const beforeAfterPairs = [
   },
 ];
 
-// Phone: a square frame, one client at a time in the strip. Desktop: a 4:5
-// frame, three across.
-const BA_FRAME = "aspect-square md:aspect-[4/5]";
-const BA_SIZES = "(max-width: 768px) 85vw, 290px";
+// A 4:5 frame: one client at a time in the strip on a phone, three across on
+// a desktop (Carlo, Oct 2026: the photos should fill more of the screen). On
+// a phone it is as tall as the room the title, caption and controls leave
+// (22rem of the screen, 20rem on a tall phone, whose title sits on fewer
+// lines), so the stop stays one screen on any phone.
+const BA_FRAME = "aspect-[4/5] max-md:max-h-[calc(var(--snap-screen)_-_22rem)] max-md:[@media(min-height:800px)]:max-h-[calc(var(--snap-screen)_-_20rem)]";
+const BA_SIZES = "(max-width: 768px) 85vw, 380px";
 
 const SeeAllResults = () => (
   <Link
