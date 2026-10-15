@@ -164,6 +164,11 @@ const NO_FIT = ".mhts-snap-embed";
 // Below this a screen would be too small to read: it keeps zoom 1 and gets
 // further stops instead.
 const MIN_ZOOM = 0.6;
+// On a phone a section is only shrunk to fit when it is a little too tall:
+// below this the words would be too small, and it keeps its further stops.
+const PHONE_MIN_ZOOM = 0.8;
+// On a phone a desktop group is display: contents and its sections are screens.
+const PHONE_FIT_SCREENS = `${FIT_SCREENS}, .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-desk > section`;
 
 const clearFit = () => {
   document.querySelectorAll<HTMLElement>("[data-snap-fit]").forEach((el) => {
@@ -173,23 +178,32 @@ const clearFit = () => {
 };
 
 export const fitScreens = () => {
-  if (window.innerWidth < 768 || !getComputedStyle(document.documentElement).scrollSnapType.includes("mandatory")) {
+  const phone = window.innerWidth < 768;
+  if (!getComputedStyle(document.documentElement).scrollSnapType.includes("mandatory")) {
     clearFit();
     return;
   }
   const screen = measure("var(--snap-screen)");
   const first = measure("var(--snap-first-screen)");
   if (screen < 100) return;
-  for (const el of document.querySelectorAll<HTMLElement>(FIT_SCREENS)) {
+  const minZoom = phone ? PHONE_MIN_ZOOM : MIN_ZOOM;
+  for (const el of document.querySelectorAll<HTMLElement>(phone ? PHONE_FIT_SCREENS : FIT_SCREENS)) {
     const cs = getComputedStyle(el);
-    if (cs.scrollSnapAlign.split(" ")[0] !== "start" || cs.display === "none") continue;
+    if (cs.scrollSnapAlign.split(" ")[0] !== "start" || cs.display === "none" || cs.display === "contents") continue;
+    // On a phone only a screen whose photograph takes up the room the words
+    // leave (mhts-fill, "Who it's for") is fitted: the photograph grows back
+    // into what the fit frees, so the screen stays full. Any other screen
+    // would be left part empty, and keeps its further stops instead.
+    if (phone && !el.querySelector(".mhts-fill")) continue;
     if (el.matches(NO_FIT)) {
       // It may have been fitted before the calendar replaced its panel.
       el.removeAttribute("data-snap-fit");
       el.style.removeProperty("--snap-zoom");
       continue;
     }
-    const kind = el.classList.contains("mhts-snap-desk")
+    const kind = phone
+      ? "section"
+      : el.classList.contains("mhts-snap-desk")
       ? "group"
       : el.classList.contains("mhts-snap-section") && !el.classList.contains("mhts-snap-hero")
         ? "home"
@@ -209,11 +223,11 @@ export const fitScreens = () => {
       const want = Math.min(cap, (zoom * (room - pad)) / Math.max(h - pad, 1)) * (i === 0 ? 0.98 : 0.99);
       if (i > 0 && h <= room + 1) break;
       zoom = want;
-      if (zoom < MIN_ZOOM) break;
+      if (zoom < minZoom) break;
       el.style.setProperty("--snap-zoom", zoom.toFixed(4));
     }
     el.removeAttribute("data-snap-measure");
-    if (zoom < MIN_ZOOM || Math.abs(zoom - 1) < 0.01) {
+    if (zoom < minZoom || Math.abs(zoom - 1) < 0.01) {
       el.removeAttribute("data-snap-fit");
       el.style.removeProperty("--snap-zoom");
     }

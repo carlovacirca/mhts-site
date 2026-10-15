@@ -785,6 +785,22 @@
   .mhts-desk-dark .mhts-treat-card { box-shadow: 0 0 0 1px rgb(255 255 255 / 0.12); }
 }
 
+/* ── Fitting a phone screen ──
+   Carlo, Oct 2026: a phone section only a little taller than the room
+   between the header and the bottom bar was given a second stop a few pixels
+   down ("Who it's for" on the treatment pages). SnapGuides now shrinks such a
+   section to fit, by at most 20% so the words stay readable, when its
+   photograph can grow back into the room (mhts-fill); anything else keeps its
+   further stops. Same hooks as from 768px up, section kind only. */
+@media (max-width: 767.98px) and (prefers-reduced-motion: no-preference) {
+  [data-snap-fit="section"] > :not(.absolute) {
+    zoom: var(--snap-zoom, 1);
+  }
+  [data-snap-measure] {
+    min-height: 0 !important;
+  }
+}
+
 /* ── Fitting a screen to the window (768px and up) ──
    Carlo, Oct 2026: every section is one screen on any laptop, desktop or
    tablet, and nothing on a stop is ever cut off. SnapGuides measures each
