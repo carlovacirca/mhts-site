@@ -393,13 +393,18 @@ const Related = ({
 
         </div>
       </div>
+      {/* From md up the other treatments end this band, so the related cards
+          and the other three are one stop. */}
+      <OtherTreatments category={category} className="hidden md:block" />
     </section>
   );
 };
 
 /**
  * The other three treatments, so every page ends somewhere to go. From md up
- * it reads as the end of the related section (same band, same rule above it).
+ * it ends the related section (same band, a rule above it) and sits inside
+ * it, so the related cards and these three are one stop, and the closing call
+ * to action is the next.
  * On a phone it follows the closing call to action, on the same screen: the
  * dark band starts its own screen (batch 4b fixes, PR #8: the last card was
  * cut in half by the dark band sharing its screen), and this band ends with
@@ -456,10 +461,12 @@ const ServicePage = (props: ServicePageProps) => {
           sub-service page: `service` beside "What is it", `studio` beside
           "Who it's for". */}
       {/* On a phone each block below is a screen (src/index.css). The two
-          wrappers group short blocks into one full screen on a phone and are
-          display:contents from md up, so the desktop is exactly as it was:
-          the questions share a screen with the related services, and the
-          other treatments with the closing call to action. */}
+          wrappers group short blocks into one full screen on a phone: the
+          questions with the related services, and the closing call to action
+          with the other treatments. From md up they are display:contents and
+          each section in them is a stop of its own: the questions, the
+          related services with the other treatments, then the closing call
+          to action (Carlo, Oct 2026: the reader can rest on every one). */}
       <Hero hero={props.hero} photo={isPillar ? photos.service : undefined} fact={props.about.fact} />
       {props.pricing && <ServicePricing rows={props.pricing} />}
       <Split id="about" block={props.about} photo={isPillar ? undefined : photos.service} tone="white" />
@@ -471,7 +478,6 @@ const ServicePage = (props: ServicePageProps) => {
         <Faq faq={props.faq} />
         <Related related={props.related} category={props.category} subSlug={props.subSlug} />
       </div>
-      <OtherTreatments category={props.category} className="hidden md:block" />
       <div className={`${SNAP_PHONE_CLASS} md:contents`}>
         <Closing cta={props.cta} />
         <OtherTreatments category={props.category} className="grow md:hidden" />

@@ -27,6 +27,8 @@ const SCREENS = [
   ".mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-desk",
   // On a phone a desktop group is display: contents and its sections are screens.
   ".mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-desk > section",
+  // From 768px up a phone wrapper is display: contents and its sections are screens.
+  ".mhts-snap-site > :not(.mhts-snap-proximity) > .md\\:contents > section",
 ].join(", ");
 
 // From 768px up a stop never cuts anything (Carlo, Oct 2026: "never ever
@@ -153,7 +155,12 @@ const marker = (top: number, align: "start" | "end") => {
 const FIT_SCREENS = [
   ".mhts-snap-site > :not(.mhts-snap-proximity) > section",
   ".mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-desk",
+  ".mhts-snap-site > :not(.mhts-snap-proximity) > .md\\:contents > section",
 ].join(", ");
+// A screen holding the booking calendar is sized to the window by its own
+// rule in index.css and is never zoomed: zoom would shrink the calendar's
+// text to 8 or 9px.
+const NO_FIT = ".mhts-snap-embed";
 // Below this a screen would be too small to read: it keeps zoom 1 and gets
 // further stops instead.
 const MIN_ZOOM = 0.6;
@@ -176,6 +183,12 @@ export const fitScreens = () => {
   for (const el of document.querySelectorAll<HTMLElement>(FIT_SCREENS)) {
     const cs = getComputedStyle(el);
     if (cs.scrollSnapAlign.split(" ")[0] !== "start" || cs.display === "none") continue;
+    if (el.matches(NO_FIT)) {
+      // It may have been fitted before the calendar replaced its panel.
+      el.removeAttribute("data-snap-fit");
+      el.style.removeProperty("--snap-zoom");
+      continue;
+    }
     const kind = el.classList.contains("mhts-snap-desk")
       ? "group"
       : el.classList.contains("mhts-snap-section") && !el.classList.contains("mhts-snap-hero")

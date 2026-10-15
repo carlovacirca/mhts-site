@@ -242,6 +242,34 @@
   92%, 100% { transform: translateX(260%) rotate(12deg); }
 }
 
+/* ── The booking calendar's loading state (BookingCalendar.tsx) ──────────
+   A slow light passes over the skeleton while Trafft loads. Transform only,
+   on a pseudo-element; with reduced motion the skeleton is still. */
+.mhts-skeleton {
+  overflow: hidden;
+}
+.mhts-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    hsl(0 0% 100% / 0) 35%,
+    hsl(0 0% 100% / 0.45) 50%,
+    hsl(0 0% 100% / 0) 65%
+  );
+  pointer-events: none;
+  transform: translateX(-100%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .mhts-skeleton::after {
+    animation: mhts-skeleton-sweep 1.6s ease-in-out infinite;
+  }
+}
+@keyframes mhts-skeleton-sweep {
+  to { transform: translateX(100%); }
+}
+
 /* A horizontal scroller that snaps, used by the before and after row and the
    reviews carousel. Both work with no JavaScript at all: the reader swipes. */
 .mhts-snap-x {
@@ -625,7 +653,12 @@
    and groupings (mhts-snap-phone) are phone only, so here a whole section
    is one screen. A section taller than the screen gets extra stops from
    SnapGuides, so nothing can be skipped. Blog articles keep proximity with
-   stops at the hero and each h2. Nothing here applies under 768px. */
+   stops at the hero and each h2. Nothing here applies under 768px.
+   A phone wrapper at the top of a page (mhts-snap-phone md:contents) is not
+   there from 768px up, so each section in it is a screen of its own, as if
+   it were the page's own: before this the questions, related services and
+   closing call to action of every treatment page, and the closing bands of
+   the area pages, were never a stop and the reader could not rest on them. */
 @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
   html:has(.mhts-snap-site) {
     scroll-snap-type: y mandatory;
@@ -634,7 +667,8 @@
   html:has(.mhts-snap-site .mhts-snap-proximity) {
     scroll-snap-type: y proximity;
   }
-  .mhts-snap-site > :not(.mhts-snap-proximity):not(.mhts-snap-page) > section:not(.md\:hidden) {
+  .mhts-snap-site > :not(.mhts-snap-proximity):not(.mhts-snap-page) > section:not(.md\:hidden),
+  .mhts-snap-site > :not(.mhts-snap-proximity):not(.mhts-snap-page) > .md\:contents > section:not(.md\:hidden) {
     scroll-snap-align: start;
     scroll-margin-top: 0;
     min-height: var(--snap-screen);
@@ -649,7 +683,8 @@
     scroll-snap-align: end;
     min-height: 0;
   }
-  .mhts-snap-site > :not(.mhts-snap-proximity):not(.mhts-snap-page) > section [id] {
+  .mhts-snap-site > :not(.mhts-snap-proximity):not(.mhts-snap-page) > section [id],
+  .mhts-snap-site > :not(.mhts-snap-proximity):not(.mhts-snap-page) > .md\:contents > section [id] {
     scroll-margin-top: 50svh;
   }
   .mhts-snap-site .mhts-snap-proximity .mhts-snap-point {
@@ -695,6 +730,7 @@
   }
   /* The last band takes what is left, so the screen ends on its colour. */
   .mhts-snap-site .mhts-snap-desk > section:last-child,
+  .mhts-snap-site .mhts-snap-desk > .md\:contents:last-child > section:last-child,
   .mhts-snap-site .mhts-snap-page .mhts-snap-desk > .mhts-snap-section:last-child {
     flex: 1 0 auto;
     display: flex;
@@ -783,6 +819,63 @@
   [data-snap-measure] > .md\:contents > section {
     min-height: 0 !important;
     flex: none !important;
+  }
+}
+
+/* ── The booking calendar's stop (768px and up) ──
+   Once the reader has accepted cookies, /book's calendar stop holds Trafft's
+   calendar, 1000px tall. Fitted like any other stop it was zoomed to about
+   0.65, its text down to 8 or 9px, or below the zoom floor paged with a stop
+   line through it. Instead the stop (mhts-snap-embed, which SnapGuides never
+   fits) is exactly one screen, and the calendar takes the room its heading
+   leaves, at most its own 1000px, and scrolls inside its own frame. On a
+   short window the heading drops its icon, then its line, so the calendar
+   keeps a usable height. Phones, and readers with reduced motion, keep the
+   1000px calendar. */
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .mhts-snap-site .mhts-snap-embed {
+    height: var(--snap-screen);
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  .mhts-snap-embed > .container {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .mhts-snap-embed .mhts-embed-head {
+    margin-bottom: 1.5rem;
+  }
+  .mhts-snap-embed .mhts-embed-frame {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 20rem;
+    max-height: 1000px;
+  }
+  /* Trafft gives its iframe a minimum height, and a height of its own when
+     the calendar resizes itself: here the frame decides. */
+  .mhts-snap-embed .embedded-booking iframe {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+}
+@media (min-width: 768px) and (max-height: 999px) and (prefers-reduced-motion: no-preference) {
+  .mhts-snap-embed .mhts-embed-icon {
+    display: none;
+  }
+}
+@media (min-width: 768px) and (max-height: 719px) and (prefers-reduced-motion: no-preference) {
+  .mhts-snap-site .mhts-snap-embed {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+  .mhts-snap-embed .mhts-embed-head {
+    margin-bottom: 1rem;
+  }
+  .mhts-snap-embed .mhts-embed-lede {
+    display: none;
   }
 }
 

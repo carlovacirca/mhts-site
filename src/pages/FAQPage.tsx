@@ -571,6 +571,10 @@ const FAQPage = () => {
 
       </div>
 
+      {/* From md up still have questions and explore more are one stop, the
+          page's last before the footer (Carlo, Oct 2026). On a phone this
+          wrapper is display: contents. */}
+      <div className="mhts-snap-desk">
       {/* Phone: still have questions and explore more are one screen. */}
       <div className={`${SNAP_PHONE_CLASS} md:contents`}>
       {/* Still have questions? */}
@@ -693,6 +697,7 @@ const FAQPage = () => {
           </div>
         </div>
       </section>
+      </div>
       </div>
     </div>
   );

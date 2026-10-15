@@ -131,9 +131,15 @@ const ContactPage = () => {
 
       {/* CONTACT GRID. From md up. On a phone its three cards are spread over
           the screens they belong to: Phone and Email in the hero, the visit
-          beside the form. */}
+          beside the form. The confidentiality line leads them here: from md
+          up the "Get in Touch" band below, which held it, is not shown (its
+          Call and Email repeat these cards, Carlo, Oct 2026). */}
       <section className="hidden bg-mhts-sand py-8 md:block md:py-20">
         <div className="container mx-auto px-4 max-w-6xl">
+          <p className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-mhts-stone bg-card py-2 pl-3 pr-4 font-body text-sm text-foreground/80">
+            <Lock className="h-4 w-4 shrink-0 text-mhts-red" aria-hidden="true" />
+            All enquiries are 100% confidential. No obligation, no pressure.
+          </p>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-[1.25fr_1fr_1fr] md:gap-5">
             <article className="flex flex-col rounded-2xl bg-mhts-red p-8 text-white">
               <span className="mb-4 grid h-12 w-12 place-items-center rounded-full bg-white/15" aria-hidden="true">
@@ -173,8 +179,10 @@ const ContactPage = () => {
         </div>
       </section>
 
-      {/* FORM */}
-      <section className="bg-card py-8 md:py-16">
+      {/* FORM. A phone screen only while the form is off: from md up the
+          cards above say all of it, so it was a near-empty stop of its own.
+          When the form returns, drop md:hidden. */}
+      <section className="bg-card py-8 md:hidden">
         <div className="container mx-auto px-4 max-w-3xl">
           <div className="mb-6 text-center md:mb-10">
             <h2 className="text-3xl text-mhts-ink md:text-4xl">Get in Touch</h2>

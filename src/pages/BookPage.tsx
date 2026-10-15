@@ -8,6 +8,7 @@ import { Phone, CalendarCheck } from "lucide-react";
 import { useSeo, useJsonLd, breadcrumbSchema } from "@/lib/seo";
 import { useCookieConsent } from "@/lib/cookieConsent";
 import BookingPanel from "@/components/mhts/BookingPanel";
+import BookingCalendar from "@/components/mhts/BookingCalendar";
 import { CallButton } from "@/components/mhts/CtaButtons";
 import ServicePricing from "@/components/ServicePricing";
 import {
@@ -197,31 +198,29 @@ const BookPage = () => {
       <ServicePricing rows={pricingRows} />
 
       {/* TRAFFT WIDGET */}
-      <section id="trafft-booking" className="scroll-mt-24 border-y border-mhts-stone bg-card py-4 md:py-16">
+      {/* With the calendar in, from md up this stop is exactly one screen and
+          the calendar takes the room the heading leaves (mhts-snap-embed,
+          src/index.css): it is never zoomed. */}
+      <section
+        id="trafft-booking"
+        className={`scroll-mt-24 border-y border-mhts-stone bg-card py-4 md:py-16 ${
+          cookieConsent === "accepted" ? "mhts-snap-embed" : ""
+        }`}
+      >
         <div className="container mx-auto px-4 max-w-5xl">
-          <div className="mb-5 text-center md:mb-10">
-            <span className="mx-auto mb-4 hidden h-12 w-12 place-items-center rounded-full bg-mhts-red text-white md:grid" aria-hidden="true">
+          <div className="mhts-embed-head mb-5 text-center md:mb-10">
+            <span className="mhts-embed-icon mx-auto mb-4 hidden h-12 w-12 place-items-center rounded-full bg-mhts-red text-white md:grid" aria-hidden="true">
               <CalendarCheck className="h-5 w-5" />
             </span>
             <h2 className="text-2xl text-mhts-ink md:text-3xl">
               Choose a Date &amp; Time
             </h2>
-            <p className="text-foreground/75 font-body mt-4 max-w-xl mx-auto">
+            <p className="mhts-embed-lede text-foreground/75 font-body mt-4 max-w-xl mx-auto">
               Select your service and time below to confirm your appointment.
             </p>
           </div>
           {cookieConsent === "accepted" ? (
-            <div
-              key={serviceUuid}
-              className="embedded-booking w-full"
-              data-url="https://menshairtostay.trafft.com"
-              data-query={`&t=s&uuid=${serviceUuid}`}
-              data-lang="en"
-              data-autoresize="0"
-              data-showsidebar="1"
-              data-showservices="0"
-              style={{ minWidth: "320px", minHeight: "1000px", width: "100%" }}
-            />
+            <BookingCalendar key={serviceUuid} serviceUuid={serviceUuid} />
           ) : (
             /* Was one line of grey text and a button that read "Enable cookies
                to book online": an empty block where the booking calendar should

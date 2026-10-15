@@ -349,3 +349,64 @@ describe("batch 4b fixes: no instructions, reviews as a row on a desktop", () =>
     for (const card of Array.from(track.children)) expect(card.className).toMatch(/\bmd:snap-align-none\b/);
   });
 });
+
+describe("desktop stops (768px and up)", () => {
+  beforeEach(() => window.localStorage.clear());
+
+  // From md up a page's stops are its own sections, its grouped screens
+  // (mhts-snap-desk) and the sections of a phone wrapper, which is
+  // display: contents there. Anything else at the top of a page is never a
+  // stop, and under mandatory snap the reader can never rest on it: the
+  // questions, related treatments and closing call to action of every
+  // treatment page, and the closing bands of the town pages and the FAQ, were
+  // skipped that way until Oct 2026.
+  it("make the sections of a phone wrapper stops, fitted by SnapGuides", () => {
+    const rule = ".mhts-snap-site > :not(.mhts-snap-proximity):not(.mhts-snap-page) > .md\\:contents > section:not(.md\\:hidden)";
+    const at = css.indexOf(rule);
+    expect(at).toBeGreaterThan(0);
+    const media = css.lastIndexOf("@media", at);
+    expect(css.slice(media, css.indexOf("{", media)).trim()).toBe("@media (min-width: 768px) and (prefers-reduced-motion: no-preference)");
+    const guides = readFileSync(join(__dirname, "..", "components", "SnapGuides.tsx"), "utf8");
+    expect(guides.match(/> \.md\\\\:contents > section"/g)?.length).toBe(2);
+  });
+
+  const area = () => (
+    <Routes>
+      <Route path="/areas/:slug" element={<AreaPage />} />
+    </Routes>
+  );
+  const PAGES: [string, React.ReactElement][] = [
+    ["/hair-systems", <HairSystemsPage />],
+    ["/hair-systems/hair-system-colouring", <HairSystemColouringPage />],
+    ["/areas/chesham", area()],
+    ["/faq", <FAQPage />],
+    ["/contact", <ContactPage />],
+    ["/book", <BookPage />],
+    ["/services", <ServicesPage />],
+    ["/how-it-works", <HowItWorksPage />],
+    ["/gallery", <GalleryPage />],
+    ["/areas-serviced", <AreasServicedPage />],
+    ["/privacy-policy", <PrivacyPolicyPage />],
+  ];
+  it.each(PAGES)("%s holds nothing at its top level that could never be a stop", (path, ui) => {
+    const page = renderAt(ui, path).container.querySelector(".mhts-theme")!;
+    const shownFromMd = (el: Element) => !el.classList.contains("md:hidden");
+    for (const child of Array.from(page.children).filter(shownFromMd)) {
+      if (child.tagName === "SECTION" || child.classList.contains("mhts-snap-desk")) continue;
+      expect(child.classList.contains("md:contents"), `${path}: ${child.outerHTML.slice(0, 80)}`).toBe(true);
+      for (const inner of Array.from(child.children).filter(shownFromMd)) {
+        expect(inner.tagName, `${path}: ${inner.outerHTML.slice(0, 80)}`).toBe("SECTION");
+      }
+    }
+  });
+
+  it("contact has no near-empty stop: Get in Touch is a phone screen, its line leads the cards", () => {
+    const { container } = renderAt(<ContactPage />);
+    const getInTouch = Array.from(container.querySelectorAll("h2")).find((h) => h.textContent === "Get in Touch")!;
+    expect(getInTouch.closest("section")!.className).toMatch(/\bmd:hidden\b/);
+    const cards = Array.from(container.querySelectorAll("h2")).find((h) => h.textContent === "Phone" && h.closest("article"))!;
+    const band = cards.closest("section")!;
+    expect(band.className).toMatch(/\bhidden\b.*\bmd:block\b/);
+    expect(band.textContent).toContain("All enquiries are 100% confidential. No obligation, no pressure.");
+  });
+});
