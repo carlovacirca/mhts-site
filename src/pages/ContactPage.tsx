@@ -15,7 +15,7 @@ import { EMAIL, PHONE_DISPLAY, PHONE_TEL } from "@/lib/site";
 import { Reveal } from "@/lib/motion";
 import { SNAP_BEFORE_FOOTER_CLASS, SNAP_PHONE_CLASS } from "@/lib/sectionSnap";
 import ResponsiveImage from "@/components/ResponsiveImage";
-import studioPhoto from "@/assets/mhts-consultation-room-hero.jpg";
+import studioPhoto from "@/assets/mhts-consultation-room-hero-v2.jpg";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),

@@ -30,7 +30,7 @@ import BookingPanel from "@/components/mhts/BookingPanel";
 import StudioMap from "@/components/mhts/StudioMap";
 import { SNAP_HERO_CLASS, SNAP_PHONE_CLASS, SNAP_SECTION_CLASS, SNAP_SPLIT_CLASS, snapPageClass } from "@/lib/sectionSnap";
 import mhtsHero from "@/assets/mhts-hero.jpg";
-import studioWide from "@/assets/mhts-studio-wide-hero.jpg";
+import studioWide from "@/assets/mhts-studio-wide-hero-v2.jpg";
 import mhtsBefore1 from "@/assets/mhts-before-1.jpg";
 import mhtsAfter1 from "@/assets/mhts-after-1.jpg";
 import mhtsBefore2 from "@/assets/mhts-before-2.jpg";

@@ -5,7 +5,7 @@ import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { CtaPair } from "@/components/mhts/CtaButtons";
 import { cardPhotoFor } from "@/data/servicePhotos";
-import studioPhoto from "@/assets/mhts-studio-wide-hero.jpg";
+import studioPhoto from "@/assets/mhts-studio-wide-hero-v2.jpg";
 import { useSeo, useJsonLd, useOpenGraph, localBusinessSchema, breadcrumbSchema, SITE_URL } from "@/lib/seo";
 import { findArea } from "@/data/areas";
 import { serviceCategories } from "@/data/services";

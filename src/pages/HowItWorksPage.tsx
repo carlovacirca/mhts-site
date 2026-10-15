@@ -3,7 +3,7 @@ import { Reveal } from "@/lib/motion";
 import { CtaPair } from "@/components/mhts/CtaButtons";
 import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
 import ResponsiveImage from "@/components/ResponsiveImage";
-import consultationRoom from "@/assets/mhts-consultation-room-hero.jpg";
+import consultationRoom from "@/assets/mhts-consultation-room-hero-v2.jpg";
 import baseMaterials from "@/assets/mhts-hair-system-base-materials-hero.jpg";
 import hairline from "@/assets/mhts-hair-system-hairline-hero.jpg";
 import maintenanceWork from "@/assets/mhts-hair-system-maintenance-hero.jpg";

@@ -3,7 +3,7 @@ import { CalendarCheck, ChevronRight, Mail, Phone, MapPin } from "lucide-react";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
 import { CtaPair } from "@/components/mhts/CtaButtons";
 import ResponsiveImage from "@/components/ResponsiveImage";
-import studioWide from "@/assets/mhts-studio-wide-hero.jpg";
+import studioWide from "@/assets/mhts-studio-wide-hero-v2.jpg";
 import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
 
 // The contents list, in page order. Each label is the section's own heading.

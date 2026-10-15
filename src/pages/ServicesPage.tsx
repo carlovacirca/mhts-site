@@ -7,7 +7,7 @@ import ResponsiveImage from "@/components/ResponsiveImage";
 import { CtaPair } from "@/components/mhts/CtaButtons";
 import { cardPhotoFor } from "@/data/servicePhotos";
 import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
-import studioWide from "@/assets/mhts-studio-wide-hero.jpg";
+import studioWide from "@/assets/mhts-studio-wide-hero-v2.jpg";
 
 const ServicesPage = () => {
   useSeo({

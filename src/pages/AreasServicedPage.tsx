@@ -5,7 +5,7 @@ import { useSeo, breadcrumbSchema } from "@/lib/seo";
 import { Reveal } from "@/lib/motion";
 import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
 import ResponsiveImage from "@/components/ResponsiveImage";
-import studioWide from "@/assets/mhts-studio-wide-hero.jpg";
+import studioWide from "@/assets/mhts-studio-wide-hero-v2.jpg";
 import { ADDRESS_LINE } from "@/lib/site";
 import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 

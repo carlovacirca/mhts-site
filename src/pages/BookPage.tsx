@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Reveal } from "@/lib/motion";
 import { SNAP_BEFORE_FOOTER_CLASS, SNAP_PHONE_CLASS } from "@/lib/sectionSnap";
 import ResponsiveImage from "@/components/ResponsiveImage";
-import consultationRoom from "@/assets/mhts-consultation-room-hero.jpg";
+import consultationRoom from "@/assets/mhts-consultation-room-hero-v2.jpg";
 import { Phone, CalendarCheck } from "lucide-react";
 import { useSeo, useJsonLd, breadcrumbSchema } from "@/lib/seo";
 import { useCookieConsent } from "@/lib/cookieConsent";

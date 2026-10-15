@@ -12,8 +12,8 @@ import before3 from "@/assets/mhts-before-3.jpg";
 import after1 from "@/assets/mhts-after-1.jpg";
 import after2 from "@/assets/mhts-after-2.jpg";
 import after3 from "@/assets/mhts-after-3.jpg";
-import studioWide from "@/assets/mhts-studio-wide-hero.jpg";
-import consultationRoom from "@/assets/mhts-consultation-room-hero.jpg";
+import studioWide from "@/assets/mhts-studio-wide-hero-v2.jpg";
+import consultationRoom from "@/assets/mhts-consultation-room-hero-v2.jpg";
 
 type Category = "all" | "hair-systems" | "smp" | "maintenance" | "thinning" | "crown";
 
