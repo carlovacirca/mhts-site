@@ -167,6 +167,12 @@ const MIN_ZOOM = 0.6;
 // On a phone a section is only shrunk to fit when it is a little too tall:
 // below this the words would be too small, and it keeps its further stops.
 const PHONE_MIN_ZOOM = 0.8;
+// A short phone screen (the browser's bars showing, a small phone) fits every
+// screen, by up to this much (Carlo, Oct 2026: nothing split over two stops).
+// The design was laid out for a full-height phone, so most screens are 15 to
+// 35% too tall once the bars take their share.
+const SHORT_PHONE = 800;
+const SHORT_PHONE_MIN_ZOOM = 0.72;
 // On a phone a desktop group is display: contents and its sections are screens.
 const PHONE_FIT_SCREENS = `${FIT_SCREENS}, .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-desk > section`;
 
@@ -186,7 +192,8 @@ export const fitScreens = () => {
   const screen = measure("var(--snap-screen)");
   const first = measure("var(--snap-first-screen)");
   if (screen < 100) return;
-  const minZoom = phone ? PHONE_MIN_ZOOM : MIN_ZOOM;
+  const short = phone && window.innerHeight < SHORT_PHONE;
+  const minZoom = short ? SHORT_PHONE_MIN_ZOOM : phone ? PHONE_MIN_ZOOM : MIN_ZOOM;
   for (const el of document.querySelectorAll<HTMLElement>(phone ? PHONE_FIT_SCREENS : FIT_SCREENS)) {
     const cs = getComputedStyle(el);
     if (cs.scrollSnapAlign.split(" ")[0] !== "start" || cs.display === "none" || cs.display === "contents") continue;
@@ -194,7 +201,7 @@ export const fitScreens = () => {
     // leave (mhts-fill, "Who it's for") is fitted: the photograph grows back
     // into what the fit frees, so the screen stays full. Any other screen
     // would be left part empty, and keeps its further stops instead.
-    if (phone && !el.querySelector(".mhts-fill")) continue;
+    if (phone && !short && !el.querySelector(".mhts-fill")) continue;
     if (el.matches(NO_FIT)) {
       // It may have been fitted before the calendar replaced its panel.
       el.removeAttribute("data-snap-fit");

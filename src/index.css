@@ -785,6 +785,37 @@
   .mhts-desk-dark .mhts-treat-card { box-shadow: 0 0 0 1px rgb(255 255 255 / 0.12); }
 }
 
+/* ── A short phone screen ──
+   Carlo, Oct 2026: on a real phone the browser's bars take a sixth of the
+   screen (390x664 on an iPhone with Safari's bars showing), and the phone
+   layout, drawn for a full-height screen, split most screens over two stops.
+   Under 800px of height the stops tighten: less padding, a smaller heading,
+   closer lines. SnapGuides then fits what is still too tall (up to 28%). */
+@media (max-width: 767.98px) and (max-height: 799.98px) and (prefers-reduced-motion: no-preference) {
+  .mhts-snap-site > :not(.mhts-snap-proximity) > section,
+  .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-desk > section,
+  .mhts-snap-site .mhts-snap-phone {
+    padding-top: 1.25rem !important;
+    padding-bottom: 1.25rem !important;
+  }
+  .mhts-snap-site h2 {
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+  .mhts-snap-site :is(h2.mb-6, h2.mb-8) {
+    margin-bottom: 0.75rem;
+  }
+  .mhts-snap-site :is(.mb-8, .mb-10, .mb-12) {
+    margin-bottom: 1rem;
+  }
+  .mhts-snap-site .space-y-6 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 0.875rem;
+  }
+  .mhts-snap-site p {
+    line-height: 1.55;
+  }
+}
+
 /* ── Fitting a phone screen ──
    Carlo, Oct 2026: a phone section only a little taller than the room
    between the header and the bottom bar was given a second stop a few pixels
