@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import { motion } from "@/lib/motion";
+import { motion, Reveal } from "@/lib/motion";
 import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
 import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
@@ -299,10 +299,8 @@ const FAQPage = () => {
   // same 24px below its question and above the next, as before.
   const bandItem = (after: number) => (
     <li key={`band-${after}`} className="md:mb-3 md:mt-3">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.98 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
+      <Reveal
+        from="scale"
         className="relative flex flex-col items-center gap-3 overflow-hidden rounded-xl bg-mhts-deep p-5 text-white md:flex-row md:gap-6 md:p-8"
       >
         <CalendarCheck className="hidden h-10 w-10 flex-shrink-0 text-mhts-red-light md:block" />
@@ -319,7 +317,7 @@ const FAQPage = () => {
           <BookButton size="md" href="/#mhts-book" />
           <CallButton size="md" tone="dark" label="Call us" />
         </div>
-      </motion.div>
+      </Reveal>
     </li>
   );
 

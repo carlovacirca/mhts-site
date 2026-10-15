@@ -17,6 +17,11 @@ interface ResponsiveImageProps {
   width?: number;
   height?: number;
   style?: React.CSSProperties;
+  /**
+   * A photograph that uncovers as its scroll stop arrives (the "uncover" verb
+   * of src/lib/stopMotion.ts). The clip goes on the image's own rounded box.
+   */
+  stopMedia?: boolean;
 }
 
 /**
@@ -36,6 +41,7 @@ const ResponsiveImage = ({
   width,
   height,
   style,
+  stopMedia = false,
 }: ResponsiveImageProps) => {
   const pic = getPicture(src);
 
@@ -43,6 +49,7 @@ const ResponsiveImage = ({
     alt,
     className,
     style,
+    "data-stop-media": stopMedia ? "" : undefined,
     decoding: "async" as const,
     ...(priority
       ? { loading: "eager" as const, fetchPriority: "high" as const }

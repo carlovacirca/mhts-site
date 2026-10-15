@@ -20,7 +20,7 @@ import { SECTION_SNAP } from "@/lib/sectionSnap";
 // and placed again whenever the page changes size. Nothing moves the page:
 // the browser's own scroll snap does the rest. No screen that fits gets any.
 
-const SCREENS = [
+export const SCREENS = [
   ".mhts-snap-site > :not(.mhts-snap-proximity) > section",
   ".mhts-snap-site .mhts-snap-phone",
   ".mhts-snap-site .mhts-snap-section",
@@ -152,7 +152,7 @@ const marker = (top: number, align: "start" | "end") => {
 // From 768px up each screen is fitted to the room under the header (Carlo,
 // Oct 2026: one screen per section, nothing cut off, on every laptop,
 // desktop and tablet). See "Fitting a screen to the window" in index.css.
-const FIT_SCREENS = [
+export const FIT_SCREENS = [
   ".mhts-snap-site > :not(.mhts-snap-proximity) > section",
   ".mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-desk",
   ".mhts-snap-site > :not(.mhts-snap-proximity) > .md\\:contents > section",
@@ -270,6 +270,12 @@ const SnapGuides = () => {
         // A change of height the fit did not make (an image arriving, a
         // panel opening) fits again.
         if (main && fittedHeight >= 0 && Math.abs(main.offsetHeight - fittedHeight) > 2) refit = true;
+        // The arrival motion (src/lib/stopMotion.ts) moves items with
+        // translate and scale, which getBoundingClientRect counts. This flag
+        // takes them off while the screens are measured, and goes again in
+        // the same frame, so it never paints.
+        const root = document.documentElement;
+        root.setAttribute("data-snap-measuring", "");
         if (refit) {
           clearBreaks();
           fitScreens();
@@ -277,6 +283,7 @@ const SnapGuides = () => {
         refit = false;
         placeSnapGuides(layer);
         if (main) fittedHeight = main.offsetHeight;
+        root.removeAttribute("data-snap-measuring");
       });
     };
     const refitSoon = () => {

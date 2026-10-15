@@ -64,6 +64,7 @@ const ServicesPage = () => {
                         alt=""
                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                         sizes="(max-width: 768px) 100vw, 560px"
+                        stopMedia
                       />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-mhts-deep via-mhts-deep/40 to-transparent" />

@@ -12,7 +12,6 @@ import { toast } from "@/hooks/use-toast";
 import StudioMap from "@/components/mhts/StudioMap";
 import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 import { EMAIL, PHONE_DISPLAY, PHONE_TEL } from "@/lib/site";
-import { Reveal } from "@/lib/motion";
 import { SNAP_BEFORE_FOOTER_CLASS, SNAP_PHONE_CLASS } from "@/lib/sectionSnap";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import studioPhoto from "@/assets/mhts-consultation-room-hero-v2.jpg";
@@ -118,14 +117,15 @@ const ContactPage = () => {
               </div>
             </div>
           </div>
-          <Reveal as="figure" from="right" className="hidden md:block">
+          <figure className="hidden md:block">
             <ResponsiveImage
               src={studioPhoto}
               alt="The private consultation room at the Amersham studio"
               className="aspect-[4/5] w-full rounded-2xl object-cover shadow-2xl"
               sizes="40vw"
+              stopMedia
             />
-          </Reveal>
+          </figure>
         </div>
       </section>
 

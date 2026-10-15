@@ -174,9 +174,9 @@ const Split = ({
         <div className="space-y-6 font-body leading-[1.7] text-foreground/80 md:space-y-5 md:leading-relaxed">{block.body}</div>
       </Reveal>
       {photo ? (
-      <Reveal
-        as="figure"
-        from={flip ? "left" : "right"}
+      // The photograph uncovers on its own box (never the figure: the key
+      // fact overhangs it from md up) and the key fact rises after it.
+      <figure
         className={`${together ? "mhts-fill-chain" : `${SNAP_PHONE_CLASS} py-10`} relative md:py-0 ${flip ? "md:order-1" : ""}`}
       >
         {/* On a phone the photograph grows to fill its screen (mhts-fill). */}
@@ -185,6 +185,7 @@ const Split = ({
           alt={photo.alt}
           className={`mhts-fill aspect-[4/3] w-full rounded-2xl object-cover ${photo.wide ? "" : "md:aspect-[5/6]"}`}
           sizes="(max-width: 768px) 100vw, 560px"
+          stopMedia
         />
         {/* The key fact. It repeats a line of the text beside it, so it is
             hidden from screen readers rather than read out twice. When the
@@ -192,13 +193,14 @@ const Split = ({
             hero instead. */}
         <figcaption
           aria-hidden="true"
+          data-stop-item=""
           className={`relative -mt-10 mx-4 rounded-xl border-l-4 border-mhts-red bg-card p-5 shadow-xl md:absolute md:bottom-6 md:mx-0 md:mt-0 md:block md:max-w-[80%] ${
             flip ? "md:-right-6" : "md:-left-6"
           } ${together ? "" : "hidden"}`}
         >
           <p className="text-lg font-semibold leading-snug text-mhts-ink">{block.fact}</p>
         </figcaption>
-      </Reveal>
+      </figure>
       ) : (
       // No photograph: the key fact alone, set large, as a pull quote. From
       // md up only; on a phone it is in the hero.

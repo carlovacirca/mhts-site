@@ -418,6 +418,7 @@ const MHTSLanding = () => {
                         alt={post.title}
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         sizes="(max-width: 768px) 80vw, 380px"
+                        stopMedia
                       />
                     </Link>
                   )}

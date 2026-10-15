@@ -350,6 +350,14 @@
   50%, 87.9% { opacity: 1; }
   100% { opacity: 0; }
 }
+/* From md up the frames of a row (the homepage strip, the results page) do
+   not flip in unison: each loop starts 0.6s after the one to its left, so the
+   change travels across the row as a wave. The frame's place is --ba-i. */
+@media (min-width: 768px) {
+  .mhts-ba-after {
+    animation-delay: calc(var(--ba-i, 0) * 0.6s);
+  }
+}
 
 /* On a phone, a frame in a before and after strip (BeforeAfterStrip) does not
    loop on its own: the strip says which photograph shows (data-phase) and the
@@ -899,4 +907,137 @@
   .mhts-snap-site :is(.sticky, .md\:sticky, .lg\:sticky) {
     position: static;
   }
+}
+
+/* ── Arrive: the motion at every scroll stop (every width) ──
+   Carlo, Oct 2026: something arrives at every stop, on a phone and a
+   desktop alike. src/lib/stopMotion.ts arms the stops that are off screen
+   once React has mounted (data-stop="armed", and data-stops on <html>) and
+   flips each to "in" as its snap glide slows. Four verbs, one easing:
+     rise     [data-stop-item]: a fade and a short lift; [data-stop-fade]
+              only fades (a strip that scrolls sideways, a clipping card, an
+              item whose photograph uncovers); data-stop-from left, right and
+              scale are the Reveal variants
+     draw     [data-stop-draw]: the red rule under a title, 150ms after it
+     uncover  [data-stop-media]: a photograph or before and after frame
+              opens from a smaller rounded box and settles from 1.05, once it
+              has decoded (data-stop-ready)
+     light    [data-stop-light]: a hook for the dark bands, nothing yet
+   Each item waits min(--stop-i x step, cap); photographs in a row 120ms
+   apart. Transitions are declared only on "in", so arming is instant and
+   off screen, and data-stop goes once the stop has settled, so a stop at
+   rest is exactly the design. Only opacity, translate, scale and clip-path
+   move: no layout property, no shift, nothing for SnapGuides to refit.
+   Nothing applies without both attributes or under reduced motion. */
+:root {
+  --stop-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --stop-draw-ease: cubic-bezier(0.65, 0, 0.35, 1);
+  --stop-step: 70ms;
+  --stop-cap: 560ms;
+  --stop-rise: 16px;
+  --stop-fade: 500ms;
+  --stop-move: 700ms;
+  --stop-draw: 600ms;
+  --stop-clip: 800ms;
+  --stop-settle: 1100ms;
+  --stop-media-step: 120ms;
+}
+/* A phone: a shorter lift and a quicker beat. */
+@media (max-width: 767.98px) {
+  :root {
+    --stop-step: 55ms;
+    --stop-cap: 440ms;
+    --stop-rise: 12px;
+    --stop-fade: 400ms;
+    --stop-move: 560ms;
+    --stop-draw: 480ms;
+    --stop-clip: 650ms;
+    --stop-settle: 900ms;
+    --stop-media-step: 100ms;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html[data-stops] [data-stop] :is([data-stop-item], [data-stop-draw]) {
+    --stop-delay: min(calc(var(--stop-i, var(--i, 0)) * var(--stop-step)), var(--stop-cap));
+  }
+  html[data-stops] [data-stop] [data-stop-media] {
+    --stop-media-delay: calc(var(--stop-m, 0) * var(--stop-media-step));
+  }
+
+  /* Rise */
+  html[data-stops] [data-stop="armed"] [data-stop-item] {
+    opacity: 0;
+    translate: 0 var(--stop-rise);
+  }
+  html[data-stops] [data-stop="armed"] [data-stop-item][data-stop-from="left"] {
+    translate: calc(var(--stop-rise) * -1.5) 0;
+  }
+  html[data-stops] [data-stop="armed"] [data-stop-item][data-stop-from="right"] {
+    translate: calc(var(--stop-rise) * 1.5) 0;
+  }
+  html[data-stops] [data-stop="armed"] [data-stop-item][data-stop-from="scale"] {
+    translate: none;
+    scale: 0.96;
+  }
+  html[data-stops] [data-stop="armed"] [data-stop-item][data-stop-fade] {
+    translate: none;
+    scale: none;
+  }
+  html[data-stops] [data-stop="in"] [data-stop-item] {
+    transition:
+      opacity var(--stop-fade) var(--stop-ease) var(--stop-delay),
+      translate var(--stop-move) var(--stop-ease) var(--stop-delay),
+      scale var(--stop-move) var(--stop-ease) var(--stop-delay);
+  }
+
+  /* Draw */
+  html[data-stops] [data-stop] [data-stop-draw] {
+    transform-origin: left center;
+  }
+  html[data-stops] [data-stop] [data-stop-draw="center"] {
+    transform-origin: center;
+  }
+  html[data-stops] [data-stop] [data-stop-draw="y"] {
+    transform-origin: center top;
+  }
+  html[data-stops] [data-stop="armed"] [data-stop-draw] {
+    scale: 0 1;
+  }
+  html[data-stops] [data-stop="armed"] [data-stop-draw="y"] {
+    scale: 1 0;
+  }
+  html[data-stops] [data-stop="in"] [data-stop-draw] {
+    transition: scale var(--stop-draw) var(--stop-draw-ease) calc(var(--stop-delay) + 150ms);
+  }
+
+  /* Uncover. The clip opens past the box (-6rem) so a shadow is never cut
+     while it settles; the image's own rounded corners do the rest. */
+  html[data-stops] :is([data-stop="armed"] [data-stop-media], [data-stop="in"] [data-stop-media]:not([data-stop-ready])) {
+    clip-path: inset(6% round var(--stop-r, 0px));
+  }
+  html[data-stops] :is([data-stop="armed"] [data-stop-media], [data-stop="in"] [data-stop-media]:not([data-stop-ready])) img,
+  html[data-stops] :is([data-stop="armed"] img[data-stop-media], [data-stop="in"] img[data-stop-media]:not([data-stop-ready])) {
+    scale: 1.05;
+  }
+  html[data-stops] [data-stop="in"] [data-stop-media][data-stop-ready] {
+    clip-path: inset(-6rem round var(--stop-r, 0px));
+    transition: clip-path var(--stop-clip) var(--stop-ease) var(--stop-media-delay);
+  }
+  html[data-stops] [data-stop="in"] [data-stop-media][data-stop-ready] img {
+    scale: 1;
+    transition: scale var(--stop-settle) var(--stop-ease) var(--stop-media-delay);
+  }
+  html[data-stops] [data-stop="in"] img[data-stop-media][data-stop-ready] {
+    scale: 1;
+    transition:
+      clip-path var(--stop-clip) var(--stop-ease) var(--stop-media-delay),
+      scale var(--stop-settle) var(--stop-ease) var(--stop-media-delay);
+  }
+}
+/* While SnapGuides measures the screens (one frame, never painted) nothing
+   is lifted or scaled, so its pages and zoom are those of the resting page. */
+html[data-snap-measuring] :is([data-stop-item], [data-stop-draw], [data-stop-media], [data-stop-media] img) {
+  translate: none !important;
+  scale: none !important;
+  transition: none !important;
 }

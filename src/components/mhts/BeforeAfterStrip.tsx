@@ -17,8 +17,8 @@ import { Reveal, usePrefersReducedMotion } from "@/lib/motion";
 // side by side, still (the CSS in BeforeAfterFade's rules), and the reader
 // swipes or uses the arrows.
 //
-// From md up: the three clients in a row, each looping on its own, exactly as
-// before.
+// From md up: the three clients in a row, each looping on its own, the loops
+// 0.6s apart so the change runs across the row as a wave.
 //
 // The timing is a pair of timeouts that only run on a phone, on screen. The
 // cross-fade itself is CSS (data-phase, src/index.css), so the pre-rendered
@@ -140,6 +140,7 @@ const BeforeAfterStrip = ({ pairs, frameClassName, sizes }: BeforeAfterStripProp
                 frameClassName={frameClassName}
                 sizes={sizes}
                 phase={i === active ? phase : "before"}
+                wave={i}
               />
             </Reveal>
           </div>

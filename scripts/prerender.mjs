@@ -108,6 +108,17 @@ async function render(page, baseUrl, routePath) {
       for (const v of ["--snap-zoom", "--snap-break", "--snap-break-base", "--snap-pad", "--snap-pad-base"]) el.style.removeProperty(v);
       if (!el.getAttribute("style")) el.removeAttribute("style");
     });
+    // The arrival motion at each stop (src/lib/stopMotion.ts) never runs in
+    // this pass, but its hooks are in the markup: none of them is saved, so
+    // the HTML is the resting page with nothing that could hide it.
+    document.documentElement.removeAttribute("data-stops");
+    document.documentElement.removeAttribute("data-snap-measuring");
+    const stopAttrs = ["data-stop", "data-stop-item", "data-stop-draw", "data-stop-media", "data-stop-from", "data-stop-fade", "data-stop-ready"];
+    document.querySelectorAll(stopAttrs.map((a) => "[" + a + "]").join(", ")).forEach((el) => {
+      for (const a of stopAttrs) el.removeAttribute(a);
+      for (const v of ["--i", "--stop-i", "--stop-m", "--stop-r"]) el.style.removeProperty(v);
+      if (!el.getAttribute("style")) el.removeAttribute("style");
+    });
     // The toast library injects its own 14 KB stylesheet on mount. Baking it
     // adds 14 KB to every page for something that cannot appear before
     // JavaScript runs, and the library injects it again anyway.
@@ -235,6 +246,8 @@ async function main() {
     // An element saved part way through a fade is invisible to anyone without
     // JavaScript and pops into view when React takes over. Switching the
     // animations off for the capture makes it impossible; this makes sure.
+    // The arrival motion's hooks are stripped above; this makes sure.
+    if (/\sdata-stops?(-[a-z]+)?=/.test(html)) problems.push(file + " has a data-stop attribute saved in it");
     const midAnimation = html.match(/style="[^"]*opacity:\s*0(\.\d+)?\s*[;"]/g) || [];
     if (midAnimation.length) {
       problems.push(

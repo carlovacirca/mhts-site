@@ -55,7 +55,7 @@ const items: GalleryItem[] = [
  * client is a screen of its own: a tall frame, Before for 2 seconds, After for
  * 2 seconds (mhts-ba-quick, src/index.css).
  */
-const ClientFrame = ({ item }: { item: GalleryItem }) => (
+const ClientFrame = ({ item, wave }: { item: GalleryItem; wave: number }) => (
   <div className="rounded-2xl border border-white/10 bg-white/5 p-3 [&_figcaption]:text-base [&_figcaption]:font-semibold [&_figcaption]:text-white md:[&_figcaption]:text-sm">
     <BeforeAfterFade
       before={item.before}
@@ -65,6 +65,7 @@ const ClientFrame = ({ item }: { item: GalleryItem }) => (
       caption={item.service}
       frameClassName="mhts-ba-quick aspect-[2/3] md:aspect-[4/5]"
       sizes="(max-width: 768px) 100vw, 360px"
+      wave={wave}
     />
   </div>
 );
@@ -148,7 +149,7 @@ const GalleryPage = () => {
                 // yet, so there is no SMP screen.
                 <div key={idx} className={`${SNAP_PHONE_CLASS} py-8 md:py-0 ${item.category === "maintenance" ? "max-md:order-last" : ""}`}>
                   <Reveal from="scale" delay={idx * 0.08}>
-                    <ClientFrame item={item} />
+                    <ClientFrame item={item} wave={idx} />
                   </Reveal>
                 </div>
               ))}

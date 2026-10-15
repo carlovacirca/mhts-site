@@ -137,8 +137,10 @@ const GoogleReviews = ({ compact = false }: { compact?: boolean } = {}) => {
       onTouchStart={pause}
       onPointerDown={pause}
     >
-      {/* Header card: the Google logo, five stars, and the way out to the listing. */}
-      <div className={`mx-auto flex max-w-3xl flex-col items-center rounded-xl border border-mhts-stone bg-card px-6 text-center sm:flex-row sm:justify-between sm:text-left ${compact ? "mb-5 gap-3 py-4" : "mb-8 gap-4 py-6"}`}>
+      {/* Header card: the Google logo, five stars, and the way out to the listing.
+          It and each review arrive with their stop (data-stop-item,
+          src/lib/stopMotion.ts); at rest nothing about them changes. */}
+      <div data-stop-item="" className={`mx-auto flex max-w-3xl flex-col items-center rounded-xl border border-mhts-stone bg-card px-6 text-center sm:flex-row sm:justify-between sm:text-left ${compact ? "mb-5 gap-3 py-4" : "mb-8 gap-4 py-6"}`}>
         <div className="flex items-center gap-4">
           <GoogleMark className="h-9 w-9 shrink-0" />
           <div>
@@ -178,6 +180,7 @@ const GoogleReviews = ({ compact = false }: { compact?: boolean } = {}) => {
           <article
             key={r.name}
             data-carousel-slide=""
+            data-stop-item=""
             data-active={i === active ? "1" : undefined}
             aria-roledescription="slide"
             aria-label={`Review ${i + 1} of ${reviews.length}, ${r.name}`}
