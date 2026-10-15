@@ -10,7 +10,7 @@
 // heading "Hair Systems & SMP" in one weight (batch 4b fixes, PR #8: with only
 // SMP in bold it read as if SMP were the main service), a short rule, the one
 // line, then the web address and the phone number. The real studio photograph
-// (mhts-studio-wide-hero) fills the right, fading into the ink on its left.
+// (mhts-studio-wide-hero-v2, the enhanced photo) fills the right, fading into the ink on its left.
 //
 // Rendered in Chromium (Playwright) with DM Sans, the site's own font, which
 // the script downloads from Google Fonts and embeds, so the page has no
@@ -60,9 +60,9 @@ const html = (font) => `<!doctype html>
   .contact { position: absolute; left: 56px; top: 540px; font-size: 20px; color: #a3a4a8; }
   .contact .dot { margin: 0 14px; color: #6d6e72; }
 </style></head><body>
-  <div class="photo"><img src="${dataUri("src/assets/mhts-studio-wide-hero.jpg", "image/jpeg")}" alt=""></div>
+  <div class="photo"><img src="${dataUri("src/assets/mhts-studio-wide-hero-v2.jpg", "image/jpeg")}" alt=""></div>
   <div class="text">
-    <div class="chip"><img src="${dataUri("src/assets/mhts-logo-full.jpeg", "image/jpeg")}" alt=""></div>
+    <div class="chip"><img src="${dataUri("src/assets/mhts-logo.svg", "image/svg+xml")}" alt=""></div>
     <p class="eyebrow">Amersham, Buckinghamshire</p>
     <h1>Hair Systems<br>&amp; SMP</h1>
     <div class="rule"></div>
