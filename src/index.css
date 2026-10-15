@@ -1015,8 +1015,11 @@
   html[data-stops] :is([data-stop="armed"] [data-stop-media], [data-stop="in"] [data-stop-media]:not([data-stop-ready])) {
     clip-path: inset(6% round var(--stop-r, 0px));
   }
-  html[data-stops] :is([data-stop="armed"] [data-stop-media], [data-stop="in"] [data-stop-media]:not([data-stop-ready])) img,
-  html[data-stops] :is([data-stop="armed"] img[data-stop-media], [data-stop="in"] img[data-stop-media]:not([data-stop-ready])) {
+  /* The picture only takes its 1.05 once its stop is arriving. Armed and
+     waiting off screen it keeps its own size, so a stop that waits just
+     below the window never pokes into it (or under the phone's bottom bar). */
+  html[data-stops] [data-stop="in"] [data-stop-media]:not([data-stop-ready]) img,
+  html[data-stops] [data-stop="in"] img[data-stop-media]:not([data-stop-ready]) {
     scale: 1.05;
   }
   html[data-stops] [data-stop="in"] [data-stop-media][data-stop-ready] {
