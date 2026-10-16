@@ -233,9 +233,9 @@ const BookPage = () => {
       </section>
 
       {/* APPOINTMENT TYPES */}
-      <section className="bg-mhts-sand py-8 md:py-20">
+      <section className="bg-mhts-sand py-8 md:py-12">
         <div className="container mx-auto px-4">
-          <div className="mx-auto mb-6 max-w-6xl md:mb-12">
+          <div className="mx-auto mb-6 max-w-6xl md:mb-8 lg:max-w-7xl">
             <h2 className="text-3xl text-mhts-ink md:text-4xl">
               Appointment Types
             </h2>
@@ -245,11 +245,12 @@ const BookPage = () => {
               maintenance and SMP, choose the right appointment for you.
             </p>
           </div>
-          {/* Three across at most. Five in a row made each card 200px wide. On
+          {/* All five in one row from lg, so the types are one stop (Carlo,
+              Oct 2026: not a row of three and a row of two). On
               a phone the five are a swipeable strip, one card per swipe with
               the next peeking, so the heading, the cards and the buttons are
               one screen. */}
-          <div className="mhts-snap-x -mx-4 flex snap-x snap-mandatory scroll-pl-4 gap-4 overflow-x-auto px-4 pb-2 sm:mx-auto sm:grid sm:max-w-6xl sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 md:gap-5 lg:grid-cols-3">
+          <div className="mhts-snap-x -mx-4 flex snap-x snap-mandatory scroll-pl-4 gap-4 overflow-x-auto px-4 pb-2 sm:mx-auto sm:grid sm:max-w-6xl sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 md:gap-5 lg:max-w-7xl lg:grid-cols-5">
             {appointments.map((a, i) => (
               <Reveal
                 as="article"
@@ -276,7 +277,7 @@ const BookPage = () => {
               </Reveal>
             ))}
           </div>
-          <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row md:mt-10">
+          <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row md:mt-8">
             <button
               onClick={() => scrollToWidget()}
               className="inline-flex items-center justify-center gap-2 rounded-md bg-mhts-red px-7 py-3.5 font-body font-semibold tracking-wide text-white transition-colors hover:bg-mhts-red-deep"
@@ -296,7 +297,7 @@ const BookPage = () => {
       {/* Phone: the booking questions and "Prefer to call?" are one screen. */}
       <div className={`${SNAP_PHONE_CLASS} md:contents`}>
       {/* FAQ */}
-      <section className="bg-card pb-5 pt-7 md:py-20">
+      <section className="bg-card pb-5 pt-7 md:py-12">
         <div className="container mx-auto grid max-w-6xl gap-6 px-4 md:gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <div>
             <h2 className="text-3xl text-mhts-ink md:text-4xl">

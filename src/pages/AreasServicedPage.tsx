@@ -73,12 +73,12 @@ const AreasServicedPage = () => {
         </div>
       </section>
 
-      <section className={`${SNAP_SPLIT_CLASS} bg-mhts-sand md:py-20`}>
-        <div className="container mx-auto max-w-6xl px-4">
+      <section className={`${SNAP_SPLIT_CLASS} bg-mhts-sand md:py-10`}>
+        <div className="container mx-auto max-w-6xl px-4 lg:max-w-7xl">
           {/* On a phone the towns are three screens of four, the last with Book
               and Call. From md up the three lists are display:contents, so the
-              twelve towns are one grid exactly as before. */}
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4 lg:grid-cols-3">
+              twelve towns are one grid, four across from lg so they are one stop. */}
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4 lg:grid-cols-4">
             {[
               [0, 4],
               [4, 8],
@@ -93,11 +93,11 @@ const AreasServicedPage = () => {
                       <Reveal as="li" key={a.name} delay={(i % 3) * 0.06}>
                         <Link
                           to={`/areas/${a.slug}`}
-                          className={`group flex h-full flex-col rounded-xl border px-4 py-3 transition-all hover:-translate-y-1 hover:shadow-lg md:p-6 ${
+                          className={`group flex h-full flex-col rounded-xl border px-4 py-3 transition-all hover:-translate-y-1 hover:shadow-lg md:p-5 ${
                             i === 0 ? "border-mhts-red bg-mhts-red text-white" : "border-mhts-stone bg-card hover:border-mhts-red"
                           }`}
                         >
-                          <div className="mb-2 flex items-center gap-3 md:mb-4">
+                          <div className="mb-2 flex items-center gap-3 md:mb-3">
                             <span
                               className={`grid h-8 w-8 shrink-0 place-items-center rounded-full font-body text-xs font-bold md:h-9 md:w-9 ${
                                 i === 0 ? "bg-white text-mhts-red-deep" : "bg-mhts-red-tint text-mhts-red-deep"
@@ -107,7 +107,7 @@ const AreasServicedPage = () => {
                             </span>
                             <h2 className={`text-lg md:text-xl ${i === 0 ? "text-white" : "text-mhts-ink"}`}>{a.name}</h2>
                           </div>
-                          <p className={`mb-2 flex-1 font-body text-sm leading-snug md:mb-5 md:leading-relaxed ${i === 0 ? "text-white" : "text-foreground/80"}`}>
+                          <p className={`mb-2 flex-1 font-body text-sm leading-snug md:mb-4 md:leading-relaxed ${i === 0 ? "text-white" : "text-foreground/80"}`}>
                             {a.desc}
                           </p>
                           <span
@@ -127,7 +127,7 @@ const AreasServicedPage = () => {
               return (
                 <div key={from} className={`${SNAP_PHONE_CLASS} gap-3 py-5 md:contents md:py-0`}>
                   {list}
-                  <div className="mt-2 grid gap-2 md:col-span-full md:mt-8 md:flex md:flex-row md:items-center md:justify-center md:gap-3">
+                  <div className="mt-2 grid gap-2 md:col-span-full md:mt-6 md:flex md:flex-row md:items-center md:justify-center md:gap-3">
                     <BookButton size="lg" label="Book Free Consultation" />
                     <CallButton size="lg" />
                   </div>

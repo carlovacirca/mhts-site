@@ -1091,6 +1091,9 @@
    how the words come in and how the photographs uncover; the resting state
    is always the design. */
 @media (prefers-reduced-motion: no-preference) {
+  /* Words that come in from the side wait past the stop's edge: the stop
+     clips sideways so the page never scrolls sideways. */
+  html[data-stops] [data-stop] { overflow-x: clip; }
   html[data-stops] [data-stop="in"] [data-stop-item] {
     transition:
       opacity var(--stop-fade) var(--stop-ease) var(--stop-delay),
