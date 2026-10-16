@@ -67,11 +67,14 @@ export const STOP_ATTRIBUTES = [
   "data-stop-media",
   "data-stop-fade",
   "data-stop-ready",
+  "data-stop-style",
 ] as const;
 /** Custom properties the system writes inline. */
 export const STOP_VARIABLES = ["--stop-i", "--stop-m", "--stop-r"] as const;
 
 const ITEM = "[data-stop-item]";
+/** How many arrival styles there are (data-stop-style 0 to 9, src/index.css). */
+const STYLES = 10;
 
 /**
  * May the arrival motion run on this page now? Not in the build's capture,
@@ -161,6 +164,12 @@ export const startStopMotion = (selector: string): (() => void) => {
     return false;
   };
 
+  // Each stop arrives its own way (data-stop-style, src/index.css), in page
+  // order from an offset taken from the path, so no two neighbouring stops and
+  // no two pages' first stops arrive alike.
+  let offset = 0;
+  for (const ch of window.location.pathname) offset = (offset * 31 + ch.charCodeAt(0)) % STYLES;
+
   const armed: HTMLElement[] = [];
   for (const stop of stops) {
     const mine = (el: Element) => ownerOf(el) === stop;
@@ -214,6 +223,7 @@ export const startStopMotion = (selector: string): (() => void) => {
       if (el.querySelector("[data-stop-media]") || clipped(el, stop)) write(el, "data-stop-fade");
     }
 
+    write(stop, "data-stop-style", String((offset + armed.length) % STYLES));
     write(stop, "data-stop", "armed");
     armed.push(stop);
   }

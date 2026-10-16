@@ -113,7 +113,7 @@ async function render(page, baseUrl, routePath) {
     // the HTML is the resting page with nothing that could hide it.
     document.documentElement.removeAttribute("data-stops");
     document.documentElement.removeAttribute("data-snap-measuring");
-    const stopAttrs = ["data-stop", "data-stop-item", "data-stop-draw", "data-stop-media", "data-stop-from", "data-stop-fade", "data-stop-ready"];
+    const stopAttrs = ["data-stop", "data-stop-item", "data-stop-draw", "data-stop-media", "data-stop-from", "data-stop-fade", "data-stop-ready", "data-stop-style"];
     document.querySelectorAll(stopAttrs.map((a) => "[" + a + "]").join(", ")).forEach((el) => {
       for (const a of stopAttrs) el.removeAttribute(a);
       for (const v of ["--i", "--stop-i", "--stop-m", "--stop-r"]) el.style.removeProperty(v);
