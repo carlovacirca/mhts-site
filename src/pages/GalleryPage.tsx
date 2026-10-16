@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
 import { Shield, Award, Sparkles } from "lucide-react";
-import BeforeAfterFade from "@/components/mhts/BeforeAfterFade";
-import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
 import { Reveal } from "@/lib/motion";
 import { CtaPair } from "@/components/mhts/CtaButtons";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
@@ -50,26 +48,61 @@ const items: GalleryItem[] = [
 ];
 
 
-/**
- * One client: the frame, with the service as its caption. On a phone each
- * client is a screen of its own: a tall frame, Before for 2 seconds, After for
- * 2 seconds (mhts-ba-quick, src/index.css). The frame is never taller than
- * the screen leaves room for (8rem for the card and caption), so a client is
- * always one stop, browser bars and all (Carlo, Oct 2026).
- */
-const ClientFrame = ({ item, wave }: { item: GalleryItem; wave: number }) => (
-  <div className="rounded-2xl border border-white/10 bg-white/5 p-3 [&_figcaption]:text-base [&_figcaption]:font-semibold [&_figcaption]:text-white md:[&_figcaption]:text-sm">
-    <BeforeAfterFade
-      before={item.before}
-      after={item.after}
-      beforeAlt={`Before, ${item.service}`}
-      afterAlt={`After, ${item.service}`}
-      caption={item.service}
-      frameClassName="mhts-ba-quick aspect-[2/3] max-md:max-h-[calc(var(--snap-screen)_-_8rem)] md:aspect-[4/5]"
-      sizes="(max-width: 768px) 100vw, 360px"
-      wave={wave}
+// The hair system clients first, then the regroom.
+const ordered = [...items].sort((x, y) => Number(x.category === "maintenance") - Number(y.category === "maintenance"));
+
+const blurbs: Record<GalleryItem["category"], string> = {
+  "hair-systems": "A custom hair system, colour matched, fitted and cut in at the studio.",
+  maintenance: "An existing system cleaned, reattached and restyled so it looks new again.",
+  smp: "A custom hair system fitted, then cut and styled to suit him.",
+  thinning: "",
+  crown: "",
+};
+
+/** One photograph with its Before or After label. */
+const Shot = ({ src, alt, label }: { src: string; alt: string; label: string }) => (
+  <figure className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+    <ResponsiveImage
+      src={src}
+      alt={alt}
+      className="aspect-[2/3] max-h-[calc(var(--snap-screen)_-_15rem)] w-full object-cover md:aspect-[4/5] md:max-h-none"
+      sizes="(max-width: 768px) 50vw, 520px"
+      stopMedia
     />
-  </div>
+    <figcaption
+      className={`absolute left-3 top-3 rounded-full px-3 py-1 font-body text-[11px] font-semibold uppercase tracking-[0.18em] md:left-4 md:top-4 md:text-xs ${
+        label === "After" ? "bg-mhts-red text-white" : "bg-black/60 text-white"
+      }`}
+    >
+      {label}
+    </figcaption>
+  </figure>
+);
+
+/**
+ * One client, one stop (Carlo, Oct 2026): Before and After side by side, as
+ * big as the stop allows, the client's treatment beside them from lg and
+ * above them below it. The pair is sized from the height of the stop, so it
+ * is never zoomed (mhts-fit-own).
+ */
+const ClientStop = ({ item, n }: { item: GalleryItem; n: number }) => (
+  <section className="mhts-fit-own relative overflow-clip bg-mhts-deep py-6 max-md:flex max-md:flex-col max-md:justify-center md:py-10">
+    <div className={`absolute inset-0 ${n % 2 ? "bg-[radial-gradient(60%_70%_at_85%_20%,hsl(var(--mhts-red)/0.22),transparent_70%)]" : "bg-[radial-gradient(60%_70%_at_15%_80%,hsl(var(--mhts-red)/0.22),transparent_70%)]"}`} />
+    <div className="container relative mx-auto flex flex-col gap-5 px-4 md:gap-8 lg:max-w-[96rem] lg:flex-row lg:items-center lg:justify-center lg:gap-14 lg:px-10">
+      <div className="text-center lg:w-72 lg:shrink-0 lg:text-left">
+        <p className="mb-2 font-body text-xs font-semibold uppercase tracking-[0.3em] text-mhts-red-light">
+          Client {n} of {items.length}
+        </p>
+        <h2 className="text-2xl leading-tight text-white md:text-4xl">{item.service}</h2>
+        <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red lg:mx-0" />
+        <p className="mx-auto mt-3 max-w-md font-body text-sm leading-relaxed text-white/70 md:text-lg">{blurbs[item.category]}</p>
+      </div>
+      <div className="mx-auto grid w-full grid-cols-2 gap-2 md:max-w-[calc((var(--snap-screen)_-_15rem)*1.6_+_1.5rem)] md:gap-6 lg:mx-0 lg:max-w-[calc((var(--snap-screen)_-_5rem)*1.6_+_1.5rem)] lg:flex-1">
+        <Shot src={item.before} alt={`Before, ${item.service}`} label="Before" />
+        <Shot src={item.after} alt={`After, ${item.service}`} label="After" />
+      </div>
+    </div>
+  </section>
 );
 
 const GalleryPage = () => {
@@ -94,73 +127,45 @@ const GalleryPage = () => {
     ],
   });
 
-  const visible = items;
-
   // Batch 4b. The results page is the one page where the photographs are the
   // content, so it is laid out like a gallery wall: the clients on the deep
   // dark, and the words that follow in three columns rather than a long grey
   // column.
   return (
     <div className="mhts-theme">
-      {/* From md up the title and the three clients are one screen (Carlo,
-          Oct 2026). On a phone this wrapper is display: contents. */}
-      <div className="mhts-snap-desk">
-      {/* HERO */}
+      {/* HERO, a stop of its own, the studio every photograph was taken in
+          beside the words from md up. */}
       <section className="relative overflow-clip bg-mhts-deep">
         <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_0%,hsl(var(--mhts-red)/0.22),transparent_70%)]" />
-        <div className="mhts-fill-chain container relative mx-auto max-w-3xl px-4 py-10 text-center md:pb-4 md:pt-10">
-          <p className="mb-4 font-body text-xs font-semibold uppercase tracking-[0.3em] text-mhts-red-light">
-            Real Results
-          </p>
-          <h1 className="text-3xl leading-tight text-white md:text-5xl">
-            Hair Replacement Before &amp; After Gallery, Real Results
-          </h1>
-          <div className="mx-auto my-6 h-1 w-14 rounded-full bg-mhts-red" />
-          <p className="font-body leading-relaxed text-white/80">
-            See real transformation results from Men's Hair To Stay. These before
-            and after photos showcase the power of our hair systems and scalp
-            micropigmentation (SMP) treatments applied by our specialist
-            technicians in Amersham.
-          </p>
-          {/* Phone only: the studio where every one of these photographs was
-              taken, filling the rest of the first screen. */}
+        <div className="mhts-fill-chain container relative mx-auto max-w-3xl px-4 py-10 text-center md:grid md:max-w-7xl md:grid-cols-2 md:items-center md:gap-12 md:py-12 md:text-left">
+          <div>
+            <p className="mb-4 font-body text-xs font-semibold uppercase tracking-[0.3em] text-mhts-red-light">
+              Real Results
+            </p>
+            <h1 className="text-3xl leading-tight text-white md:text-5xl">
+              Hair Replacement Before &amp; After Gallery, Real Results
+            </h1>
+            <div className="mx-auto my-6 h-1 w-14 rounded-full bg-mhts-red md:mx-0" />
+            <p className="font-body leading-relaxed text-white/80 md:text-lg">
+              See real transformation results from Men's Hair To Stay. These before
+              and after photos showcase the power of our hair systems and scalp
+              micropigmentation (SMP) treatments applied by our specialist
+              technicians in Amersham.
+            </p>
+          </div>
           <ResponsiveImage
             src={studioWide}
             alt="The Men's Hair To Stay studio in Amersham"
-            className="mhts-fill mt-8 aspect-[16/10] w-full rounded-2xl object-cover md:hidden"
-            sizes="100vw"
+            className="mhts-fill mt-8 aspect-[16/10] w-full rounded-2xl object-cover md:mt-0 md:aspect-auto md:h-[min(60vh,560px)]"
+            sizes="(max-width: 768px) 100vw, 640px"
           />
         </div>
       </section>
 
-      {/* THE CLIENTS. One frame each that fades from Before to After on its
-          own: no dragging, no swiping, no lightbox and no instructions. On a
-          phone each client is a screen of its own; three in a row on a
-          desktop. */}
-      <section className={`${SNAP_SPLIT_CLASS} relative overflow-clip bg-mhts-deep md:pb-10 md:pt-4`}>
-        {visible.length === 0 ? (
-          <p className="py-12 text-center font-body text-white/75">
-            More transformations coming soon for this category.
-          </p>
-        ) : (
-          <div className="container relative mx-auto px-4">
-            <div className="mx-auto grid max-w-6xl grid-cols-1 md:grid-cols-3 md:gap-6 lg:max-w-4xl">
-              {visible.map((item, idx) => (
-                // Phone: the hair system clients first, then the other results
-                // (the maintenance regroom). There are no real SMP photographs
-                // yet, so there is no SMP screen.
-                <div key={idx} className={`${SNAP_PHONE_CLASS} py-8 md:py-0 ${item.category === "maintenance" ? "max-md:order-last" : ""}`}>
-                  <Reveal from="scale" delay={idx * 0.08}>
-                    <ClientFrame item={item} wave={idx} />
-                  </Reveal>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </section>
-
-      </div>
+      {/* THE CLIENTS, one stop each. */}
+      {ordered.map((item, i) => (
+        <ClientStop key={item.service} item={item} n={i + 1} />
+      ))}
 
       {/* From md up the three kinds of result and why clients trust us share
           one screen on a dark red band (Carlo, Oct 2026). */}
