@@ -161,6 +161,10 @@ export const FIT_SCREENS = [
 // rule in index.css and is never zoomed: zoom would shrink the calendar's
 // text to 8 or 9px.
 const NO_FIT = ".mhts-snap-embed";
+// A screen sized to the window by its own rules (the home before and after,
+// whose frames are sized in vw and svh) is never zoomed from md up: zoom
+// scales those units too, and the row would run off the side.
+const NO_FIT_DESK = ".mhts-fit-own";
 // Below this a screen would be too small to read: it keeps zoom 1 and gets
 // further stops instead.
 const MIN_ZOOM = 0.6;
@@ -202,7 +206,7 @@ export const fitScreens = () => {
     // into what the fit frees, so the screen stays full. Any other screen
     // would be left part empty, and keeps its further stops instead.
     if (phone && !short && !el.querySelector(".mhts-fill")) continue;
-    if (el.matches(NO_FIT)) {
+    if (el.matches(NO_FIT) || (!phone && el.matches(NO_FIT_DESK))) {
       // It may have been fitted before the calendar replaced its panel.
       el.removeAttribute("data-snap-fit");
       el.style.removeProperty("--snap-zoom");

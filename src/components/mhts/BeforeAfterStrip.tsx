@@ -18,7 +18,9 @@ import { Reveal, usePrefersReducedMotion } from "@/lib/motion";
 // swipes or uses the arrows.
 //
 // From md up: the three clients in a row, each looping on its own, the loops
-// 0.6s apart so the change runs across the row as a wave.
+// 0.6s apart so the change runs across the row as a wave. Each frame is as
+// big as the screen's height allows, so the row fills one stop (Carlo, Oct
+// 2026).
 //
 // The timing is a pair of timeouts that only run on a phone, on screen. The
 // cross-fade itself is CSS (data-phase, src/index.css), so the pre-rendered
@@ -117,21 +119,21 @@ const BeforeAfterStrip = ({ pairs, frameClassName, sizes }: BeforeAfterStripProp
   };
 
   return (
-    <div>
+    <div className="lg:max-w-[calc((var(--snap-screen)_-_8.5rem)*2.4_+_4rem)] lg:flex-1">
       <div
         ref={trackRef}
         data-testid="before-after-strip"
         role="group"
         aria-roledescription="carousel"
         aria-label="Before and after, three clients"
-        className="mhts-snap-x -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 md:mx-auto md:grid md:w-full md:max-w-6xl md:grid-cols-3 md:gap-8 md:overflow-visible md:pb-0"
+        className="mhts-snap-x -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 md:mx-auto md:flex md:w-full md:max-w-7xl md:justify-center lg:mx-0 lg:grid lg:max-w-none lg:grid-cols-3 lg:px-0 md:gap-8 md:overflow-visible md:pb-0"
       >
         {pairs.map((pair, i) => (
           <div
             key={pair.label}
             aria-roledescription="slide"
             aria-label={`${i + 1} of ${pairs.length}, ${pair.label}`}
-            className="w-[85%] shrink-0 snap-center snap-always md:w-auto md:snap-align-none"
+            className="w-[85%] shrink-0 snap-center snap-always md:w-[min(30vw,calc((var(--snap-screen)_-_17rem)*0.8))] md:snap-align-none lg:w-auto"
           >
             <Reveal delay={i * 0.06}>
               <BeforeAfterFade
