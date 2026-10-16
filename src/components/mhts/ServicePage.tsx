@@ -165,13 +165,13 @@ const Split = ({
 }) => (
   <section
     id={id}
-    className={`${together ? "" : SNAP_SPLIT_CLASS} scroll-mt-24 md:py-24 ${together ? "py-8" : ""} ${tone === "sand" ? "bg-mhts-sand" : "bg-card"}`}
+    className={`${together ? "" : SNAP_SPLIT_CLASS} scroll-mt-24 md:py-12 ${together ? "py-8" : ""} ${tone === "sand" ? "bg-mhts-sand" : "bg-card"}`}
   >
-    <div className={`container mx-auto grid max-w-6xl items-center px-4 md:grid-cols-2 md:gap-14 ${together ? "mhts-fill-chain gap-6" : ""}`}>
+    <div className={`container mx-auto grid max-w-7xl items-center px-4 md:grid-cols-2 md:gap-14 ${together ? "mhts-fill-chain gap-6" : ""}`}>
       <Reveal className={`${together ? "" : `${SNAP_PHONE_CLASS} py-10`} md:py-0 ${flip ? "md:order-2" : ""}`}>
         <Eyebrow>{block.eyebrow}</Eyebrow>
-        <h2 className="mb-6 text-3xl leading-tight text-mhts-ink md:text-4xl">{block.title}</h2>
-        <div className="space-y-6 font-body leading-[1.7] text-foreground/80 md:space-y-5 md:leading-relaxed">{block.body}</div>
+        <h2 className="mb-6 text-3xl leading-tight text-mhts-ink md:text-4xl lg:text-5xl">{block.title}</h2>
+        <div className="space-y-6 font-body leading-[1.7] text-foreground/80 md:space-y-4 md:text-lg md:leading-relaxed">{block.body}</div>
       </Reveal>
       {photo ? (
       // The photograph uncovers on its own box (never the figure: the key
@@ -183,7 +183,7 @@ const Split = ({
         <ResponsiveImage
           src={photo.src}
           alt={photo.alt}
-          className={`mhts-fill aspect-[4/3] w-full rounded-2xl object-cover ${photo.wide ? "" : "md:aspect-[5/6]"}`}
+          className={`mhts-fill aspect-[4/3] w-full rounded-2xl object-cover ${photo.wide ? "" : "md:aspect-auto md:h-[min(64vh,600px)]"}`}
           sizes="(max-width: 768px) 100vw, 560px"
           stopMedia
         />
@@ -224,9 +224,9 @@ const Benefits = ({ benefits }: { benefits: ServicePageProps["benefits"] }) => {
   const restChars = rest.reduce((n, b) => n + b.text.length, 0);
   const listGap = restChars < 230 ? "gap-y-6" : restChars < 330 ? "gap-y-5" : "gap-y-4";
   return (
-    <section id="benefits" className="relative scroll-mt-24 overflow-clip bg-mhts-deep py-8 md:py-24">
+    <section id="benefits" className="relative scroll-mt-24 overflow-clip bg-mhts-deep py-8 md:py-12">
       <div className="absolute inset-0 bg-[radial-gradient(60%_80%_at_100%_0%,hsl(var(--mhts-red)/0.18),transparent_70%)]" />
-      <div className="container relative mx-auto max-w-6xl px-4">
+      <div className="container relative mx-auto max-w-7xl px-4">
         {/* Phone: the heading, the first benefit and the list are one screen
             (a heading always shares its screen with what it heads). */}
         <div className="grid gap-5 md:gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
@@ -246,7 +246,7 @@ const Benefits = ({ benefits }: { benefits: ServicePageProps["benefits"] }) => {
                 <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-mhts-red-light/15 md:h-10 md:w-10">
                   <b.icon className="h-4 w-4 text-mhts-red-light md:h-5 md:w-5" aria-hidden="true" />
                 </span>
-                <p className="pt-1 font-body text-[15px] leading-snug text-white/85 md:pt-2 md:leading-relaxed">{b.text}</p>
+                <p className="pt-1 font-body text-[15px] leading-snug text-white/85 md:pt-1.5 md:text-lg md:leading-relaxed">{b.text}</p>
               </Reveal>
             ))}
           </ul>
@@ -257,8 +257,8 @@ const Benefits = ({ benefits }: { benefits: ServicePageProps["benefits"] }) => {
 };
 
 const Included = ({ included }: { included: NonNullable<ServicePageProps["included"]> }) => (
-  <section id="included" className="scroll-mt-24 bg-card py-8 md:py-20">
-    <div className="container mx-auto max-w-5xl px-4">
+  <section id="included" className="scroll-mt-24 bg-card py-8 md:py-12">
+    <div className="container mx-auto max-w-7xl px-4">
       <div className="mb-5 max-w-2xl md:mb-10">
         <Eyebrow>{included.eyebrow}</Eyebrow>
         <h2 className="text-3xl text-mhts-ink md:text-4xl">{included.title}</h2>
@@ -269,7 +269,7 @@ const Included = ({ included }: { included: NonNullable<ServicePageProps["includ
             <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-mhts-red text-white">
               <Check className="h-4 w-4" aria-hidden="true" />
             </span>
-            <span className="font-body text-sm font-medium text-mhts-ink">{item}</span>
+            <span className="font-body text-sm font-medium text-mhts-ink md:text-base">{item}</span>
           </Reveal>
         ))}
       </ol>
@@ -278,16 +278,19 @@ const Included = ({ included }: { included: NonNullable<ServicePageProps["includ
 );
 
 const Steps = ({ steps }: { steps: ServicePageProps["steps"] }) => (
-  <section id="process" className="scroll-mt-24 bg-card py-8 md:py-24">
-    <div className="container mx-auto grid max-w-6xl gap-6 px-4 md:gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-      <div className="lg:sticky lg:top-28 lg:self-start">
+  <section id="process" className="scroll-mt-24 bg-card py-8 md:py-12">
+    {/* From lg the heading sits above the steps, which run in three columns,
+        so the process is one screen on a laptop at full size (Carlo, Oct
+        2026: never two stops, never shrunk to small writing). */}
+    <div className="container mx-auto grid max-w-7xl gap-6 px-4 md:gap-10">
+      <div>
         <Eyebrow>{steps.eyebrow}</Eyebrow>
         <h2 className="text-3xl text-mhts-ink md:text-4xl">{steps.title}</h2>
         <div className="mt-4 h-1 w-16 rounded-full bg-mhts-red md:mt-6" />
       </div>
-      <ol className="relative">
+      <ol className="relative lg:grid lg:grid-cols-3 lg:gap-x-10 lg:gap-y-8">
         {/* The rule the numbers hang on. */}
-        <span className="absolute bottom-6 left-[1.4rem] top-6 w-0.5 bg-mhts-stone" aria-hidden="true" />
+        <span className="absolute bottom-6 left-[1.4rem] top-6 w-0.5 bg-mhts-stone lg:hidden" aria-hidden="true" />
         {steps.items.map((step, i) => (
           <Reveal
             as="li"
@@ -295,7 +298,7 @@ const Steps = ({ steps }: { steps: ServicePageProps["steps"] }) => (
             delay={i * 0.06}
             // On a phone the process is one screen: fewer steps get more room
             // between them, six get less, so it is full but not over.
-            className={`relative flex gap-4 last:pb-0 md:gap-6 md:pb-9 ${
+            className={`relative flex gap-4 last:pb-0 md:gap-6 md:pb-9 lg:pb-0 ${
               steps.items.length > 5 ? "pb-5" : steps.items.length < 5 ? "pb-8" : "pb-7"
             }`}
           >
@@ -303,8 +306,8 @@ const Steps = ({ steps }: { steps: ServicePageProps["steps"] }) => (
               {String(i + 1).padStart(2, "0")}
             </span>
             <div className="pt-2 md:pt-2.5">
-              <h3 className="mb-1 text-base text-mhts-ink md:mb-1.5 md:text-lg">{step.title}</h3>
-              <p className="font-body text-sm leading-snug text-muted-foreground md:text-[15px] md:leading-relaxed">{step.desc}</p>
+              <h3 className="mb-1 text-base text-mhts-ink md:mb-1.5 md:text-xl">{step.title}</h3>
+              <p className="font-body text-sm leading-snug text-muted-foreground md:text-base md:leading-relaxed">{step.desc}</p>
             </div>
           </Reveal>
         ))}
@@ -316,13 +319,16 @@ const Steps = ({ steps }: { steps: ServicePageProps["steps"] }) => (
 // On a phone the questions share a screen with the related services, so a
 // long list sits a little tighter than a short one.
 const Faq = ({ faq }: { faq: ServicePageProps["faq"] }) => (
-  <section id="faq" className="scroll-mt-24 bg-mhts-sand pb-4 pt-6 md:py-24">
-    <div className="container mx-auto grid max-w-6xl gap-3 px-4 md:gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+  <section id="faq" className="scroll-mt-24 bg-mhts-sand pb-4 pt-6 md:py-12">
+    {/* From lg the questions run in two columns under the heading, full
+        width and in larger writing (Carlo, Oct 2026: too small, too much
+        space at the sides). */}
+    <div className="container mx-auto grid max-w-7xl gap-3 px-4 md:gap-8">
       <div>
         <Eyebrow>{faq.eyebrow}</Eyebrow>
         <h2 className="text-3xl text-mhts-ink md:text-4xl">{faq.title}</h2>
       </div>
-      <div className={`md:space-y-3 ${faq.items.length > 3 ? "space-y-2" : "space-y-3"}`}>
+      <div className={`md:space-y-3 lg:grid lg:grid-cols-2 lg:items-start lg:gap-4 lg:space-y-0 ${faq.items.length > 3 ? "space-y-2" : "space-y-3"}`}>
         {faq.items.map((f) => (
           <details
             key={f.q}
@@ -331,13 +337,13 @@ const Faq = ({ faq }: { faq: ServicePageProps["faq"] }) => (
             }`}
           >
             <summary className="flex cursor-pointer list-none items-start justify-between gap-4">
-              <span className="font-body text-[15px] font-semibold text-mhts-ink md:text-base">{f.q}</span>
+              <span className="font-body text-[15px] font-semibold text-mhts-ink md:text-lg">{f.q}</span>
               <ChevronRight
                 className="mt-0.5 h-5 w-5 shrink-0 text-mhts-red transition-transform group-open:rotate-90"
                 aria-hidden="true"
               />
             </summary>
-            <p className="mt-4 font-body text-sm leading-relaxed text-muted-foreground md:text-[15px]">{f.a}</p>
+            <p className="mt-4 font-body text-sm leading-relaxed text-muted-foreground md:text-base">{f.a}</p>
           </details>
         ))}
       </div>
@@ -357,18 +363,24 @@ const Related = ({
   const cat = findCategory(category)!;
   const subs = cat.subServices.filter((s) => s.slug !== subSlug);
   return (
-    <section id="related" className="scroll-mt-24 bg-card pb-6 pt-4 md:pb-0 md:pt-24">
-      <div className="container mx-auto max-w-6xl px-4">
+    <section id="related" className="scroll-mt-24 bg-card pb-6 pt-4 md:pb-0 md:pt-12">
+      <div className="container mx-auto max-w-7xl px-4">
         <div>
-        <div className="mb-4 md:mb-10">
+        <div className="mb-4 md:mb-8">
           <Eyebrow>{related.eyebrow}</Eyebrow>
           <h2 className="text-2xl text-mhts-ink md:text-4xl">{related.title}</h2>
         </div>
-        {/* Three across at most. Five in a row made each card 180px wide. The
-            cards carry no photographs: a service page shows two, its own. On a
-            phone they are a swipeable strip, one card per swipe with the next
-            peeking, so they share a screen with the questions above. */}
-        <div className="mhts-snap-x -mx-4 flex snap-x snap-mandatory scroll-pl-4 gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 md:gap-5 lg:grid-cols-3">
+        {/* From lg every sub-service sits in one row, three, four or five
+            across, the same on every treatment page (Carlo, Oct 2026: not a
+            row of three and a row of two, and one template on every service
+            page). The cards carry no photographs: a service page shows two,
+            its own. On a phone they are a swipeable strip, one card per swipe
+            with the next peeking, so they share a screen with the questions
+            above. */}
+        <div
+          className="mhts-snap-x -mx-4 flex snap-x snap-mandatory scroll-pl-4 gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 lg:grid-cols-[repeat(var(--related-n),minmax(0,1fr))] sm:overflow-visible sm:px-0 sm:pb-0 md:gap-5"
+          style={{ ["--related-n" as string]: subs.length }}
+        >
           {subs.map((sub, i) => {
             const path = `/${cat.slug}/${sub.slug}`;
             return (
@@ -377,13 +389,13 @@ const Related = ({
                   to={path}
                   className="group flex h-full flex-col overflow-hidden rounded-xl border border-mhts-stone bg-card transition-all hover:-translate-y-1 hover:border-mhts-red hover:shadow-lg"
                 >
-                  <div className="flex flex-1 flex-col p-4 md:p-6">
-                    <h3 className="mb-1 flex items-center justify-between gap-2 text-base text-mhts-ink md:mb-2 md:text-lg">
+                  <div className="flex flex-1 flex-col p-4 md:p-5">
+                    <h3 className="mb-1 flex items-center justify-between gap-2 text-base text-mhts-ink md:mb-2 md:text-xl">
                       {sub.name}
                       <ChevronRight className="h-4 w-4 shrink-0 text-mhts-red md:hidden" aria-hidden="true" />
                     </h3>
-                    <p className="flex-1 font-body text-sm leading-snug text-muted-foreground md:mb-5 md:leading-relaxed">{sub.blurb}</p>
-                    <span className="hidden items-center gap-1 font-body text-sm font-semibold text-mhts-red-deep transition-all group-hover:gap-2 md:inline-flex">
+                    <p className="flex-1 font-body text-sm leading-snug text-muted-foreground md:mb-5 md:text-base md:leading-relaxed">{sub.blurb}</p>
+                    <span className="hidden items-center gap-1 font-body text-sm font-semibold text-mhts-red-deep transition-all group-hover:gap-2 md:inline-flex md:text-base">
                       Learn more <ChevronRight className="h-4 w-4" aria-hidden="true" />
                     </span>
                   </div>
@@ -416,9 +428,9 @@ const Related = ({
 const OtherTreatments = ({ category, className = "" }: { category: string; className?: string }) => {
   const others = treatments.filter((t) => t.slug !== category);
   return (
-    <div className={`bg-card pb-8 pt-8 md:pb-24 md:pt-0 ${className}`}>
-      <div className="container mx-auto max-w-6xl px-4">
-        <div className="grid content-center gap-3 border-mhts-stone sm:grid-cols-3 md:mt-12 md:border-t md:pt-8">
+    <div className={`bg-card pb-8 pt-8 md:pb-10 md:pt-0 ${className}`}>
+      <div className="container mx-auto max-w-7xl px-4">
+        <div className="grid content-center gap-3 border-mhts-stone sm:grid-cols-3 md:mt-8 md:border-t md:pt-6">
           {others.map((t) => {
             return (
               <Link
@@ -427,10 +439,10 @@ const OtherTreatments = ({ category, className = "" }: { category: string; class
                 className="group flex items-center gap-4 rounded-xl border border-mhts-stone bg-mhts-sand px-4 py-5 transition-colors hover:border-mhts-red md:p-3 md:pr-4"
               >
                 <span className="min-w-0">
-                  <span className="block font-body text-sm font-semibold text-mhts-ink group-hover:text-mhts-red-deep">
+                  <span className="block font-body text-sm font-semibold text-mhts-ink group-hover:text-mhts-red-deep md:text-base">
                     {t.name}
                   </span>
-                  <span className="block font-body text-xs leading-snug text-muted-foreground">{t.line}</span>
+                  <span className="block font-body text-xs leading-snug text-muted-foreground md:text-sm">{t.line}</span>
                 </span>
               </Link>
             );
