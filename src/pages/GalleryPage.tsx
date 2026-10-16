@@ -65,7 +65,7 @@ const Shot = ({ src, alt, label }: { src: string; alt: string; label: string }) 
     <ResponsiveImage
       src={src}
       alt={alt}
-      className="aspect-[2/3] max-h-[calc(var(--snap-screen)_-_15rem)] w-full object-cover md:aspect-[4/5] md:max-h-none"
+      className="aspect-[3/5] max-h-[calc(var(--snap-screen)_-_17rem)] w-full object-cover md:aspect-[4/5] md:max-h-none"
       sizes="(max-width: 768px) 50vw, 520px"
       stopMedia
     />
@@ -101,6 +101,8 @@ const ClientStop = ({ item, n }: { item: GalleryItem; n: number }) => (
         <Shot src={item.before} alt={`Before, ${item.service}`} label="Before" />
         <Shot src={item.after} alt={`After, ${item.service}`} label="After" />
       </div>
+      {/* Phone: the next step under the pair. */}
+      <CtaPair size="lg" tone="dark" label="Book Free Consultation" className="justify-center md:hidden" />
     </div>
   </section>
 );
