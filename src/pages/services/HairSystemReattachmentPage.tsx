@@ -125,7 +125,8 @@ const HairSystemReattachmentPage = () => {
             Our reattachment and restyling service removes your system safely, prepares both
             the system base and your scalp, applies fresh adhesive and reattaches your
             system securely, finishing with a professional restyle to make it look
-            freshly fitted.
+            freshly fitted. Most clients book a reattachment every 4 to 6 weeks, so
+            the system stays secure and the hairline stays crisp between visits.
             </p>
             <p>
             Men's Hair To Stay provides hair system reattachment and restyling for clients
