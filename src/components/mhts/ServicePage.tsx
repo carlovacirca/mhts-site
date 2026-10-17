@@ -174,9 +174,11 @@ const Split = ({
         <div className="space-y-6 font-body leading-[1.7] text-foreground/80 md:space-y-4 md:text-lg md:leading-relaxed">{block.body}</div>
       </Reveal>
       {photo ? (
-      // The photograph uncovers on its own box (never the figure: the key
-      // fact overhangs it from md up) and the key fact rises after it.
+      // The photograph and its key fact arrive together, as one piece, and
+      // the photograph loads with the page (Carlo, Oct 2026: it came up late
+      // and in pieces, the fact floating before the photograph).
       <figure
+        data-stop-item=""
         className={`${together ? "mhts-fill-chain" : `${SNAP_PHONE_CLASS} py-10`} relative md:py-0 ${flip ? "md:order-1" : ""}`}
       >
         {/* On a phone the photograph grows to fill its screen (mhts-fill). */}
@@ -185,7 +187,7 @@ const Split = ({
           alt={photo.alt}
           className={`mhts-fill aspect-[4/3] w-full rounded-2xl object-cover ${photo.wide ? "" : "md:aspect-auto md:h-[min(64vh,600px)]"}`}
           sizes="(max-width: 768px) 100vw, 560px"
-          stopMedia
+          eager
         />
         {/* The key fact. It repeats a line of the text beside it, so it is
             hidden from screen readers rather than read out twice. When the
@@ -193,7 +195,6 @@ const Split = ({
             hero instead. */}
         <figcaption
           aria-hidden="true"
-          data-stop-item=""
           className={`relative -mt-10 mx-4 rounded-xl border-l-4 border-mhts-red bg-card p-5 shadow-xl md:absolute md:bottom-6 md:mx-0 md:mt-0 md:block md:max-w-[80%] ${
             flip ? "md:-right-6" : "md:-left-6"
           } ${together ? "" : "hidden"}`}
@@ -279,18 +280,22 @@ const Included = ({ included }: { included: NonNullable<ServicePageProps["includ
 
 const Steps = ({ steps }: { steps: ServicePageProps["steps"] }) => (
   <section id="process" className="scroll-mt-24 bg-card py-8 md:py-12">
-    {/* From lg the heading sits above the steps, which run in three columns,
-        so the process is one screen on a laptop at full size (Carlo, Oct
-        2026: never two stops, never shrunk to small writing). */}
-    <div className="container mx-auto grid max-w-7xl gap-6 px-4 md:gap-10">
+    {/* From lg the steps are one timeline across the page, every step in a
+        column of its own on one line (Carlo, Oct 2026: not a row of three and
+        a row of two). On a phone and a tablet, a timeline down the page. */}
+    <div className="container mx-auto grid max-w-7xl gap-6 px-4 md:gap-10 lg:gap-14">
       <div>
         <Eyebrow>{steps.eyebrow}</Eyebrow>
         <h2 className="text-3xl text-mhts-ink md:text-4xl">{steps.title}</h2>
         <div className="mt-4 h-1 w-16 rounded-full bg-mhts-red md:mt-6" />
       </div>
-      <ol className="relative lg:grid lg:grid-cols-3 lg:gap-x-10 lg:gap-y-8">
-        {/* The rule the numbers hang on. */}
+      <ol
+        className="relative lg:grid lg:grid-cols-[repeat(var(--steps),minmax(0,1fr))] lg:gap-x-8"
+        style={{ ["--steps" as string]: steps.items.length }}
+      >
+        {/* The rule the numbers hang on: down the page, then across it. */}
         <span className="absolute bottom-6 left-[1.4rem] top-6 w-0.5 bg-mhts-stone lg:hidden" aria-hidden="true" />
+        <span className="absolute left-6 right-6 top-6 hidden h-0.5 bg-mhts-stone lg:block" aria-hidden="true" />
         {steps.items.map((step, i) => (
           <Reveal
             as="li"
@@ -298,14 +303,14 @@ const Steps = ({ steps }: { steps: ServicePageProps["steps"] }) => (
             delay={i * 0.06}
             // On a phone the process is one screen: fewer steps get more room
             // between them, six get less, so it is full but not over.
-            className={`relative flex gap-4 last:pb-0 md:gap-6 md:pb-9 lg:pb-0 ${
+            className={`relative flex gap-4 last:pb-0 md:gap-6 md:pb-9 lg:flex-col lg:gap-5 lg:pb-0 ${
               steps.items.length > 5 ? "pb-5" : steps.items.length < 5 ? "pb-8" : "pb-7"
             }`}
           >
             <span className="relative z-[1] grid h-11 w-11 shrink-0 place-items-center rounded-full bg-mhts-red font-body text-sm font-bold text-white ring-4 ring-card md:h-12 md:w-12">
               {String(i + 1).padStart(2, "0")}
             </span>
-            <div className="pt-2 md:pt-2.5">
+            <div className="pt-2 md:pt-2.5 lg:pt-0">
               <h3 className="mb-1 text-base text-mhts-ink md:mb-1.5 md:text-xl">{step.title}</h3>
               <p className="font-body text-sm leading-snug text-muted-foreground md:text-base md:leading-relaxed">{step.desc}</p>
             </div>
@@ -328,7 +333,10 @@ const Faq = ({ faq }: { faq: ServicePageProps["faq"] }) => (
         <Eyebrow>{faq.eyebrow}</Eyebrow>
         <h2 className="text-3xl text-mhts-ink md:text-4xl">{faq.title}</h2>
       </div>
-      <div className={`md:space-y-3 lg:grid lg:grid-cols-2 lg:items-start lg:gap-4 lg:space-y-0 ${faq.items.length > 3 ? "space-y-2" : "space-y-3"}`}>
+      {/* Three across when the questions divide into threes (three or six),
+          two across otherwise, so the rows are always even (Carlo, Oct 2026:
+          not a row of three and a row of two). */}
+      <div className={`md:space-y-3 lg:grid lg:items-start lg:gap-4 lg:space-y-0 ${faq.items.length % 3 === 0 ? "lg:grid-cols-3" : "lg:grid-cols-2"} ${faq.items.length > 3 ? "space-y-2" : "space-y-3"}`}>
         {faq.items.map((f) => (
           <details
             key={f.q}
@@ -336,7 +344,7 @@ const Faq = ({ faq }: { faq: ServicePageProps["faq"] }) => (
               faq.items.length > 4 ? "py-2.5" : faq.items.length > 3 ? "py-3.5" : "py-4"
             }`}
           >
-            <summary className="flex cursor-pointer list-none items-start justify-between gap-4">
+            <summary className="flex cursor-pointer list-none items-start justify-between gap-4 lg:min-h-14">
               <span className="font-body text-[15px] font-semibold text-mhts-ink md:text-lg">{f.q}</span>
               <ChevronRight
                 className="mt-0.5 h-5 w-5 shrink-0 text-mhts-red transition-transform group-open:rotate-90"

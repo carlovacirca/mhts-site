@@ -5,6 +5,7 @@ import { Search, Calendar, Clock, ChevronRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { blogPosts, categories } from "@/data/blogPosts";
 import ResponsiveImage from "@/components/ResponsiveImage";
+import blogHero from "@/assets/mhts-svc-hair-systems.jpg";
 import { visiblePosts, isPreviewRequest } from "@/lib/publishing";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
 import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
@@ -104,7 +105,9 @@ const BlogPage = () => {
     <div className="mhts-theme min-h-screen bg-background">
       {/* Masthead */}
       <section className="border-b border-mhts-stone bg-mhts-sand px-4 pb-5 pt-6 md:pb-10 md:pt-16">
-        <div className="container mx-auto grid max-w-6xl items-end gap-8 px-0 md:grid-cols-[1.3fr_1fr]">
+        {/* From md up the words and the search sit beside a photograph from
+            the studio (Carlo, Oct 2026: the blog had no hero image). */}
+        <div className="container mx-auto grid max-w-6xl items-center gap-8 px-0 md:grid-cols-2 md:gap-12 lg:max-w-7xl">
           <div>
           <div className="mb-3 h-1 w-14 rounded-full bg-mhts-red md:mb-5" />
           <motion.h1
@@ -117,8 +120,7 @@ const BlogPage = () => {
           <p className="max-w-2xl text-base text-muted-foreground md:text-xl">
             Expert insights on hair systems, scalp micropigmentation and modern hair loss solutions.
           </p>
-          </div>
-          <div className="relative hidden md:block">
+          <div className="relative mt-8 hidden md:block">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
               value={search}
@@ -129,6 +131,14 @@ const BlogPage = () => {
               className="h-12 bg-card pl-10 text-foreground"
             />
           </div>
+          </div>
+          <ResponsiveImage
+            src={blogHero}
+            alt="A hair system being cut in at the Men's Hair To Stay studio in Amersham"
+            className="hidden h-[min(56vh,480px)] w-full rounded-2xl object-cover shadow-xl md:block"
+            sizes="(max-width: 768px) 100vw, 640px"
+            priority
+          />
         </div>
 
         {/* Phone: the latest post, first, as one large card. */}

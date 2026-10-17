@@ -934,6 +934,14 @@
   }
 }
 
+/* The full-screen booking window on /book: Trafft's frame fills it. */
+.mhts-book-window .embedded-booking iframe {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
 /* FAQ page, 1024px up: the Book and Call card in the sticky rail would not
    fit whole beside the first questions on a short laptop, so it is left out
    there (Book and Call stay in the header). */

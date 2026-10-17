@@ -68,6 +68,10 @@ const faqs = [
     q: "What is the first step?",
     a: "Book a free consultation. We will assess your hair loss, answer all your questions and create a plan tailored to you.",
   },
+  {
+    q: "Is my consultation confidential?",
+    a: "Yes. Every consultation and fitting takes place in our private studio in Amersham, and everything you share with us stays between you and us.",
+  },
 ];
 
 const HairSystemsPage = () => {

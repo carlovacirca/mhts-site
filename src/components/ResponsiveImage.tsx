@@ -22,6 +22,12 @@ interface ResponsiveImageProps {
    * of src/lib/stopMotion.ts). The clip goes on the image's own rounded box.
    */
   stopMedia?: boolean;
+  /**
+   * Load with the page, not when scrolled near: for a photograph a snap
+   * scroll reaches in one swipe, so it is never still arriving when its stop
+   * lands. Not high priority, unlike `priority`.
+   */
+  eager?: boolean;
 }
 
 /**
@@ -42,6 +48,7 @@ const ResponsiveImage = ({
   height,
   style,
   stopMedia = false,
+  eager = false,
 }: ResponsiveImageProps) => {
   const pic = getPicture(src);
 
@@ -53,7 +60,9 @@ const ResponsiveImage = ({
     decoding: "async" as const,
     ...(priority
       ? { loading: "eager" as const, fetchPriority: "high" as const }
-      : { loading: "lazy" as const, fetchPriority: "low" as const }),
+      : eager
+        ? { loading: "eager" as const }
+        : { loading: "lazy" as const, fetchPriority: "low" as const }),
   };
 
   if (!pic) {

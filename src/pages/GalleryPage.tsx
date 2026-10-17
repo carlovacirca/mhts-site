@@ -80,7 +80,8 @@ const Shot = ({ src, alt, label }: { src: string; alt: string; label: string }) 
 );
 
 /**
- * One client, one stop (Carlo, Oct 2026): Before and After side by side, as
+ * One client, one stop, never numbered (Carlo, Oct 2026: "client 1 of 3"
+ * read as if the studio had three clients): Before and After side by side, as
  * big as the stop allows, the client's treatment beside them from lg and
  * above them below it. The pair is sized from the height of the stop, so it
  * is never zoomed (mhts-fit-own).
@@ -91,7 +92,7 @@ const ClientStop = ({ item, n }: { item: GalleryItem; n: number }) => (
     <div className="container relative mx-auto flex flex-col gap-5 px-4 md:gap-8 lg:max-w-[96rem] lg:flex-row lg:items-center lg:justify-center lg:gap-14 lg:px-10">
       <div className="text-center lg:w-72 lg:shrink-0 lg:text-left">
         <p className="mb-2 font-body text-xs font-semibold uppercase tracking-[0.3em] text-mhts-red-light">
-          Client {n} of {items.length}
+          Real client result
         </p>
         <h2 className="text-2xl leading-tight text-white md:text-4xl">{item.service}</h2>
         <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red lg:mx-0" />

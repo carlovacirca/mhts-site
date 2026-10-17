@@ -69,6 +69,10 @@ const faqs = [
     q: "Is this the best option for long-term system care?",
     a: "Yes. The full maintenance package is the most comprehensive way to protect the lifespan and appearance of your system.",
   },
+  {
+    q: "Is the appointment private?",
+    a: "Yes. Every appointment takes place in our private studio in Amersham, with complete discretion from start to finish.",
+  },
 ];
 
 const HairSystemFullMaintenancePage = () => {

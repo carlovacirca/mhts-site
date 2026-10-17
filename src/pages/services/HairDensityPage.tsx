@@ -66,6 +66,10 @@ const faqs = [
     q: "Do you serve men outside Amersham?",
     a: "Yes. We welcome clients from Chesham, Beaconsfield, High Wycombe, Rickmansworth, Gerrards Cross, Watford, Uxbridge and all nearby areas.",
   },
+  {
+    q: "Is the consultation free?",
+    a: "Yes. Your density treatment consultation is free with no obligation. We assess your thinning, explain your options and only go ahead when you are happy.",
+  },
 ];
 
 const HairDensityPage = () => {
