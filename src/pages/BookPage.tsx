@@ -209,36 +209,36 @@ const BookPage = () => {
       {/* BOOK ONLINE. One stop: three steps and the button that opens the
           calendar full screen (Carlo, Oct 2026). Without cookies, the panel
           with call, email and the way to accept and book online. */}
-      <section id="trafft-booking" className="scroll-mt-24 border-y border-mhts-stone bg-card py-8 md:py-12">
+      <section id="trafft-booking" className="scroll-mt-24 border-y border-mhts-stone bg-card py-4 md:py-12">
         <div className="container mx-auto max-w-5xl px-4">
-          <div className="mb-6 text-center md:mb-10">
+          <div className="mb-4 text-center md:mb-10">
             <span className="mx-auto mb-4 hidden h-12 w-12 place-items-center rounded-full bg-mhts-red text-white md:grid" aria-hidden="true">
               <CalendarCheck className="h-5 w-5" />
             </span>
             <h2 className="text-2xl text-mhts-ink md:text-4xl">Choose a Date &amp; Time</h2>
             <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />
-            <p className="mx-auto mt-4 max-w-xl font-body text-foreground/75 md:text-lg">
+            <p className="mx-auto mt-4 hidden max-w-xl font-body text-foreground/75 md:block md:text-lg">
               Book online in under a minute. Pick your appointment, choose a time that suits you and confirm.
             </p>
           </div>
           {cookieConsent === "accepted" ? (
             <>
-              <ol className="mx-auto grid max-w-4xl gap-3 md:grid-cols-3 md:gap-6">
+              <ol className="mx-auto grid max-w-4xl gap-2 md:grid-cols-3 md:gap-6">
                 {[
                   { n: "01", t: "Choose your appointment", d: "Free consultation, regroom, maintenance or SMP." },
                   { n: "02", t: "Pick a date and time", d: "Tuesday to Friday, 9:30am to 5pm." },
                   { n: "03", t: "Confirm", d: "You get an email confirmation straight away." },
                 ].map((s) => (
-                  <li key={s.n} className="flex gap-4 rounded-xl border border-mhts-stone bg-mhts-sand p-4 md:flex-col md:gap-3 md:p-6">
+                  <li key={s.n} className="flex gap-4 rounded-xl border border-mhts-stone bg-mhts-sand px-4 py-3 md:flex-col md:gap-3 md:p-6">
                     <span className="font-body text-sm font-bold text-mhts-red-deep md:text-base">{s.n}</span>
                     <span>
                       <span className="block text-base text-mhts-ink md:text-xl">{s.t}</span>
-                      <span className="mt-1 block font-body text-sm text-foreground/75 md:text-base">{s.d}</span>
+                      <span className="mt-1 hidden font-body text-sm text-foreground/75 md:block md:text-base">{s.d}</span>
                     </span>
                   </li>
                 ))}
               </ol>
-              <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row md:mt-10">
+              <div className="mt-5 flex flex-col justify-center gap-3 sm:flex-row md:mt-10">
                 <button
                   type="button"
                   onClick={() => setCalendarOpen(true)}

@@ -336,16 +336,16 @@ const Faq = ({ faq }: { faq: ServicePageProps["faq"] }) => (
       {/* Three across when the questions divide into threes (three or six),
           two across otherwise, so the rows are always even (Carlo, Oct 2026:
           not a row of three and a row of two). */}
-      <div className={`md:space-y-3 lg:grid lg:items-start lg:gap-4 lg:space-y-0 ${faq.items.length % 3 === 0 ? "lg:grid-cols-3" : "lg:grid-cols-2"} ${faq.items.length > 3 ? "space-y-2" : "space-y-3"}`}>
+      <div className={`md:space-y-3 lg:grid lg:items-start lg:gap-4 lg:space-y-0 ${faq.items.length % 3 === 0 ? "lg:grid-cols-3" : "lg:grid-cols-2"} ${faq.items.length > 5 ? "space-y-1.5" : faq.items.length > 3 ? "space-y-2" : "space-y-3"}`}>
         {faq.items.map((f) => (
           <details
             key={f.q}
             className={`group rounded-xl border border-mhts-stone bg-card px-4 transition-colors open:border-mhts-red md:p-6 ${
-              faq.items.length > 4 ? "py-2.5" : faq.items.length > 3 ? "py-3.5" : "py-4"
+              faq.items.length > 5 ? "py-1.5" : faq.items.length > 4 ? "py-2.5" : faq.items.length > 3 ? "py-3.5" : "py-4"
             }`}
           >
             <summary className="flex cursor-pointer list-none items-start justify-between gap-4 lg:min-h-14">
-              <span className="font-body text-[15px] font-semibold text-mhts-ink md:text-lg">{f.q}</span>
+              <span className={`font-body font-semibold leading-snug text-mhts-ink md:text-lg ${faq.items.length > 5 ? "text-sm" : "text-[15px]"}`}>{f.q}</span>
               <ChevronRight
                 className="mt-0.5 h-5 w-5 shrink-0 text-mhts-red transition-transform group-open:rotate-90"
                 aria-hidden="true"
