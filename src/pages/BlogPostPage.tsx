@@ -433,7 +433,9 @@ const BlogPostPage = () => {
               if (b.type === "h2")
                 return (
                   <h2 id={b.id} key={key} className={`mb-4 mt-12 scroll-mt-24 border-t-2 border-mhts-red pt-5 text-2xl text-mhts-ink md:text-3xl ${SNAP_POINT_CLASS}`}>
-                    {b.text}
+                    {/* Its own block, so the heading's words arrive at its stop
+                        (src/lib/stopMotion.ts) while the red rule stays put. */}
+                    <span className="block">{b.text}</span>
                   </h2>
                 );
               if (b.type === "h3")

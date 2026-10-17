@@ -1,15 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Reveal } from "@/lib/motion";
 import { SNAP_BEFORE_FOOTER_CLASS, SNAP_PHONE_CLASS } from "@/lib/sectionSnap";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import consultationRoom from "@/assets/mhts-consultation-room-hero-v2.jpg";
-import { Phone, CalendarCheck, X } from "lucide-react";
-import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { Phone, CalendarCheck } from "lucide-react";
+import { BookingWindow, BookOnlineSteps } from "@/components/mhts/BookingWindow";
 import { useSeo, useJsonLd, breadcrumbSchema } from "@/lib/seo";
 import { useCookieConsent } from "@/lib/cookieConsent";
 import BookingPanel from "@/components/mhts/BookingPanel";
-import BookingCalendar from "@/components/mhts/BookingCalendar";
 import { CallButton } from "@/components/mhts/CtaButtons";
 import ServicePricing from "@/components/ServicePricing";
 import {
@@ -133,16 +132,6 @@ const BookPage = () => {
   // time the window opens.
   const [calendarOpen, setCalendarOpen] = useState(false);
 
-  useEffect(() => {
-    if (cookieConsent !== "accepted" || !calendarOpen) return;
-    const script = document.createElement("script");
-    script.src = "https://menshairtostay.trafft.com/embed.js";
-    script.async = true;
-    document.body.appendChild(script);
-    return () => {
-      if (script.parentNode) document.body.removeChild(script);
-    };
-  }, [cookieConsent, serviceUuid, calendarOpen]);
 
   // With cookies accepted every Book button opens the calendar; without, it
   // goes to the booking panel (call, email, or accept and book online).
@@ -222,33 +211,7 @@ const BookPage = () => {
             </p>
           </div>
           {cookieConsent === "accepted" ? (
-            <>
-              <ol className="mx-auto grid max-w-4xl gap-2 md:grid-cols-3 md:gap-6">
-                {[
-                  { n: "01", t: "Choose your appointment", d: "Free consultation, regroom, maintenance or SMP." },
-                  { n: "02", t: "Pick a date and time", d: "Tuesday to Friday, 9:30am to 5pm." },
-                  { n: "03", t: "Confirm", d: "You get an email confirmation straight away." },
-                ].map((s) => (
-                  <li key={s.n} className="flex gap-4 rounded-xl border border-mhts-stone bg-mhts-sand px-4 py-3 md:flex-col md:gap-3 md:p-6">
-                    <span className="font-body text-sm font-bold text-mhts-red-deep md:text-base">{s.n}</span>
-                    <span>
-                      <span className="block text-base text-mhts-ink md:text-xl">{s.t}</span>
-                      <span className="mt-1 hidden font-body text-sm text-foreground/75 md:block md:text-base">{s.d}</span>
-                    </span>
-                  </li>
-                ))}
-              </ol>
-              <div className="mt-5 flex flex-col justify-center gap-3 sm:flex-row md:mt-10">
-                <button
-                  type="button"
-                  onClick={() => setCalendarOpen(true)}
-                  className="mhts-shine inline-flex items-center justify-center gap-2 rounded-md bg-mhts-red px-8 py-4 font-body text-base font-semibold tracking-wide text-white transition-colors hover:bg-mhts-red-deep"
-                >
-                  <CalendarCheck className="h-5 w-5" aria-hidden="true" /> Open the booking calendar
-                </button>
-                <CallButton size="lg" />
-              </div>
-            </>
+            <BookOnlineSteps onOpen={() => setCalendarOpen(true)} />
           ) : (
             /* Was one line of grey text and a button that read "Enable cookies
                to book online": an empty block where the booking calendar should
@@ -260,29 +223,7 @@ const BookPage = () => {
         </div>
       </section>
 
-      {/* The calendar, full screen over the page: a bar with the title and
-          Close, and Trafft below it with the whole window to scroll in. */}
-      <DialogPrimitive.Root open={calendarOpen && cookieConsent === "accepted"} onOpenChange={setCalendarOpen}>
-        <DialogPrimitive.Portal>
-          <DialogPrimitive.Overlay className="fixed inset-0 z-[70] bg-mhts-deep/80 backdrop-blur-sm" />
-          <DialogPrimitive.Content
-            aria-describedby={undefined}
-            className="mhts-theme mhts-book-window fixed inset-0 z-[71] flex flex-col bg-card md:inset-x-[max(1.5rem,calc(50vw_-_36rem))] md:inset-y-6 md:overflow-hidden md:rounded-2xl md:shadow-2xl"
-          >
-            <div className="flex shrink-0 items-center justify-between gap-4 bg-mhts-deep px-5 py-4 text-white md:px-8">
-              <DialogPrimitive.Title className="flex items-center gap-3 text-lg md:text-xl">
-                <CalendarCheck className="h-5 w-5 text-mhts-red-light" aria-hidden="true" /> Book your appointment
-              </DialogPrimitive.Title>
-              <DialogPrimitive.Close className="grid h-10 w-10 place-items-center rounded-full border border-white/25 transition-colors hover:border-white" aria-label="Close the booking calendar">
-                <X className="h-5 w-5" aria-hidden="true" />
-              </DialogPrimitive.Close>
-            </div>
-            <div className="min-h-0 flex-1">
-              <BookingCalendar key={serviceUuid} serviceUuid={serviceUuid} fill />
-            </div>
-          </DialogPrimitive.Content>
-        </DialogPrimitive.Portal>
-      </DialogPrimitive.Root>
+      <BookingWindow open={calendarOpen && cookieConsent === "accepted"} onOpenChange={setCalendarOpen} serviceUuid={serviceUuid} />
 
       {/* APPOINTMENT TYPES */}
       <section className="bg-mhts-sand py-8 md:py-12">

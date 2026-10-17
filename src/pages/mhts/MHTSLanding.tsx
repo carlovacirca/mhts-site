@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Reveal } from "@/lib/motion";
 import {
@@ -27,6 +27,7 @@ import { BookButton, CallButton, CtaPair } from "@/components/mhts/CtaButtons";
 import BeforeAfterStrip from "@/components/mhts/BeforeAfterStrip";
 import GoogleReviews from "@/components/mhts/GoogleReviews";
 import BookingPanel from "@/components/mhts/BookingPanel";
+import { BookingWindow, BookOnlineSteps } from "@/components/mhts/BookingWindow";
 import StudioMap from "@/components/mhts/StudioMap";
 import { SNAP_HERO_CLASS, SNAP_PHONE_CLASS, SNAP_SECTION_CLASS, SNAP_SPLIT_CLASS, snapPageClass } from "@/lib/sectionSnap";
 import mhtsHero from "@/assets/mhts-hero.jpg";
@@ -181,16 +182,8 @@ const MHTSLanding = () => {
 
   const cookieConsent = useCookieConsent();
 
-  useEffect(() => {
-    if (cookieConsent !== "accepted") return;
-    const script = document.createElement("script");
-    script.src = "https://menshairtostay.trafft.com/embed.js";
-    script.async = true;
-    document.body.appendChild(script);
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, [cookieConsent]);
+  // The booking calendar opens full screen (BookingWindow), as on /book.
+  const [calendarOpen, setCalendarOpen] = useState(false);
 
   // Batch 4b: with SECTION_SNAP on (src/lib/sectionSnap.ts) every section
   // below fills one screen and a scroll moves to the next. The sections were
@@ -492,21 +485,15 @@ const MHTSLanding = () => {
             <h2 className="text-3xl text-mhts-ink md:text-4xl">Book a Consultation</h2>
             <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />
             <p className="mx-auto mt-3 max-w-xl font-body text-muted-foreground">
-              Pick a time below, or call us and we will find one for you.
+              Book online in a minute, or call us and we will find a time for you.
             </p>
           </div>
 
           {cookieConsent === "accepted" ? (
-            <div
-              className="embedded-booking w-full"
-              data-url="https://menshairtostay.trafft.com"
-              data-query="&t=s&uuid=848c1e33-c5d4-4dc8-a7de-94102b7c344b"
-              data-lang="en"
-              data-autoresize="1"
-              data-showsidebar="1"
-              data-showservices="0"
-              style={{ minWidth: "320px", width: "100%" }}
-            />
+            <div className="container mx-auto px-4 pb-8 md:pb-12">
+              <BookOnlineSteps onOpen={() => setCalendarOpen(true)} />
+              <BookingWindow open={calendarOpen} onOpenChange={setCalendarOpen} />
+            </div>
           ) : (
             <BookingPanel compact />
           )}
