@@ -12,7 +12,6 @@ import { toast } from "@/hooks/use-toast";
 import StudioMap from "@/components/mhts/StudioMap";
 import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 import { EMAIL, PHONE_DISPLAY, PHONE_TEL } from "@/lib/site";
-import { Reveal } from "@/lib/motion";
 import { SNAP_BEFORE_FOOTER_CLASS, SNAP_PHONE_CLASS } from "@/lib/sectionSnap";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import studioPhoto from "@/assets/mhts-consultation-room-hero-v2.jpg";
@@ -118,14 +117,15 @@ const ContactPage = () => {
               </div>
             </div>
           </div>
-          <Reveal as="figure" from="right" className="hidden md:block">
+          <figure className="hidden md:block">
             <ResponsiveImage
               src={studioPhoto}
               alt="The private consultation room at the Amersham studio"
               className="aspect-[4/5] w-full rounded-2xl object-cover shadow-2xl"
               sizes="40vw"
+              stopMedia
             />
-          </Reveal>
+          </figure>
         </div>
       </section>
 
@@ -283,13 +283,14 @@ const ContactPage = () => {
       </section>
 
       {/* From md up the towns, why choose us and the related links share one
-          screen (Carlo, Oct 2026). On a phone this wrapper is display:
+          screen (Carlo, Oct 2026), the towns and why choose us side by side
+          from lg. On a phone this wrapper is display:
           contents. */}
       <div className="mhts-snap-desk">
       {/* Phone: the towns and why choose us are one screen. */}
-      <div className={`${SNAP_PHONE_CLASS} md:contents`}>
+      <div className={`${SNAP_PHONE_CLASS} md:contents lg:grid lg:flex-1 lg:grid-cols-2`}>
       {/* SERVICE AREAS */}
-      <section className="bg-card pb-4 pt-6 md:py-16">
+      <section className="bg-card pb-4 pt-6 md:pb-8 md:pt-10 lg:flex lg:items-center lg:py-12">
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <h2 className="text-2xl text-mhts-ink md:text-4xl">Hair Replacement Across Buckinghamshire</h2>
           <div className="mx-auto mt-3 h-1 w-14 rounded-full bg-mhts-red md:mt-5" />
@@ -305,26 +306,26 @@ const ContactPage = () => {
       </section>
 
       {/* WHY CHOOSE */}
-      <section className="relative overflow-clip bg-mhts-deep pb-8 pt-5 md:py-20">
+      <section className="relative overflow-clip bg-mhts-deep pb-8 pt-5 md:pb-8 md:pt-10 lg:py-12">
         <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_100%_100%,hsl(var(--mhts-red)/0.2),transparent_70%)]" />
         <div className="container relative mx-auto px-4 max-w-6xl">
-          <div className="mb-4 text-center md:mb-12">
+          <div className="mb-4 text-center md:mb-8">
             <h2 className="text-2xl text-white md:text-4xl">Why Choose Men's Hair To Stay</h2>
             <div className="mx-auto mt-4 h-1 w-14 rounded-full bg-mhts-red md:mt-5" />
           </div>
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-6">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-6 lg:grid-cols-1 lg:gap-4">
             {[
               { icon: ShieldCheck, title: "Free Consultations", desc: "Confidential, no-obligation hair loss assessment with a specialist, no pressure to proceed." },
               { icon: Award, title: "Specialist Expertise", desc: "Years of experience fitting hair systems, performing SMP and supporting men through hair loss." },
               { icon: Lock, title: "100% Confidential", desc: "Discreet private studio in Amersham. Your details and visits are kept completely confidential." },
             ].map((c) => (
               // Phone: a compact row, icon beside the words. From md up: as before.
-              <article key={c.title} className="grid grid-cols-[auto_1fr] gap-x-4 md:block md:rounded-2xl md:border md:border-white/10 md:bg-white/5 md:p-8 md:text-center">
-                <span className="row-span-2 grid h-10 w-10 place-items-center rounded-full bg-mhts-red-light/15 md:mx-auto md:mb-4 md:h-12 md:w-12" aria-hidden="true">
+              <article key={c.title} className="grid grid-cols-[auto_1fr] gap-x-4 md:block md:rounded-2xl md:border md:border-white/10 md:bg-white/5 md:p-6 md:text-center lg:grid lg:p-5 lg:text-left">
+                <span className="row-span-2 grid h-10 w-10 place-items-center rounded-full bg-mhts-red-light/15 md:mx-auto md:mb-4 md:h-12 md:w-12 lg:mx-0 lg:mb-0" aria-hidden="true">
                   <c.icon className="h-5 w-5 text-mhts-red-light md:h-6 md:w-6" />
                 </span>
-                <h3 className="text-base text-white md:text-lg">{c.title}</h3>
-                <p className="mt-1 font-body text-sm leading-snug text-white/80 md:mt-3 md:leading-relaxed">{c.desc}</p>
+                <h3 className="text-base text-white md:text-lg lg:text-xl">{c.title}</h3>
+                <p className="mt-1 font-body text-sm leading-snug text-white/80 md:mt-3 md:leading-relaxed lg:mt-1 lg:text-base">{c.desc}</p>
               </article>
             ))}
           </div>
@@ -334,7 +335,7 @@ const ContactPage = () => {
 
       {/* RELATED LINKS */}
       {/* On a phone this row of links shares the footer's screen. */}
-      <section className={`${SNAP_BEFORE_FOOTER_CLASS} border-t border-white/10 bg-mhts-deep py-4 md:py-12`}>
+      <section className={`${SNAP_BEFORE_FOOTER_CLASS} border-t border-white/10 bg-mhts-deep py-4 md:py-6`}>
         <div className="container mx-auto px-4 text-center">
           <p className="mb-2 font-body text-xs uppercase tracking-[0.2em] text-white/60 md:mb-5">Explore More</p>
           {/* Phone: a line of links, short enough to share the footer's

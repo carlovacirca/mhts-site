@@ -233,6 +233,10 @@ export async function measureRoute(browser, base, route, viewport = PHONE) {
     window.scrollTo(0, 0);
     html.style.scrollSnapType = "";
   });
+  // A stop scrolled away waits armed for its next arrival (src/lib/stopMotion.ts),
+  // its words shifted, scaled or turned and invisible. Measure every stop as
+  // it rests.
+  await page.addStyleTag({ content: "[data-stop-item],[data-stop-draw],[data-stop-media],[data-stop-media] img{translate:none!important;scale:none!important;rotate:none!important;filter:none!important}" });
   await page.waitForTimeout(150);
   const result = await page.evaluate(measureInPage);
   await context.close();

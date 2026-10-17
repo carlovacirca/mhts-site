@@ -123,22 +123,23 @@ const AreaPage = () => {
               ))}
             </div>
           </Reveal>
-          <Reveal as="figure" from="right" className={`${SNAP_PHONE_CLASS} py-8 md:py-0 md:pt-10`}>
+          <figure className={`${SNAP_PHONE_CLASS} py-8 md:py-0 md:pt-10`}>
             {/* On a phone the photograph fills the screen above the address. */}
             <ResponsiveImage
               src={studioPhoto}
               alt="The Men's Hair To Stay studio in Amersham"
               className="mhts-fill aspect-[4/3] w-full rounded-2xl object-cover"
               sizes="(max-width: 768px) 100vw, 500px"
+              stopMedia
             />
-            <figcaption className="mt-4 flex items-start gap-3 rounded-xl border-l-4 border-mhts-red bg-mhts-sand p-5">
+            <figcaption data-stop-item="" className="mt-4 flex items-start gap-3 rounded-xl border-l-4 border-mhts-red bg-mhts-sand p-5">
               <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-mhts-red" aria-hidden="true" />
               <p className="font-body text-sm leading-relaxed text-foreground/80">
                 <strong className="text-mhts-ink">Men's Hair To Stay</strong>, 11 Chesham Road,
                 Amersham, HP6 5HN. {area.distanceLabel}.
               </p>
             </figcaption>
-          </Reveal>
+          </figure>
         </div>
       </section>
 

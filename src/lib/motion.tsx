@@ -17,8 +17,9 @@
 // mount, so every route the reader clicks through to animates exactly as it
 // does today.
 import { motion as framerMotion } from "framer-motion";
-import { createElement, forwardRef, useEffect, useState, type ReactNode } from "react";
+import { createElement, forwardRef, useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { isFirstPaint } from "./prerender";
+import { SECTION_SNAP } from "./sectionSnap";
 
 type AnyComponent = Parameters<typeof createElement>[0];
 
@@ -84,22 +85,26 @@ export const usePrefersReducedMotion = (): boolean => {
 };
 
 /**
- * The scroll reveal used across the redesigned pages: fade up 16px over 400ms,
- * ease-out, with an optional stagger for a row of cards.
+ * The scroll reveal used across the redesigned pages: a short rise as its
+ * scroll stop arrives, with an optional stagger for a row of cards.
  *
- * It goes through the `motion` proxy above on purpose, so the pre-render
- * captures the finished element and React re-renders the same thing. Three
- * things can switch it off, and any one of them is enough:
+ * With the section scroll on (SECTION_SNAP) it is a plain element marked
+ * data-stop-item, with its place in a row as --i, and the arrival motion at
+ * every stop moves it (src/lib/stopMotion.ts, the "Arrive" block in
+ * src/index.css), on a phone and a desktop alike. Nothing about it is hidden
+ * in the HTML: only that system, once React has mounted, can arm it, and
+ * never for a reader who has asked for reduced motion, in the pre-render or
+ * without JavaScript.
  *
- *   - the reader has asked for reduced motion (useReducedMotion)
- *   - the page was served as pre-rendered HTML and React is catching up
- *   - JavaScript never runs, in which case there is no motion component at all
- *     and the children are simply in the page
+ * With the section scroll off it is the framer-motion fade up it always was,
+ * through the `motion` proxy above, so the pre-render captures the finished
+ * element and React re-renders the same thing.
  */
 /**
  * Where a Reveal comes in from. Each page type leans on one or two of these so
- * the pages do not all move alike: service pages slide their photographs in
- * from the side, the gallery scales, the FAQ and the blog rise.
+ * the pages do not all move alike: words beside a photograph come in from its
+ * side, the gallery's frames scale, everything else rises. The photographs
+ * themselves uncover (ResponsiveImage's stopMedia).
  */
 export type RevealFrom = "up" | "left" | "right" | "scale";
 
@@ -127,6 +132,20 @@ export const Reveal = ({
   from?: RevealFrom;
 }) => {
   const reduced = usePrefersReducedMotion();
+
+  if (SECTION_SNAP) {
+    const Plain = as;
+    return (
+      <Plain
+        className={className}
+        data-stop-item=""
+        data-stop-from={from === "up" ? undefined : from}
+        style={{ "--i": Math.round(delay / 0.06) } as CSSProperties}
+      >
+        {children}
+      </Plain>
+    );
+  }
 
   if (reduced) {
     const Plain = as;

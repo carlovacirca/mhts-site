@@ -74,10 +74,22 @@ const beforeAfterPairs = [
   },
 ];
 
-// Phone: a square frame, one client at a time in the strip. Desktop: a 4:5
-// frame, three across.
-const BA_FRAME = "aspect-square md:aspect-[4/5]";
-const BA_SIZES = "(max-width: 768px) 85vw, 290px";
+// A 4:5 frame: one client at a time in the strip on a phone, three across on
+// a desktop (Carlo, Oct 2026: the photos should fill more of the screen). On
+// a phone it is as tall as the room the title, caption and controls leave
+// (22rem of the screen, 20rem on a tall phone, whose title sits on fewer
+// lines), so the stop stays one screen on any phone.
+const BA_FRAME = "aspect-[4/5] max-md:max-h-[calc(var(--snap-screen)_-_22rem)] max-md:[@media(min-height:800px)]:max-h-[calc(var(--snap-screen)_-_20rem)]";
+const BA_SIZES = "(max-width: 768px) 85vw, 448px";
+
+const VisitBlog = ({ className }: { className: string }) => (
+  <Link
+    to="/blog"
+    className={`${className} items-center gap-2 rounded-md border border-mhts-stone-deep px-7 py-3 font-body text-sm font-semibold text-mhts-ink transition-colors hover:border-mhts-red hover:text-mhts-red-deep`}
+  >
+    Visit Our Blog <ChevronRight className="h-4 w-4" aria-hidden="true" />
+  </Link>
+);
 
 const SeeAllResults = () => (
   <Link
@@ -248,19 +260,24 @@ const MHTSLanding = () => {
           strip like the reviews: Before 2s, After 2s, then the next client
           (BeforeAfterStrip). On a desktop the three sit in one row, each
           looping on its own, as before. */}
-      <section id="mhts-gallery" className={`${S} mhts-desk-dark mhts-desk-glow scroll-mt-24 bg-card py-8 md:py-12`}>
+      <section id="mhts-gallery" className={`${S} mhts-fit-own mhts-desk-dark mhts-desk-glow scroll-mt-24 bg-card py-8 md:py-12`}>
         {/* display:contents from md up, so the row sits exactly as before. */}
-        <div className="container mx-auto px-4 md:contents">
-          <div className="mb-5 text-center md:mb-8">
+        {/* From lg the words sit to the left of the row, so the three frames
+            can take the stop's full height (Carlo, Oct 2026). */}
+        <div className="container mx-auto px-4 md:contents lg:mx-auto lg:flex lg:max-w-[96rem] lg:items-center lg:justify-center lg:gap-12 lg:px-10">
+          <div className="mb-5 text-center md:mb-6 lg:mb-0 lg:w-60 lg:shrink-0 lg:text-left">
             <Eyebrow>Real clients</Eyebrow>
-            <h2 className="text-3xl text-mhts-ink md:text-4xl">Before and after</h2>
-            <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />
-            <p className="mx-auto mt-3 max-w-xl font-body text-sm text-muted-foreground md:text-base">
+            <h2 className="text-3xl text-mhts-ink md:text-4xl lg:text-5xl">Before and after</h2>
+            <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red lg:mx-0" />
+            <p className="mx-auto mt-3 max-w-xl font-body text-sm text-muted-foreground md:text-base lg:mt-5 lg:text-lg">
               Three of our own clients, photographed at the studio.
             </p>
+            <div className="mt-6 hidden lg:block">
+              <SeeAllResults />
+            </div>
           </div>
           <BeforeAfterStrip pairs={beforeAfterPairs} frameClassName={BA_FRAME} sizes={BA_SIZES} />
-          <div className="mt-4 flex justify-center md:mt-8">
+          <div className="mt-4 flex justify-center md:mt-5 lg:hidden">
             <SeeAllResults />
           </div>
         </div>
@@ -369,14 +386,16 @@ const MHTSLanding = () => {
             </h2>
             <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />
           </div>
-          <div className="mx-auto max-w-3xl">
-            <Accordion type="single" collapsible className="w-full">
+          {/* Wide and large from lg, two columns of questions (Carlo, Oct
+              2026: the questions were small with too much room each side). */}
+          <div className="mx-auto max-w-3xl lg:max-w-6xl">
+            <Accordion type="single" collapsible className="w-full lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-12">
               {homeFaqs.map((f, i) => (
                 <AccordionItem key={i} value={`q${i + 1}`}>
-                  <AccordionTrigger className="py-5 text-left font-semibold text-mhts-ink hover:text-mhts-red-deep md:py-4">
+                  <AccordionTrigger className="py-5 text-left font-semibold text-mhts-ink hover:text-mhts-red-deep md:py-4 md:text-lg lg:py-6 lg:text-xl">
                     {f.q}
                   </AccordionTrigger>
-                  <AccordionContent className="font-body leading-relaxed text-foreground/80">
+                  <AccordionContent className="font-body leading-relaxed text-foreground/80 md:text-base lg:text-lg">
                     {f.a}
                   </AccordionContent>
                 </AccordionItem>
@@ -397,19 +416,25 @@ const MHTSLanding = () => {
       {/* ─── 7. LATEST FROM THE BLOG ─── */}
       <section className={`${S} mhts-home-blog mhts-desk-dark mhts-desk-diag bg-mhts-sand py-10 md:py-12`}>
         <div className="container mx-auto px-4">
-          <div className="mb-6 text-center md:mb-8">
-            <Eyebrow>From the blog</Eyebrow>
-            <h2 className="text-2xl text-mhts-ink md:text-4xl">
-              Latest Articles &amp; Expert Advice on Hair Replacement
-            </h2>
-            <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />
+          {/* From lg the link to the blog sits beside the title, so the four
+              posts get the room. */}
+          <div className="mb-6 text-center md:mb-8 lg:mx-auto lg:flex lg:max-w-7xl lg:items-end lg:justify-between lg:gap-8 lg:text-left">
+            <div>
+              <Eyebrow>From the blog</Eyebrow>
+              <h2 className="text-2xl text-mhts-ink md:text-4xl">
+                Latest Articles &amp; Expert Advice on Hair Replacement
+              </h2>
+              <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red lg:mx-0" />
+            </div>
+            <VisitBlog className="hidden shrink-0 lg:inline-flex" />
           </div>
           {/* One post per swipe on a phone with the next one peeking, three
-              across from md. */}
-          <div className="mhts-snap-x -mx-4 flex max-w-5xl snap-x snap-mandatory scroll-pl-4 gap-4 overflow-x-auto px-4 pb-2 md:mx-auto md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0">
+              across from md and four from lg, edge to edge (Carlo, Oct 2026:
+              more posts, less room each side). */}
+          <div className="mhts-snap-x -mx-4 flex max-w-7xl snap-x snap-mandatory scroll-pl-4 gap-4 overflow-x-auto px-4 pb-2 md:mx-auto md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0 lg:grid-cols-4">
             {/* Live posts only. This strip showed future-dated posts early. */}
-            {latestPosts(blogPosts, 3).map((post, i) => (
-              <Reveal key={post.slug} as="article" delay={i * 0.06} className="w-[80%] shrink-0 snap-start snap-always md:h-full md:w-auto md:snap-align-none">
+            {latestPosts(blogPosts, 4).map((post, i) => (
+              <Reveal key={post.slug} as="article" delay={i * 0.06} className={`w-[80%] shrink-0 snap-start snap-always md:h-full md:w-auto md:snap-align-none ${i === 3 ? "md:hidden lg:block" : ""}`}>
                 <div className="group flex h-full flex-col overflow-hidden rounded-xl border border-mhts-stone bg-card transition-all hover:-translate-y-1 hover:shadow-lg">
                   {post.image && (
                     <Link to={`/blog/${post.slug}`} className="block aspect-[16/9] overflow-hidden">
@@ -418,6 +443,7 @@ const MHTSLanding = () => {
                         alt={post.title}
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         sizes="(max-width: 768px) 80vw, 380px"
+                        stopMedia
                       />
                     </Link>
                   )}
@@ -452,13 +478,8 @@ const MHTSLanding = () => {
               </Reveal>
             ))}
           </div>
-          <div className="mt-6 text-center">
-            <Link
-              to="/blog"
-              className="inline-flex items-center gap-2 rounded-md border border-mhts-stone-deep px-7 py-3 font-body text-sm font-semibold text-mhts-ink transition-colors hover:border-mhts-red hover:text-mhts-red-deep"
-            >
-              Visit Our Blog <ChevronRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
+          <div className="mt-6 text-center lg:hidden">
+            <VisitBlog className="inline-flex" />
           </div>
         </div>
       </section>

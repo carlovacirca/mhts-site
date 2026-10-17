@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import { motion } from "@/lib/motion";
+import { motion, Reveal } from "@/lib/motion";
 import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
 import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
@@ -250,8 +250,8 @@ const FAQPage = () => {
   const shareUrl = typeof window !== "undefined" ? window.location.href : "";
   const shareText = "Hair Systems & SMP FAQ, Men's Hair To Stay";
 
-  // The search and the category filter. In the rail beside the questions from
-  // md up; on a phone, in the first screen with Book and Call.
+  // The search and the category filter. Above the questions, full width, from
+  // md up (Carlo, Oct 2026: the questions take the width); on a phone, in the first screen with Book and Call.
   const rail = (
             <div className="rounded-2xl border border-mhts-stone bg-card p-5 shadow-sm">
               {/* Search */}
@@ -275,13 +275,13 @@ const FAQPage = () => {
           </motion.div>
 
               {/* Jump nav */}
-              <div className="mt-4 flex flex-wrap gap-2 lg:flex-col">
+              <div className="mt-4 flex flex-wrap gap-2">
             {categories.map((c) => (
               <button
                 key={c}
                 onClick={() => setActiveCat(c)}
                 aria-pressed={activeCat === c}
-                className={`rounded-full px-4 py-2 text-left text-sm font-medium transition-all lg:rounded-lg ${
+                className={`rounded-full px-4 py-2 text-left text-sm font-medium transition-all ${
                   activeCat === c
                     ? "bg-mhts-red text-white shadow-md"
                     : "border border-mhts-stone-deep bg-card text-mhts-ink hover:border-mhts-red hover:text-mhts-red-deep"
@@ -299,10 +299,8 @@ const FAQPage = () => {
   // same 24px below its question and above the next, as before.
   const bandItem = (after: number) => (
     <li key={`band-${after}`} className="md:mb-3 md:mt-3">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.98 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
+      <Reveal
+        from="scale"
         className="relative flex flex-col items-center gap-3 overflow-hidden rounded-xl bg-mhts-deep p-5 text-white md:flex-row md:gap-6 md:p-8"
       >
         <CalendarCheck className="hidden h-10 w-10 flex-shrink-0 text-mhts-red-light md:block" />
@@ -319,7 +317,7 @@ const FAQPage = () => {
           <BookButton size="md" href="/#mhts-book" />
           <CallButton size="md" tone="dark" label="Call us" />
         </div>
-      </motion.div>
+      </Reveal>
     </li>
   );
 
@@ -454,17 +452,11 @@ const FAQPage = () => {
 
       {/* FAQ list, with the search and filter rail beside it */}
       <section className={`${SNAP_SPLIT_CLASS} container mx-auto px-4 md:pb-16 md:pt-10`}>
-        <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[300px_1fr] lg:gap-12">
+        <div className="mx-auto grid max-w-6xl gap-8">
           {/* Not sticky: with the desktop stops it would slide under the header
               at the end of the list (Carlo, Oct 2026: nothing cut off). */}
           <aside className="hidden md:block lg:self-start print:hidden">
             {rail}
-            <div className="mhts-faq-rail-cta mt-4 hidden rounded-2xl bg-mhts-deep p-5 lg:block">
-              <div className="flex flex-col gap-2">
-                <BookButton size="sm" href="/#mhts-book" />
-                <CallButton size="sm" tone="dark" />
-              </div>
-            </div>
           </aside>
           <div>
           {filtered.length === 0 ? (
@@ -510,11 +502,11 @@ const FAQPage = () => {
                           >
                             <button
                               onClick={() => setOpenIdx(isOpen ? null : i)}
-                              className="w-full flex items-start justify-between gap-4 px-5 py-6 md:p-6 text-left"
+                              className="w-full flex items-start justify-between gap-4 px-5 py-6 md:px-6 md:py-7 text-left"
                               aria-expanded={isOpen}
                               aria-controls={`${id}-content`}
                             >
-                              <span className="mt-0.5 hidden w-8 shrink-0 font-body text-sm font-bold tabular-nums text-mhts-red-deep sm:block" aria-hidden="true">
+                              <span className="mt-0.5 hidden w-8 shrink-0 font-body text-sm font-bold tabular-nums text-mhts-red-deep sm:block md:text-base" aria-hidden="true">
                                 {String(i + 1).padStart(2, "0")}
                               </span>
                               <div className="flex-1">
@@ -524,7 +516,7 @@ const FAQPage = () => {
                                 {/* Two lines tall at least on a phone, so every closed
                                     question is the same height and the screens below
                                     divide evenly. */}
-                                <h2 className="min-h-12 text-base font-semibold text-mhts-charcoal md:min-h-0 md:text-lg">
+                                <h2 className="min-h-12 text-base font-semibold text-mhts-charcoal md:min-h-0 md:text-xl">
                                   {f.q}
                                 </h2>
                               </div>
@@ -546,7 +538,7 @@ const FAQPage = () => {
                                   transition={{ duration: 0.25 }}
                                   className="overflow-hidden"
                                 >
-                                  <div className="px-5 pb-6 leading-relaxed text-mhts-slate sm:pl-[3.75rem] md:pr-6">
+                                  <div className="px-5 pb-6 leading-relaxed text-mhts-slate sm:pl-[3.75rem] md:pr-10 md:text-lg">
                                     {f.a}
                                   </div>
                                 </motion.div>

@@ -1,17 +1,15 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "@/lib/motion";
-import { Search, Calendar, Clock, ChevronRight, Mail, Phone } from "lucide-react";
+import { motion, Reveal } from "@/lib/motion";
+import { Search, Calendar, Clock, ChevronRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { blogPosts, categories } from "@/data/blogPosts";
 import ResponsiveImage from "@/components/ResponsiveImage";
+import blogHero from "@/assets/mhts-svc-hair-systems.jpg";
 import { visiblePosts, isPreviewRequest } from "@/lib/publishing";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
 import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
 
-const POSTS_PER_PAGE = 9;
 
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" });
@@ -20,8 +18,6 @@ const BlogPage = () => {
   const previewMode = isPreviewRequest();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All Posts");
-  const [page, setPage] = useState(1);
-  const [email, setEmail] = useState("");
 
   useSeo({
     title: "Hair Replacement Blog | Expert Tips & Advice",
@@ -73,8 +69,6 @@ const BlogPage = () => {
       });
   }, [search, category, featured.slug, sortedPosts]);
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / POSTS_PER_PAGE));
-  const pagePosts = filtered.slice((page - 1) * POSTS_PER_PAGE, page * POSTS_PER_PAGE);
 
   // Phone list: every post but the latest (it is the card at the top), filtered
   // by the chosen chip. Its own state, so the desktop tabs are unaffected.
@@ -102,8 +96,6 @@ const BlogPage = () => {
     return screens;
   }, [phoneList]);
 
-  const popularPosts = livePosts.slice(0, 4);
-  const recentPosts = [...livePosts].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 4);
 
   return (
     // Batch 4b. The blog is laid out as a magazine, not as another dark hero:
@@ -113,7 +105,9 @@ const BlogPage = () => {
     <div className="mhts-theme min-h-screen bg-background">
       {/* Masthead */}
       <section className="border-b border-mhts-stone bg-mhts-sand px-4 pb-5 pt-6 md:pb-10 md:pt-16">
-        <div className="container mx-auto grid max-w-6xl items-end gap-8 px-0 md:grid-cols-[1.3fr_1fr]">
+        {/* From md up the words and the search sit beside a photograph from
+            the studio (Carlo, Oct 2026: the blog had no hero image). */}
+        <div className="container mx-auto grid max-w-6xl items-center gap-8 px-0 md:grid-cols-2 md:gap-12 lg:max-w-7xl">
           <div>
           <div className="mb-3 h-1 w-14 rounded-full bg-mhts-red md:mb-5" />
           <motion.h1
@@ -126,19 +120,25 @@ const BlogPage = () => {
           <p className="max-w-2xl text-base text-muted-foreground md:text-xl">
             Expert insights on hair systems, scalp micropigmentation and modern hair loss solutions.
           </p>
-          </div>
-          <div className="relative hidden md:block">
+          <div className="relative mt-8 hidden md:block">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
-                setPage(1);
               }}
               placeholder="Search articles..."
               className="h-12 bg-card pl-10 text-foreground"
             />
           </div>
+          </div>
+          <ResponsiveImage
+            src={blogHero}
+            alt="A hair system being cut in at the Men's Hair To Stay studio in Amersham"
+            className="hidden h-[min(56vh,480px)] w-full rounded-2xl object-cover shadow-xl md:block"
+            sizes="(max-width: 768px) 100vw, 640px"
+            priority
+          />
         </div>
 
         {/* Phone: the latest post, first, as one large card. */}
@@ -230,6 +230,9 @@ const BlogPage = () => {
         ))}
       </section>
 
+      {/* Featured */}
+      {/* One stop from md up: the trail, the category tabs and the cover story. */}
+      <section className="hidden pb-10 md:block">
       {/* Breadcrumbs */}
       <div className="container mx-auto hidden max-w-6xl px-4 py-4 text-sm text-muted-foreground md:block">
         <Link to="/" className="hover:text-foreground">Home</Link>
@@ -246,7 +249,6 @@ const BlogPage = () => {
               key={cat}
               onClick={() => {
                 setCategory(cat);
-                setPage(1);
               }}
               aria-pressed={category === cat}
               className={`-mb-px shrink-0 whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium transition-colors ${
@@ -261,9 +263,8 @@ const BlogPage = () => {
         </div>
       </div>
 
-      {/* Featured */}
       {category === "All Posts" && search === "" && (
-        <section className="container mx-auto mb-12 hidden max-w-6xl px-4 md:block">
+        <div className="container mx-auto max-w-6xl px-4">
           <Link to={`/blog/${featured.slug}`} className="group block">
             <motion.div
               whileHover={{ y: -4 }}
@@ -298,174 +299,58 @@ const BlogPage = () => {
               </div>
             </motion.div>
           </Link>
-        </section>
+        </div>
       )}
+      </section>
 
-      {/* Grid + Sidebar */}
-      <section className="container mx-auto hidden max-w-6xl gap-10 px-4 pb-20 md:grid lg:grid-cols-[1fr_300px]">
-        {/* Posts */}
-        <div>
-          {pagePosts.length === 0 ? (
-            <p className="text-muted-foreground py-12 text-center">No articles found.</p>
-          ) : (
-            <div className="grid gap-6 md:grid-cols-2">
-              {pagePosts.map((post, i) => (
-                <motion.div
-                  key={post.slug}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.05 }}
-                  whileHover={{ y: -4 }}
-                >
-                  <Link to={`/blog/${post.slug}`}>
-                    <Card className="group h-full overflow-hidden border-mhts-stone transition-all hover:border-mhts-red hover:shadow-lg">
-                      {post.image ? (
+      {/* The posts, three to a stop from md up, each stop exactly one screen:
+          the photographs take whatever height the words leave (Carlo, Oct
+          2026: three blogs per scroll stop, fitting perfectly). */}
+      {filtered.length === 0 ? (
+        <section className="container mx-auto hidden max-w-7xl px-4 py-12 md:block">
+          <p className="text-center text-muted-foreground">No articles found.</p>
+        </section>
+      ) : (
+        Array.from({ length: Math.ceil(filtered.length / 3) }, (_, k) => filtered.slice(k * 3, k * 3 + 3)).map((row, k) => (
+          <section key={k} className="hidden bg-background md:block" aria-label={k === 0 ? "All articles, desktop" : undefined}>
+            <div className="container mx-auto grid h-[var(--snap-screen)] max-w-7xl grid-cols-3 gap-8 px-4 py-10">
+              {row.map((post, i) => (
+                <Reveal key={post.slug} delay={i * 0.06} className="h-full min-h-0">
+                  <Link
+                    to={`/blog/${post.slug}`}
+                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-mhts-stone bg-card transition-all hover:-translate-y-1 hover:border-mhts-red hover:shadow-lg"
+                  >
+                    <div className="min-h-0 flex-1 overflow-hidden bg-mhts-sand">
+                      {post.image && (
                         <ResponsiveImage
                           src={post.image}
                           alt={post.featuredImageAlt}
-                          className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                          sizes="(max-width: 768px) 100vw, 420px"
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                          sizes="420px"
+                          stopMedia
                         />
-                      ) : (
-                        <div className="aspect-[16/10] bg-gradient-to-br from-mhts-navy to-mhts-charcoal flex items-center justify-center">
-                          <span className="text-mhts-white/20 text-3xl font-bold">MHTS</span>
-                        </div>
                       )}
-                      <CardContent className="p-5">
-                        <span className="mb-3 inline-block rounded-full bg-mhts-red-tint px-2.5 py-0.5 text-xs font-semibold text-mhts-red-deep">
-                          {post.category}
-                        </span>
-                        <h3 className="mb-2 line-clamp-2 text-lg leading-tight text-mhts-ink transition-colors group-hover:text-mhts-red-deep">
-                          {post.title}
-                        </h3>
-                        <p className="text-sm text-muted-foreground line-clamp-2 mb-4">{post.excerpt}</p>
-                        <div className="flex items-center justify-between text-xs text-muted-foreground">
-                          <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {post.readTime}</span>
-                          <span>{formatDate(post.date)}</span>
-                        </div>
-                      </CardContent>
-                    </Card>
+                    </div>
+                    <div className="p-6">
+                      <span className="mb-3 inline-block rounded-full bg-mhts-red-tint px-2.5 py-0.5 text-xs font-semibold text-mhts-red-deep">
+                        {post.category}
+                      </span>
+                      <h3 className="mb-2 line-clamp-2 text-xl leading-snug text-mhts-ink transition-colors group-hover:text-mhts-red-deep">
+                        {post.title}
+                      </h3>
+                      <p className="mb-4 line-clamp-2 text-base text-muted-foreground">{post.excerpt}</p>
+                      <div className="flex items-center justify-between text-sm text-muted-foreground">
+                        <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> {post.readTime}</span>
+                        <span>{formatDate(post.date)}</span>
+                      </div>
+                    </div>
                   </Link>
-                </motion.div>
+                </Reveal>
               ))}
             </div>
-          )}
-
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex justify-center gap-2 mt-10">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                <button
-                  key={p}
-                  onClick={() => setPage(p)}
-                  aria-current={p === page ? "page" : undefined}
-                  className={`h-10 w-10 rounded-md border text-sm transition-colors ${
-                    p === page
-                      ? "border-mhts-red bg-mhts-red text-white"
-                      : "border-mhts-stone-deep hover:border-mhts-red"
-                  }`}
-                >
-                  {p}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Sidebar */}
-        <aside className="space-y-8 lg:sticky lg:top-28 lg:self-start">
-          <div>
-            <h4 className="mb-3 border-b border-mhts-stone pb-2 text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">Categories</h4>
-            <ul className="space-y-1.5 text-sm">
-              {categories.map((c) => (
-                <li key={c}>
-                  <button
-                    onClick={() => {
-                      setCategory(c);
-                      setPage(1);
-                    }}
-                    className={`transition-colors hover:text-mhts-red-deep ${
-                      category === c ? "font-semibold text-mhts-ink" : "text-muted-foreground"
-                    }`}
-                  >
-                    {c}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="mb-3 border-b border-mhts-stone pb-2 text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">Popular Posts</h4>
-            <ul className="space-y-3">
-              {popularPosts.map((p) => (
-                <li key={p.slug}>
-                  <Link to={`/blog/${p.slug}`} className="block line-clamp-2 text-sm text-foreground/80 transition-colors hover:text-mhts-red-deep">
-                    {p.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="mb-3 border-b border-mhts-stone pb-2 text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">Recent Posts</h4>
-            <ul className="space-y-3">
-              {recentPosts.map((p) => (
-                <li key={p.slug}>
-                  <Link to={`/blog/${p.slug}`} className="block line-clamp-2 text-sm text-foreground/80 transition-colors hover:text-mhts-red-deep">
-                    {p.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="rounded-xl bg-mhts-deep p-5">
-            <h4 className="mb-2 flex items-center gap-2 font-semibold text-white">
-              <Mail className="w-4 h-4" /> Get in Touch
-            </h4>
-            <p className="mb-3 text-sm text-white/75">
-              Call or email us and we'll add you to our list for tips, guides and exclusive offers.
-            </p>
-            {/* FORM TEMPORARILY DISABLED, pending Formspree integration. Restore this block once a Formspree form ID is wired up.
-            <Input
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="bg-background mb-2"
-            />
-            <Button
-              className="w-full bg-mhts-charcoal hover:bg-mhts-charcoal/90 text-mhts-white"
-              onClick={() => {
-                if (email) {
-                  window.location.href = `mailto:info@menshairtostay.co.uk?subject=Newsletter%20signup&body=Please%20add%20${encodeURIComponent(email)}%20to%20the%20newsletter.`;
-                }
-              }}
-            >
-              Subscribe
-            </Button>
-            */}
-            <div className="flex flex-col gap-2">
-              <a
-                href="tel:07947878087"
-                data-cta="call"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-mhts-red px-4 py-2.5 text-sm font-semibold text-white hover:bg-mhts-red-deep"
-              >
-                <Phone className="w-4 h-4" /> 07947 878087
-              </a>
-              <a
-                href="mailto:info@menshairtostay.co.uk"
-                className="inline-flex w-full items-center justify-center gap-2 break-all rounded-md border border-white/40 px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10"
-              >
-                <Mail className="w-4 h-4" /> Email Us
-              </a>
-            </div>
-          </div>
-        </aside>
-      </section>
+          </section>
+        ))
+      )}
     </div>
   );
 };

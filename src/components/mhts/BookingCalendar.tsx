@@ -72,7 +72,7 @@ const CalendarSkeleton = ({ done }: { done: boolean }) => (
 );
 
 /** Give it `key={serviceUuid}`: a new service is a new calendar, with its own loading state. */
-const BookingCalendar = ({ serviceUuid }: { serviceUuid: string }) => {
+const BookingCalendar = ({ serviceUuid, fill = false }: { serviceUuid: string; fill?: boolean }) => {
   const box = useRef<HTMLDivElement>(null);
   const [done, setDone] = useState(false);
 
@@ -103,7 +103,9 @@ const BookingCalendar = ({ serviceUuid }: { serviceUuid: string }) => {
   return (
     // The frame's rounded corners also make it one block for SnapGuides, so a
     // stop that has to be paged never draws its line through the calendar.
-    <div className="mhts-embed-frame relative flex h-[1000px] flex-col overflow-hidden rounded-xl">
+    // `fill`: the full-screen booking window on /book, where the calendar
+    // takes the whole window below its bar.
+    <div className={`mhts-embed-frame relative flex flex-col overflow-hidden ${fill ? "h-full" : "h-[1000px] rounded-xl"}`}>
       <div
         ref={box}
         className="embedded-booking min-h-0 w-full flex-1"

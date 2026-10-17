@@ -120,14 +120,15 @@ const StepList = ({ from, to }: { from: number; to: number }) => (
               <Icon className="h-5 w-5" />
             </span>
           </span>
-          <Reveal as="figure" from={flip ? "right" : "left"} className="mhts-fill-chain md:order-1">
+          <figure className="mhts-fill-chain md:order-1">
             <ResponsiveImage
               src={photo.src}
               alt={photo.alt}
               className="mhts-fill aspect-[2/1] w-full rounded-2xl object-cover md:aspect-auto md:h-40 lg:aspect-[16/10] lg:h-auto"
               sizes="(max-width: 768px) 100vw, 520px"
+              stopMedia
             />
-          </Reveal>
+          </figure>
           <Reveal from={flip ? "left" : "right"} className="md:order-3">
             <span className="mb-2 block font-body text-xs font-semibold uppercase tracking-[0.2em] text-mhts-red-deep">
               Step {String(i + 1).padStart(2, "0")}

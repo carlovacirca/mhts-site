@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { CalendarCheck, Phone } from "lucide-react";
 import { PHONE_TEL } from "@/lib/site";
+import { restingBox } from "@/lib/stopMotion";
 
 // The Call and Book bar at the bottom of a phone screen.
 //
@@ -43,7 +44,9 @@ export const contentUnderBar = (bandTop: number, bandBottom: number): boolean =>
   if (!main || bandBottom <= bandTop) return false;
   const w = window.innerWidth;
   for (const el of main.querySelectorAll<HTMLElement>("*")) {
-    const r = el.getBoundingClientRect();
+    const box = el.getBoundingClientRect();
+    // Where it rests, not where a stop's arrival has it this moment.
+    const r = { ...restingBox(el, box), left: box.left, right: box.right, width: box.width, height: box.height };
     if (r.bottom <= bandTop + 1 || r.top >= bandBottom - 1 || r.width < 1 || r.height < 1) continue;
     // Off to the side in a swipeable strip.
     if (r.right <= 0 || r.left >= w) continue;
@@ -68,7 +71,8 @@ export const contentUnderBar = (bandTop: number, bandBottom: number): boolean =>
       if (n.nodeType !== 3 || !n.textContent!.trim()) continue;
       const range = document.createRange();
       range.selectNodeContents(n);
-      for (const t of Array.from(range.getClientRects?.() ?? [])) {
+      for (const rect of Array.from(range.getClientRects?.() ?? [])) {
+        const t = { ...restingBox(el, rect), left: rect.left, right: rect.right };
         if (t.bottom > bandTop + 1 && t.top < bandBottom - 1 && t.right > 0 && t.left < w) return true;
       }
     }

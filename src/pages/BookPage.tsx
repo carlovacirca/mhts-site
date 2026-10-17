@@ -4,7 +4,8 @@ import { Reveal } from "@/lib/motion";
 import { SNAP_BEFORE_FOOTER_CLASS, SNAP_PHONE_CLASS } from "@/lib/sectionSnap";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import consultationRoom from "@/assets/mhts-consultation-room-hero-v2.jpg";
-import { Phone, CalendarCheck } from "lucide-react";
+import { Phone, CalendarCheck, X } from "lucide-react";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { useSeo, useJsonLd, breadcrumbSchema } from "@/lib/seo";
 import { useCookieConsent } from "@/lib/cookieConsent";
 import BookingPanel from "@/components/mhts/BookingPanel";
@@ -126,9 +127,14 @@ const BookPage = () => {
 
   const cookieConsent = useCookieConsent();
   const [serviceUuid, setServiceUuid] = useState(TRAFFT_DEFAULT_SERVICE_UUID);
+  // The calendar opens full screen over the page (Carlo, Oct 2026: inside a
+  // snapping page its own scrolling fought the page's, and it never fitted one
+  // stop). Trafft's script fills the box when it runs, so it is added each
+  // time the window opens.
+  const [calendarOpen, setCalendarOpen] = useState(false);
 
   useEffect(() => {
-    if (cookieConsent !== "accepted") return;
+    if (cookieConsent !== "accepted" || !calendarOpen) return;
     const script = document.createElement("script");
     script.src = "https://menshairtostay.trafft.com/embed.js";
     script.async = true;
@@ -136,11 +142,14 @@ const BookPage = () => {
     return () => {
       if (script.parentNode) document.body.removeChild(script);
     };
-  }, [cookieConsent, serviceUuid]);
+  }, [cookieConsent, serviceUuid, calendarOpen]);
 
+  // With cookies accepted every Book button opens the calendar; without, it
+  // goes to the booking panel (call, email, or accept and book online).
   const scrollToWidget = (uuid: string = TRAFFT_DEFAULT_SERVICE_UUID) => {
     setServiceUuid(uuid);
-    document.getElementById("trafft-booking")?.scrollIntoView({ behavior: "smooth" });
+    if (cookieConsent === "accepted") setCalendarOpen(true);
+    else document.getElementById("trafft-booking")?.scrollIntoView({ behavior: "smooth" });
   };
 
   const pricingRows = [
@@ -197,30 +206,49 @@ const BookPage = () => {
       {/* PRICING */}
       <ServicePricing rows={pricingRows} />
 
-      {/* TRAFFT WIDGET */}
-      {/* With the calendar in, from md up this stop is exactly one screen and
-          the calendar takes the room the heading leaves (mhts-snap-embed,
-          src/index.css): it is never zoomed. */}
-      <section
-        id="trafft-booking"
-        className={`scroll-mt-24 border-y border-mhts-stone bg-card py-4 md:py-16 ${
-          cookieConsent === "accepted" ? "mhts-snap-embed" : ""
-        }`}
-      >
-        <div className="container mx-auto px-4 max-w-5xl">
-          <div className="mhts-embed-head mb-5 text-center md:mb-10">
-            <span className="mhts-embed-icon mx-auto mb-4 hidden h-12 w-12 place-items-center rounded-full bg-mhts-red text-white md:grid" aria-hidden="true">
+      {/* BOOK ONLINE. One stop: three steps and the button that opens the
+          calendar full screen (Carlo, Oct 2026). Without cookies, the panel
+          with call, email and the way to accept and book online. */}
+      <section id="trafft-booking" className="scroll-mt-24 border-y border-mhts-stone bg-card py-4 md:py-12">
+        <div className="container mx-auto max-w-5xl px-4">
+          <div className="mb-4 text-center md:mb-10">
+            <span className="mx-auto mb-4 hidden h-12 w-12 place-items-center rounded-full bg-mhts-red text-white md:grid" aria-hidden="true">
               <CalendarCheck className="h-5 w-5" />
             </span>
-            <h2 className="text-2xl text-mhts-ink md:text-3xl">
-              Choose a Date &amp; Time
-            </h2>
-            <p className="mhts-embed-lede text-foreground/75 font-body mt-4 max-w-xl mx-auto">
-              Select your service and time below to confirm your appointment.
+            <h2 className="text-2xl text-mhts-ink md:text-4xl">Choose a Date &amp; Time</h2>
+            <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />
+            <p className="mx-auto mt-4 hidden max-w-xl font-body text-foreground/75 md:block md:text-lg">
+              Book online in under a minute. Pick your appointment, choose a time that suits you and confirm.
             </p>
           </div>
           {cookieConsent === "accepted" ? (
-            <BookingCalendar key={serviceUuid} serviceUuid={serviceUuid} />
+            <>
+              <ol className="mx-auto grid max-w-4xl gap-2 md:grid-cols-3 md:gap-6">
+                {[
+                  { n: "01", t: "Choose your appointment", d: "Free consultation, regroom, maintenance or SMP." },
+                  { n: "02", t: "Pick a date and time", d: "Tuesday to Friday, 9:30am to 5pm." },
+                  { n: "03", t: "Confirm", d: "You get an email confirmation straight away." },
+                ].map((s) => (
+                  <li key={s.n} className="flex gap-4 rounded-xl border border-mhts-stone bg-mhts-sand px-4 py-3 md:flex-col md:gap-3 md:p-6">
+                    <span className="font-body text-sm font-bold text-mhts-red-deep md:text-base">{s.n}</span>
+                    <span>
+                      <span className="block text-base text-mhts-ink md:text-xl">{s.t}</span>
+                      <span className="mt-1 hidden font-body text-sm text-foreground/75 md:block md:text-base">{s.d}</span>
+                    </span>
+                  </li>
+                ))}
+              </ol>
+              <div className="mt-5 flex flex-col justify-center gap-3 sm:flex-row md:mt-10">
+                <button
+                  type="button"
+                  onClick={() => setCalendarOpen(true)}
+                  className="mhts-shine inline-flex items-center justify-center gap-2 rounded-md bg-mhts-red px-8 py-4 font-body text-base font-semibold tracking-wide text-white transition-colors hover:bg-mhts-red-deep"
+                >
+                  <CalendarCheck className="h-5 w-5" aria-hidden="true" /> Open the booking calendar
+                </button>
+                <CallButton size="lg" />
+              </div>
+            </>
           ) : (
             /* Was one line of grey text and a button that read "Enable cookies
                to book online": an empty block where the booking calendar should
@@ -232,10 +260,34 @@ const BookPage = () => {
         </div>
       </section>
 
+      {/* The calendar, full screen over the page: a bar with the title and
+          Close, and Trafft below it with the whole window to scroll in. */}
+      <DialogPrimitive.Root open={calendarOpen && cookieConsent === "accepted"} onOpenChange={setCalendarOpen}>
+        <DialogPrimitive.Portal>
+          <DialogPrimitive.Overlay className="fixed inset-0 z-[70] bg-mhts-deep/80 backdrop-blur-sm" />
+          <DialogPrimitive.Content
+            aria-describedby={undefined}
+            className="mhts-theme mhts-book-window fixed inset-0 z-[71] flex flex-col bg-card md:inset-x-[max(1.5rem,calc(50vw_-_36rem))] md:inset-y-6 md:overflow-hidden md:rounded-2xl md:shadow-2xl"
+          >
+            <div className="flex shrink-0 items-center justify-between gap-4 bg-mhts-deep px-5 py-4 text-white md:px-8">
+              <DialogPrimitive.Title className="flex items-center gap-3 text-lg md:text-xl">
+                <CalendarCheck className="h-5 w-5 text-mhts-red-light" aria-hidden="true" /> Book your appointment
+              </DialogPrimitive.Title>
+              <DialogPrimitive.Close className="grid h-10 w-10 place-items-center rounded-full border border-white/25 transition-colors hover:border-white" aria-label="Close the booking calendar">
+                <X className="h-5 w-5" aria-hidden="true" />
+              </DialogPrimitive.Close>
+            </div>
+            <div className="min-h-0 flex-1">
+              <BookingCalendar key={serviceUuid} serviceUuid={serviceUuid} fill />
+            </div>
+          </DialogPrimitive.Content>
+        </DialogPrimitive.Portal>
+      </DialogPrimitive.Root>
+
       {/* APPOINTMENT TYPES */}
-      <section className="bg-mhts-sand py-8 md:py-20">
+      <section className="bg-mhts-sand py-8 md:py-12">
         <div className="container mx-auto px-4">
-          <div className="mx-auto mb-6 max-w-6xl md:mb-12">
+          <div className="mx-auto mb-6 max-w-6xl md:mb-8 lg:max-w-7xl">
             <h2 className="text-3xl text-mhts-ink md:text-4xl">
               Appointment Types
             </h2>
@@ -245,11 +297,12 @@ const BookPage = () => {
               maintenance and SMP, choose the right appointment for you.
             </p>
           </div>
-          {/* Three across at most. Five in a row made each card 200px wide. On
+          {/* All five in one row from lg, so the types are one stop (Carlo,
+              Oct 2026: not a row of three and a row of two). On
               a phone the five are a swipeable strip, one card per swipe with
               the next peeking, so the heading, the cards and the buttons are
               one screen. */}
-          <div className="mhts-snap-x -mx-4 flex snap-x snap-mandatory scroll-pl-4 gap-4 overflow-x-auto px-4 pb-2 sm:mx-auto sm:grid sm:max-w-6xl sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 md:gap-5 lg:grid-cols-3">
+          <div className="mhts-snap-x -mx-4 flex snap-x snap-mandatory scroll-pl-4 gap-4 overflow-x-auto px-4 pb-2 sm:mx-auto sm:grid sm:max-w-6xl sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 md:gap-5 lg:max-w-7xl lg:grid-cols-5">
             {appointments.map((a, i) => (
               <Reveal
                 as="article"
@@ -276,7 +329,7 @@ const BookPage = () => {
               </Reveal>
             ))}
           </div>
-          <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row md:mt-10">
+          <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row md:mt-8">
             <button
               onClick={() => scrollToWidget()}
               className="inline-flex items-center justify-center gap-2 rounded-md bg-mhts-red px-7 py-3.5 font-body font-semibold tracking-wide text-white transition-colors hover:bg-mhts-red-deep"
@@ -296,7 +349,7 @@ const BookPage = () => {
       {/* Phone: the booking questions and "Prefer to call?" are one screen. */}
       <div className={`${SNAP_PHONE_CLASS} md:contents`}>
       {/* FAQ */}
-      <section className="bg-card pb-5 pt-7 md:py-20">
+      <section className="bg-card pb-5 pt-7 md:py-12">
         <div className="container mx-auto grid max-w-6xl gap-6 px-4 md:gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <div>
             <h2 className="text-3xl text-mhts-ink md:text-4xl">

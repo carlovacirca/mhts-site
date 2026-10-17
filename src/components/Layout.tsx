@@ -6,6 +6,7 @@ import CookieConsentBanner from "./CookieConsentBanner";
 import GoogleAnalytics from "./GoogleAnalytics";
 import StickyMobileCTA from "./mhts/StickyMobileCTA";
 import SnapGuides from "./SnapGuides";
+import StopMotion from "./StopMotion";
 import { snapSiteClass } from "@/lib/sectionSnap";
 
 const Layout = () => {
@@ -24,6 +25,7 @@ const Layout = () => {
       </main>
       <Footer />
       <SnapGuides />
+      <StopMotion />
       {/* One fixed stack, so the sticky call to action sits above the cookie
           banner instead of underneath it. Both are bottom-anchored and both
           used to claim the same strip of screen. */}

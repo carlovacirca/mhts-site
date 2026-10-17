@@ -20,7 +20,7 @@ import { SECTION_SNAP } from "@/lib/sectionSnap";
 // and placed again whenever the page changes size. Nothing moves the page:
 // the browser's own scroll snap does the rest. No screen that fits gets any.
 
-const SCREENS = [
+export const SCREENS = [
   ".mhts-snap-site > :not(.mhts-snap-proximity) > section",
   ".mhts-snap-site .mhts-snap-phone",
   ".mhts-snap-site .mhts-snap-section",
@@ -152,7 +152,7 @@ const marker = (top: number, align: "start" | "end") => {
 // From 768px up each screen is fitted to the room under the header (Carlo,
 // Oct 2026: one screen per section, nothing cut off, on every laptop,
 // desktop and tablet). See "Fitting a screen to the window" in index.css.
-const FIT_SCREENS = [
+export const FIT_SCREENS = [
   ".mhts-snap-site > :not(.mhts-snap-proximity) > section",
   ".mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-desk",
   ".mhts-snap-site > :not(.mhts-snap-proximity) > .md\\:contents > section",
@@ -161,9 +161,24 @@ const FIT_SCREENS = [
 // rule in index.css and is never zoomed: zoom would shrink the calendar's
 // text to 8 or 9px.
 const NO_FIT = ".mhts-snap-embed";
+// A screen sized to the window by its own rules (the home before and after,
+// whose frames are sized in vw and svh) is never zoomed from md up: zoom
+// scales those units too, and the row would run off the side.
+const NO_FIT_DESK = ".mhts-fit-own";
 // Below this a screen would be too small to read: it keeps zoom 1 and gets
 // further stops instead.
 const MIN_ZOOM = 0.6;
+// On a phone a section is only shrunk to fit when it is a little too tall:
+// below this the words would be too small, and it keeps its further stops.
+const PHONE_MIN_ZOOM = 0.8;
+// A short phone screen (the browser's bars showing, a small phone) fits every
+// screen, by up to this much (Carlo, Oct 2026: nothing split over two stops).
+// The design was laid out for a full-height phone, so most screens are 15 to
+// 35% too tall once the bars take their share.
+const SHORT_PHONE = 800;
+const SHORT_PHONE_MIN_ZOOM = 0.72;
+// On a phone a desktop group is display: contents and its sections are screens.
+const PHONE_FIT_SCREENS = `${FIT_SCREENS}, .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-desk > section`;
 
 const clearFit = () => {
   document.querySelectorAll<HTMLElement>("[data-snap-fit]").forEach((el) => {
@@ -173,23 +188,33 @@ const clearFit = () => {
 };
 
 export const fitScreens = () => {
-  if (window.innerWidth < 768 || !getComputedStyle(document.documentElement).scrollSnapType.includes("mandatory")) {
+  const phone = window.innerWidth < 768;
+  if (!getComputedStyle(document.documentElement).scrollSnapType.includes("mandatory")) {
     clearFit();
     return;
   }
   const screen = measure("var(--snap-screen)");
   const first = measure("var(--snap-first-screen)");
   if (screen < 100) return;
-  for (const el of document.querySelectorAll<HTMLElement>(FIT_SCREENS)) {
+  const short = phone && window.innerHeight < SHORT_PHONE;
+  const minZoom = short ? SHORT_PHONE_MIN_ZOOM : phone ? PHONE_MIN_ZOOM : MIN_ZOOM;
+  for (const el of document.querySelectorAll<HTMLElement>(phone ? PHONE_FIT_SCREENS : FIT_SCREENS)) {
     const cs = getComputedStyle(el);
-    if (cs.scrollSnapAlign.split(" ")[0] !== "start" || cs.display === "none") continue;
-    if (el.matches(NO_FIT)) {
+    if (cs.scrollSnapAlign.split(" ")[0] !== "start" || cs.display === "none" || cs.display === "contents") continue;
+    // On a phone only a screen whose photograph takes up the room the words
+    // leave (mhts-fill, "Who it's for") is fitted: the photograph grows back
+    // into what the fit frees, so the screen stays full. Any other screen
+    // would be left part empty, and keeps its further stops instead.
+    if (phone && !short && !el.querySelector(".mhts-fill")) continue;
+    if (el.matches(NO_FIT) || (!phone && el.matches(NO_FIT_DESK))) {
       // It may have been fitted before the calendar replaced its panel.
       el.removeAttribute("data-snap-fit");
       el.style.removeProperty("--snap-zoom");
       continue;
     }
-    const kind = el.classList.contains("mhts-snap-desk")
+    const kind = phone
+      ? "section"
+      : el.classList.contains("mhts-snap-desk")
       ? "group"
       : el.classList.contains("mhts-snap-section") && !el.classList.contains("mhts-snap-hero")
         ? "home"
@@ -209,11 +234,11 @@ export const fitScreens = () => {
       const want = Math.min(cap, (zoom * (room - pad)) / Math.max(h - pad, 1)) * (i === 0 ? 0.98 : 0.99);
       if (i > 0 && h <= room + 1) break;
       zoom = want;
-      if (zoom < MIN_ZOOM) break;
+      if (zoom < minZoom) break;
       el.style.setProperty("--snap-zoom", zoom.toFixed(4));
     }
     el.removeAttribute("data-snap-measure");
-    if (zoom < MIN_ZOOM || Math.abs(zoom - 1) < 0.01) {
+    if (zoom < minZoom || Math.abs(zoom - 1) < 0.01) {
       el.removeAttribute("data-snap-fit");
       el.style.removeProperty("--snap-zoom");
     }
@@ -270,6 +295,12 @@ const SnapGuides = () => {
         // A change of height the fit did not make (an image arriving, a
         // panel opening) fits again.
         if (main && fittedHeight >= 0 && Math.abs(main.offsetHeight - fittedHeight) > 2) refit = true;
+        // The arrival motion (src/lib/stopMotion.ts) moves items with
+        // translate and scale, which getBoundingClientRect counts. This flag
+        // takes them off while the screens are measured, and goes again in
+        // the same frame, so it never paints.
+        const root = document.documentElement;
+        root.setAttribute("data-snap-measuring", "");
         if (refit) {
           clearBreaks();
           fitScreens();
@@ -277,6 +308,7 @@ const SnapGuides = () => {
         refit = false;
         placeSnapGuides(layer);
         if (main) fittedHeight = main.offsetHeight;
+        root.removeAttribute("data-snap-measuring");
       });
     };
     const refitSoon = () => {

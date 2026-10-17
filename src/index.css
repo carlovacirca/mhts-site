@@ -350,6 +350,14 @@
   50%, 87.9% { opacity: 1; }
   100% { opacity: 0; }
 }
+/* From md up the frames of a row (the homepage strip, the results page) do
+   not flip in unison: each loop starts 0.6s after the one to its left, so the
+   change travels across the row as a wave. The frame's place is --ba-i. */
+@media (min-width: 768px) {
+  .mhts-ba-after {
+    animation-delay: calc(var(--ba-i, 0) * 0.6s);
+  }
+}
 
 /* On a phone, a frame in a before and after strip (BeforeAfterStrip) does not
    loop on its own: the strip says which photograph shows (data-phase) and the
@@ -777,6 +785,53 @@
   .mhts-desk-dark .mhts-treat-card { box-shadow: 0 0 0 1px rgb(255 255 255 / 0.12); }
 }
 
+/* ── A short phone screen ──
+   Carlo, Oct 2026: on a real phone the browser's bars take a sixth of the
+   screen (390x664 on an iPhone with Safari's bars showing), and the phone
+   layout, drawn for a full-height screen, split most screens over two stops.
+   Under 800px of height the stops tighten: less padding, a smaller heading,
+   closer lines. SnapGuides then fits what is still too tall (up to 28%). */
+@media (max-width: 767.98px) and (max-height: 799.98px) and (prefers-reduced-motion: no-preference) {
+  .mhts-snap-site > :not(.mhts-snap-proximity) > section,
+  .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-desk > section,
+  .mhts-snap-site .mhts-snap-phone {
+    padding-top: 1.25rem !important;
+    padding-bottom: 1.25rem !important;
+  }
+  .mhts-snap-site h2 {
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+  .mhts-snap-site :is(h2.mb-6, h2.mb-8) {
+    margin-bottom: 0.75rem;
+  }
+  .mhts-snap-site :is(.mb-8, .mb-10, .mb-12) {
+    margin-bottom: 1rem;
+  }
+  .mhts-snap-site .space-y-6 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 0.875rem;
+  }
+  .mhts-snap-site p {
+    line-height: 1.55;
+  }
+}
+
+/* ── Fitting a phone screen ──
+   Carlo, Oct 2026: a phone section only a little taller than the room
+   between the header and the bottom bar was given a second stop a few pixels
+   down ("Who it's for" on the treatment pages). SnapGuides now shrinks such a
+   section to fit, by at most 20% so the words stay readable, when its
+   photograph can grow back into the room (mhts-fill); anything else keeps its
+   further stops. Same hooks as from 768px up, section kind only. */
+@media (max-width: 767.98px) and (prefers-reduced-motion: no-preference) {
+  [data-snap-fit="section"] > :not(.absolute) {
+    zoom: var(--snap-zoom, 1);
+  }
+  [data-snap-measure] {
+    min-height: 0 !important;
+  }
+}
+
 /* ── Fitting a screen to the window (768px and up) ──
    Carlo, Oct 2026: every section is one screen on any laptop, desktop or
    tablet, and nothing on a stop is ever cut off. SnapGuides measures each
@@ -879,6 +934,14 @@
   }
 }
 
+/* The full-screen booking window on /book: Trafft's frame fills it. */
+.mhts-book-window .embedded-booking iframe {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
 /* FAQ page, 1024px up: the Book and Call card in the sticky rail would not
    fit whole beside the first questions on a short laptop, so it is left out
    there (Book and Call stay in the header). */
@@ -899,4 +962,194 @@
   .mhts-snap-site :is(.sticky, .md\:sticky, .lg\:sticky) {
     position: static;
   }
+}
+
+/* ── Arrive: the motion at every scroll stop (every width) ──
+   Carlo, Oct 2026: something arrives at every stop, on a phone and a
+   desktop alike. src/lib/stopMotion.ts arms the stops that are off screen
+   once React has mounted (data-stop="armed", and data-stops on <html>) and
+   flips each to "in" as its snap glide slows. Four verbs, one easing:
+     rise     [data-stop-item]: a fade and a short lift; [data-stop-fade]
+              only fades (a strip that scrolls sideways, a clipping card, an
+              item whose photograph uncovers); data-stop-from left, right and
+              scale are the Reveal variants
+     draw     [data-stop-draw]: the red rule under a title, 150ms after it
+     uncover  [data-stop-media]: a photograph or before and after frame
+              opens from a smaller rounded box and settles from 1.05, once it
+              has decoded (data-stop-ready)
+     light    [data-stop-light]: a hook for the dark bands, nothing yet
+   Each item waits min(--stop-i x step, cap); photographs in a row 120ms
+   apart. Transitions are declared only on "in", so arming is instant and
+   off screen, and data-stop goes once the stop has settled, so a stop at
+   rest is exactly the design. Only opacity, translate, scale and clip-path
+   move: no layout property, no shift, nothing for SnapGuides to refit.
+   Nothing applies without both attributes or under reduced motion. */
+:root {
+  --stop-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --stop-draw-ease: cubic-bezier(0.65, 0, 0.35, 1);
+  --stop-step: 70ms;
+  --stop-cap: 560ms;
+  --stop-rise: 16px;
+  --stop-fade: 500ms;
+  --stop-move: 700ms;
+  --stop-draw: 600ms;
+  --stop-clip: 800ms;
+  --stop-settle: 1100ms;
+  --stop-media-step: 120ms;
+}
+/* A phone: a shorter lift and a quicker beat. */
+@media (max-width: 767.98px) {
+  :root {
+    --stop-step: 55ms;
+    --stop-cap: 440ms;
+    --stop-rise: 12px;
+    --stop-fade: 400ms;
+    --stop-move: 560ms;
+    --stop-draw: 480ms;
+    --stop-clip: 650ms;
+    --stop-settle: 900ms;
+    --stop-media-step: 100ms;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html[data-stops] [data-stop] :is([data-stop-item], [data-stop-draw]) {
+    --stop-delay: min(calc(var(--stop-i, var(--i, 0)) * var(--stop-step)), var(--stop-cap));
+  }
+  html[data-stops] [data-stop] [data-stop-media] {
+    --stop-media-delay: calc(var(--stop-m, 0) * var(--stop-media-step));
+  }
+
+  /* Rise */
+  html[data-stops] [data-stop="armed"] [data-stop-item] {
+    opacity: 0;
+    translate: 0 var(--stop-rise);
+  }
+  html[data-stops] [data-stop="armed"] [data-stop-item][data-stop-from="left"] {
+    translate: calc(var(--stop-rise) * -1.5) 0;
+  }
+  html[data-stops] [data-stop="armed"] [data-stop-item][data-stop-from="right"] {
+    translate: calc(var(--stop-rise) * 1.5) 0;
+  }
+  html[data-stops] [data-stop="armed"] [data-stop-item][data-stop-from="scale"] {
+    translate: none;
+    scale: 0.96;
+  }
+  html[data-stops] [data-stop="armed"] [data-stop-item][data-stop-fade] {
+    translate: none;
+    scale: none;
+  }
+  html[data-stops] [data-stop="in"] [data-stop-item] {
+    transition:
+      opacity var(--stop-fade) var(--stop-ease) var(--stop-delay),
+      translate var(--stop-move) var(--stop-ease) var(--stop-delay),
+      scale var(--stop-move) var(--stop-ease) var(--stop-delay);
+  }
+
+  /* Draw */
+  html[data-stops] [data-stop] [data-stop-draw] {
+    transform-origin: left center;
+  }
+  html[data-stops] [data-stop] [data-stop-draw="center"] {
+    transform-origin: center;
+  }
+  html[data-stops] [data-stop] [data-stop-draw="y"] {
+    transform-origin: center top;
+  }
+  html[data-stops] [data-stop="armed"] [data-stop-draw] {
+    scale: 0 1;
+  }
+  html[data-stops] [data-stop="armed"] [data-stop-draw="y"] {
+    scale: 1 0;
+  }
+  html[data-stops] [data-stop="in"] [data-stop-draw] {
+    transition: scale var(--stop-draw) var(--stop-draw-ease) calc(var(--stop-delay) + 150ms);
+  }
+
+  /* Uncover. The clip opens past the box (-6rem) so a shadow is never cut
+     while it settles; the image's own rounded corners do the rest. */
+  html[data-stops] :is([data-stop="armed"] [data-stop-media], [data-stop="in"] [data-stop-media]:not([data-stop-ready])) {
+    clip-path: inset(6% round var(--stop-r, 0px));
+  }
+  /* The picture only takes its 1.05 once its stop is arriving. Armed and
+     waiting off screen it keeps its own size, so a stop that waits just
+     below the window never pokes into it (or under the phone's bottom bar). */
+  html[data-stops] [data-stop="in"] [data-stop-media]:not([data-stop-ready]) img,
+  html[data-stops] [data-stop="in"] img[data-stop-media]:not([data-stop-ready]) {
+    scale: 1.05;
+  }
+  html[data-stops] [data-stop="in"] [data-stop-media][data-stop-ready] {
+    clip-path: inset(-6rem round var(--stop-r, 0px));
+    transition: clip-path var(--stop-clip) var(--stop-ease) var(--stop-media-delay);
+  }
+  html[data-stops] [data-stop="in"] [data-stop-media][data-stop-ready] img {
+    scale: 1;
+    transition: scale var(--stop-settle) var(--stop-ease) var(--stop-media-delay);
+  }
+  html[data-stops] [data-stop="in"] img[data-stop-media][data-stop-ready] {
+    scale: 1;
+    transition:
+      clip-path var(--stop-clip) var(--stop-ease) var(--stop-media-delay),
+      scale var(--stop-settle) var(--stop-ease) var(--stop-media-delay);
+  }
+}
+/* A different arrival for every stop on a page (Carlo, Oct 2026). Each stop
+   carries data-stop-style, 0 to 9, in page order from an offset taken from
+   the page's path, so neighbouring stops never arrive the same way and two
+   pages do not open the same way. Style 0 is the rise above. Each style sets
+   how the words come in and how the photographs uncover; the resting state
+   is always the design. */
+@media (prefers-reduced-motion: no-preference) {
+  /* Words that come in from the side wait past the stop's edge: the stop
+     clips sideways so the page never scrolls sideways. */
+  html[data-stops] [data-stop] { overflow-x: clip; }
+  html[data-stops] [data-stop="in"] [data-stop-item] {
+    transition:
+      opacity var(--stop-fade) var(--stop-ease) var(--stop-delay),
+      translate var(--stop-move) var(--stop-ease) var(--stop-delay),
+      scale var(--stop-move) var(--stop-ease) var(--stop-delay),
+      rotate var(--stop-move) var(--stop-ease) var(--stop-delay),
+      filter var(--stop-move) var(--stop-ease) var(--stop-delay);
+  }
+  /* 1 drop: the words fall into place, the photographs open from the top. */
+  html[data-stops] [data-stop="armed"][data-stop-style="1"] [data-stop-item]:not([data-stop-from], [data-stop-fade]) { translate: 0 calc(var(--stop-rise) * -1.5); }
+  html[data-stops] :is([data-stop="armed"][data-stop-style="1"] [data-stop-media], [data-stop="in"][data-stop-style="1"] [data-stop-media]:not([data-stop-ready])) { clip-path: inset(0 0 100% 0 round var(--stop-r, 0px)); }
+  /* 2 from the left: words slide in from the left, photographs wipe left to right. */
+  html[data-stops] [data-stop="armed"][data-stop-style="2"] [data-stop-item]:not([data-stop-from], [data-stop-fade]) { translate: calc(var(--stop-rise) * -3) 0; }
+  html[data-stops] :is([data-stop="armed"][data-stop-style="2"] [data-stop-media], [data-stop="in"][data-stop-style="2"] [data-stop-media]:not([data-stop-ready])) { clip-path: inset(0 100% 0 0 round var(--stop-r, 0px)); }
+  /* 3 zoom: words grow into place, photographs open from the centre. */
+  html[data-stops] [data-stop="armed"][data-stop-style="3"] [data-stop-item]:not([data-stop-from], [data-stop-fade]) { translate: none; scale: 0.88; }
+  html[data-stops] :is([data-stop="armed"][data-stop-style="3"] [data-stop-media], [data-stop="in"][data-stop-style="3"] [data-stop-media]:not([data-stop-ready])) { clip-path: inset(50% 50% 50% 50% round var(--stop-r, 0px)); }
+  /* 4 focus: words come out of a blur, photographs settle from a deeper zoom. */
+  html[data-stops] [data-stop="armed"][data-stop-style="4"] [data-stop-item]:not([data-stop-from], [data-stop-fade]) { translate: none; filter: blur(10px); }
+  html[data-stops] [data-stop="in"][data-stop-style="4"] [data-stop-media]:not([data-stop-ready]) img,
+  html[data-stops] [data-stop="in"][data-stop-style="4"] img[data-stop-media]:not([data-stop-ready]) { scale: 1.18; }
+  /* 5 from the right. */
+  html[data-stops] [data-stop="armed"][data-stop-style="5"] [data-stop-item]:not([data-stop-from], [data-stop-fade]) { translate: calc(var(--stop-rise) * 3) 0; }
+  html[data-stops] :is([data-stop="armed"][data-stop-style="5"] [data-stop-media], [data-stop="in"][data-stop-style="5"] [data-stop-media]:not([data-stop-ready])) { clip-path: inset(0 0 0 100% round var(--stop-r, 0px)); }
+  /* 6 tilt: words swing up from a slight angle, photographs rise from the bottom. */
+  html[data-stops] [data-stop="armed"][data-stop-style="6"] [data-stop-item]:not([data-stop-from], [data-stop-fade]) { translate: 0 calc(var(--stop-rise) * 2); rotate: -2.5deg; }
+  html[data-stops] :is([data-stop="armed"][data-stop-style="6"] [data-stop-media], [data-stop="in"][data-stop-style="6"] [data-stop-media]:not([data-stop-ready])) { clip-path: inset(100% 0 0 0 round var(--stop-r, 0px)); }
+  /* 7 settle: words shrink down into place, photographs open as a letterbox. */
+  html[data-stops] [data-stop="armed"][data-stop-style="7"] [data-stop-item]:not([data-stop-from], [data-stop-fade]) { translate: none; scale: 1.12; }
+  html[data-stops] :is([data-stop="armed"][data-stop-style="7"] [data-stop-media], [data-stop="in"][data-stop-style="7"] [data-stop-media]:not([data-stop-ready])) { clip-path: inset(50% 0 50% 0 round var(--stop-r, 0px)); }
+  /* 8 fold: words unfold forward, photographs open as curtains. */
+  html[data-stops] [data-stop="armed"][data-stop-style="8"] [data-stop-item]:not([data-stop-from], [data-stop-fade]) { translate: none; rotate: x 75deg; }
+  html[data-stops] [data-stop][data-stop-style="8"] [data-stop-item] { transform-origin: center top; }
+  html[data-stops] :is([data-stop="armed"][data-stop-style="8"] [data-stop-media], [data-stop="in"][data-stop-style="8"] [data-stop-media]:not([data-stop-ready])) { clip-path: inset(0 50% 0 50% round var(--stop-r, 0px)); }
+  /* 9 long rise: a slower, deeper lift, photographs drift down into place. */
+  html[data-stops] [data-stop="armed"][data-stop-style="9"] [data-stop-item]:not([data-stop-from], [data-stop-fade]) { translate: 0 calc(var(--stop-rise) * 3.5); }
+  html[data-stops] [data-stop="in"][data-stop-style="9"] [data-stop-item] { --stop-move: 1100ms; --stop-fade: 800ms; }
+  html[data-stops] [data-stop="in"][data-stop-style="9"] [data-stop-media]:not([data-stop-ready]) img,
+  html[data-stops] [data-stop="in"][data-stop-style="9"] img[data-stop-media]:not([data-stop-ready]) { scale: 1; translate: 0 -4%; }
+  html[data-stops] [data-stop="in"][data-stop-style="9"] [data-stop-media][data-stop-ready] img,
+  html[data-stops] [data-stop="in"][data-stop-style="9"] img[data-stop-media][data-stop-ready] { translate: none; transition: translate var(--stop-settle) var(--stop-ease) var(--stop-media-delay), clip-path var(--stop-clip) var(--stop-ease) var(--stop-media-delay); }
+}
+/* While SnapGuides measures the screens (one frame, never painted) nothing
+   is lifted or scaled, so its pages and zoom are those of the resting page. */
+html[data-snap-measuring] :is([data-stop-item], [data-stop-draw], [data-stop-media], [data-stop-media] img) {
+  translate: none !important;
+  scale: none !important;
+  rotate: none !important;
+  filter: none !important;
+  transition: none !important;
 }

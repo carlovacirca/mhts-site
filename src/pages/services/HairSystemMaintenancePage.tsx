@@ -66,6 +66,10 @@ const faqs = [
     q: "How long does a maintenance appointment take?",
     a: "A standard maintenance appointment typically takes between 60 and 90 minutes depending on the services required.",
   },
+  {
+    q: "Can I book maintenance online?",
+    a: "Yes. You can book a regroom online at any time, or call us on 07947 878087 and we will find a time that suits you.",
+  },
 ];
 
 const HairSystemMaintenancePage = () => {

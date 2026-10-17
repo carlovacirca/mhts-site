@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { isPrerenderPass } from "@/lib/prerender";
 
@@ -40,6 +40,12 @@ interface BeforeAfterFadeProps {
    * changes, instead of looping on its own. Ignored from md up.
    */
   phase?: "before" | "after";
+  /**
+   * The frame's place in a row of frames, from md up. Each one's loop starts
+   * 0.6s after the one before, so the change travels across the row as a
+   * wave instead of every frame flipping at once (--ba-i, src/index.css).
+   */
+  wave?: number;
 }
 
 const BeforeAfterFade = ({
@@ -52,6 +58,7 @@ const BeforeAfterFade = ({
   sizes = "(max-width: 768px) 100vw, 360px",
   className = "",
   phase,
+  wave,
 }: BeforeAfterFadeProps) => {
   const frameRef = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(false);
@@ -76,6 +83,7 @@ const BeforeAfterFade = ({
         data-testid="before-after-fade"
         data-playing={playing ? "1" : "0"}
         data-phase={phase}
+        style={wave ? ({ "--ba-i": wave } as CSSProperties) : undefined}
         className={`mhts-ba relative w-full overflow-hidden rounded-lg border border-mhts-stone bg-mhts-sand ${frameClassName}`}
       >
         <div className="mhts-ba-before absolute inset-0">
