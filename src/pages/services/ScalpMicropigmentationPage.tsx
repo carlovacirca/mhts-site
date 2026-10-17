@@ -89,14 +89,14 @@ const ScalpMicropigmentationPage = () => {
   ]);
   useCanonical("/scalp-micropigmentation");
   useOpenGraph(
-    "Scalp Micropigmentation Amersham | SMP Treatment | Men's Hair To Stay",
-    "Expert scalp micropigmentation in Amersham. Men's Hair To Stay provides full SMP treatments, touch-up sessions and consultations for men across Buckinghamshire and Hertfordshire."
+    "Scalp Micropigmentation (SMP) Amersham | Men's Hair To Stay",
+    "Scalp micropigmentation in Amersham: full SMP treatments, touch-ups and free consultations for men across Buckinghamshire and Hertfordshire."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
     document.title =
-      "Scalp Micropigmentation Amersham | SMP Treatment | Men's Hair To Stay";
+      "Scalp Micropigmentation (SMP) Amersham | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -108,7 +108,7 @@ const ScalpMicropigmentationPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Expert scalp micropigmentation in Amersham. Men's Hair To Stay provides full SMP treatments, touch-up sessions and consultations for men across Buckinghamshire and Hertfordshire."
+      "Scalp micropigmentation in Amersham: full SMP treatments, touch-ups and free consultations for men across Buckinghamshire and Hertfordshire."
     );
     return () => {
       document.title = prevTitle;

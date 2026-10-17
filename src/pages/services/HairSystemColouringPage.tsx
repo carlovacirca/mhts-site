@@ -69,13 +69,13 @@ const HairSystemColouringPage = () => {
   ]);
   useCanonical("/hair-systems/hair-system-colouring");
   useOpenGraph(
-    "Hair System Colouring Amersham | Hair Unit Colour Matching | Men's Hair To Stay",
-    "Professional hair system colouring in Amersham. Expert colour matching and toning for hair systems serving men across Chesham, Beaconsfield, High Wycombe and Buckinghamshire."
+    "Hair System Colouring in Amersham | Men's Hair To Stay",
+    "Hair system colouring in Amersham. Expert colour matching and toning so your system blends perfectly with your own hair."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "Hair System Colouring Amersham | Hair Unit Colour Matching | Men's Hair To Stay";
+    document.title = "Hair System Colouring in Amersham | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -87,7 +87,7 @@ const HairSystemColouringPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Professional hair system colouring in Amersham. Expert colour matching and toning for hair systems serving men across Chesham, Beaconsfield, High Wycombe and Buckinghamshire."
+      "Hair system colouring in Amersham. Expert colour matching and toning so your system blends perfectly with your own hair."
     );
     return () => {
       document.title = prevTitle;

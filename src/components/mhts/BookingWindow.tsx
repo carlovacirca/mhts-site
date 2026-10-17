@@ -3,6 +3,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { CalendarCheck, X } from "lucide-react";
 import BookingCalendar from "@/components/mhts/BookingCalendar";
 import { CallButton } from "@/components/mhts/CtaButtons";
+import { track } from "@/lib/analytics";
 
 // The Trafft calendar, full screen over the page (Carlo, Oct 2026). Inside a
 // page that snaps from stop to stop, a calendar that scrolls on its own fought
@@ -24,6 +25,7 @@ export const BookingWindow = ({
 }) => {
   useEffect(() => {
     if (!open) return;
+    track("open_booking_calendar", { page_path: window.location.pathname, service: serviceUuid });
     const script = document.createElement("script");
     script.src = "https://menshairtostay.trafft.com/embed.js";
     script.async = true;

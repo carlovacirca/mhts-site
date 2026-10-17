@@ -75,7 +75,7 @@ const HairReplacementServicePage = () => {
   useCanonical("/hair-systems/hair-replacement-service");
   useOpenGraph(
     "Hair Replacement Service Amersham | Men's Hair To Stay",
-    "Professional hair replacement service for men in Amersham. Custom hair systems fitted by specialists serving Chesham, Beaconsfield, High Wycombe, Rickmansworth and surrounding areas."
+    "Hair replacement for men in Amersham: custom hair systems fitted by specialists, from free consultation to aftercare."
   );
 
   useEffect(() => {
@@ -92,7 +92,7 @@ const HairReplacementServicePage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Professional hair replacement service for men in Amersham. Custom hair systems fitted by specialists serving Chesham, Beaconsfield, High Wycombe, Rickmansworth and surrounding areas."
+      "Hair replacement for men in Amersham: custom hair systems fitted by specialists, from free consultation to aftercare."
     );
     return () => {
       document.title = prevTitle;

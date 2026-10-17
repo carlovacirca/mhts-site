@@ -26,7 +26,7 @@ const areas = [
 
 const AreasServicedPage = () => {
   useSeo({
-    title: "Areas Serviced | Hair Replacement & SMP Across Bucks & Herts",
+    title: "Areas We Serve | Hair Replacement & SMP, Bucks & Herts",
     description:
       "Men's Hair To Stay serves Amersham, Chesham, High Wycombe, Beaconsfield, Rickmansworth, Watford and across Buckinghamshire and Hertfordshire.",
     canonicalPath: "/areas-serviced",

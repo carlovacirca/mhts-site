@@ -9,6 +9,7 @@ import { findCategory } from "@/data/services";
 import { treatments } from "@/data/treatments";
 import { servicePhotos, type Photo } from "@/data/servicePhotos";
 import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
+import { useJsonLd } from "@/lib/seo";
 
 // The layout behind all 18 treatment pages, batch 4b.
 //
@@ -474,6 +475,16 @@ const Closing = ({ cta }: { cta: ServicePageProps["cta"] }) => (
 );
 
 const ServicePage = (props: ServicePageProps) => {
+  // The questions on the page, for Google too (SEO check, Oct 2026).
+  useJsonLd({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: props.faq.items.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  });
   const photos = servicePhotos[props.path];
   const isPillar = !props.subSlug;
   return (

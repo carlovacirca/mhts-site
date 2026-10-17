@@ -69,13 +69,13 @@ const SMPTouchUpPage = () => {
   ]);
   useCanonical("/scalp-micropigmentation/smp-touch-up-session");
   useOpenGraph(
-    "SMP Touch Up Session Amersham | Scalp Micropigmentation Refresh | Men's Hair To Stay",
-    "SMP touch-up sessions in Amersham. Refresh and maintain your scalp micropigmentation results at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+    "SMP Touch-Up Session in Amersham | Men's Hair To Stay",
+    "SMP touch-up sessions in Amersham. Refresh the depth, tone and definition of your scalp micropigmentation."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "SMP Touch Up Session Amersham | Scalp Micropigmentation Refresh | Men's Hair To Stay";
+    document.title = "SMP Touch-Up Session in Amersham | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -87,7 +87,7 @@ const SMPTouchUpPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "SMP touch-up sessions in Amersham. Refresh and maintain your scalp micropigmentation results at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+      "SMP touch-up sessions in Amersham. Refresh the depth, tone and definition of your scalp micropigmentation."
     );
     return () => {
       document.title = prevTitle;

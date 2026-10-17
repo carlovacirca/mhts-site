@@ -69,13 +69,13 @@ const HairSystemReattachmentPage = () => {
   ]);
   useCanonical("/hair-system-maintenance/hair-system-reattachment-and-restyling");
   useOpenGraph(
-    "Hair System Reattachment & Restyling Amersham | Men's Hair To Stay",
-    "Professional hair system reattachment and restyling in Amersham. Keep your system secure and sharp at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+    "Hair System Reattachment & Restyle | Men's Hair To Stay",
+    "Hair system reattachment and restyling in Amersham. Fresh adhesive, a secure refit and a professional restyle every 4 to 6 weeks."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "Hair System Reattachment & Restyling Amersham | Men's Hair To Stay";
+    document.title = "Hair System Reattachment & Restyle | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -87,7 +87,7 @@ const HairSystemReattachmentPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Professional hair system reattachment and restyling in Amersham. Keep your system secure and sharp at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+      "Hair system reattachment and restyling in Amersham. Fresh adhesive, a secure refit and a professional restyle every 4 to 6 weeks."
     );
     return () => {
       document.title = prevTitle;

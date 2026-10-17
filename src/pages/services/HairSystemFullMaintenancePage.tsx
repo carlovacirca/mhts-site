@@ -92,13 +92,13 @@ const HairSystemFullMaintenancePage = () => {
   ]);
   useCanonical("/hair-system-maintenance/hair-system-full-maintenance-package");
   useOpenGraph(
-    "Hair System Full Maintenance Package Amersham | Men's Hair To Stay",
-    "Complete hair system maintenance package in Amersham. Everything your system needs in one appointment at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+    "Hair System Full Maintenance Package | Men's Hair To Stay",
+    "The full hair system maintenance package in Amersham: clean, reattach, colour refresh, cut and style, all in one appointment."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "Hair System Full Maintenance Package Amersham | Men's Hair To Stay";
+    document.title = "Hair System Full Maintenance Package | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -110,7 +110,7 @@ const HairSystemFullMaintenancePage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Complete hair system maintenance package in Amersham. Everything your system needs in one appointment at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+      "The full hair system maintenance package in Amersham: clean, reattach, colour refresh, cut and style, all in one appointment."
     );
     return () => {
       document.title = prevTitle;
