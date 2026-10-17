@@ -229,6 +229,14 @@ export const startStopMotion = (selector: string): (() => void) => {
       for (const kid of Array.from(box.children) as HTMLElement[]) {
         if (kid.classList.contains("absolute") || kid.getBoundingClientRect().height < 2) continue;
         if (kid.hasAttribute("data-stop-media") || kid.querySelector(ITEM)) continue;
+        // A photograph uncovers; it never moves, so it cannot slide under
+        // the phone's bottom bar.
+        if (kid.tagName === "IMG") {
+          write(kid, "data-stop-media");
+          write(kid, "--stop-m", "0");
+          write(kid, "--stop-r", getComputedStyle(kid).borderTopLeftRadius || "0px");
+          continue;
+        }
         write(kid, "data-stop-item");
       }
     }
@@ -243,7 +251,9 @@ export const startStopMotion = (selector: string): (() => void) => {
       }
       write(el, "--stop-i", String(Math.min(i++, MAX_INDEX)));
       // An item holding a photograph lets the photograph do the moving.
-      if (el.querySelector("[data-stop-media]") || clipped(el, stop)) write(el, "data-stop-fade");
+      // So does one holding any picture: moved, a picture waiting below the
+      // stop could slide up under the phone's bottom bar.
+      if (el.matches("img, iframe") || el.querySelector("[data-stop-media], img, iframe") || clipped(el, stop)) write(el, "data-stop-fade");
     }
 
     write(stop, "data-stop-style", String((offset + armed.length) % STYLES));
@@ -313,7 +323,9 @@ export const startStopMotion = (selector: string): (() => void) => {
             // Out of view: armed again, so it plays every time it arrives
             // (Carlo, Oct 2026: "any time I scroll anywhere on the page").
             // Arming declares no transition, so it hides off screen at once.
-            if (!entry.isIntersecting && stop.getAttribute("data-stop") !== "armed") {
+            // A stop that only touches the window's edge is out of view too
+            // (the stop just above the footer), so it replays coming back.
+            if (stop.getAttribute("data-stop") !== "armed") {
               stop.querySelectorAll<HTMLElement>("[data-stop-ready]").forEach((el) => erase(el, "data-stop-ready"));
               write(stop, "data-stop", "armed");
             }
