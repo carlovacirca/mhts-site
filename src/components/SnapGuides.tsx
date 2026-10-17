@@ -176,9 +176,12 @@ const PHONE_MIN_ZOOM = 0.8;
 // The design was laid out for a full-height phone, so most screens are 15 to
 // 35% too tall once the bars take their share.
 const SHORT_PHONE = 800;
-const SHORT_PHONE_MIN_ZOOM = 0.72;
+const SHORT_PHONE_MIN_ZOOM = 0.66;
 // On a phone a desktop group is display: contents and its sections are screens.
-const PHONE_FIT_SCREENS = `${FIT_SCREENS}, .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-desk > section`;
+// So is a phone screen made of several blocks (mhts-snap-phone: the
+// questions with the related services, the closing call with the other
+// treatments, a screen of a long list).
+const PHONE_FIT_SCREENS = `${FIT_SCREENS}, .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-desk > section, .mhts-snap-site > :not(.mhts-snap-proximity) .mhts-snap-phone`;
 
 const clearFit = () => {
   document.querySelectorAll<HTMLElement>("[data-snap-fit]").forEach((el) => {
@@ -223,12 +226,15 @@ export const fitScreens = () => {
     const room = el.previousElementSibling ? screen : first;
     // Padding that does not scale with the content.
     const pad = kind === "section" ? parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) : 0;
+    // A phone screen carries the bottom bar's height as a transparent border
+    // at its foot (--snap-bottom): the room is above it, so it is not content.
+    const border = parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
     el.dataset.snapFit = kind;
     el.style.setProperty("--snap-zoom", "1");
     el.setAttribute("data-snap-measure", "");
     let zoom = 1;
     for (let i = 0; i < 3; i++) {
-      const h = el.getBoundingClientRect().height;
+      const h = el.getBoundingClientRect().height - border;
       // A screen that already fits, and may not grow, is left alone.
       if (i === 0 && cap === 1 && h <= room + 1) break;
       const want = Math.min(cap, (zoom * (room - pad)) / Math.max(h - pad, 1)) * (i === 0 ? 0.98 : 0.99);

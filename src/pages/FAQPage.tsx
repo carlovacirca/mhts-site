@@ -147,9 +147,11 @@ const categories: ("All" | Category)[] = ["All", "Hair Systems", "SMP", "General
  * Returns the screens as lists of units: a question's index, or -(i + 1) for
  * the booking band after question i.
  */
-const SCREEN = 630;
-const MIN = 500;
-const MAX = 720;
+// Aimed a little short of a full 844px phone, so a phone with its browser
+// bars showing (about 750px) still fits each screen (Carlo, Oct 2026).
+const SCREEN = 595;
+const MIN = 525;
+const MAX = 650;
 const GAP = 12;
 const SHARE = 107;
 const BAND = 226;
