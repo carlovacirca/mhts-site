@@ -65,13 +65,13 @@ const HairSystemStylingPage = () => {
   ]);
   useCanonical("/hair-systems/hair-system-styling");
   useOpenGraph(
-    "Hair System Styling Amersham | Hair Unit Styling Service | Men's Hair To Stay",
-    "Professional hair system styling in Amersham. Get the cut, style and finish you want from Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding Buckinghamshire areas."
+    "Hair System Styling in Amersham | Men's Hair To Stay",
+    "Hair system styling in Amersham. The cut, style and finish you want, tailored to your face shape by hair system specialists."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "Hair System Styling Amersham | Hair Unit Styling Service | Men's Hair To Stay";
+    document.title = "Hair System Styling in Amersham | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -83,7 +83,7 @@ const HairSystemStylingPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Professional hair system styling in Amersham. Get the cut, style and finish you want from Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding Buckinghamshire areas."
+      "Hair system styling in Amersham. The cut, style and finish you want, tailored to your face shape by hair system specialists."
     );
     return () => {
       document.title = prevTitle;

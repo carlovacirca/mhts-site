@@ -69,13 +69,13 @@ const DensityTreatmentConsultationPage = () => {
   ]);
   useCanonical("/hair-density/density-treatment-consultation");
   useOpenGraph(
-    "Hair Density Consultation Amersham | Thinning Hair Assessment | Men's Hair To Stay",
-    "Free hair density consultation in Amersham. Get expert advice on thinning hair and density treatments at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+    "Hair Density Consultation Amersham | Men's Hair To Stay",
+    "Free hair density consultation in Amersham. Expert advice on thinning hair and the right density treatment for you, in private."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "Hair Density Consultation Amersham | Thinning Hair Assessment | Men's Hair To Stay";
+    document.title = "Hair Density Consultation Amersham | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -87,7 +87,7 @@ const DensityTreatmentConsultationPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Free hair density consultation in Amersham. Get expert advice on thinning hair and density treatments at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+      "Free hair density consultation in Amersham. Expert advice on thinning hair and the right density treatment for you, in private."
     );
     return () => {
       document.title = prevTitle;

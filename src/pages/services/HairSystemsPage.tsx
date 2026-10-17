@@ -91,14 +91,14 @@ const HairSystemsPage = () => {
   ]);
   useCanonical("/hair-systems");
   useOpenGraph(
-    "Hair Systems Amersham | Non-Surgical Hair Replacement | Men's Hair To Stay",
-    "Discover premium hair systems in Amersham. Men's Hair To Stay offers natural-looking, non-surgical hair replacement for men across Amersham, Chesham, Beaconsfield, High Wycombe and surrounding areas."
+    "Hair Systems in Amersham | Men's Hair To Stay",
+    "Natural-looking, non-surgical hair systems for men in Amersham, custom fitted and colour matched. Free, private consultation. Serving Bucks and Herts."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
     document.title =
-      "Hair Systems Amersham | Non-Surgical Hair Replacement | Men's Hair To Stay";
+      "Hair Systems in Amersham | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -110,7 +110,7 @@ const HairSystemsPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Discover premium hair systems in Amersham. Men's Hair To Stay offers natural-looking, non-surgical hair replacement for men across Amersham, Chesham, Beaconsfield, High Wycombe and surrounding areas."
+      "Natural-looking, non-surgical hair systems for men in Amersham, custom fitted and colour matched. Free, private consultation. Serving Bucks and Herts."
     );
     return () => {
       document.title = prevTitle;

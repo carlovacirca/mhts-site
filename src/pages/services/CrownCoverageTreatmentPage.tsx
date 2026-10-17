@@ -69,13 +69,13 @@ const CrownCoverageTreatmentPage = () => {
   ]);
   useCanonical("/hair-density/crown-coverage-treatment");
   useOpenGraph(
-    "Crown Coverage Treatment Amersham | Crown Hair Loss Solutions | Men's Hair To Stay",
-    "Crown coverage treatment for men in Amersham. Specialist solutions for crown hair loss and thinning at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+    "Crown Coverage Treatment Amersham | Men's Hair To Stay",
+    "Crown coverage treatment for men in Amersham. Specialist solutions for crown hair loss and thinning, with a free, private consultation."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "Crown Coverage Treatment Amersham | Crown Hair Loss Solutions | Men's Hair To Stay";
+    document.title = "Crown Coverage Treatment Amersham | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -87,7 +87,7 @@ const CrownCoverageTreatmentPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Crown coverage treatment for men in Amersham. Specialist solutions for crown hair loss and thinning at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+      "Crown coverage treatment for men in Amersham. Specialist solutions for crown hair loss and thinning, with a free, private consultation."
     );
     return () => {
       document.title = prevTitle;

@@ -89,14 +89,14 @@ const HairDensityPage = () => {
   ]);
   useCanonical("/hair-density");
   useOpenGraph(
-    "Hair Density Treatment Amersham | Thinning Hair Solutions | Men's Hair To Stay",
-    "Struggling with thinning hair? Men's Hair To Stay in Amersham offers specialist hair density treatments for men including crown coverage and thinning hair solutions across Buckinghamshire and Hertfordshire."
+    "Hair Density Treatment in Amersham | Men's Hair To Stay",
+    "Thinning hair? Specialist hair density treatments for men in Amersham, including crown coverage. Free, private consultation. Serving Bucks and Herts."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
     document.title =
-      "Hair Density Treatment Amersham | Thinning Hair Solutions | Men's Hair To Stay";
+      "Hair Density Treatment in Amersham | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -108,7 +108,7 @@ const HairDensityPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Struggling with thinning hair? Men's Hair To Stay in Amersham offers specialist hair density treatments for men including crown coverage and thinning hair solutions across Buckinghamshire and Hertfordshire."
+      "Thinning hair? Specialist hair density treatments for men in Amersham, including crown coverage. Free, private consultation. Serving Bucks and Herts."
     );
     return () => {
       document.title = prevTitle;

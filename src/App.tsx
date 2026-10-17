@@ -1,42 +1,62 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { BrowserRouter, Navigate, Route, Routes, matchPath, useLocation } from "react-router-dom";
+import { lazy, useEffect, useRef, type ComponentType } from "react";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Layout from "@/components/Layout";
-import MHTSLanding from "@/pages/mhts/MHTSLanding";
-import ContactPage from "@/pages/ContactPage";
-import FAQPage from "@/pages/FAQPage";
-import BlogPage from "@/pages/BlogPage";
-import BlogPostPage from "@/pages/BlogPostPage";
-import HairSystemsPage from "@/pages/services/HairSystemsPage";
-import ScalpMicropigmentationPage from "@/pages/services/ScalpMicropigmentationPage";
-import HairDensityPage from "@/pages/services/HairDensityPage";
-import HairSystemMaintenancePage from "@/pages/services/HairSystemMaintenancePage";
-import NonSurgicalHairReplacementPage from "@/pages/services/NonSurgicalHairReplacementPage";
-import HairReplacementServicePage from "@/pages/services/HairReplacementServicePage";
-import InitialConsultationFittingPage from "@/pages/services/InitialConsultationFittingPage";
-import HairSystemColouringPage from "@/pages/services/HairSystemColouringPage";
-import HairSystemStylingPage from "@/pages/services/HairSystemStylingPage";
-import FullSMPTreatmentPage from "@/pages/services/FullSMPTreatmentPage";
-import SMPTouchUpPage from "@/pages/services/SMPTouchUpPage";
-import SMPConsultationPage from "@/pages/services/SMPConsultationPage";
-import DensityTreatmentConsultationPage from "@/pages/services/DensityTreatmentConsultationPage";
-import ThinningHairTreatmentPage from "@/pages/services/ThinningHairTreatmentPage";
-import CrownCoverageTreatmentPage from "@/pages/services/CrownCoverageTreatmentPage";
-import HairSystemReattachmentPage from "@/pages/services/HairSystemReattachmentPage";
-import HairSystemBaseCleanPage from "@/pages/services/HairSystemBaseCleanPage";
-import HairSystemFullMaintenancePage from "@/pages/services/HairSystemFullMaintenancePage";
-import HowItWorksPage from "@/pages/HowItWorksPage";
-import ServicesPage from "@/pages/ServicesPage";
-import GalleryPage from "@/pages/GalleryPage";
-import BookPage from "@/pages/BookPage";
-import AreasServicedPage from "@/pages/AreasServicedPage";
-import AreaPage from "@/pages/AreaPage";
-import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
-import NotFound from "@/pages/NotFound";
 import { endFirstPaint, wasPrerendered } from "@/lib/prerender";
+
+// Each page is its own file, fetched when it is first needed (speed check,
+// Oct 2026: every page's code arrived with the first page). The page the
+// reader lands on is fetched before the first render (preloadRoute, called
+// from main.tsx), so the pre-rendered HTML is never swapped for a blank
+// fallback; a page loaded once renders straight away from then on.
+type Page = ComponentType & { preload: () => Promise<unknown> };
+function page(loader: () => Promise<{ default: ComponentType }>): Page {
+  let Loaded: ComponentType | null = null;
+  const preload = () =>
+    loader().then((m) => {
+      Loaded = m.default;
+      return m;
+    });
+  const Lazy = lazy(preload);
+  const Wrapped = (() => (Loaded ? <Loaded /> : <Lazy />)) as unknown as Page;
+  Wrapped.preload = preload;
+  return Wrapped;
+}
+
+const MHTSLanding = page(() => import("@/pages/mhts/MHTSLanding"));
+const ContactPage = page(() => import("@/pages/ContactPage"));
+const FAQPage = page(() => import("@/pages/FAQPage"));
+const BlogPage = page(() => import("@/pages/BlogPage"));
+const BlogPostPage = page(() => import("@/pages/BlogPostPage"));
+const HairSystemsPage = page(() => import("@/pages/services/HairSystemsPage"));
+const ScalpMicropigmentationPage = page(() => import("@/pages/services/ScalpMicropigmentationPage"));
+const HairDensityPage = page(() => import("@/pages/services/HairDensityPage"));
+const HairSystemMaintenancePage = page(() => import("@/pages/services/HairSystemMaintenancePage"));
+const NonSurgicalHairReplacementPage = page(() => import("@/pages/services/NonSurgicalHairReplacementPage"));
+const HairReplacementServicePage = page(() => import("@/pages/services/HairReplacementServicePage"));
+const InitialConsultationFittingPage = page(() => import("@/pages/services/InitialConsultationFittingPage"));
+const HairSystemColouringPage = page(() => import("@/pages/services/HairSystemColouringPage"));
+const HairSystemStylingPage = page(() => import("@/pages/services/HairSystemStylingPage"));
+const FullSMPTreatmentPage = page(() => import("@/pages/services/FullSMPTreatmentPage"));
+const SMPTouchUpPage = page(() => import("@/pages/services/SMPTouchUpPage"));
+const SMPConsultationPage = page(() => import("@/pages/services/SMPConsultationPage"));
+const DensityTreatmentConsultationPage = page(() => import("@/pages/services/DensityTreatmentConsultationPage"));
+const ThinningHairTreatmentPage = page(() => import("@/pages/services/ThinningHairTreatmentPage"));
+const CrownCoverageTreatmentPage = page(() => import("@/pages/services/CrownCoverageTreatmentPage"));
+const HairSystemReattachmentPage = page(() => import("@/pages/services/HairSystemReattachmentPage"));
+const HairSystemBaseCleanPage = page(() => import("@/pages/services/HairSystemBaseCleanPage"));
+const HairSystemFullMaintenancePage = page(() => import("@/pages/services/HairSystemFullMaintenancePage"));
+const HowItWorksPage = page(() => import("@/pages/HowItWorksPage"));
+const ServicesPage = page(() => import("@/pages/ServicesPage"));
+const GalleryPage = page(() => import("@/pages/GalleryPage"));
+const BookPage = page(() => import("@/pages/BookPage"));
+const AreasServicedPage = page(() => import("@/pages/AreasServicedPage"));
+const AreaPage = page(() => import("@/pages/AreaPage"));
+const PrivacyPolicyPage = page(() => import("@/pages/PrivacyPolicyPage"));
+const NotFound = page(() => import("@/pages/NotFound"));
 
 const queryClient = new QueryClient();
 
@@ -70,12 +90,52 @@ const ScrollToTop = () => {
   return null;
 };
 
+// The pages by path, in the order of <Routes> below, for preloadRoute.
+const PAGES: [string, Page][] = [
+  ["/", MHTSLanding],
+  ["/contact", ContactPage],
+  ["/how-it-works", HowItWorksPage],
+  ["/services", ServicesPage],
+  ["/gallery", GalleryPage],
+  ["/book", BookPage],
+  ["/faq", FAQPage],
+  ["/blog", BlogPage],
+  ["/areas-serviced", AreasServicedPage],
+  ["/areas/:slug", AreaPage],
+  ["/privacy-policy", PrivacyPolicyPage],
+  ["/blog/:slug", BlogPostPage],
+  ["/hair-systems", HairSystemsPage],
+  ["/scalp-micropigmentation", ScalpMicropigmentationPage],
+  ["/hair-density", HairDensityPage],
+  ["/hair-system-maintenance", HairSystemMaintenancePage],
+  ["/hair-systems/non-surgical-hair-replacement", NonSurgicalHairReplacementPage],
+  ["/hair-systems/hair-replacement-service", HairReplacementServicePage],
+  ["/hair-systems/initial-consultation-and-fitting", InitialConsultationFittingPage],
+  ["/hair-systems/hair-system-colouring", HairSystemColouringPage],
+  ["/hair-systems/hair-system-styling", HairSystemStylingPage],
+  ["/scalp-micropigmentation/full-smp-treatment", FullSMPTreatmentPage],
+  ["/scalp-micropigmentation/smp-touch-up-session", SMPTouchUpPage],
+  ["/scalp-micropigmentation/smp-consultation", SMPConsultationPage],
+  ["/hair-density/density-treatment-consultation", DensityTreatmentConsultationPage],
+  ["/hair-density/thinning-hair-treatment", ThinningHairTreatmentPage],
+  ["/hair-density/crown-coverage-treatment", CrownCoverageTreatmentPage],
+  ["/hair-system-maintenance/hair-system-reattachment-and-restyling", HairSystemReattachmentPage],
+  ["/hair-system-maintenance/hair-system-base-clean-and-reattach", HairSystemBaseCleanPage],
+  ["/hair-system-maintenance/hair-system-full-maintenance-package", HairSystemFullMaintenancePage],
+];
+
+/** Fetches the code of the page at `pathname` (or the 404), before the first render. */
+export const preloadRoute = (pathname: string) => {
+  const hit = PAGES.find(([path]) => matchPath(path, pathname));
+  return (hit ? hit[1] : NotFound).preload();
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <ScrollToTop />
         <Routes>
           <Route element={<Layout />}>

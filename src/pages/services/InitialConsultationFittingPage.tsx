@@ -73,13 +73,13 @@ const InitialConsultationFittingPage = () => {
   ]);
   useCanonical("/hair-systems/initial-consultation-and-fitting");
   useOpenGraph(
-    "Hair System Consultation & Fitting Amersham | Men's Hair To Stay",
-    "Book your free hair system consultation and fitting in Amersham. Men's Hair To Stay serves men across Chesham, Beaconsfield, High Wycombe, Rickmansworth and Buckinghamshire."
+    "Hair System Consultation & Fitting | Men's Hair To Stay",
+    "Free hair system consultation and fitting in Amersham: measurements, colour matching and your first fit, in a private studio."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "Hair System Consultation & Fitting Amersham | Men's Hair To Stay";
+    document.title = "Hair System Consultation & Fitting | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -91,7 +91,7 @@ const InitialConsultationFittingPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Book your free hair system consultation and fitting in Amersham. Men's Hair To Stay serves men across Chesham, Beaconsfield, High Wycombe, Rickmansworth and Buckinghamshire."
+      "Free hair system consultation and fitting in Amersham: measurements, colour matching and your first fit, in a private studio."
     );
     return () => {
       document.title = prevTitle;

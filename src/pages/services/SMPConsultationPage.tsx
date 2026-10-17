@@ -73,13 +73,13 @@ const SMPConsultationPage = () => {
   ]);
   useCanonical("/scalp-micropigmentation/smp-consultation");
   useOpenGraph(
-    "SMP Consultation Amersham | Free Scalp Micropigmentation Consultation | Men's Hair To Stay",
-    "Free SMP consultation in Amersham. Discuss your scalp micropigmentation options with the specialists at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+    "Free SMP Consultation in Amersham | Men's Hair To Stay",
+    "Free SMP consultation in Amersham. Talk through your scalp micropigmentation options with a specialist, in private, with no obligation."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "SMP Consultation Amersham | Free Scalp Micropigmentation Consultation | Men's Hair To Stay";
+    document.title = "Free SMP Consultation in Amersham | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -91,7 +91,7 @@ const SMPConsultationPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Free SMP consultation in Amersham. Discuss your scalp micropigmentation options with the specialists at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+      "Free SMP consultation in Amersham. Talk through your scalp micropigmentation options with a specialist, in private, with no obligation."
     );
     return () => {
       document.title = prevTitle;

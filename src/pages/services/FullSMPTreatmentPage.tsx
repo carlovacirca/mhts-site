@@ -77,13 +77,13 @@ const FullSMPTreatmentPage = () => {
   ]);
   useCanonical("/scalp-micropigmentation/full-smp-treatment");
   useOpenGraph(
-    "Full SMP Treatment Amersham | Scalp Micropigmentation | Men's Hair To Stay",
-    "Full scalp micropigmentation treatment in Amersham. A complete multi-session SMP programme at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+    "Full SMP Treatment in Amersham | Men's Hair To Stay",
+    "Full scalp micropigmentation in Amersham: a complete multi-session SMP programme for a natural, close-shaved look."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "Full SMP Treatment Amersham | Scalp Micropigmentation | Men's Hair To Stay";
+    document.title = "Full SMP Treatment in Amersham | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -95,7 +95,7 @@ const FullSMPTreatmentPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Full scalp micropigmentation treatment in Amersham. A complete multi-session SMP programme at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+      "Full scalp micropigmentation in Amersham: a complete multi-session SMP programme for a natural, close-shaved look."
     );
     return () => {
       document.title = prevTitle;

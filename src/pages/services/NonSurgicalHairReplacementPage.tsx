@@ -75,7 +75,7 @@ const NonSurgicalHairReplacementPage = () => {
   useCanonical("/hair-systems/non-surgical-hair-replacement");
   useOpenGraph(
     "Non-Surgical Hair Replacement Amersham | Men's Hair To Stay",
-    "Non-surgical hair replacement for men in Amersham. Get a full head of natural hair without surgery or downtime. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+    "Non-surgical hair replacement for men in Amersham. A full head of natural-looking hair without surgery or downtime."
   );
 
   useEffect(() => {
@@ -93,7 +93,7 @@ const NonSurgicalHairReplacementPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Non-surgical hair replacement for men in Amersham. Get a full head of natural hair without surgery or downtime. Serving Chesham, Beaconsfield, High Wycombe and surrounding areas."
+      "Non-surgical hair replacement for men in Amersham. A full head of natural-looking hair without surgery or downtime."
     );
     return () => {
       document.title = prevTitle;

@@ -81,7 +81,7 @@ const beforeAfterPairs = [
 // (22rem of the screen, 20rem on a tall phone, whose title sits on fewer
 // lines), so the stop stays one screen on any phone.
 const BA_FRAME = "aspect-[4/5] max-md:max-h-[calc(var(--snap-screen)_-_22rem)] max-md:[@media(min-height:800px)]:max-h-[calc(var(--snap-screen)_-_20rem)]";
-const BA_SIZES = "(max-width: 768px) 85vw, 448px";
+const BA_SIZES = "(max-width: 768px) 55vw, 448px";
 
 const VisitBlog = ({ className }: { className: string }) => (
   <Link
@@ -464,7 +464,7 @@ const MHTSLanding = () => {
                       aria-label={`Read more: ${post.title}`}
                       className="mt-4 inline-flex items-center gap-1.5 font-body text-sm font-semibold text-mhts-red-deep transition-all hover:gap-2.5"
                     >
-                      Read More <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                      Read More<span className="sr-only">: {post.title}</span> <ChevronRight className="h-4 w-4" aria-hidden="true" />
                     </Link>
                   </div>
                 </div>
@@ -503,6 +503,12 @@ const MHTSLanding = () => {
       {/* ─── 9. CONTACT, hours and the map ─── */}
       <section id="mhts-contact" className={`${S} mhts-desk-dark mhts-desk-ember scroll-mt-24 bg-mhts-sand py-6 md:py-12`}>
         <div className="container mx-auto px-4">
+          {/* Phone: the screen's own title, so it reads as a stop of its own. */}
+          <div className="mb-5 text-center md:hidden">
+            <Eyebrow>Find us</Eyebrow>
+            <h2 className="text-3xl text-mhts-ink">Visit the Studio</h2>
+            <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />
+          </div>
           <div className="mx-auto grid max-w-4xl grid-cols-1 items-start gap-4 md:grid-cols-2 md:gap-6">
             <div className="rounded-xl border border-mhts-stone bg-card p-5 md:p-6">
               <h3 className="mb-3 text-base text-mhts-ink md:mb-4">Contact</h3>

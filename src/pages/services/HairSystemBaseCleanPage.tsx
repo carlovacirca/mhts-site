@@ -68,13 +68,13 @@ const HairSystemBaseCleanPage = () => {
   ]);
   useCanonical("/hair-system-maintenance/hair-system-base-clean-and-reattach");
   useOpenGraph(
-    "Hair System Base Clean & Reattach Amersham | Men's Hair To Stay",
-    "Professional hair system base cleaning and reattachment in Amersham at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding Buckinghamshire areas."
+    "Hair System Base Clean & Reattach | Men's Hair To Stay",
+    "Hair system base clean and reattachment in Amersham. A deep clean, adhesive removal and a secure refit so your system feels new again."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "Hair System Base Clean & Reattach Amersham | Men's Hair To Stay";
+    document.title = "Hair System Base Clean & Reattach | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -86,7 +86,7 @@ const HairSystemBaseCleanPage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Professional hair system base cleaning and reattachment in Amersham at Men's Hair To Stay. Serving Chesham, Beaconsfield, High Wycombe and surrounding Buckinghamshire areas."
+      "Hair system base clean and reattachment in Amersham. A deep clean, adhesive removal and a secure refit so your system feels new again."
     );
     return () => {
       document.title = prevTitle;

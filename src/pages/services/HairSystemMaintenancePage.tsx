@@ -89,14 +89,14 @@ const HairSystemMaintenancePage = () => {
   ]);
   useCanonical("/hair-system-maintenance");
   useOpenGraph(
-    "Hair System Maintenance Amersham | Hair System Aftercare | Men's Hair To Stay",
-    "Professional hair system maintenance in Amersham. Men's Hair To Stay offers reattachment, base cleans and full maintenance packages to keep your hair system looking perfect. Serving Buckinghamshire and Hertfordshire."
+    "Hair System Maintenance in Amersham | Men's Hair To Stay",
+    "Hair system maintenance in Amersham: reattachment, base cleans and full maintenance packages that keep your system secure and undetectable."
   );
 
   useEffect(() => {
     const prevTitle = document.title;
     document.title =
-      "Hair System Maintenance Amersham | Hair System Aftercare | Men's Hair To Stay";
+      "Hair System Maintenance in Amersham | Men's Hair To Stay";
     const meta =
       document.querySelector('meta[name="description"]') ||
       (() => {
@@ -108,7 +108,7 @@ const HairSystemMaintenancePage = () => {
     const prevDesc = meta.getAttribute("content");
     meta.setAttribute(
       "content",
-      "Professional hair system maintenance in Amersham. Men's Hair To Stay offers reattachment, base cleans and full maintenance packages to keep your hair system looking perfect. Serving Buckinghamshire and Hertfordshire."
+      "Hair system maintenance in Amersham: reattachment, base cleans and full maintenance packages that keep your system secure and undetectable."
     );
     return () => {
       document.title = prevTitle;
