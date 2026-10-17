@@ -192,11 +192,12 @@ describe("stop motion", () => {
     expect(document.querySelector("[data-stop]")).toBeNull();
   });
 
-  it("arms nothing on a blog article (proximity snap)", async () => {
+  it("arms a blog article too (proximity snap, Carlo, Oct 2026: every page)", async () => {
     document.querySelector("main > div")!.classList.add("mhts-snap-proximity");
     const { startStopMotion } = await load();
-    startStopMotion(STOPS);
-    expect(document.querySelector("[data-stop]")).toBeNull();
+    const teardown = startStopMotion(".mhts-snap-proximity section");
+    expect(document.querySelector("[data-stop]")).not.toBeNull();
+    teardown();
   });
 });
 

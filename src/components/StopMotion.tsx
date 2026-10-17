@@ -8,7 +8,9 @@ import { FIT_SCREENS, SCREENS } from "./SnapGuides";
 // The stops are SnapGuides' own screens: on a phone its SCREENS, from 768px
 // up its FIT_SCREENS. Only the ones that really are snap areas at this width
 // are used.
-const STOPS = `${SCREENS}, ${FIT_SCREENS}`;
+// A blog article's hero, title card, sources and related posts, and every
+// page's footer, are stops too.
+const STOPS = `${SCREENS}, ${FIT_SCREENS}, .mhts-snap-proximity section, body footer`;
 
 const StopMotion = () => {
   const { pathname } = useLocation();

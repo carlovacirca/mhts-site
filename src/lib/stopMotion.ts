@@ -79,13 +79,15 @@ const STYLES = 10;
 /**
  * May the arrival motion run on this page now? Not in the build's capture,
  * not for a reader who has asked for reduced motion, and only where the page
- * snaps mandatorily (never on a blog article, which uses proximity).
+ * snaps (mandatorily, or on a blog article by proximity).
  */
 export const stopMotionAllowed = (): boolean => {
   if (typeof window === "undefined" || typeof window.matchMedia !== "function") return false;
   if (isPrerenderPass()) return false;
   if (!window.matchMedia("(prefers-reduced-motion: no-preference)").matches) return false;
-  if (document.querySelector(".mhts-snap-proximity")) return false;
+  // A blog article scrolls freely (proximity), and its blocks arrive too
+  // (Carlo, Oct 2026: every page).
+  if (document.querySelector(".mhts-snap-proximity")) return true;
   return getComputedStyle(document.documentElement).scrollSnapType.includes("mandatory");
 };
 
@@ -93,10 +95,15 @@ export const stopMotionAllowed = (): boolean => {
 export const findStops = (selector: string): HTMLElement[] => {
   const out: HTMLElement[] = [];
   for (const el of document.querySelectorAll<HTMLElement>(selector)) {
-    if (el.closest("footer")) continue;
+    // The footer is a stop of its own (Carlo, Oct 2026: every stop, footers
+    // too); nothing inside it is.
+    if (el.tagName !== "FOOTER" && el.closest("footer")) continue;
     const cs = getComputedStyle(el);
     const align = (cs.scrollSnapAlign || "none").split(" ")[0];
-    if (align === "none" || cs.display === "none" || cs.display === "contents") continue;
+    // On a blog article (proximity) and for the footer, a block is a stop
+    // whether or not the page snaps to it.
+    const free = el.tagName === "FOOTER" || !!el.closest(".mhts-snap-proximity");
+    if ((align === "none" && !free) || cs.display === "none" || cs.display === "contents") continue;
     out.push(el);
   }
   return out;
@@ -210,6 +217,22 @@ export const startStopMotion = (selector: string): (() => void) => {
       write(media, "--stop-r", getComputedStyle(media).borderTopLeftRadius || "0px");
     }
 
+    // A stop with no heading (a contact card and a map, the footer) still
+    // arrives: the blocks of its layout come in one after another.
+    if (!Array.from(stop.querySelectorAll("[data-stop-item]")).some(mine)) {
+      let box: Element = stop;
+      for (let k = 0; k < 4; k++) {
+        const kids = Array.from(box.children).filter((c) => !c.classList.contains("absolute") && getComputedStyle(c).display !== "none");
+        if (kids.length === 1 && kids[0].children.length) box = kids[0];
+        else break;
+      }
+      for (const kid of Array.from(box.children) as HTMLElement[]) {
+        if (kid.classList.contains("absolute") || kid.getBoundingClientRect().height < 2) continue;
+        if (kid.hasAttribute("data-stop-media") || kid.querySelector(ITEM)) continue;
+        write(kid, "data-stop-item");
+      }
+    }
+
     // Index everything in reading order. A rule draws with its title.
     let i = 0;
     for (const el of stop.querySelectorAll<HTMLElement>("[data-stop-item], [data-stop-draw]")) {
@@ -231,6 +254,7 @@ export const startStopMotion = (selector: string): (() => void) => {
   html.setAttribute("data-stops", "");
 
   const timers = new Map<Element, number>();
+  const away = new Set<Element>();
   const settles: number[] = [];
   let observer: IntersectionObserver | null = null;
 
@@ -285,6 +309,7 @@ export const startStopMotion = (selector: string): (() => void) => {
           if (!entry.isIntersecting || entry.intersectionRect.height < 1) {
             window.clearTimeout(timers.get(stop));
             timers.delete(stop);
+            away.delete(stop);
             // Out of view: armed again, so it plays every time it arrives
             // (Carlo, Oct 2026: "any time I scroll anywhere on the page").
             // Arming declares no transition, so it hides off screen at once.
@@ -294,9 +319,23 @@ export const startStopMotion = (selector: string): (() => void) => {
             }
             continue;
           }
-          if (!timers.has(stop)) timers.set(stop, window.setTimeout(() => flip(stop), IN_VIEW_FLIP_MS));
           const room = entry.rootBounds?.height ?? window.innerHeight;
           const need = 0.5 * Math.min(room, entry.boundingClientRect.height);
+          // Mostly out of view but never quite gone (the stop above the
+          // footer while the footer is the stop): it plays again when it
+          // comes back, scrolling up as well as down (Carlo, Oct 2026).
+          if (entry.intersectionRect.height < 0.3 * need && stop.getAttribute("data-stop") !== "armed") {
+            away.add(stop);
+            continue;
+          }
+          if (away.has(stop) && entry.intersectionRect.height >= need - 1) {
+            away.delete(stop);
+            stop.querySelectorAll<HTMLElement>("[data-stop-ready]").forEach((el) => erase(el, "data-stop-ready"));
+            write(stop, "data-stop", "armed");
+            requestAnimationFrame(() => requestAnimationFrame(() => flip(stop)));
+            continue;
+          }
+          if (!timers.has(stop)) timers.set(stop, window.setTimeout(() => flip(stop), IN_VIEW_FLIP_MS));
           if (entry.intersectionRect.height >= need - 1) flip(stop);
         }
       },
