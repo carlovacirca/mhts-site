@@ -15,14 +15,13 @@ const Layout = () => {
   // transitions, Oct 2026). Never on the page the reader lands on, which is
   // already on screen from the pre-render.
   const { pathname } = useLocation();
-  const main = useRef<HTMLElement>(null);
   const first = useRef(true);
   useEffect(() => {
     if (first.current) {
       first.current = false;
       return;
     }
-    const el = main.current;
+    const el = document.querySelector("main");
     if (!el) return;
     el.classList.remove("mhts-page-in");
     void el.offsetWidth; // restart the animation
@@ -41,7 +40,7 @@ const Layout = () => {
       <HolidayBanner />
       <BrandHeader />
       {/* The section scroll on a phone keys off this class (src/lib/sectionSnap.ts). */}
-      <main ref={main} className={`flex-1 ${snapSiteClass()}`}>
+      <main className={`flex-1 ${snapSiteClass()}`}>
         {/* A page's code is fetched on its first visit (App.tsx). Navigation
             runs as a transition, so the page on screen stays until the next
             is ready; this blank screen only shows if nothing is on screen. */}
