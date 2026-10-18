@@ -382,7 +382,17 @@ const MHTSLanding = () => {
           {/* Wide and large from lg, two columns of questions (Carlo, Oct
               2026: the questions were small with too much room each side). */}
           <div className="mx-auto max-w-3xl lg:max-w-6xl">
-            <Accordion type="single" collapsible className="w-full lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-12">
+            {/* From md up every answer shows, two across (Carlo, Oct 2026:
+                four closed questions left most of a desktop stop empty). */}
+            <div className="hidden gap-5 md:grid md:grid-cols-2">
+              {homeFaqs.map((f) => (
+                <div key={f.q} className="rounded-xl border border-mhts-stone bg-card p-6">
+                  <h3 className="text-lg text-mhts-ink lg:text-xl">{f.q}</h3>
+                  <p className="mt-2 font-body leading-relaxed text-foreground/80">{f.a}</p>
+                </div>
+              ))}
+            </div>
+            <Accordion type="single" collapsible className="w-full md:hidden">
               {homeFaqs.map((f, i) => (
                 <AccordionItem key={i} value={`q${i + 1}`}>
                   <AccordionTrigger className="py-5 text-left font-semibold text-mhts-ink hover:text-mhts-red-deep md:py-4 md:text-lg lg:py-6 lg:text-xl">
@@ -500,6 +510,9 @@ const MHTSLanding = () => {
         </div>
       </section>
 
+      {/* ─── 9 and the final band share one screen from md up (Carlo, Oct
+          2026: each alone left most of a desktop screen empty). ─── */}
+      <div className="mhts-snap-desk">
       {/* ─── 9. CONTACT, hours and the map ─── */}
       <section id="mhts-contact" className={`${S} mhts-desk-dark mhts-desk-ember scroll-mt-24 bg-mhts-sand py-6 md:py-12`}>
         <div className="container mx-auto px-4">
@@ -550,7 +563,7 @@ const MHTSLanding = () => {
       </section>
 
       {/* ─── FINAL CTA BAND, with the areas line ─── */}
-      <section className={`${S} relative overflow-clip bg-mhts-deep py-10 md:py-16`}>
+      <section className={`${S} relative overflow-clip bg-mhts-deep py-10 md:py-10`}>
         <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_50%_100%,hsl(var(--mhts-red)/0.25),transparent_65%)]" />
         <div className="mhts-fill-chain container relative mx-auto px-4 text-center">
           <h2 className="text-2xl text-white md:text-3xl">Ready when you are</h2>
@@ -573,7 +586,7 @@ const MHTSLanding = () => {
           />
 
           {/* Areas, one line of links rather than a section of its own. */}
-          <div id="mhts-areas" className="mx-auto mt-8 max-w-3xl scroll-mt-24 border-t border-white/15 pt-6 md:mt-12">
+          <div id="mhts-areas" className="mx-auto mt-8 max-w-3xl scroll-mt-24 border-t border-white/15 pt-6 md:mt-8">
             <p className="font-body text-sm leading-relaxed text-white/75">
               <span className="font-semibold text-white">Serving </span>
               {areas.map((area, i) => (
@@ -596,6 +609,7 @@ const MHTSLanding = () => {
           </div>
         </div>
       </section>
+      </div>
     </div>
   );
 };

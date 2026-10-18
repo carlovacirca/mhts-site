@@ -154,8 +154,12 @@ const BookPage = () => {
     // appointment types three across instead of five cramped in a row, and the
     // phone number large on its own band for the reader who would rather call.
     <div className="mhts-theme">
+      {/* From md up the title and the prices are one stop (Carlo, Oct 2026:
+          the prices alone left most of the screen empty). On a phone the
+          wrapper is display: contents. */}
+      <div className="mhts-snap-desk">
       {/* HERO */}
-      <section className="relative overflow-clip bg-mhts-deep py-8 md:py-20">
+      <section className="relative overflow-clip bg-mhts-deep py-8 md:py-14">
         <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_50%_0%,hsl(var(--mhts-red)/0.25),transparent_70%)]" />
         <div className="mhts-fill-chain container relative mx-auto max-w-3xl px-4 text-center">
           <p className="mb-4 font-body text-xs font-semibold uppercase tracking-[0.3em] text-mhts-red-light">
@@ -194,6 +198,7 @@ const BookPage = () => {
 
       {/* PRICING */}
       <ServicePricing rows={pricingRows} />
+      </div>
 
       {/* BOOK ONLINE. One stop: three steps and the button that opens the
           calendar full screen (Carlo, Oct 2026). Without cookies, the panel

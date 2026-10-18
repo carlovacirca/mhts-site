@@ -64,9 +64,7 @@ const AreaPage = () => {
   // consultation on the one dark band. Every word comes from src/data/areas.ts
   // as before.
   return (
-    // From md up the wrapper is a flex column only so that the order classes
-    // below keep the desktop exactly as it was; see the consultation band.
-    <div className="mhts-theme md:flex md:flex-col">
+    <div className="mhts-theme">
       {/* HERO */}
       <section className="relative overflow-clip bg-mhts-deep">
         <div className="absolute inset-0 bg-[radial-gradient(55%_90%_at_0%_100%,hsl(var(--mhts-red)/0.22),transparent_70%)]" />
@@ -194,8 +192,12 @@ const AreaPage = () => {
         </div>
       </section>
 
+      {/* From md up "Why choose us" and the questions are one stop (Carlo,
+          Oct 2026: each alone left most of a desktop screen empty). On a
+          phone the wrapper is display: contents. */}
+      <div className="mhts-snap-desk">
       {/* WHY CHOOSE */}
-      <section className="bg-card py-8 md:py-24">
+      <section className="bg-card py-8 md:py-12">
         <div className="container mx-auto max-w-5xl px-4">
           <div className="mb-8 max-w-2xl">
             <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">
@@ -218,7 +220,7 @@ const AreaPage = () => {
       {/* FAQ */}
       {/* On a phone the questions are a screen of their own, set a little
           larger so the screen is full. */}
-      <section className="bg-mhts-sand py-8 md:order-2 md:py-24">
+      <section className="bg-mhts-sand py-8 md:py-12">
         <div className="container mx-auto grid max-w-6xl gap-8 px-4 md:gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <div>
             <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">
@@ -248,18 +250,19 @@ const AreaPage = () => {
           </div>
         </div>
       </section>
+      </div>
 
       {/* Phone: the free consultation and the booking band are one screen, so
           the consultation sits after the questions in the source. From md up
-          the wrapper is display:contents and the order classes put the bands
-          back exactly where they were, each a stop of its own. The
-          consultation band has no links or buttons, so the desktop keyboard
-          order is unchanged. */}
+          the wrapper is display:contents and the consultation band, with the
+          booking buttons added, is the last stop (Carlo, Oct 2026: the
+          booking banner alone was two lines and two buttons on an empty
+          screen). */}
       <div className={`${SNAP_PHONE_CLASS} md:contents`}>
       {/* CONSULTATION, on the one dark band */}
-      <section className="relative overflow-clip bg-mhts-deep pb-2 pt-6 md:order-1 md:py-20">
+      <section className="relative overflow-clip bg-mhts-deep pb-2 pt-6 md:py-20">
         <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_100%_0%,hsl(var(--mhts-red)/0.2),transparent_70%)]" />
-        <div className="container relative mx-auto grid max-w-5xl items-center gap-8 px-4 md:grid-cols-[auto_1fr] md:gap-12">
+        <div className="container relative mx-auto grid max-w-6xl items-center gap-8 px-4 md:grid-cols-[auto_1fr] md:gap-12 lg:grid-cols-[auto_1fr_0.8fr]">
           <span className="hidden h-16 w-16 place-items-center rounded-2xl bg-mhts-red md:grid" aria-hidden="true">
             <ShieldCheck className="h-8 w-8 text-white" />
           </span>
@@ -271,12 +274,22 @@ const AreaPage = () => {
               Your Free Consultation
             </h2>
             <p className="font-body leading-relaxed text-white/80">{area.consultationParagraph}</p>
+            <div className="mt-8 hidden md:block">
+              <CtaPair size="lg" tone="dark" label="Book Free Consultation" />
+            </div>
           </div>
+          {/* From lg the studio the reader is invited to sits beside the words. */}
+          <ResponsiveImage
+            src={studioPhoto}
+            alt="The Men's Hair To Stay studio in Amersham"
+            className="hidden aspect-[4/3] w-full rounded-2xl object-cover lg:block"
+            sizes="440px"
+          />
         </div>
       </section>
 
       {/* CTA BANNER */}
-      <section className="relative overflow-clip bg-mhts-deep pb-6 pt-6 md:order-3 md:py-20">
+      <section className="relative overflow-clip bg-mhts-deep pb-6 pt-6 md:hidden">
         <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_50%_100%,hsl(var(--mhts-red)/0.25),transparent_65%)]" />
         <div className="container relative mx-auto px-4 text-center">
           <h2 className="mb-4 text-3xl text-white md:text-4xl">

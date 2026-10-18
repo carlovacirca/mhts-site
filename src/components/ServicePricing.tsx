@@ -22,7 +22,7 @@ const ServicePricing = ({ rows }: ServicePricingProps) => {
   // per row so the screen is full; a long one stays tight enough to fit.
   const rowPad = rows.length > 4 ? "py-3.5" : "py-4";
   return (
-    <section id="pricing" className="scroll-mt-24 bg-mhts-sand py-8 md:py-20">
+    <section id="pricing" className="scroll-mt-24 bg-mhts-sand py-8 md:py-12">
       <div className="container mx-auto grid max-w-6xl gap-6 px-4 md:grid-cols-[0.85fr_1.15fr] md:gap-12">
         <div>
           <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">

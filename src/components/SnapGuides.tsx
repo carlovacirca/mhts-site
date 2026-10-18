@@ -71,6 +71,8 @@ const pageY = (e: Element) => {
 const rowItem = (b: HTMLElement, stop: HTMLElement, top: number) => {
   let item = b;
   for (let n = b.parentElement; n && n !== stop; n = n.parentElement) {
+    // A display: contents wrapper has no box, so a margin on it does nothing.
+    if (getComputedStyle(n).display === "contents") continue;
     if (Math.abs(pageY(n).top - top) > 3) break;
     item = n;
   }
@@ -85,8 +87,42 @@ const desktopPages = (el: HTMLElement, screen: number) => {
     const end = pageY(el).bottom;
     const line = at + screen;
     if (line >= end - 1) {
+      // A last page holding only a sliver (the FAQ's share row on its own,
+      // Carlo, Oct 2026) takes the bottom of the page before with it, so the
+      // two pages are about as full as each other.
+      const left = end - at;
+      if (at > top && left < screen * 0.5) {
+        const from = at - (screen - left) / 2;
+        // Rows that could start the last page and still leave it whole; the
+        // one nearest the halfway point is the cut.
+        const lowest = at + 2 * GAP + left - screen;
+        const all = Array.from(el.querySelectorAll<HTMLElement>(BLOCKS))
+          .filter((b) => !inSticky(b, el))
+          .map((b) => ({ el: b, ...pageY(b) }))
+          .filter((b) => b.h > 0);
+        // Never inside another block: a heading in a card would split the card.
+        const whole = (y: number) => !all.some((a) => a.top < y - 3 && a.bottom > y + 3 && a.h < screen * 0.9);
+        const rows = all.filter(
+          (b) => b.top >= lowest && b.top < at - 1 && b.top > at - screen + GAP + 4 && whole(b.top),
+        );
+        if (rows.length) {
+          const cutTop = rows.reduce((a, b) => (Math.abs(b.top - from) < Math.abs(a.top - from) ? b : a)).top;
+          const shift = at + GAP - cutTop;
+          if (left + shift < screen - GAP) {
+            const row = new Set(
+              rows.filter((b) => Math.abs(b.top - cutTop) <= 3).map((b) => rowItem(b.el, el, b.top)),
+            );
+            for (const item of row) {
+              const scale = item.offsetHeight ? item.getBoundingClientRect().height / item.offsetHeight : 1;
+              item.style.setProperty("--snap-break-base", getComputedStyle(item).marginTop);
+              item.setAttribute("data-snap-break", "");
+              item.style.setProperty("--snap-break", `${Math.ceil(shift / (scale || 1))}px`);
+            }
+          }
+        }
+      }
       // The last page: pad it to a whole screen.
-      const short = line - end;
+      const short = line - pageY(el).bottom;
       if (at > top && short > 1) {
         // A sticky sidebar stays whole only while its own container runs to
         // the end of the screen, so the padding goes there.
@@ -168,6 +204,10 @@ const NO_FIT_DESK = ".mhts-fit-own";
 // Below this a screen would be too small to read: it keeps zoom 1 and gets
 // further stops instead.
 const MIN_ZOOM = 0.6;
+// The most a desktop stop grows on a tall screen, and the width in CSS pixels
+// its layout keeps at least while it grows.
+const MAX_GROW = 1.45;
+const GROW_WIDTH = 1180;
 // On a phone a section is only shrunk to fit when it is a little too tall:
 // below this the words would be too small, and it keeps its further stops.
 const PHONE_MIN_ZOOM = 0.8;
@@ -222,8 +262,19 @@ export const fitScreens = () => {
       : el.classList.contains("mhts-snap-section") && !el.classList.contains("mhts-snap-hero")
         ? "home"
         : "section";
-    const cap = kind === "section" ? 1 : 1.2;
-    const room = el.previousElementSibling ? screen : first;
+    // On a taller desktop screen a stop also grows to fill the window (Carlo,
+    // Oct 2026: stops laid out for a 1366x650 laptop were half empty at
+    // 1440x900 and 1920x1080). Growing narrows the room in CSS pixels, so it
+    // stops where the layout would have less than 1180px across.
+    const grow = phone ? 1 : Math.max(1, Math.min(MAX_GROW, window.innerWidth / GROW_WIDTH));
+    const cap = kind === "section" ? grow : Math.max(1.2, grow);
+    // Only the page's own first screen has the smaller first room: a section
+    // that opens a desktop group (display: contents on a phone) does not.
+    let lead: HTMLElement = el;
+    while (!lead.previousElementSibling && lead.parentElement && getComputedStyle(lead.parentElement).display === "contents") {
+      lead = lead.parentElement;
+    }
+    const room = lead.previousElementSibling ? screen : first;
     // Padding that does not scale with the content.
     const pad = kind === "section" ? parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) : 0;
     // A phone screen carries the bottom bar's height as a transparent border
