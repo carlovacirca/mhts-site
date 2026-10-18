@@ -15,14 +15,64 @@ export interface PricingRow {
 
 interface ServicePricingProps {
   rows: PricingRow[];
+  className?: string;
 }
 
-const ServicePricing = ({ rows }: ServicePricingProps) => {
+const PriceRows = ({ rows, rowPad }: { rows: PricingRow[]; rowPad: string }) => (
+  <div className="self-start divide-y divide-mhts-stone overflow-hidden rounded-xl border border-mhts-stone bg-card">
+    {rows.map((r) => {
+      const content = (
+        <>
+          <div>
+            <p className="font-semibold text-mhts-ink">{r.name}</p>
+            {r.note && <p className="mt-0.5 font-body text-xs text-muted-foreground">{r.note}</p>}
+          </div>
+          <span className="whitespace-nowrap font-body font-semibold text-mhts-red-deep">{r.price}</span>
+        </>
+      );
+      return r.onClick ? (
+        <button
+          key={r.name}
+          type="button"
+          onClick={r.onClick}
+          className={`flex w-full cursor-pointer flex-col gap-1 px-5 ${rowPad} md:px-6 md:py-4 text-left transition-colors hover:bg-mhts-sand sm:flex-row sm:items-center sm:justify-between sm:gap-4`}
+        >
+          {content}
+        </button>
+      ) : (
+        <div key={r.name} className={`flex flex-col gap-1 px-5 ${rowPad} md:px-6 md:py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4`}>
+          {content}
+        </div>
+      );
+    })}
+  </div>
+);
+
+/**
+ * The prices as a card beside "What is it" on a treatment page from md up
+ * (Carlo, Oct 2026: the prices and "What is it" were two stops). Same words.
+ */
+export const PricingCard = ({ rows }: { rows: PricingRow[] }) => (
+  <div>
+    <p className="mb-2 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">Pricing</p>
+    <h3 className="mb-4 text-2xl text-mhts-ink">What It Costs</h3>
+    <PriceRows rows={rows} rowPad="py-4" />
+    <p className="mt-4 flex items-start gap-3 font-body text-sm leading-relaxed text-foreground/80">
+      <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-mhts-red" aria-hidden="true" />
+      <span>
+        <strong className="text-mhts-ink">Your initial consultation is always free</strong>, no obligation, no pressure. We'll assess your hair loss and confirm exact pricing for
+        your treatment plan before you commit to anything.
+      </span>
+    </p>
+  </div>
+);
+
+const ServicePricing = ({ rows, className = "" }: ServicePricingProps) => {
   // On a phone the block is one screen: a short list gets a little more room
   // per row so the screen is full; a long one stays tight enough to fit.
   const rowPad = rows.length > 4 ? "py-3.5" : "py-4";
   return (
-    <section id="pricing" className="scroll-mt-24 bg-mhts-sand py-8 md:py-12">
+    <section id="pricing" className={`scroll-mt-24 bg-mhts-sand py-8 md:py-12 ${className}`}>
       <div className="container mx-auto grid max-w-6xl gap-6 px-4 md:grid-cols-[0.85fr_1.15fr] md:gap-12">
         <div>
           <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-deep">
@@ -40,38 +90,7 @@ const ServicePricing = ({ rows }: ServicePricingProps) => {
           </div>
         </div>
 
-        <div className="self-start divide-y divide-mhts-stone overflow-hidden rounded-xl border border-mhts-stone bg-card">
-          {rows.map((r) => {
-            const content = (
-              <>
-                <div>
-                  <p className="font-semibold text-mhts-ink">{r.name}</p>
-                  {r.note && (
-                    <p className="mt-0.5 font-body text-xs text-muted-foreground">{r.note}</p>
-                  )}
-                </div>
-                <span className="whitespace-nowrap font-body font-semibold text-mhts-red-deep">
-                  {r.price}
-                </span>
-              </>
-            );
-
-            return r.onClick ? (
-              <button
-                key={r.name}
-                type="button"
-                onClick={r.onClick}
-                className={`flex w-full cursor-pointer flex-col gap-1 px-5 ${rowPad} md:px-6 md:py-4 text-left transition-colors hover:bg-mhts-sand sm:flex-row sm:items-center sm:justify-between sm:gap-4`}
-              >
-                {content}
-              </button>
-            ) : (
-              <div key={r.name} className={`flex flex-col gap-1 px-5 ${rowPad} md:px-6 md:py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4`}>
-                {content}
-              </div>
-            );
-          })}
-        </div>
+        <PriceRows rows={rows} rowPad={rowPad} />
       </div>
     </section>
   );

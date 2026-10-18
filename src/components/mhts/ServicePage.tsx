@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, Check, ChevronRight, type LucideIcon } from "lucide-react";
 import { Reveal } from "@/lib/motion";
 import ResponsiveImage from "@/components/ResponsiveImage";
-import ServicePricing, { type PricingRow } from "@/components/ServicePricing";
+import ServicePricing, { PricingCard, type PricingRow } from "@/components/ServicePricing";
 import { CtaPair } from "@/components/mhts/CtaButtons";
 import { findCategory } from "@/data/services";
 import { treatments } from "@/data/treatments";
@@ -149,6 +149,7 @@ const Split = ({
   flip,
   tone,
   together = false,
+  aside,
 }: {
   id: string;
   block: TextBlock;
@@ -163,6 +164,8 @@ const Split = ({
    * whose key fact has moved up to the hero on a phone).
    */
   together?: boolean;
+  /** From md up, shown beside the words in place of the key fact. */
+  aside?: ReactNode;
 }) => (
   <section
     id={id}
@@ -174,7 +177,9 @@ const Split = ({
         <h2 className="mb-6 text-3xl leading-tight text-mhts-ink md:text-4xl lg:text-5xl">{block.title}</h2>
         <div className="space-y-6 font-body leading-[1.7] text-foreground/80 md:space-y-4 md:text-lg md:leading-relaxed">{block.body}</div>
       </Reveal>
-      {photo ? (
+      {aside ? (
+        <Reveal from="right" className="hidden md:block">{aside}</Reveal>
+      ) : photo ? (
       // The photograph and its key fact arrive together, as one piece, and
       // the photograph loads with the page (Carlo, Oct 2026: it came up late
       // and in pieces, the fact floating before the photograph).
@@ -540,16 +545,18 @@ const ServicePage = (props: ServicePageProps) => {
           related services with the other treatments, then the closing call
           to action (Carlo, Oct 2026: the reader can rest on every one). */}
       <Hero hero={props.hero} photo={isPillar ? photos.service : undefined} fact={props.about.fact} />
-      {/* From md up the prices and "What is it" are one stop (Carlo, Oct
-          2026: the prices alone left most of the screen empty). */}
-      {props.pricing ? (
-        <div className="mhts-snap-desk">
-          <ServicePricing rows={props.pricing} />
-          <Split id="about" block={props.about} photo={isPillar ? undefined : photos.service} tone="white" />
-        </div>
-      ) : (
-        <Split id="about" block={props.about} photo={isPillar ? undefined : photos.service} tone="white" />
-      )}
+      {/* From md up the prices sit beside "What is it", one stop (Carlo, Oct
+          2026: the prices alone left most of the screen empty, and stacked
+          with "What is it" they ran over two stops). On a phone they are a
+          screen of their own. */}
+      {props.pricing && <ServicePricing rows={props.pricing} className="md:hidden" />}
+      <Split
+        id="about"
+        block={props.about}
+        photo={isPillar ? undefined : photos.service}
+        tone="white"
+        aside={props.pricing ? <PricingCard rows={props.pricing} /> : undefined}
+      />
       {/* From md up the benefits and what is included are one stop: the
           list of inclusions alone left most of the screen empty. */}
       {props.included ? (
