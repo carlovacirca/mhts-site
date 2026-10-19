@@ -1,9 +1,7 @@
-import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { MapPin, ChevronRight } from "lucide-react";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
 import { Reveal } from "@/lib/motion";
-import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import studioWide from "@/assets/mhts-studio-wide-hero-v2.jpg";
 import { ADDRESS_LINE } from "@/lib/site";
@@ -73,68 +71,72 @@ const AreasServicedPage = () => {
         </div>
       </section>
 
-      <section className={`${SNAP_SPLIT_CLASS} bg-mhts-sand md:py-10`}>
-        <div className="container mx-auto max-w-6xl px-4 lg:max-w-7xl">
-          {/* On a phone the towns are three screens of four, the last with Book
-              and Call. From md up the three lists are display:contents, so the
-              twelve towns are one grid, four across from lg so they are one stop. */}
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4 lg:grid-cols-4">
-            {[
-              [0, 4],
-              [4, 8],
-              [8, 12],
-            ].map(([from, to]) => {
-              const last = to === areas.length;
-              const list = (
-                <ol start={from + 1} className={`${last ? "" : `${SNAP_PHONE_CLASS} py-8`} grid gap-3 md:contents md:py-0`}>
-                  {areas.slice(from, to).map((a, j) => {
-                    const i = from + j;
-                    return (
-                      <Reveal as="li" key={a.name} delay={(i % 3) * 0.06}>
-                        <Link
-                          to={`/areas/${a.slug}`}
-                          className={`group flex h-full flex-col rounded-xl border px-4 py-3 transition-all hover:-translate-y-1 hover:shadow-lg md:p-5 ${
-                            i === 0 ? "border-mhts-red bg-mhts-red text-white" : "border-mhts-stone bg-card hover:border-mhts-red"
-                          }`}
-                        >
-                          <div className="mb-2 flex items-center gap-3 md:mb-3">
-                            <span
-                              className={`grid h-8 w-8 shrink-0 place-items-center rounded-full font-body text-xs font-bold md:h-9 md:w-9 ${
-                                i === 0 ? "bg-white text-mhts-red-deep" : "bg-mhts-red-tint text-mhts-red-deep"
-                              }`}
-                            >
-                              {i === 0 ? <MapPin className="h-4 w-4" aria-hidden="true" /> : String(i).padStart(2, "0")}
-                            </span>
-                            <h2 className={`text-lg md:text-xl ${i === 0 ? "text-white" : "text-mhts-ink"}`}>{a.name}</h2>
-                          </div>
-                          <p className={`mb-2 flex-1 font-body text-sm leading-snug md:mb-4 md:leading-relaxed ${i === 0 ? "text-white" : "text-foreground/80"}`}>
-                            {a.desc}
-                          </p>
-                          <span
-                            className={`inline-flex items-center gap-1 font-body text-sm font-semibold transition-all group-hover:gap-2 ${
-                              i === 0 ? "text-white" : "text-mhts-red-deep"
-                            }`}
-                          >
-                            Hair replacement in {a.name} <ChevronRight className="h-4 w-4" aria-hidden="true" />
-                          </span>
-                        </Link>
-                      </Reveal>
-                    );
-                  })}
-                </ol>
-              );
-              if (!last) return <Fragment key={from}>{list}</Fragment>;
-              return (
-                <div key={from} className={`${SNAP_PHONE_CLASS} gap-3 py-5 md:contents md:py-0`}>
-                  {list}
-                  <div className="mt-2 grid gap-2 md:col-span-full md:mt-6 md:flex md:flex-row md:items-center md:justify-center md:gap-3">
-                    <BookButton size="lg" label="Book Free Consultation" />
-                    <CallButton size="lg" />
-                  </div>
-                </div>
-              );
-            })}
+      {/* THE TOWNS. One stop on every screen (Carlo, Oct 2026: the towns
+          were three phone screens of uneven size, and a desktop stop of tiny
+          writing with no heading). On a phone, twelve tiles two across, the
+          town's name only (its own page has the detail); from md up, four
+          across with each town's line. */}
+      <section className="bg-mhts-sand py-8 md:py-10">
+        <div className="container mx-auto max-w-7xl px-4">
+          <div className="mb-5 text-center md:mb-8">
+            <p className="mb-2 font-body text-xs font-semibold uppercase tracking-[0.2em] text-mhts-red-deep">12 towns, one studio</p>
+            <h2 className="text-3xl text-mhts-ink md:text-4xl">Choose Your Town</h2>
+            <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />
           </div>
+          <ol className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
+            {areas.map((a, i) => (
+              <Reveal as="li" key={a.name} delay={(i % 4) * 0.05}>
+                <Link
+                  to={`/areas/${a.slug}`}
+                  className={`group flex h-full items-center gap-3 rounded-xl border px-3.5 py-[18px] transition-all hover:-translate-y-0.5 hover:shadow-lg md:flex-col md:items-start md:gap-2 md:p-5 ${
+                    i === 0 ? "border-mhts-red bg-mhts-red text-white" : "border-mhts-stone bg-card hover:border-mhts-red"
+                  }`}
+                >
+                  <span className="flex w-full items-center gap-2.5">
+                    {i === 0 && (
+                      <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-white text-mhts-red-deep md:h-8 md:w-8">
+                        <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
+                      </span>
+                    )}
+                    <span className={`min-w-0 flex-1 font-body text-[15px] font-semibold leading-tight md:text-lg ${i === 0 ? "text-white" : "text-mhts-ink group-hover:text-mhts-red-deep"}`}>
+                      {a.name}
+                    </span>
+                    <ChevronRight className={`h-4 w-4 shrink-0 ${i === 0 ? "text-white" : "text-mhts-red"}`} aria-hidden="true" />
+                  </span>
+                  <span className={`hidden font-body text-sm leading-snug md:block ${i === 0 ? "text-white/90" : "text-foreground/75"}`}>{a.desc}</span>
+                </Link>
+              </Reveal>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* CLOSING: wherever the reader lives, the studio and how to book. */}
+      <section className="relative overflow-clip bg-mhts-deep py-10 md:py-16">
+        <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_50%_100%,hsl(var(--mhts-red)/0.25),transparent_65%)]" />
+        <div className="mhts-fill-chain container relative mx-auto grid max-w-6xl items-center gap-8 px-4 md:grid-cols-2 md:gap-12">
+          <div className="text-center md:text-left">
+            <h2 className="text-3xl text-white md:text-4xl">Not Far, Wherever You Are</h2>
+            <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red md:mx-0" />
+            <p className="mt-4 font-body leading-relaxed text-white/80 md:text-lg">
+              Every appointment is at our private studio in Amersham, easy to reach by car or on the
+              Metropolitan line. Your first consultation is free and takes about half an hour.
+            </p>
+            <p className="mt-4 inline-flex items-center gap-2 font-body text-sm text-white/75">
+              <MapPin className="h-4 w-4 text-mhts-red-light" aria-hidden="true" />
+              {ADDRESS_LINE}
+            </p>
+            <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row md:justify-start">
+              <BookButton size="lg" label="Book Free Consultation" />
+              <CallButton size="lg" tone="dark" />
+            </div>
+          </div>
+          <ResponsiveImage
+            src={studioWide}
+            alt="The Men's Hair To Stay studio in Amersham"
+            className="mhts-fill aspect-[16/10] w-full rounded-2xl object-cover md:aspect-[4/3]"
+            sizes="(max-width: 768px) 100vw, 560px"
+          />
         </div>
       </section>
     </div>

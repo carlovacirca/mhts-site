@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, Check, ChevronRight, type LucideIcon } from "lucide-react";
 import { Reveal } from "@/lib/motion";
 import ResponsiveImage from "@/components/ResponsiveImage";
-import ServicePricing, { type PricingRow } from "@/components/ServicePricing";
+import ServicePricing, { PricingCard, type PricingRow } from "@/components/ServicePricing";
 import { CtaPair } from "@/components/mhts/CtaButtons";
 import { findCategory } from "@/data/services";
 import { treatments } from "@/data/treatments";
@@ -149,6 +149,7 @@ const Split = ({
   flip,
   tone,
   together = false,
+  aside,
 }: {
   id: string;
   block: TextBlock;
@@ -163,6 +164,8 @@ const Split = ({
    * whose key fact has moved up to the hero on a phone).
    */
   together?: boolean;
+  /** From md up, shown beside the words in place of the key fact. */
+  aside?: ReactNode;
 }) => (
   <section
     id={id}
@@ -174,7 +177,9 @@ const Split = ({
         <h2 className="mb-6 text-3xl leading-tight text-mhts-ink md:text-4xl lg:text-5xl">{block.title}</h2>
         <div className="space-y-6 font-body leading-[1.7] text-foreground/80 md:space-y-4 md:text-lg md:leading-relaxed">{block.body}</div>
       </Reveal>
-      {photo ? (
+      {aside ? (
+        <Reveal from="right" className="hidden md:block">{aside}</Reveal>
+      ) : photo ? (
       // The photograph and its key fact arrive together, as one piece, and
       // the photograph loads with the page (Carlo, Oct 2026: it came up late
       // and in pieces, the fact floating before the photograph).
@@ -324,7 +329,28 @@ const Steps = ({ steps }: { steps: ServicePageProps["steps"] }) => (
 
 // On a phone the questions share a screen with the related services, so a
 // long list sits a little tighter than a short one.
-const Faq = ({ faq }: { faq: ServicePageProps["faq"] }) => (
+/**
+ * From md up the closing call to action is a dark card ending a stop (Carlo,
+ * Oct 2026: on its own it was a dark screen with two lines and two buttons).
+ * It ends the questions when there are four or fewer of them, otherwise the
+ * related services. On a phone it is the Closing screen.
+ */
+const CtaCard = ({ cta }: { cta: ServicePageProps["cta"] }) => (
+  <div className="hidden pb-10 md:block">
+    <div className="container mx-auto max-w-7xl px-4">
+      <div className="relative flex items-center justify-between gap-8 overflow-clip rounded-2xl bg-mhts-deep px-10 py-8">
+        <div className="absolute inset-0 bg-[radial-gradient(60%_140%_at_100%_100%,hsl(var(--mhts-red)/0.3),transparent_65%)]" />
+        <div className="relative">
+          <h2 className="text-2xl text-white lg:text-3xl">{cta.title}</h2>
+          <p className="mt-2 max-w-xl font-body text-white/75">{cta.text}</p>
+        </div>
+        <CtaPair size="lg" tone="dark" href="/#mhts-book" className="relative shrink-0" />
+      </div>
+    </div>
+  </div>
+);
+
+const Faq = ({ faq, cta }: { faq: ServicePageProps["faq"]; cta?: ServicePageProps["cta"] }) => (
   <section id="faq" className="scroll-mt-24 bg-mhts-sand pb-4 pt-6 md:py-12">
     {/* From lg the questions run in two columns under the heading, full
         width and in larger writing (Carlo, Oct 2026: too small, too much
@@ -337,7 +363,17 @@ const Faq = ({ faq }: { faq: ServicePageProps["faq"] }) => (
       {/* Three across when the questions divide into threes (three or six),
           two across otherwise, so the rows are always even (Carlo, Oct 2026:
           not a row of three and a row of two). */}
-      <div className={`md:space-y-3 lg:grid lg:items-start lg:gap-4 lg:space-y-0 ${faq.items.length % 3 === 0 ? "lg:grid-cols-3" : "lg:grid-cols-2"} ${faq.items.length > 5 ? "space-y-1.5" : faq.items.length > 3 ? "space-y-2" : "space-y-3"}`}>
+      {/* From lg every answer shows (Carlo, Oct 2026: three closed questions
+          left most of a desktop stop empty). Below lg they open on a tap. */}
+      <div className={`hidden items-start gap-4 lg:grid ${faq.items.length % 3 === 0 ? "lg:grid-cols-3" : "lg:grid-cols-2"}`}>
+        {faq.items.map((f) => (
+          <div key={f.q} className="rounded-xl border border-mhts-stone bg-card p-6">
+            <h3 className="font-body text-lg font-semibold leading-snug text-mhts-ink">{f.q}</h3>
+            <p className="mt-3 font-body text-base leading-relaxed text-muted-foreground">{f.a}</p>
+          </div>
+        ))}
+      </div>
+      <div className={`md:space-y-3 lg:hidden ${faq.items.length > 5 ? "space-y-1.5" : faq.items.length > 3 ? "space-y-2" : "space-y-3"}`}>
         {faq.items.map((f) => (
           <details
             key={f.q}
@@ -357,6 +393,7 @@ const Faq = ({ faq }: { faq: ServicePageProps["faq"] }) => (
         ))}
       </div>
     </div>
+    {cta && <div className="mt-8 -mb-10"><CtaCard cta={cta} /></div>}
   </section>
 );
 
@@ -364,10 +401,14 @@ const Related = ({
   related,
   category,
   subSlug,
+  cta,
+  ctaInFaq,
 }: {
   related: ServicePageProps["related"];
   category: string;
   subSlug?: string;
+  cta: ServicePageProps["cta"];
+  ctaInFaq: boolean;
 }) => {
   const cat = findCategory(category)!;
   const subs = cat.subServices.filter((s) => s.slug !== subSlug);
@@ -419,6 +460,7 @@ const Related = ({
       {/* From md up the other treatments end this band, so the related cards
           and the other three are one stop. */}
       <OtherTreatments category={category} className="hidden md:block" />
+      {!ctaInFaq && <CtaCard cta={cta} />}
     </section>
   );
 };
@@ -463,7 +505,8 @@ const OtherTreatments = ({ category, className = "" }: { category: string; class
 };
 
 const Closing = ({ cta }: { cta: ServicePageProps["cta"] }) => (
-  <section className="relative overflow-clip bg-mhts-deep py-10 md:py-20">
+  // Phone only: from md up the call ends the related stop.
+  <section className="relative overflow-clip bg-mhts-deep py-10 md:hidden">
     <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_50%_100%,hsl(var(--mhts-red)/0.25),transparent_65%)]" />
     <div className="container relative mx-auto px-4 text-center">
       <h2 className="mb-4 text-3xl text-white md:text-4xl">{cta.title}</h2>
@@ -487,6 +530,7 @@ const ServicePage = (props: ServicePageProps) => {
   });
   const photos = servicePhotos[props.path];
   const isPillar = !props.subSlug;
+  const ctaInFaq = props.faq.items.length <= 4;
   return (
     <div className="mhts-theme">
       {/* Two photographs per page (src/data/servicePhotos.ts). A treatment
@@ -501,15 +545,37 @@ const ServicePage = (props: ServicePageProps) => {
           related services with the other treatments, then the closing call
           to action (Carlo, Oct 2026: the reader can rest on every one). */}
       <Hero hero={props.hero} photo={isPillar ? photos.service : undefined} fact={props.about.fact} />
-      {props.pricing && <ServicePricing rows={props.pricing} />}
-      <Split id="about" block={props.about} photo={isPillar ? undefined : photos.service} tone="white" />
-      <Benefits benefits={props.benefits} />
-      {props.included && <Included included={props.included} />}
-      <Split id="who" block={props.who} photo={photos.studio} flip tone="sand" together />
-      <Steps steps={props.steps} />
+      {/* From md up the prices sit beside "What is it", one stop (Carlo, Oct
+          2026: the prices alone left most of the screen empty, and stacked
+          with "What is it" they ran over two stops). On a phone they are a
+          screen of their own. */}
+      {props.pricing && <ServicePricing rows={props.pricing} className="md:hidden" />}
+      <Split
+        id="about"
+        block={props.about}
+        photo={isPillar ? undefined : photos.service}
+        tone="white"
+        aside={props.pricing ? <PricingCard rows={props.pricing} /> : undefined}
+      />
+      {/* From md up the benefits and what is included are one stop: the
+          list of inclusions alone left most of the screen empty. */}
+      {props.included ? (
+        <div className="mhts-snap-desk">
+          <Benefits benefits={props.benefits} />
+          <Included included={props.included} />
+        </div>
+      ) : (
+        <Benefits benefits={props.benefits} />
+      )}
+      {/* From md up "Who it's for" and "What to expect" are one stop: the
+          steps alone are one short row. */}
+      <div className="mhts-snap-desk">
+        <Split id="who" block={props.who} photo={photos.studio} flip tone="sand" together />
+        <Steps steps={props.steps} />
+      </div>
       <div className={`${SNAP_PHONE_CLASS} md:contents`}>
-        <Faq faq={props.faq} />
-        <Related related={props.related} category={props.category} subSlug={props.subSlug} />
+        <Faq faq={props.faq} cta={ctaInFaq ? props.cta : undefined} />
+        <Related related={props.related} category={props.category} subSlug={props.subSlug} cta={props.cta} ctaInFaq={ctaInFaq} />
       </div>
       <div className={`${SNAP_PHONE_CLASS} md:contents`}>
         <Closing cta={props.cta} />

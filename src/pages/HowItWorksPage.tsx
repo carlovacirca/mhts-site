@@ -7,6 +7,7 @@ import consultationRoom from "@/assets/mhts-consultation-room-hero-v2.jpg";
 import baseMaterials from "@/assets/mhts-hair-system-base-materials-hero.jpg";
 import hairline from "@/assets/mhts-hair-system-hairline-hero.jpg";
 import maintenanceWork from "@/assets/mhts-hair-system-maintenance-hero.jpg";
+import studioWide from "@/assets/mhts-studio-wide-hero-v2.jpg";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
 import {
   CalendarCheck,
@@ -313,46 +314,61 @@ const HowItWorksPage = () => {
 
       </div>
 
-      {/* CTA */}
-      <section className="relative overflow-clip bg-mhts-deep py-8 md:py-20">
+      {/* CTA. Words on one side, the studio on the other (Carlo, Oct 2026:
+          on a desktop this stop was a dark screen with a little text floating
+          in the middle, and read as empty). On a phone the words already fill
+          the screen, so the photograph is desktop only. */}
+      <section className="relative overflow-clip bg-mhts-deep py-8 md:py-16">
         <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_50%_100%,hsl(var(--mhts-red)/0.25),transparent_65%)]" />
-        <div className="container relative mx-auto px-4 text-center">
-          <h2 className="mb-4 text-3xl text-white md:text-4xl">
-            Ready to Start Your Hair Replacement Journey?
-          </h2>
-          <p className="mx-auto mb-6 max-w-2xl font-body leading-relaxed text-white/75 md:mb-10">
-            Book your free initial consultation with our specialist technicians.
-            We'll assess your hair loss and discuss your non-surgical hair
-            replacement options.
-          </p>
-          <CtaPair size="lg" tone="dark" href="/#mhts-book" className="justify-center" />
-
-          {/* Related links */}
-          <div className="mt-8 border-t border-white/10 pt-6 md:mt-14 md:pt-10">
-            <p className="mb-5 font-body text-xs uppercase tracking-[0.2em] text-white/60">
-              Explore More
+        <div className="container relative mx-auto grid max-w-6xl items-center gap-8 px-4 md:grid-cols-2 md:gap-12">
+          <div className="text-center md:text-left">
+            <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-red-light">
+              Step One Is Free
             </p>
-            <div className="flex flex-wrap justify-center gap-3 font-body text-sm">
-              {[
-                { to: "/#mhts-services", label: "View Our Services" },
-                { to: "/#mhts-gallery", label: "See Hair System & SMP Results" },
-                { to: "/#mhts-book", label: "Book Your Consultation" },
-                { to: "/faq", label: "Read Hair Replacement FAQs" },
-              ].map((l) => (
-                <Link
-                  key={l.to}
-                  to={l.to}
-                  className="rounded-full border border-white/20 px-4 py-2 text-white/85 transition-colors hover:border-white hover:text-white"
-                >
-                  {l.label}
-                </Link>
-              ))}
+            <h2 className="mb-4 text-3xl text-white md:text-4xl">
+              Ready to Start Your Hair Replacement Journey?
+            </h2>
+            <p className="mb-6 font-body leading-relaxed text-white/75 md:mb-8 md:text-lg">
+              Book your free initial consultation with our specialist technicians.
+              We'll assess your hair loss and discuss your non-surgical hair
+              replacement options.
+            </p>
+            <CtaPair size="lg" tone="dark" href="/#mhts-book" className="justify-center md:justify-start" />
+
+            {/* Related links */}
+            <div className="mt-8 border-t border-white/10 pt-6 md:mt-10">
+              <p className="mb-4 font-body text-xs uppercase tracking-[0.2em] text-white/60">
+                Explore More
+              </p>
+              <div className="flex flex-wrap justify-center gap-2.5 font-body text-sm md:justify-start">
+                {[
+                  { to: "/#mhts-services", label: "View Our Services" },
+                  { to: "/#mhts-gallery", label: "See Hair System & SMP Results" },
+                  { to: "/#mhts-book", label: "Book Your Consultation" },
+                  { to: "/faq", label: "Read Hair Replacement FAQs" },
+                ].map((l) => (
+                  <Link
+                    key={l.to}
+                    to={l.to}
+                    className="rounded-full border border-white/20 px-4 py-2 text-white/85 transition-colors hover:border-white hover:text-white"
+                  >
+                    {l.label}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
-
-          <p className="mt-10 inline-flex items-center justify-center gap-2 font-body text-xs text-white/60">
-            <MapPin className="h-3 w-3" aria-hidden="true" /> 11 Chesham Road, Amersham HP6 5HN
-          </p>
+          <figure className="relative hidden md:block">
+            <ResponsiveImage
+              src={studioWide}
+              alt="The Men's Hair To Stay studio in Amersham"
+              className="aspect-[4/5] w-full rounded-2xl object-cover lg:aspect-[4/3]"
+              sizes="560px"
+            />
+            <figcaption className="absolute bottom-3 left-3 inline-flex items-center gap-2 rounded-full bg-mhts-deep/80 px-3 py-1.5 font-body text-xs text-white/85 backdrop-blur-sm">
+              <MapPin className="h-3 w-3 text-mhts-red-light" aria-hidden="true" /> 11 Chesham Road, Amersham HP6 5HN
+            </figcaption>
+          </figure>
         </div>
       </section>
     </div>

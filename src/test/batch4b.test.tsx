@@ -215,6 +215,9 @@ describe("links kept", () => {
     const norm = (t: string | null) => (t ?? "").replace(/\s+/g, " ").trim();
     for (const id of ["about", "who"]) {
       const section = container.querySelector(`#${id}`)!;
+      // A treatment page with prices shows them beside "What is it" in
+      // place of the key fact (Carlo, Oct 2026); the fact is in the hero.
+      if (id === "about" && !section.querySelector("figcaption") && section.textContent?.includes("What It Costs")) continue;
       const fact = norm(section.querySelector("figcaption")!.textContent);
       const clone = section.cloneNode(true) as HTMLElement;
       clone.querySelector("figcaption")!.remove();

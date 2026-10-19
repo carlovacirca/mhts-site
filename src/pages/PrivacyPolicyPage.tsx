@@ -36,8 +36,13 @@ const PrivacyPolicyPage = () => {
           header, a contents list that stays beside the text on a desktop, and
           the sections in a reading column with a rule between each. The words
           are unchanged. */}
-      {/* HERO */}
-      <section className="border-b border-mhts-stone bg-mhts-sand py-8 md:py-16">
+      {/* CONTENT */}
+      <section className={`${SNAP_SPLIT_CLASS} md:pb-16`}>
+        {/* HERO. Inside the policy's section, so from md up the title is the
+            top of the first stop rather than a near-empty stop of its own
+            (Carlo, Oct 2026). On a phone it is the first screen. */}
+        <div className={`${SNAP_PHONE_CLASS} bg-mhts-sand md:contents`}>
+        <div className="border-b border-mhts-stone bg-mhts-sand py-8 md:mb-8 md:py-8">
         <div className="container mx-auto max-w-6xl px-4">
           <p className="mb-4 inline-block rounded-full bg-mhts-red-tint px-3 py-1 font-body text-xs font-semibold uppercase tracking-[0.2em] text-mhts-red-deep">
             Legal
@@ -66,10 +71,8 @@ const PrivacyPolicyPage = () => {
             </ol>
           </nav>
         </div>
-      </section>
-
-      {/* CONTENT */}
-      <section className={`${SNAP_SPLIT_CLASS} md:py-16`}>
+        </div>
+        </div>
         <div className="container mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-[240px_1fr] lg:gap-16">
         <nav aria-label="On this page" className="hidden lg:sticky lg:top-28 lg:block lg:self-start">
           <ol className="space-y-1 border-l-2 border-mhts-stone">
@@ -261,16 +264,17 @@ const PrivacyPolicyPage = () => {
               </p>
             </div>
           </div>
-          {/* Phone only: the call to action closes the last screen. From md
-              up it is the dark band below. */}
-          <div className="mhts-fill-chain rounded-2xl bg-mhts-deep px-5 py-6 text-center md:hidden">
+          {/* The call to action closes the policy: on a phone its last
+              screen, from md up its last stop (Carlo, Oct 2026: as a band of
+              its own it was a near-empty stop). */}
+          <div className="mhts-fill-chain rounded-2xl bg-mhts-deep px-5 py-6 text-center md:mt-4 md:px-10 md:py-10">
             <h2 className="mb-4 text-2xl text-white">Ready to get started?</h2>
             <CtaPair size="lg" tone="dark" label="Book Free Consultation" className="justify-center" />
             {/* The studio, filling the rest of the screen. */}
             <ResponsiveImage
               src={studioWide}
               alt="The Men's Hair To Stay studio in Amersham"
-              className="mhts-fill mt-5 aspect-[16/10] w-full rounded-xl object-cover"
+              className="mhts-fill mt-5 aspect-[16/10] w-full rounded-xl object-cover md:hidden"
               sizes="100vw"
             />
           </div>
@@ -279,16 +283,6 @@ const PrivacyPolicyPage = () => {
         </div>
       </section>
 
-      {/* CTA. From md up; on a phone it closes the last screen above. */}
-      <section className="relative hidden overflow-clip bg-mhts-deep py-14 md:block md:py-16">
-        <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_50%_100%,hsl(var(--mhts-red)/0.25),transparent_65%)]" />
-        <div className="container relative mx-auto px-4 text-center">
-          <h2 className="mb-8 text-3xl text-white md:text-4xl">
-            Ready to get started?
-          </h2>
-          <CtaPair size="lg" tone="dark" label="Book Free Consultation" className="justify-center" />
-        </div>
-      </section>
     </div>
   );
 };

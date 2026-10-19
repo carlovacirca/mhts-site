@@ -219,6 +219,10 @@ export async function measureRoute(browser, base, route, viewport = PHONE) {
   // A reader who has already answered the cookie banner: no banner.
   await page.addInitScript(() => localStorage.setItem("mhts-cookie-consent", "declined"));
   await page.goto(base + route, { waitUntil: "networkidle" });
+  // Each page's code is fetched on its first visit (src/App.tsx); on a cold
+  // dev server the network can fall quiet before it has run. Wait for the
+  // page itself, not the blank screen shown meanwhile.
+  await page.waitForSelector("main section", { timeout: 60_000 });
   await page.evaluate(() => document.fonts.ready);
   // Scroll through once, as a reader would, so every block that rises into
   // place on arrival (Reveal, once only) is measured where it settles.
