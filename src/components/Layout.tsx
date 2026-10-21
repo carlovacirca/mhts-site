@@ -8,6 +8,7 @@ import GoogleAnalytics from "./GoogleAnalytics";
 import StickyMobileCTA from "./mhts/StickyMobileCTA";
 import SnapGuides from "./SnapGuides";
 import StopMotion from "./StopMotion";
+import BookingSheet from "./mhts/BookingSheet";
 import { snapSiteClass } from "@/lib/sectionSnap";
 
 const Layout = () => {
@@ -51,6 +52,8 @@ const Layout = () => {
       <Footer />
       <SnapGuides />
       <StopMotion />
+      {/* The booking calendar, one for the whole site (src/lib/booking.ts). */}
+      <BookingSheet />
       {/* One fixed stack, so the sticky call to action sits above the cookie
           banner instead of underneath it. Both are bottom-anchored and both
           used to claim the same strip of screen. */}

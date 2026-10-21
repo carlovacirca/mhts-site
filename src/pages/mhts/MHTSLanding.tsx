@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Reveal } from "@/lib/motion";
 import {
@@ -20,14 +19,12 @@ import { blogPosts } from "@/data/blogPosts";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { latestPosts } from "@/lib/publishing";
 import { useSeo, useJsonLd, localBusinessSchema } from "@/lib/seo";
-import { useCookieConsent } from "@/lib/cookieConsent";
 import { treatments } from "@/data/treatments";
 import { ADDRESS_LINE, EMAIL, GOOGLE_MAPS_URL, PHONE_DISPLAY, PHONE_TEL } from "@/lib/site";
 import { BookButton, CallButton, CtaPair } from "@/components/mhts/CtaButtons";
 import BeforeAfterStrip from "@/components/mhts/BeforeAfterStrip";
 import GoogleReviews from "@/components/mhts/GoogleReviews";
-import BookingPanel from "@/components/mhts/BookingPanel";
-import { BookingWindow, BookOnlineSteps } from "@/components/mhts/BookingWindow";
+import BookingStage from "@/components/mhts/BookingStage";
 import StudioMap from "@/components/mhts/StudioMap";
 import { SNAP_HERO_CLASS, SNAP_PHONE_CLASS, SNAP_SECTION_CLASS, SNAP_SPLIT_CLASS, snapPageClass } from "@/lib/sectionSnap";
 import mhtsHero from "@/assets/mhts-hero.jpg";
@@ -179,11 +176,6 @@ const MHTSLanding = () => {
   });
 
   useJsonLd(homeFaqJsonLd);
-
-  const cookieConsent = useCookieConsent();
-
-  // The booking calendar opens full screen (BookingWindow), as on /book.
-  const [calendarOpen, setCalendarOpen] = useState(false);
 
   // Batch 4b: with SECTION_SNAP on (src/lib/sectionSnap.ts) every section
   // below fills one screen and a scroll moves to the next. The sections were
@@ -487,28 +479,15 @@ const MHTSLanding = () => {
         </div>
       </section>
 
-      {/* ─── 8. BOOK ─── */}
-      <section id="mhts-book" className={`${S} scroll-mt-24 bg-card pt-8 md:bg-mhts-sand md:pt-12`}>
-        <div className="w-full">
-          <div className="container mx-auto mb-6 px-4 text-center md:mb-8">
-            <Eyebrow>Free, private, no obligation</Eyebrow>
-            <h2 className="text-3xl text-mhts-ink md:text-4xl">Book a Consultation</h2>
-            <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />
-            <p className="mx-auto mt-3 max-w-xl font-body text-muted-foreground">
-              Book online in a minute, or call us and we will find a time for you.
-            </p>
-          </div>
-
-          {cookieConsent === "accepted" ? (
-            <div className="container mx-auto px-4 pb-8 md:pb-12">
-              <BookOnlineSteps onOpen={() => setCalendarOpen(true)} />
-              <BookingWindow open={calendarOpen} onOpenChange={setCalendarOpen} />
-            </div>
-          ) : (
-            <BookingPanel compact />
-          )}
-        </div>
-      </section>
+      {/* ─── 8. BOOK: the booking stop, the main thing after the hero ─── */}
+      <BookingStage
+        id="mhts-book"
+        className={`${S} scroll-mt-24`}
+        source="home_stop"
+        eyebrow="Online booking calendar"
+        title="Book Your Free Consultation"
+        lede="See the times and prices, then book in about a minute. You get an email confirmation straight away."
+      />
 
       {/* ─── 9 and the final band share one screen from md up (Carlo, Oct
           2026: each alone left most of a desktop screen empty). ─── */}

@@ -51,7 +51,7 @@ const PrivacyPolicyPage = () => {
             Privacy Policy
           </h1>
           <p className="max-w-xl font-body text-lg text-muted-foreground">
-            Last updated: 12 July 2026
+            Last updated: 21 October 2026
           </p>
           {/* Phone only: the contents list, as rows, completes the first
               screen. From lg up it is the rail beside the text. */}
@@ -185,11 +185,12 @@ const PrivacyPolicyPage = () => {
             </h2>
             <p className="mb-4">
               Our online booking calendar (provided by Trafft) sets cookies once you accept
-              them via the cookie banner on this site, including Google Ads remarketing
+              them, on the cookie banner or on the booking calendar's own card, including Google Ads remarketing
               cookies that may be used to show you relevant ads on other websites. These
               cookies are only set after you actively accept them, if you decline, the
               booking widget won't load, and you can still reach us by phone or email
-              instead.
+              instead. Once you have accepted, the calendar may start loading quietly as you
+              near a booking section, so it opens straight away when you choose it.
             </p>
             <p>
               We also use Google Analytics 4 (GA4) to understand how visitors use this site, for example, which pages are popular and how people navigate around, so we

@@ -1,14 +1,10 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Reveal } from "@/lib/motion";
 import { SNAP_BEFORE_FOOTER_CLASS, SNAP_PHONE_CLASS } from "@/lib/sectionSnap";
-import ResponsiveImage from "@/components/ResponsiveImage";
-import consultationRoom from "@/assets/mhts-consultation-room-hero-v2.jpg";
+import BookingStage from "@/components/mhts/BookingStage";
+import { requestBooking } from "@/lib/booking";
 import { Phone, CalendarCheck } from "lucide-react";
-import { BookingWindow, BookOnlineSteps } from "@/components/mhts/BookingWindow";
 import { useSeo, useJsonLd, breadcrumbSchema } from "@/lib/seo";
-import { useCookieConsent } from "@/lib/cookieConsent";
-import BookingPanel from "@/components/mhts/BookingPanel";
 import { CallButton } from "@/components/mhts/CtaButtons";
 import ServicePricing from "@/components/ServicePricing";
 import {
@@ -18,7 +14,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-const TRAFFT_DEFAULT_SERVICE_UUID = "848c1e33-c5d4-4dc8-a7de-94102b7c344b";
 const TRAFFT_REGROOM_1X_SERVICE_UUID = "80fff5ce-ada5-47aa-a44b-d13e553088db";
 const TRAFFT_REGROOM_2X_SERVICE_UUID = "d7d8c271-93b9-4fa1-aa0d-c1eb39b41c3f";
 const TRAFFT_CONSULTATION_SERVICE_UUID = "21801063-7fb5-47a2-aa5b-39c66bd400fb";
@@ -124,27 +119,15 @@ const BookPage = () => {
   useJsonLd(pricingJsonLd);
   useJsonLd(faqJsonLd);
 
-  const cookieConsent = useCookieConsent();
-  const [serviceUuid, setServiceUuid] = useState(TRAFFT_DEFAULT_SERVICE_UUID);
-  // The calendar opens full screen over the page (Carlo, Oct 2026: inside a
-  // snapping page its own scrolling fought the page's, and it never fitted one
-  // stop). Trafft's script fills the box when it runs, so it is added each
-  // time the window opens.
-  const [calendarOpen, setCalendarOpen] = useState(false);
-
-
-  // With cookies accepted every Book button opens the calendar; without, it
-  // goes to the booking panel (call, email, or accept and book online).
-  const scrollToWidget = (uuid: string = TRAFFT_DEFAULT_SERVICE_UUID) => {
-    setServiceUuid(uuid);
-    if (cookieConsent === "accepted") setCalendarOpen(true);
-    else document.getElementById("trafft-booking")?.scrollIntoView({ behavior: "smooth" });
-  };
+  // Every Book button on the page opens the calendar with consent, or takes
+  // the reader to the booking stop and its consent face without it.
+  const book = (source: "book_prices" | "book_types", serviceUuid?: string) =>
+    requestBooking({ source, serviceUuid, stopId: "trafft-booking" });
 
   const pricingRows = [
-    { name: "Regroom (1x Adhesive)", price: "Quoted at your consultation", onClick: () => scrollToWidget(TRAFFT_REGROOM_1X_SERVICE_UUID) },
-    { name: "Regroom (2x Adhesive)", price: "Quoted at your consultation", onClick: () => scrollToWidget(TRAFFT_REGROOM_2X_SERVICE_UUID) },
-    { name: "Initial Consultation", price: "Free", onClick: () => scrollToWidget(TRAFFT_CONSULTATION_SERVICE_UUID) },
+    { name: "Regroom (1x Adhesive)", price: "Quoted at your consultation", onClick: () => book("book_prices", TRAFFT_REGROOM_1X_SERVICE_UUID) },
+    { name: "Regroom (2x Adhesive)", price: "Quoted at your consultation", onClick: () => book("book_prices", TRAFFT_REGROOM_2X_SERVICE_UUID) },
+    { name: "Initial Consultation", price: "Free", onClick: () => book("book_prices", TRAFFT_CONSULTATION_SERVICE_UUID) },
   ];
 
   return (
@@ -154,81 +137,21 @@ const BookPage = () => {
     // appointment types three across instead of five cramped in a row, and the
     // phone number large on its own band for the reader who would rather call.
     <div className="mhts-theme">
-      {/* From md up the title and the prices are one stop (Carlo, Oct 2026:
-          the prices alone left most of the screen empty). On a phone the
-          wrapper is display: contents. */}
-      <div className="mhts-snap-desk">
-      {/* HERO */}
-      <section className="relative overflow-clip bg-mhts-deep py-8 md:py-14">
-        <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_50%_0%,hsl(var(--mhts-red)/0.25),transparent_70%)]" />
-        <div className="mhts-fill-chain container relative mx-auto max-w-3xl px-4 text-center">
-          <p className="mb-4 font-body text-xs font-semibold uppercase tracking-[0.3em] text-mhts-red-light">
-            Reserve Your Appointment
-          </p>
-          <h1 className="text-3xl leading-tight text-white md:text-5xl">
-            Book Your Hair Replacement Consultation &amp; Appointment
-          </h1>
-          <div className="mx-auto my-6 h-1 w-14 rounded-full bg-mhts-red" />
-          <p className="font-body leading-relaxed text-white/80">
-            Schedule a free hair replacement consultation, hair system regroom,
-            full maintenance, scalp micropigmentation (SMP) or specialized
-            thinning hair and crown coverage treatment with our specialist team
-            in Amersham.
-          </p>
-          <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-            <button
-              onClick={() => scrollToWidget()}
-              className="mhts-shine inline-flex items-center justify-center gap-2 bg-mhts-red text-white font-semibold px-7 py-3.5 rounded-md hover:bg-mhts-red-deep transition-colors font-body tracking-wide"
-            >
-              <CalendarCheck className="w-4 h-4 relative z-[2]" aria-hidden="true" />
-              <span className="relative z-[2]">Book free consultation</span>
-            </button>
-            <CallButton size="lg" tone="dark" />
-          </div>
-          {/* Phone only: the private room the consultation happens in, filling
-              the first screen. */}
-          <ResponsiveImage
-            src={consultationRoom}
-            alt="The private consultation room at the Amersham studio"
-            className="mhts-fill mt-8 aspect-[16/10] w-full rounded-2xl object-cover md:hidden"
-            sizes="100vw"
-          />
-        </div>
-      </section>
+      {/* THE BOOKING STOP, the page's first screen (Carlo, Oct 2026: "the
+          booking page needs to shout that there is a booking calendar"). */}
+      <BookingStage
+        id="trafft-booking"
+        className="scroll-mt-24"
+        source="book_stop"
+        eyebrow="Reserve Your Appointment"
+        titleAs="h1"
+        longTitle
+        title="Book Your Hair Replacement Consultation & Appointment"
+        lede="Free consultation, regroom, maintenance or SMP. Pick a time online in about a minute."
+      />
 
       {/* PRICING */}
       <ServicePricing rows={pricingRows} />
-      </div>
-
-      {/* BOOK ONLINE. One stop: three steps and the button that opens the
-          calendar full screen (Carlo, Oct 2026). Without cookies, the panel
-          with call, email and the way to accept and book online. */}
-      <section id="trafft-booking" className="scroll-mt-24 border-y border-mhts-stone bg-card py-4 md:py-12">
-        <div className="container mx-auto max-w-5xl px-4">
-          <div className="mb-4 text-center md:mb-10">
-            <span className="mx-auto mb-4 hidden h-12 w-12 place-items-center rounded-full bg-mhts-red text-white md:grid" aria-hidden="true">
-              <CalendarCheck className="h-5 w-5" />
-            </span>
-            <h2 className="text-2xl text-mhts-ink md:text-4xl">Choose a Date &amp; Time</h2>
-            <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red" />
-            <p className="mx-auto mt-4 hidden max-w-xl font-body text-foreground/75 md:block md:text-lg">
-              Book online in under a minute. Pick your appointment, choose a time that suits you and confirm.
-            </p>
-          </div>
-          {cookieConsent === "accepted" ? (
-            <BookOnlineSteps onOpen={() => setCalendarOpen(true)} />
-          ) : (
-            /* Was one line of grey text and a button that read "Enable cookies
-               to book online": an empty block where the booking calendar should
-               be, on most first visits. The consent rule is unchanged, Trafft
-               still loads only after Accept, but the reader now gets a way to
-               book either way. See docs/DESIGN-AUDIT.md finding 12. */
-            <BookingPanel compact />
-          )}
-        </div>
-      </section>
-
-      <BookingWindow open={calendarOpen && cookieConsent === "accepted"} onOpenChange={setCalendarOpen} serviceUuid={serviceUuid} />
 
       {/* APPOINTMENT TYPES */}
       <section className="bg-mhts-sand py-8 md:py-12">
@@ -277,7 +200,7 @@ const BookPage = () => {
           </div>
           <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row md:mt-8">
             <button
-              onClick={() => scrollToWidget()}
+              onClick={() => book("book_types")}
               className="inline-flex items-center justify-center gap-2 rounded-md bg-mhts-red px-7 py-3.5 font-body font-semibold tracking-wide text-white transition-colors hover:bg-mhts-red-deep"
             >
               <CalendarCheck className="w-4 h-4" /> Book Free Consultation

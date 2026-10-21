@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useCookieConsent } from "@/lib/cookieConsent";
-import { ctaFor, track } from "@/lib/analytics";
+import { ctaFor, flushTracked, track } from "@/lib/analytics";
 
 const GA4_MEASUREMENT_ID = "G-N1Z0J45SW7";
 
@@ -23,6 +23,8 @@ const GoogleAnalytics = () => {
       gtag('config', '${GA4_MEASUREMENT_ID}');
     `;
     document.head.appendChild(inlineScript);
+    // gtag exists now (the snippet runs as it is added): send what waited.
+    flushTracked();
 
     return () => {
       if (loaderScript.parentNode) document.head.removeChild(loaderScript);

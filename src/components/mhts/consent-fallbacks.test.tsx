@@ -9,51 +9,53 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import BookingPanel from "./BookingPanel";
+import BookingStage from "./BookingStage";
 import StudioMap from "./StudioMap";
 import { getCookieConsent, setCookieConsent } from "@/lib/cookieConsent";
 
 const withRouter = (ui: React.ReactElement) => render(<MemoryRouter>{ui}</MemoryRouter>);
 
-describe("BookingPanel, the booking section before consent", () => {
+describe("BookingStage, the booking stop before consent", () => {
   beforeEach(() => window.localStorage.clear());
+  const stage = () => withRouter(<BookingStage id="t" source="home_stop" eyebrow="E" title="T" lede="L" />);
 
-  it("offers a real way to book rather than an apology", () => {
-    withRouter(<BookingPanel />);
-    expect(
-      screen.getByRole("heading", { name: "Book your free consultation" })
-    ).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /07947 878087/ })).toHaveAttribute(
-      "href",
-      "tel:+447947878087"
-    );
-    expect(screen.getByRole("link", { name: /Email us/ })).toHaveAttribute(
-      "href",
-      "mailto:info@menshairtostay.co.uk"
-    );
+  it("offers the calendar card and a real way to book by phone or email", () => {
+    stage();
+    expect(screen.getByRole("button", { name: "Open the booking calendar" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /07947 878087/ })).toHaveAttribute("href", "tel:+447947878087");
+    expect(screen.getByRole("link", { name: /Email us/ })).toHaveAttribute("href", "mailto:info@menshairtostay.co.uk");
   });
 
   it("shows the opening hours in the footer's words, with no day of the week of its own", () => {
-    const { container } = withRouter(<BookingPanel />);
+    const { container } = stage();
     expect(container.textContent).toContain("Tuesday to Friday, 9:30am to 5pm · Closed Saturday to Monday");
-    // It used to lead with today ("Thursday: 9:30am to 5pm · Tuesday to Friday, ...").
     expect(container.textContent).not.toMatch(/(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday):/);
   });
 
-  it("can set consent from here, exactly as Accept does", () => {
-    withRouter(<BookingPanel />);
+  it("asks first: the card turns to say who the calendar belongs to before consent", () => {
+    stage();
+    fireEvent.click(screen.getByRole("button", { name: "Open the booking calendar" }));
+    expect(screen.getByText(/run by Trafft and sets cookies/)).toBeInTheDocument();
     expect(getCookieConsent()).toBeNull();
-    fireEvent.click(screen.getByRole("button", { name: "Show the online booking calendar" }));
+  });
+
+  it("can set consent from the card, exactly as Accept does", () => {
+    stage();
+    fireEvent.click(screen.getByRole("button", { name: "Open the booking calendar" }));
+    fireEvent.click(screen.getByRole("button", { name: "Accept and open the calendar" }));
     expect(getCookieConsent()).toBe("accepted");
   });
 
-  it("says who the calendar belongs to before asking for consent to it", () => {
-    withRouter(<BookingPanel />);
-    expect(screen.getByText(/run by Trafft and sets cookies/)).toBeInTheDocument();
+  it("Not now changes nothing", () => {
+    stage();
+    fireEvent.click(screen.getByRole("button", { name: "Open the booking calendar" }));
+    fireEvent.click(screen.getByRole("button", { name: "Not now" }));
+    expect(getCookieConsent()).toBeNull();
+    expect(screen.getByRole("button", { name: "Open the booking calendar" })).toBeInTheDocument();
   });
 
   it("requests nothing from a third party on its own", () => {
-    const { container } = withRouter(<BookingPanel />);
+    const { container } = stage();
     expect(container.querySelector("iframe")).toBeNull();
     expect(container.querySelector("script")).toBeNull();
     expect(container.innerHTML).not.toContain("trafft.com");
