@@ -26,6 +26,7 @@ const pricingJsonLd = [
     serviceType: "Regroom (1x Adhesive)",
     provider: { "@type": "LocalBusiness", name: "Men's Hair To Stay" },
     areaServed: "Amersham",
+    offers: { "@type": "Offer", name: "Regroom (1x Adhesive)", price: "60", priceCurrency: "GBP" },
   },
   {
     "@context": "https://schema.org",
@@ -34,6 +35,7 @@ const pricingJsonLd = [
     serviceType: "Regroom (2x Adhesive)",
     provider: { "@type": "LocalBusiness", name: "Men's Hair To Stay" },
     areaServed: "Amersham",
+    offers: { "@type": "Offer", name: "Regroom (2x Adhesive)", price: "65", priceCurrency: "GBP" },
   },
   {
     "@context": "https://schema.org",
@@ -125,8 +127,8 @@ const BookPage = () => {
     requestBooking({ source, serviceUuid, stopId: "trafft-booking" });
 
   const pricingRows = [
-    { name: "Regroom (1x Adhesive)", price: "Quoted at your consultation", onClick: () => book("book_prices", TRAFFT_REGROOM_1X_SERVICE_UUID) },
-    { name: "Regroom (2x Adhesive)", price: "Quoted at your consultation", onClick: () => book("book_prices", TRAFFT_REGROOM_2X_SERVICE_UUID) },
+    { name: "Regroom (1x Adhesive)", price: "£60", onClick: () => book("book_prices", TRAFFT_REGROOM_1X_SERVICE_UUID) },
+    { name: "Regroom (2x Adhesive)", price: "£65", onClick: () => book("book_prices", TRAFFT_REGROOM_2X_SERVICE_UUID) },
     { name: "Initial Consultation", price: "Free", onClick: () => book("book_prices", TRAFFT_CONSULTATION_SERVICE_UUID) },
   ];
 
@@ -150,13 +152,22 @@ const BookPage = () => {
         lede="Free consultation, regroom, maintenance or SMP. Pick a time online in about a minute."
       />
 
+      {/* From md up the prices and the appointment types are one stop where
+          the window is tall enough (Carlo, Oct 2026: the prices alone were a
+          half empty stop); on a short laptop window SnapGuides splits them. */}
+      <div className="mhts-snap-desk">
       {/* PRICING */}
       <ServicePricing rows={pricingRows} />
 
       {/* APPOINTMENT TYPES */}
       <section className="bg-mhts-sand py-8 md:py-12">
         <div className="container mx-auto px-4">
-          <div className="mx-auto mb-6 max-w-6xl md:mb-8 lg:max-w-7xl">
+          {/* From lg the Book and Call buttons sit beside the heading, so the
+              heading, the five types and the buttons are always one stop
+              (Carlo, Oct 2026: on a shorter laptop window the heading and the
+              buttons each ended up on a stop of their own). */}
+          <div className="mx-auto mb-6 max-w-6xl md:mb-8 lg:flex lg:max-w-7xl lg:items-end lg:justify-between lg:gap-10">
+            <div>
             <h2 className="text-3xl text-mhts-ink md:text-4xl">
               Appointment Types
             </h2>
@@ -165,6 +176,16 @@ const BookPage = () => {
               From your first free consultation to ongoing hair system
               maintenance and SMP, choose the right appointment for you.
             </p>
+            </div>
+            <div className="hidden shrink-0 gap-3 lg:flex">
+              <button
+                onClick={() => book("book_types")}
+                className="inline-flex items-center justify-center gap-2 rounded-md bg-mhts-red px-6 py-3 font-body font-semibold tracking-wide text-white transition-colors hover:bg-mhts-red-deep"
+              >
+                <CalendarCheck className="h-4 w-4" /> Book Free Consultation
+              </button>
+              <CallButton />
+            </div>
           </div>
           {/* All five in one row from lg, so the types are one stop (Carlo,
               Oct 2026: not a row of three and a row of two). On
@@ -177,7 +198,7 @@ const BookPage = () => {
                 as="article"
                 key={a.title}
                 delay={(i % 3) * 0.06}
-                className={`flex w-[82%] shrink-0 snap-start snap-always flex-col rounded-xl border bg-card p-6 sm:w-auto sm:snap-align-none ${a.isFree ? "border-mhts-red border-t-4" : "border-mhts-stone"}`}
+                className={`flex w-[82%] shrink-0 snap-start snap-always flex-col rounded-xl border bg-card p-6 sm:w-auto lg:p-5 sm:snap-align-none ${a.isFree ? "border-mhts-red border-t-4" : "border-mhts-stone"}`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <h3 className="text-lg text-mhts-ink">
@@ -189,16 +210,16 @@ const BookPage = () => {
                     </span>
                   )}
                 </div>
-                <p className="text-foreground/80 font-body text-sm leading-relaxed mt-4 flex-1">
+                <p className="text-foreground/80 font-body text-sm leading-relaxed mt-4 flex-1 lg:mt-3 lg:leading-snug">
                   {a.desc}
                 </p>
-                <p className="mt-4 border-t border-mhts-stone pt-4 font-body text-xs text-mhts-slate">
+                <p className="mt-4 border-t border-mhts-stone pt-4 font-body text-xs text-mhts-slate lg:mt-3 lg:pt-3">
                   {a.keywords}
                 </p>
               </Reveal>
             ))}
           </div>
-          <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row md:mt-8">
+          <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row md:mt-8 lg:hidden">
             <button
               onClick={() => book("book_types")}
               className="inline-flex items-center justify-center gap-2 rounded-md bg-mhts-red px-7 py-3.5 font-body font-semibold tracking-wide text-white transition-colors hover:bg-mhts-red-deep"
@@ -210,6 +231,7 @@ const BookPage = () => {
           </div>
         </div>
       </section>
+      </div>
 
       {/* From md up the questions, "Prefer to call?" and the related links
           are one grouped screen (Carlo, Oct 2026). On a phone this wrapper is
@@ -218,13 +240,29 @@ const BookPage = () => {
       {/* Phone: the booking questions and "Prefer to call?" are one screen. */}
       <div className={`${SNAP_PHONE_CLASS} md:contents`}>
       {/* FAQ */}
-      <section className="bg-card pb-5 pt-7 md:py-12">
+      <section className="bg-card pb-5 pt-7 md:py-8">
         <div className="container mx-auto grid max-w-6xl gap-6 px-4 md:gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <div>
             <h2 className="text-3xl text-mhts-ink md:text-4xl">
               Booking Questions Answered
             </h2>
             <div className="mt-4 h-1 w-14 rounded-full bg-mhts-red md:mt-5" />
+            {/* From lg up "Prefer to call?" sits here, under the heading, not
+                as a red band with a screen of its own (Carlo, Oct 2026). */}
+            <div className="mt-8 hidden rounded-2xl bg-mhts-red p-6 text-white lg:block">
+              <p className="text-2xl font-semibold">Prefer to Call?</p>
+              <p className="mt-2 font-body text-sm leading-relaxed text-white/90">
+                Speak directly with our team to book your hair replacement
+                consultation, regroom or SMP appointment.
+              </p>
+              <a
+                href="tel:07947878087"
+                data-cta="call"
+                className="mt-5 inline-flex items-center justify-center gap-3 rounded-xl bg-white px-6 py-3 font-body font-semibold tracking-wide text-mhts-red-deep transition-colors hover:bg-mhts-sand"
+              >
+                <Phone className="h-5 w-5" aria-hidden="true" /> Call 07947 878087
+              </a>
+            </div>
           </div>
           <Accordion type="single" collapsible className="rounded-xl border border-mhts-stone bg-card px-6">
             {faqs.map((f, i) => (
@@ -238,11 +276,23 @@ const BookPage = () => {
               </AccordionItem>
             ))}
           </Accordion>
+          {/* Phone: one line, not a red band; the bar below also has Call. */}
+          <div className="-mt-1 text-center md:hidden">
+            <p className="font-body text-sm text-foreground/80">Prefer to call?</p>
+            <a
+              href="tel:07947878087"
+              data-cta="call"
+              className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl border-2 border-mhts-red px-5 py-3 font-body font-semibold text-mhts-red-deep"
+            >
+              <Phone className="h-5 w-5" aria-hidden="true" /> Call 07947 878087
+            </a>
+          </div>
         </div>
       </section>
 
-      {/* PREFER TO CALL */}
-      <section className="bg-mhts-red pb-8 pt-6 md:py-16">
+      {/* PREFER TO CALL, a tablet only band: from lg up it is in the
+          questions' left column, on a phone a line under them. */}
+      <section className="hidden bg-mhts-red pb-8 pt-6 md:block md:py-10 lg:hidden">
         <div className="container mx-auto grid max-w-5xl items-center gap-6 px-4 text-center md:grid-cols-[1fr_auto] md:text-left">
           <div>
             <h2 className="text-3xl text-white md:text-4xl">
@@ -266,7 +316,7 @@ const BookPage = () => {
 
       {/* RELATED LINKS. On a phone a line of links that shares the footer's
           screen; from md up the pills, as before. */}
-      <section className={`${SNAP_BEFORE_FOOTER_CLASS} bg-mhts-deep py-4 md:py-14`}>
+      <section className={`${SNAP_BEFORE_FOOTER_CLASS} bg-mhts-deep py-4 md:py-8`}>
         <div className="container mx-auto px-4 text-center">
           <p className="mb-2 font-body text-xs uppercase tracking-[0.2em] text-white/60 md:mb-5">
             Explore More

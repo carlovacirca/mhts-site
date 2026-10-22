@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { stripGutter } from "@/lib/carousel";
 import GoogleMark from "@/components/mhts/GoogleMark";
 import GoogleStars from "@/components/mhts/GoogleStars";
-import { GOOGLE_MAPS_URL } from "@/lib/site";
+import { GOOGLE_PROFILE_URL } from "@/lib/site";
 import { usePrefersReducedMotion } from "@/lib/motion";
 import { wasPrerendered } from "@/lib/prerender";
 
@@ -154,7 +154,7 @@ const GoogleReviews = ({ compact = false }: { compact?: boolean } = {}) => {
           </div>
         </div>
         <a
-          href={GOOGLE_MAPS_URL}
+          href={GOOGLE_PROFILE_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-md border border-mhts-stone-deep px-5 py-2.5 text-sm font-semibold text-mhts-ink transition-colors hover:border-mhts-red hover:text-mhts-red-deep"

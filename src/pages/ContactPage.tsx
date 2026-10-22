@@ -287,14 +287,15 @@ const ContactPage = () => {
           from lg. On a phone this wrapper is display:
           contents. */}
       <div className="mhts-snap-desk">
-      {/* Phone: the towns and why choose us are one screen. */}
+      {/* Phone: the towns and why choose us are one screen, tight enough to
+          fit a short phone (Carlo, Oct 2026). */}
       <div className={`${SNAP_PHONE_CLASS} md:contents lg:grid lg:flex-1 lg:grid-cols-2`}>
       {/* SERVICE AREAS */}
-      <section className="bg-card pb-4 pt-6 md:pb-8 md:pt-10 lg:flex lg:items-center lg:py-12">
+      <section className="bg-card pb-3 pt-4 md:pb-8 md:pt-10 lg:flex lg:items-center lg:py-12">
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <h2 className="text-2xl text-mhts-ink md:text-4xl">Hair Replacement Across Buckinghamshire</h2>
           <div className="mx-auto mt-3 h-1 w-14 rounded-full bg-mhts-red md:mt-5" />
-          <p className="mx-auto mt-3 max-w-2xl font-body text-[15px] leading-snug text-foreground/80 md:mt-5 md:text-base md:leading-relaxed">
+          <p className="mx-auto mt-3 max-w-2xl font-body text-sm leading-snug text-foreground/80 md:mt-5 md:text-base md:leading-relaxed">
             Our Amersham hair replacement clinic welcomes clients from across Buckinghamshire and the surrounding area for hair systems, scalp micropigmentation, thinning hair treatments and ongoing maintenance.
           </p>
           <ul className="mt-4 grid grid-cols-3 gap-1.5 md:mt-8 md:flex md:flex-wrap md:justify-center md:gap-3">
@@ -306,14 +307,14 @@ const ContactPage = () => {
       </section>
 
       {/* WHY CHOOSE */}
-      <section className="relative overflow-clip bg-mhts-deep pb-8 pt-5 md:pb-8 md:pt-10 lg:py-12">
+      <section className="relative overflow-clip bg-mhts-deep pb-4 pt-4 md:pb-8 md:pt-10 lg:py-12">
         <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_100%_100%,hsl(var(--mhts-red)/0.2),transparent_70%)]" />
         <div className="container relative mx-auto px-4 max-w-6xl">
-          <div className="mb-4 text-center md:mb-8">
+          <div className="mb-3 text-center md:mb-8">
             <h2 className="text-2xl text-white md:text-4xl">Why Choose Men's Hair To Stay</h2>
             <div className="mx-auto mt-4 h-1 w-14 rounded-full bg-mhts-red md:mt-5" />
           </div>
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-6 lg:grid-cols-1 lg:gap-4">
+          <div className="grid grid-cols-1 gap-2.5 md:grid-cols-3 md:gap-6 lg:grid-cols-1 lg:gap-4">
             {[
               { icon: ShieldCheck, title: "Free Consultations", desc: "Confidential, no-obligation hair loss assessment with a specialist, no pressure to proceed." },
               { icon: Award, title: "Specialist Expertise", desc: "Years of experience fitting hair systems, performing SMP and supporting men through hair loss." },

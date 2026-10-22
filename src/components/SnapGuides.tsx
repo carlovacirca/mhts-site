@@ -204,6 +204,13 @@ const NO_FIT_DESK = ".mhts-fit-own";
 // Below this a screen would be too small to read: it keeps zoom 1 and gets
 // further stops instead.
 const MIN_ZOOM = 0.6;
+// A group of sections is not shrunk below this: smaller, its sections are
+// stops of their own instead...
+const GROUP_MIN_ZOOM = 0.8;
+// ...unless one of its sections, alone, would fill less than this of a stop.
+const GROUP_PART_MIN = 0.6;
+// A desktop group's sections.
+const GROUP_SECTIONS = ":scope > section, :scope > .md\\:contents > section";
 // The most a desktop stop grows on a tall screen, and the width in CSS pixels
 // its layout keeps at least while it grows.
 const MAX_GROW = 1.45;
@@ -241,19 +248,26 @@ export const fitScreens = () => {
   if (screen < 100) return;
   const short = phone && window.innerHeight < SHORT_PHONE;
   const minZoom = short ? SHORT_PHONE_MIN_ZOOM : phone ? PHONE_MIN_ZOOM : MIN_ZOOM;
-  for (const el of document.querySelectorAll<HTMLElement>(phone ? PHONE_FIT_SCREENS : FIT_SCREENS)) {
+  // A desktop group whose sections will not fit one screen together, even
+  // shrunk to GROUP_MIN_ZOOM, is not a group on this screen: each of its
+  // sections becomes a stop of its own and is fitted alone (Carlo, Oct 2026:
+  // on a short laptop window a group was cut in two, its heading on one stop
+  // and its buttons on the next).
+  document.querySelectorAll("[data-snap-ungroup]").forEach((g) => g.removeAttribute("data-snap-ungroup"));
+  const ungrouped: HTMLElement[] = [];
+  const fit = (el: HTMLElement) => {
     const cs = getComputedStyle(el);
-    if (cs.scrollSnapAlign.split(" ")[0] !== "start" || cs.display === "none" || cs.display === "contents") continue;
+    if (cs.scrollSnapAlign.split(" ")[0] !== "start" || cs.display === "none" || cs.display === "contents") return;
     // On a phone only a screen whose photograph takes up the room the words
     // leave (mhts-fill, "Who it's for") is fitted: the photograph grows back
     // into what the fit frees, so the screen stays full. Any other screen
     // would be left part empty, and keeps its further stops instead.
-    if (phone && !short && !el.querySelector(".mhts-fill")) continue;
+    if (phone && !short && !el.querySelector(".mhts-fill")) return;
     if (el.matches(NO_FIT) || (!phone && el.matches(NO_FIT_DESK))) {
       // It may have been fitted before the calendar replaced its panel.
       el.removeAttribute("data-snap-fit");
       el.style.removeProperty("--snap-zoom");
-      continue;
+      return;
     }
     const kind = phone
       ? "section"
@@ -283,6 +297,13 @@ export const fitScreens = () => {
     el.dataset.snapFit = kind;
     el.style.setProperty("--snap-zoom", "1");
     el.setAttribute("data-snap-measure", "");
+    // A group's sections at full size: whether each could fill a stop alone.
+    const parts =
+      kind === "group"
+        ? Array.from(el.querySelectorAll<HTMLElement>(GROUP_SECTIONS))
+            .filter((s) => !s.matches(".mhts-snap-before-footer") && getComputedStyle(s).display !== "none")
+            .map((s) => s.getBoundingClientRect().height)
+        : [];
     let zoom = 1;
     for (let i = 0; i < 3; i++) {
       const h = el.getBoundingClientRect().height - border;
@@ -295,9 +316,28 @@ export const fitScreens = () => {
       el.style.setProperty("--snap-zoom", zoom.toFixed(4));
     }
     el.removeAttribute("data-snap-measure");
+    // A group split up only when it would be too small to read (below
+    // MIN_ZOOM), or when every section in it fills most of a stop on its own:
+    // a short band split off alone is a stop with almost nothing on it
+    // (Carlo, Oct 2026: "Prefer to call?" and a line of buttons each had a
+    // whole screen). Otherwise it stays one stop, shrunk a little further.
+    const split = zoom < minZoom || parts.every((h) => h >= room * GROUP_PART_MIN);
+    if (kind === "group" && zoom < GROUP_MIN_ZOOM && split) {
+      el.removeAttribute("data-snap-fit");
+      el.style.removeProperty("--snap-zoom");
+      ungrouped.push(el);
+      return;
+    }
     if (zoom < minZoom || Math.abs(zoom - 1) < 0.01) {
       el.removeAttribute("data-snap-fit");
       el.style.removeProperty("--snap-zoom");
+    }
+  };
+  for (const el of document.querySelectorAll<HTMLElement>(phone ? PHONE_FIT_SCREENS : FIT_SCREENS)) fit(el);
+  if (ungrouped.length) {
+    ungrouped.forEach((g) => g.setAttribute("data-snap-ungroup", ""));
+    for (const g of ungrouped) {
+      for (const section of g.querySelectorAll<HTMLElement>(GROUP_SECTIONS)) fit(section);
     }
   }
 };

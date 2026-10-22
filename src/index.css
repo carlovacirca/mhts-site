@@ -768,6 +768,23 @@
     min-height: 0;
     flex: none;
   }
+  /* A group that will not fit this screen (SnapGuides sets data-snap-ungroup):
+     each of its sections is a stop of its own, as if it were the page's. */
+  .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-desk[data-snap-ungroup] {
+    scroll-snap-align: none;
+    min-height: 0;
+  }
+  .mhts-snap-site .mhts-snap-desk[data-snap-ungroup] > section:not(.mhts-snap-before-footer),
+  .mhts-snap-site .mhts-snap-desk[data-snap-ungroup] > .md\:contents > section:not(.mhts-snap-before-footer),
+  .mhts-snap-site .mhts-snap-page .mhts-snap-desk[data-snap-ungroup] > .mhts-snap-section {
+    scroll-snap-align: start;
+    scroll-margin-top: 0;
+    min-height: var(--snap-screen);
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
   /* The last band takes what is left, so the screen ends on its colour. */
   .mhts-snap-site .mhts-snap-desk > section:last-child,
   .mhts-snap-site .mhts-snap-desk > .md\:contents:last-child > section:last-child,

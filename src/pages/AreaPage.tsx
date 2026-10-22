@@ -18,7 +18,9 @@ import { serviceCategories } from "@/data/services";
  */
 const screenText = (paragraphs: string[]) => {
   const chars = paragraphs.reduce((n, p) => n + p.length, 0);
-  if (chars > 1000) return "text-sm leading-relaxed md:text-base md:leading-relaxed";
+  // The longest (High Wycombe) is a little smaller from md too, so the words
+  // and the studio fit one stop on a 1280x600 laptop window.
+  if (chars > 1000) return "text-sm leading-relaxed md:text-[15px] md:leading-normal";
   if (chars > 800) return "text-[15px] leading-relaxed md:text-base md:leading-relaxed";
   return "leading-relaxed";
 };

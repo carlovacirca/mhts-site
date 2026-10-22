@@ -1,7 +1,8 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { CalendarCheck, Phone, X } from "lucide-react";
-import { TRAFFT_ORIGIN, closeBooking, markBookingReady, trafftEmbedUrl, useBooking } from "@/lib/booking";
+import { TRAFFT_ORIGIN, closeBooking, markBookingReady, trafftEmbedUrl, useBooking, warmBooking } from "@/lib/booking";
+import { useCookieConsent } from "@/lib/cookieConsent";
 import { CalendarSkeleton } from "@/components/mhts/BookingSkeleton";
 import { EMAIL, PHONE_DISPLAY, PHONE_TEL } from "@/lib/site";
 
@@ -40,6 +41,26 @@ const BookingSheet = () => {
   useEffect(() => {
     if (mounted) setSrc(trafftEmbedUrl(serviceUuid));
   }, [mounted, serviceUuid]);
+
+  // Trafft's own page takes two seconds or more to load, however it is
+  // asked for (Carlo, Oct 2026: "book widget also takes too long to load").
+  // So once the reader has accepted cookies, on any page, it loads quietly a
+  // moment after the page has, and is ready before any Book button is
+  // pressed. Accepting on the banner starts it the same way.
+  const consent = useCookieConsent();
+  useEffect(() => {
+    if (consent !== "accepted" || mounted) return;
+    let timer = 0;
+    const go = () => {
+      timer = window.setTimeout(() => warmBooking(), 1200);
+    };
+    if (document.readyState === "complete") go();
+    else window.addEventListener("load", go, { once: true });
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("load", go);
+    };
+  }, [consent, mounted]);
 
   // Ready: Trafft's page fires its load event a second or two before its
   // services and times are drawn, then posts its first message to us. The

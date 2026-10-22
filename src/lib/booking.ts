@@ -9,8 +9,9 @@ import { track } from "./analytics";
 // The calendar is Trafft's own page in an iframe. Building it from our side
 // costs nothing, but Trafft's page then takes seconds to load (its own
 // server, then about 20 scripts, then the services and prices). So once the
-// reader has accepted cookies and a booking stop comes near, the iframe is
-// built in a hidden sheet and left to load ("warm"). The click then only
+// reader has accepted cookies, the iframe is built in a hidden sheet shortly
+// after each page loads, or as soon as a booking stop comes near, and left to
+// load ("warm"). The click then only
 // plays the opening animation over a calendar that is already there. Nothing
 // from trafft.com is requested before consent, and never in the pre-render.
 //

@@ -370,7 +370,8 @@ describe("desktop stops (768px and up)", () => {
     const media = css.lastIndexOf("@media", at);
     expect(css.slice(media, css.indexOf("{", media)).trim()).toBe("@media (min-width: 768px) and (prefers-reduced-motion: no-preference)");
     const guides = readFileSync(join(__dirname, "..", "components", "SnapGuides.tsx"), "utf8");
-    expect(guides.match(/> \.md\\\\:contents > section"/g)?.length).toBe(2);
+    // The two screen lists, and a desktop group's sections.
+    expect(guides.match(/> \.md\\\\:contents > section"/g)?.length).toBe(3);
   });
 
   const area = () => (

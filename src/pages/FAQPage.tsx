@@ -572,7 +572,7 @@ const FAQPage = () => {
       {/* Phone: still have questions and explore more are one screen. */}
       <div className={`${SNAP_PHONE_CLASS} md:contents`}>
       {/* Still have questions? */}
-      <section className="border-t border-mhts-stone bg-card pb-4 pt-6 md:py-20 print:hidden">
+      <section className="border-t border-mhts-stone bg-card pb-4 pt-6 md:py-10 print:hidden">
         <div className="container mx-auto px-4 max-w-3xl">
           <div className="mb-4 text-center md:mb-10">
             <h2 className="mb-3 text-3xl text-mhts-ink md:text-4xl">
@@ -648,7 +648,7 @@ const FAQPage = () => {
       </section>
 
       {/* Related */}
-      <section className="bg-mhts-sand pb-6 pt-5 md:py-16 print:hidden">
+      <section className="bg-mhts-sand pb-6 pt-5 md:py-8 print:hidden">
         <div className="container mx-auto px-4 max-w-5xl">
           <h2 className="mb-4 text-center text-2xl text-mhts-ink md:mb-8 md:text-3xl">
             Explore more
