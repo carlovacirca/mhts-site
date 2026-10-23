@@ -73,6 +73,9 @@ describe("GoogleReviews carousel", () => {
     // The Google profile with its reviews, not Maps (Carlo, Oct 2026).
     expect(link).toHaveAttribute("href", expect.stringContaining("google.com/search"));
     expect(link.getAttribute("href")).not.toContain("/maps");
+    // The listing by its own id, opened on its reviews.
+    expect(link.getAttribute("href")).toContain("ludocid=15138365109365130453");
+    expect(link.getAttribute("href")).toContain("#lrd=0x487667362cdc6c67:0xd21646dc47e044d5,1");
     expect(link).toHaveAttribute("rel", expect.stringContaining("noopener"));
   });
 
