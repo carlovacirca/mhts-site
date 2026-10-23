@@ -21,11 +21,14 @@ export const ADDRESS = {
 } as const;
 
 /**
- * The studio's Google Business Profile, with its reviews (Carlo, Oct 2026:
- * "See us on Google" took readers to a map pin, not the profile). A search
- * for the business by name opens its profile panel.
+ * The studio's Google Business Profile, opened on its reviews (Carlo, Oct
+ * 2026: "See us on Google" took readers to a map pin, not the profile). The
+ * profile itself, by its own id, not a search for the name: ludocid is the
+ * listing's id (decimal of 0xd21646dc47e044d5, "Men's Hair To Stay -
+ * Amersham Hair Replacement"), and #lrd opens its reviews.
  */
-export const GOOGLE_PROFILE_URL = "https://www.google.com/search?q=Men%27s+Hair+To+Stay+Amersham+reviews";
+export const GOOGLE_PROFILE_URL =
+  "https://www.google.com/search?q=Men%27s+Hair+To+Stay+-+Amersham+Hair+Replacement&ludocid=15138365109365130453#lrd=0x487667362cdc6c67:0xd21646dc47e044d5,1";
 
 /** The studio on Google Maps, for directions. */
 export const GOOGLE_MAPS_URL =
