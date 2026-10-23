@@ -29,6 +29,19 @@ const setReducedMotion = (matches: boolean) => {
   });
 };
 
+// The reader scrolls the reviews onto the screen: the autoplay only runs
+// while they are there (src/test/setup.ts drives the observer by hand).
+type TestObserver = { root: Element | null; targets: Set<Element>; fire: (e: Partial<IntersectionObserverEntry>[]) => void };
+const scrollReviewsIntoView = (visible = true) => {
+  const track = screen.getByTestId("reviews-track");
+  const all = (window.IntersectionObserver as unknown as { instances: TestObserver[] }).instances;
+  act(() => {
+    for (const o of all) {
+      if (o.root === null && o.targets.has(track)) o.fire([{ target: track, isIntersecting: visible }]);
+    }
+  });
+};
+
 describe("GoogleReviews carousel", () => {
   let scrollTo: ReturnType<typeof vi.fn>;
 
@@ -72,8 +85,33 @@ describe("GoogleReviews carousel", () => {
     expect(container.querySelector('script[type="application/ld+json"]')).toBeNull();
   });
 
+  it("stays on the first review until the reader scrolls to it", () => {
+    render(<GoogleReviews />);
+    act(() => {
+      vi.advanceTimersByTime(30000);
+    });
+    expect(scrollTo).not.toHaveBeenCalled();
+    // On screen at last: the first review still gets its full six seconds.
+    scrollReviewsIntoView();
+    act(() => {
+      vi.advanceTimersByTime(5000);
+    });
+    expect(scrollTo).not.toHaveBeenCalled();
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+    expect(scrollTo).toHaveBeenCalledTimes(1);
+    // Scrolled away: it stops again.
+    scrollReviewsIntoView(false);
+    act(() => {
+      vi.advanceTimersByTime(30000);
+    });
+    expect(scrollTo).toHaveBeenCalledTimes(1);
+  });
+
   it("autoplays to the next review after 6 seconds", () => {
     render(<GoogleReviews />);
+    scrollReviewsIntoView();
     expect(scrollTo).not.toHaveBeenCalled();
     act(() => {
       vi.advanceTimersByTime(6000);
@@ -87,6 +125,7 @@ describe("GoogleReviews carousel", () => {
 
   it("pauses on hover and starts again when the pointer leaves", () => {
     render(<GoogleReviews />);
+    scrollReviewsIntoView();
     const root = screen.getByTestId("reviews-carousel");
 
     fireEvent.mouseEnter(root);
@@ -104,6 +143,7 @@ describe("GoogleReviews carousel", () => {
 
   it("pauses on keyboard focus and on a touch", () => {
     render(<GoogleReviews />);
+    scrollReviewsIntoView();
     const root = screen.getByTestId("reviews-carousel");
 
     fireEvent.focus(screen.getByRole("link", { name: /See us on Google/ }));
@@ -123,6 +163,7 @@ describe("GoogleReviews carousel", () => {
   it("never autoplays for a reader who has asked for reduced motion", () => {
     setReducedMotion(true);
     render(<GoogleReviews />);
+    scrollReviewsIntoView();
     act(() => {
       vi.advanceTimersByTime(60000);
     });
