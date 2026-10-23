@@ -361,6 +361,17 @@ const MHTSLanding = () => {
 
       </div>
 
+      {/* ─── BOOK: the booking stop, the main thing after the hero, straight
+          after the treatments (Carlo, Oct 2026) ─── */}
+      <BookingStage
+        id="mhts-book"
+        className={`${S} scroll-mt-24`}
+        source="home_stop"
+        eyebrow="Online booking calendar"
+        title="Book Your Free Consultation"
+        lede="See the times and prices, then book in about a minute. You get an email confirmation straight away."
+      />
+
       {/* ─── 6. FAQ, four questions ─── */}
       <section className={`${S} mhts-home-faq bg-card py-10 md:bg-mhts-sand md:py-12`}>
         <div className="container mx-auto px-4">
@@ -478,16 +489,6 @@ const MHTSLanding = () => {
           </div>
         </div>
       </section>
-
-      {/* ─── 8. BOOK: the booking stop, the main thing after the hero ─── */}
-      <BookingStage
-        id="mhts-book"
-        className={`${S} scroll-mt-24`}
-        source="home_stop"
-        eyebrow="Online booking calendar"
-        title="Book Your Free Consultation"
-        lede="See the times and prices, then book in about a minute. You get an email confirmation straight away."
-      />
 
       {/* ─── 9 and the final band share one screen from md up (Carlo, Oct
           2026: each alone left most of a desktop screen empty). ─── */}
