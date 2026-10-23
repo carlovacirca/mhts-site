@@ -412,7 +412,9 @@ const FAQPage = () => {
         </section>
       )}
       {groups.map((ids, k) => (
-        <section key={k} className="flex flex-col justify-center bg-mhts-sand px-4 py-4 md:py-10">
+        // Every group alike: the same parts, and one zoom for all of them
+        // (data-snap-same, SnapGuides), so no stop is bigger than another.
+        <section key={k} data-snap-same="faq" className="flex flex-col justify-center bg-mhts-sand px-4 py-4 md:py-10">
           <div className="mx-auto w-full max-w-4xl">
             <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-slate md:mb-4">
               Questions {ids[0] + 1} to {ids[ids.length - 1] + 1} of {filtered.length}
@@ -479,9 +481,6 @@ const FAQPage = () => {
                 );
               })}
             </ul>
-            {/* Share and print close the questions from md up; a phone has its
-                own share button, and nothing to print on. */}
-            {k === groups.length - 1 && <div className="mt-6 hidden md:block">{shareRow}</div>}
           </div>
         </section>
       ))}
@@ -493,9 +492,9 @@ const FAQPage = () => {
       {/* Phone: still have questions and explore more are one screen. */}
       <div className={`${SNAP_PHONE_CLASS} md:contents`}>
       {/* Still have questions? */}
-      <section className="border-t border-mhts-stone bg-card pb-4 pt-6 md:py-10 print:hidden">
+      <section className="border-t border-mhts-stone bg-card pb-4 pt-6 md:pb-5 md:pt-8 print:hidden">
         <div className="container mx-auto px-4 max-w-3xl">
-          <div className="mb-4 text-center md:mb-10">
+          <div className="mb-4 text-center md:mb-6">
             <h2 className="mb-3 text-3xl text-mhts-ink md:text-4xl">
               Still have questions?
             </h2>
@@ -565,11 +564,14 @@ const FAQPage = () => {
               </a>
             </div>
           </div>
+          {/* Share and print, from md up; a phone has its own share button,
+              and nothing to print on. */}
+          {filtered.length > 0 && <div className="mt-4 hidden md:block [&>div]:md:mt-0 [&>div]:pt-4">{shareRow}</div>}
         </div>
       </section>
 
       {/* Related */}
-      <section className="bg-mhts-sand pb-6 pt-5 md:py-8 print:hidden">
+      <section className="bg-mhts-sand pb-6 pt-5 md:py-6 print:hidden">
         <div className="container mx-auto px-4 max-w-5xl">
           <h2 className="mb-4 text-center text-2xl text-mhts-ink md:mb-8 md:text-3xl">
             Explore more

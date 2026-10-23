@@ -334,6 +334,27 @@ export const fitScreens = () => {
     }
   };
   for (const el of document.querySelectorAll<HTMLElement>(phone ? PHONE_FIT_SCREENS : FIT_SCREENS)) fit(el);
+  // Screens of a set (data-snap-same="name", the FAQ page's groups of
+  // questions) all take the smallest zoom in the set, so every one of them is
+  // the same size (Carlo, Oct 2026: the last group came out bigger).
+  const sets = new Map<string, HTMLElement[]>();
+  document.querySelectorAll<HTMLElement>("[data-snap-same]").forEach((el) => {
+    const name = el.dataset.snapSame!;
+    sets.set(name, [...(sets.get(name) ?? []), el]);
+  });
+  for (const members of sets.values()) {
+    const zooms = members.map((el) => (el.dataset.snapFit ? parseFloat(el.style.getPropertyValue("--snap-zoom")) || 1 : 1));
+    const least = Math.min(...zooms);
+    for (const el of members) {
+      if (Math.abs(least - 1) < 0.01) {
+        el.removeAttribute("data-snap-fit");
+        el.style.removeProperty("--snap-zoom");
+      } else {
+        el.dataset.snapFit = "section";
+        el.style.setProperty("--snap-zoom", least.toFixed(4));
+      }
+    }
+  }
   if (ungrouped.length) {
     ungrouped.forEach((g) => g.setAttribute("data-snap-ungroup", ""));
     for (const g of ungrouped) {
