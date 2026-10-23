@@ -35,8 +35,9 @@ export const SECTION_SNAP = true;
 //     so for a reader who has asked for reduced motion it is off completely:
 //     no snapping and no full-screen sizing.
 //   - Sections are sized with 100svh less the sticky header and, on a phone,
-//     the bottom Call and Book bar. scroll-padding keeps the header, the bar
-//     and the cookie banner (its live height, --mhts-cookie-h) off the content.
+//     the bottom Call and Book bar. scroll-padding keeps the header and the
+//     bar off the content. The cookie banner sits over the foot of a stop
+//     while it is open; allowing for it made stops taller than the snap room.
 //   - A section taller than the screen is still a single snap area, and the
 //     browser lets the reader scroll through it freely. Nothing is trapped.
 //   - All content is in the page from the first byte, pre-rendered as before.

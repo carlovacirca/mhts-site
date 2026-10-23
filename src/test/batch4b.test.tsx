@@ -121,7 +121,10 @@ describe("section scroll switch", () => {
     expect(css).toMatch(/\.mhts-snap-section\s*\{[^}]*min-height:\s*calc\(var\(--snap-screen\) \+ var\(--snap-bottom\)\)/);
     expect(css).toMatch(/--snap-screen:\s*calc\(100svh - var\(--snap-header\) - var\(--snap-bottom\)\)/);
     expect(css).toMatch(/scroll-padding-top:\s*var\(--snap-header\)/);
-    expect(css).toMatch(/scroll-padding-bottom:\s*calc\(var\(--snap-bottom\) \+ var\(--mhts-cookie-h\)\)/);
+    // The cookie banner sits over the foot of a stop; it never resizes the
+    // stops, which made them taller than the snap room (Carlo, Oct 2026).
+    expect(css).toMatch(/scroll-padding-bottom:\s*var\(--snap-bottom\);/);
+    expect(css).not.toMatch(/scroll-padding-bottom:[^;]*--mhts-cookie-h/);
     const snapBlock = css.slice(css.indexOf("Section scroll (batch 4b"));
     expect(snapBlock).not.toMatch(/100vh/);
   });
