@@ -1476,15 +1476,13 @@ html[data-snap-measuring] :is([data-stop-item], [data-stop-draw], [data-stop-med
   background: hsl(var(--mhts-sand));
 }
 
-/* Never carried past: a fling or a wheel notch cannot skip this stop. */
+/* Never carried past: one scroll, fling or wheel notch cannot skip this stop.
+   The browser's own rule only. A script that also switched the stops beyond
+   it off and on while a scroll approached made the page jump back between
+   the treatments and the booking stop on a laptop (Carlo, Oct 2026). */
 @media (prefers-reduced-motion: no-preference) {
   .mhts-snap-site .mhts-snap-must {
     scroll-snap-stop: always;
-  }
-  /* bookingHold.ts: the snap positions beyond a booking stop are switched off
-     while a fast scroll approaches it, so it lands on the stop. */
-  html:not([data-snap-measuring]) [data-snap-hold] {
-    scroll-snap-align: none !important;
   }
 }
 

@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { SECTION_SNAP } from "@/lib/sectionSnap";
 import { startStopMotion } from "@/lib/stopMotion";
-import { startBookingHold } from "@/lib/bookingHold";
 import { FIT_SCREENS, SCREENS } from "./SnapGuides";
 
 // The arrival motion at every scroll stop ("Arrive", src/lib/stopMotion.ts).
@@ -18,20 +17,16 @@ const StopMotion = () => {
   useEffect(() => {
     if (!SECTION_SNAP) return;
     let teardown = () => {};
-    let stopHold = () => {};
     // Two frames: after ScrollToTop has placed the page and SnapGuides has
     // fitted it, so what is on screen is known.
     let frame = requestAnimationFrame(() => {
       frame = requestAnimationFrame(() => {
         teardown = startStopMotion(STOPS);
-        // A wheel scroll is never carried past a booking stop (bookingHold.ts).
-        stopHold = startBookingHold();
       });
     });
     return () => {
       cancelAnimationFrame(frame);
       teardown();
-      stopHold();
     };
   }, [pathname]);
   return null;
