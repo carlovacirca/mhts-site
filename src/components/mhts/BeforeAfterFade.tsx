@@ -109,7 +109,9 @@ const BeforeAfterFade = ({
           </span>
         </div>
       </div>
-      <figcaption className="mt-2.5 text-center font-body text-xs text-muted-foreground">{caption}</figcaption>
+      {/* For screen readers only: no words under the photographs (Carlo,
+          Oct 2026). */}
+      <figcaption className="sr-only">{caption}</figcaption>
     </figure>
   );
 };

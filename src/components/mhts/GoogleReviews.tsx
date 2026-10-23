@@ -98,20 +98,49 @@ const GoogleReviews = ({ compact = false }: { compact?: boolean } = {}) => {
 
   // Autoplay. Paused by hover, by keyboard focus anywhere inside, by a touch,
   // and switched off entirely for a reader who has asked for reduced motion.
+  // It only runs while the reviews are on screen: until the reader gets to
+  // them they stay on the first review (Carlo, Oct 2026: it had already moved
+  // to the third by the time he scrolled down to it).
+  const inViewRef = useRef(false);
   useEffect(() => {
     if (reduced) return;
     // From md up the reviews are a plain row of three, so there is nothing to
     // advance.
     if (typeof window.matchMedia === "function" && window.matchMedia("(min-width: 768px)").matches) return;
+    const track = trackRef.current;
+    let last = Date.now();
+    let watcher: IntersectionObserver | null = null;
+    if (track && typeof IntersectionObserver !== "undefined") {
+      watcher = new IntersectionObserver(
+        ([entry]) => {
+          // Arriving starts the count again, so the first review gets its
+          // full time on screen.
+          if (entry.isIntersecting && !inViewRef.current) last = Date.now();
+          inViewRef.current = entry.isIntersecting;
+        },
+        { threshold: 0.6 },
+      );
+      watcher.observe(track);
+    } else {
+      inViewRef.current = true;
+    }
     const timer = window.setInterval(() => {
-      if (pausedRef.current) return;
+      if (pausedRef.current || !inViewRef.current) {
+        last = Date.now();
+        return;
+      }
+      if (Date.now() - last < AUTOPLAY_MS) return;
+      last = Date.now();
       setActive((current) => {
         const next = (current + 1) % reviews.length;
         scrollToIndex(next);
         return next;
       });
-    }, AUTOPLAY_MS);
-    return () => window.clearInterval(timer);
+    }, 250);
+    return () => {
+      window.clearInterval(timer);
+      watcher?.disconnect();
+    };
   }, [reduced, scrollToIndex]);
 
   const pause = () => {
