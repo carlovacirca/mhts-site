@@ -51,7 +51,7 @@ const PrivacyPolicyPage = () => {
             Privacy Policy
           </h1>
           <p className="max-w-xl font-body text-lg text-muted-foreground">
-            Last updated: 12 July 2026
+            Last updated: 21 October 2026
           </p>
           {/* Phone only: the contents list, as rows, completes the first
               screen. From lg up it is the rail beside the text. */}
@@ -185,11 +185,12 @@ const PrivacyPolicyPage = () => {
             </h2>
             <p className="mb-4">
               Our online booking calendar (provided by Trafft) sets cookies once you accept
-              them via the cookie banner on this site, including Google Ads remarketing
+              them, on the cookie banner or on the booking calendar's own card, including Google Ads remarketing
               cookies that may be used to show you relevant ads on other websites. These
               cookies are only set after you actively accept them, if you decline, the
               booking widget won't load, and you can still reach us by phone or email
-              instead.
+              instead. Once you have accepted, the calendar may start loading quietly shortly after
+              a page loads, so it opens straight away when you choose it.
             </p>
             <p>
               We also use Google Analytics 4 (GA4) to understand how visitors use this site, for example, which pages are popular and how people navigate around, so we
@@ -238,7 +239,11 @@ const PrivacyPolicyPage = () => {
 
           </div>
           <div className={`${SNAP_PHONE_CLASS} md:contents`}>
-          <div className="border-t border-mhts-stone py-6 md:py-9">
+          {/* From md the contact details and the call to action side by side,
+              so the last stop is never the call to action alone (Carlo, Oct
+              2026). */}
+          <div className="md:grid md:grid-cols-2 md:items-start md:gap-8 md:border-t md:border-mhts-stone md:pt-9">
+          <div className="border-t border-mhts-stone py-6 md:border-t-0 md:py-0">
             <h2 id="contact-us-about-your-data" className="mb-4 scroll-mt-28 text-2xl text-mhts-ink">
               Contact us about your data
             </h2>
@@ -267,16 +272,17 @@ const PrivacyPolicyPage = () => {
           {/* The call to action closes the policy: on a phone its last
               screen, from md up its last stop (Carlo, Oct 2026: as a band of
               its own it was a near-empty stop). */}
-          <div className="mhts-fill-chain rounded-2xl bg-mhts-deep px-5 py-6 text-center md:mt-4 md:px-10 md:py-10">
+          <div className="mhts-fill-chain rounded-2xl bg-mhts-deep px-5 py-6 text-center md:px-8 md:py-10">
             <h2 className="mb-4 text-2xl text-white">Ready to get started?</h2>
-            <CtaPair size="lg" tone="dark" label="Book Free Consultation" className="justify-center" />
-            {/* The studio, filling the rest of the screen. */}
+            <CtaPair size="lg" tone="dark" label="Book Free Consultation" className="items-center justify-center md:flex-col 2xl:flex-row" />
+            {/* The studio, filling the rest of the screen (from md, the stop). */}
             <ResponsiveImage
               src={studioWide}
               alt="The Men's Hair To Stay studio in Amersham"
-              className="mhts-fill mt-5 aspect-[16/10] w-full rounded-xl object-cover md:hidden"
+              className="mhts-fill mt-5 aspect-[16/10] w-full rounded-xl object-cover md:aspect-[5/2]"
               sizes="100vw"
             />
+          </div>
           </div>
           </div>
         </div>

@@ -256,7 +256,9 @@ export const startStopMotion = (selector: string): (() => void) => {
       if (el.matches("img, iframe") || el.querySelector("[data-stop-media], img, iframe") || clipped(el, stop)) write(el, "data-stop-fade");
     }
 
-    write(stop, "data-stop-style", String((offset + armed.length) % STYLES));
+    // A stop with an arrival of its own (the booking stop, data-arrive="book")
+    // always arrives that way; the others keep their rotating styles.
+    write(stop, "data-stop-style", stop.dataset.arrive || String((offset + armed.length) % STYLES));
     write(stop, "data-stop", "armed");
     armed.push(stop);
   }

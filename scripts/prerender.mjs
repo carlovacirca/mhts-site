@@ -47,6 +47,7 @@ const NOT_FOUND_PROBE = "/__prerender_404__";
 const FORBIDDEN_IN_HTML = [
   { name: "GA4 loader", pattern: /googletagmanager\.com/ },
   { name: "Trafft embed", pattern: /trafft\.com\/embed\.js/ },
+  { name: "Trafft calendar", pattern: /trafft\.com\/booking-embed/ },
 ];
 
 const settle = async (page) => {

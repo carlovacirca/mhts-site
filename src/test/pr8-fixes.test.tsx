@@ -106,7 +106,7 @@ describe("opening hours, one wording from one source", () => {
   });
 
   it("the words live in src/lib/site.ts and nowhere else", () => {
-    for (const file of ["components/Footer.tsx", "components/OpeningHours.tsx", "components/mhts/BookingPanel.tsx", "pages/ContactPage.tsx"]) {
+    for (const file of ["components/Footer.tsx", "components/OpeningHours.tsx", "components/mhts/BookingStage.tsx", "pages/ContactPage.tsx"]) {
       expect(src(file), file).not.toMatch(/9:30am to 5pm|Closed Saturday to Monday/);
     }
     expect(src("lib/site.ts")).toMatch(/HOURS_OPEN = "Tuesday to Friday, 9:30am to 5pm"/);

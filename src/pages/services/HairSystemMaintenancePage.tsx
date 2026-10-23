@@ -5,8 +5,8 @@ import { useJsonLd, useCanonical, useOpenGraph, serviceSchema, breadcrumbSchema 
 import ServicePage from "@/components/mhts/ServicePage";
 
 const pricingRows = [
-  { name: "Hair System Reattachment & Restyling", price: "Quoted at your consultation", note: "Regroom · 1x adhesive" },
-  { name: "Hair System Base Clean & Reattach", price: "Quoted at your consultation", note: "Regroom · 2x adhesive, includes base clean" },
+  { name: "Hair System Reattachment & Restyling", price: "£60", note: "Regroom · 1x adhesive" },
+  { name: "Hair System Base Clean & Reattach", price: "£65", note: "Regroom · 2x adhesive, includes base clean" },
   { name: "Hair System Full Maintenance Package", price: "Contact us for pricing" },
 ];
 

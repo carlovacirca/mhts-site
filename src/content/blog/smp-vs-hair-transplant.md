@@ -6,8 +6,8 @@ metaDescription: "A straight comparison of scalp micropigmentation and hair tran
 category: Hair Loss Solutions
 publishDate: 2026-08-17
 readTime: 9 min read
-heroImage: "@/assets/mhts-consultation-room-hero.jpg"
-heroImageAlt: The private consultation room at the Men's Hair To Stay studio in Amersham, with barber chair, mirror and branded banner
+heroImage: "@/assets/mhts-svc-smp-consultation.jpg"
+heroImageAlt: Scalp micropigmentation pigments in five shades beside hairline design sketches on a consultation table
 faqs:
   - q: Is SMP cheaper than a hair transplant?
     a: The two are structured differently rather than simply higher or lower. Surgery is one large commitment, sometimes repeated. SMP is a short course of sessions with very little afterwards. You get a personalized quote for SMP at a free consultation, with no obligation attached.

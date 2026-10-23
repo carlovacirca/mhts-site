@@ -58,7 +58,9 @@ describe("GoogleReviews carousel", () => {
     expect(screen.getAllByText("Google review")).toHaveLength(3);
     expect(screen.getByRole("heading", { name: "Our Google reviews" })).toBeInTheDocument();
     const link = screen.getByRole("link", { name: /See us on Google/ });
-    expect(link).toHaveAttribute("href", expect.stringContaining("google.com/maps"));
+    // The Google profile with its reviews, not Maps (Carlo, Oct 2026).
+    expect(link).toHaveAttribute("href", expect.stringContaining("google.com/search"));
+    expect(link.getAttribute("href")).not.toContain("/maps");
     expect(link).toHaveAttribute("rel", expect.stringContaining("noopener"));
   });
 

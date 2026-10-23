@@ -20,7 +20,14 @@ export const ADDRESS = {
   country: "GB",
 } as const;
 
-/** The studio on Google. The only Google listing link this repo has. */
+/**
+ * The studio's Google Business Profile, with its reviews (Carlo, Oct 2026:
+ * "See us on Google" took readers to a map pin, not the profile). A search
+ * for the business by name opens its profile panel.
+ */
+export const GOOGLE_PROFILE_URL = "https://www.google.com/search?q=Men%27s+Hair+To+Stay+Amersham+reviews";
+
+/** The studio on Google Maps, for directions. */
 export const GOOGLE_MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=11+Chesham+Road%2C+Amersham+HP6+5HN";
 

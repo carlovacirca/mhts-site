@@ -302,6 +302,11 @@
 .mhts-snap-x {
   scrollbar-width: none;
   -ms-overflow-style: none;
+  /* The strip holds anything positioned inside it (a card's screen-reader
+     text, sr-only, is absolutely positioned): otherwise that text sat at the
+     far end of the strip, outside its clipping, and made the whole page 945px
+     wide, so a phone zoomed the homepage out to fit it. */
+  position: relative;
 }
 .mhts-snap-x::-webkit-scrollbar {
   display: none;
@@ -763,6 +768,23 @@
     min-height: 0;
     flex: none;
   }
+  /* A group that will not fit this screen (SnapGuides sets data-snap-ungroup):
+     each of its sections is a stop of its own, as if it were the page's. */
+  .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-desk[data-snap-ungroup] {
+    scroll-snap-align: none;
+    min-height: 0;
+  }
+  .mhts-snap-site .mhts-snap-desk[data-snap-ungroup] > section:not(.mhts-snap-before-footer),
+  .mhts-snap-site .mhts-snap-desk[data-snap-ungroup] > .md\:contents > section:not(.mhts-snap-before-footer),
+  .mhts-snap-site .mhts-snap-page .mhts-snap-desk[data-snap-ungroup] > .mhts-snap-section {
+    scroll-snap-align: start;
+    scroll-margin-top: 0;
+    min-height: var(--snap-screen);
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
   /* The last band takes what is left, so the screen ends on its colour. */
   .mhts-snap-site .mhts-snap-desk > section:last-child,
   .mhts-snap-site .mhts-snap-desk > .md\:contents:last-child > section:last-child,
@@ -1191,4 +1213,362 @@ html[data-snap-measuring] :is([data-stop-item], [data-stop-draw], [data-stop-med
   main.mhts-page-in {
     animation: mhts-page-in 450ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
+}
+
+/* ── The booking stop (BookingStage.tsx) ──
+   Carlo, Oct 2026: the booking stop is the main thing wherever it appears,
+   second only to the home hero. A dark stage, a red glow behind one big desk
+   calendar of the studio's week; the card is the button. */
+.mhts-book-glow {
+  pointer-events: none;
+  background:
+    radial-gradient(90% 55% at 50% 78%, hsl(var(--mhts-red) / 0.38), transparent 70%),
+    radial-gradient(70% 40% at 50% 0%, hsl(var(--mhts-red-deep) / 0.22), transparent 70%);
+}
+.mhts-book-paper {
+  pointer-events: none;
+  background-image: radial-gradient(hsl(0 0% 100% / 0.07) 1px, transparent 1.5px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(70% 60% at 50% 70%, #000 30%, transparent 80%);
+}
+@media (min-width: 1024px) {
+  .mhts-book-glow {
+    background:
+      radial-gradient(45% 75% at 74% 55%, hsl(var(--mhts-red) / 0.42), transparent 70%),
+      radial-gradient(40% 60% at 0% 100%, hsl(var(--mhts-red-deep) / 0.25), transparent 70%);
+  }
+  .mhts-book-paper {
+    mask-image: radial-gradient(55% 75% at 72% 52%, #000 30%, transparent 80%);
+  }
+}
+.mhts-book-stage {
+  padding-top: 1.5rem;
+  padding-bottom: 1.25rem;
+}
+@media (min-width: 768px) {
+  .mhts-book-stage {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
+
+/* The live dot by the eyebrow. */
+.mhts-live-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: hsl(var(--mhts-red-light));
+  box-shadow: 0 0 0 0 hsl(var(--mhts-red-light) / 0.6);
+}
+
+/* The card: a desk calendar. A fixed height from md up; on a phone it takes
+   what the words leave (mhts-fill), at least 17rem. */
+.mhts-book-card {
+  height: 22rem;
+  border-radius: 1.25rem;
+  background: hsl(var(--mhts-sand));
+  color: hsl(var(--mhts-ink));
+  overflow: hidden;
+  box-shadow:
+    0 30px 90px -24px hsl(var(--mhts-red) / 0.6),
+    0 0 0 1px hsl(0 0% 100% / 0.06);
+  transition: translate 220ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 220ms ease;
+}
+@media (min-width: 768px) {
+  .mhts-book-card {
+    height: 24rem;
+    border-radius: 1.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .mhts-book-card {
+    height: 26rem;
+  }
+}
+@media (max-width: 767.98px) and (prefers-reduced-motion: no-preference) {
+  .mhts-snap-site .mhts-book-card.mhts-fill {
+    height: auto;
+    min-height: 17rem;
+  }
+}
+@media (hover: hover) {
+  .mhts-book-card:has(.mhts-book-face:hover) {
+    translate: 0 -3px;
+    box-shadow:
+      0 40px 100px -24px hsl(var(--mhts-red) / 0.75),
+      0 0 0 1px hsl(0 0% 100% / 0.1);
+  }
+  .mhts-book-face:hover .mhts-book-go {
+    translate: 4px 0;
+  }
+}
+.mhts-book-face:active {
+  scale: 0.99;
+}
+.mhts-book-face:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 4px;
+  border-radius: inherit;
+}
+
+/* Its red band, the call to action. */
+.mhts-book-band {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  color: #fff;
+  background: linear-gradient(120deg, hsl(var(--mhts-red)), hsl(var(--mhts-red-deep)));
+}
+@media (min-width: 768px) {
+  .mhts-book-band {
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+  }
+}
+.mhts-book-icon {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  background: hsl(0 0% 100% / 0.16);
+}
+.mhts-book-go {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  background: #fff;
+  color: hsl(var(--mhts-red-deep));
+  transition: translate 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (min-width: 768px) {
+  .mhts-book-icon {
+    width: 3rem;
+    height: 3rem;
+  }
+  .mhts-book-go {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+}
+
+/* The week: Monday and the weekend closed, Tuesday to Friday lit. */
+.mhts-book-week {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  flex-direction: column;
+  padding: 0.75rem 0.875rem 0.875rem;
+}
+@media (min-width: 768px) {
+  .mhts-book-week {
+    padding: 1.25rem 1.5rem 1.5rem;
+  }
+}
+.mhts-book-days,
+.mhts-book-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 5px;
+}
+@media (min-width: 768px) {
+  .mhts-book-days,
+  .mhts-book-grid {
+    gap: 8px;
+  }
+}
+.mhts-book-days {
+  margin-bottom: 0.5rem;
+  text-align: center;
+  font-family: var(--font-body, inherit);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+@media (min-width: 768px) {
+  .mhts-book-days {
+    font-size: 12px;
+  }
+}
+.mhts-book-grid {
+  flex: 1 1 auto;
+  min-height: 4.5rem;
+}
+.mhts-book-col {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+@media (min-width: 768px) {
+  .mhts-book-col {
+    gap: 8px;
+  }
+}
+.mhts-book-tile {
+  position: relative;
+  flex: 1 1 0;
+  display: grid;
+  place-items: center;
+  border-radius: 0.375rem;
+  background: hsl(var(--mhts-red-tint));
+  border: 1px solid hsl(var(--mhts-red) / 0.18);
+  overflow: hidden;
+}
+.mhts-book-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: hsl(var(--mhts-red) / 0.28);
+  opacity: 0;
+}
+.mhts-book-picked {
+  border-color: transparent;
+  background: hsl(var(--mhts-red));
+  color: #fff;
+  box-shadow: 0 6px 16px -6px hsl(var(--mhts-red) / 0.8);
+}
+.mhts-book-closed {
+  position: relative;
+  display: grid;
+  place-items: center;
+  border-radius: 0.375rem;
+  background: repeating-linear-gradient(
+    135deg,
+    hsl(var(--mhts-ink) / 0.06) 0 6px,
+    transparent 6px 12px
+  );
+}
+.mhts-book-closed > span {
+  display: none;
+  writing-mode: vertical-rl;
+  rotate: 180deg;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: hsl(var(--mhts-ink) / 0.4);
+}
+@media (min-width: 1024px) {
+  .mhts-book-closed > span {
+    display: block;
+  }
+}
+
+/* The consent face: the same card, turned. */
+.mhts-book-consent {
+  background: hsl(var(--mhts-sand));
+}
+
+/* Never carried past: a fling or a wheel notch cannot skip this stop. */
+@media (prefers-reduced-motion: no-preference) {
+  .mhts-snap-site .mhts-snap-must {
+    scroll-snap-stop: always;
+  }
+  /* bookingHold.ts: the snap positions beyond a booking stop are switched off
+     while a fast scroll approaches it, so it lands on the stop. */
+  html:not([data-snap-measuring]) [data-snap-hold] {
+    scroll-snap-align: none !important;
+  }
+}
+
+/* Motion, only for readers who have not asked for less. */
+@media (prefers-reduced-motion: no-preference) {
+  /* Idle, while the stop is on screen and the calendar is not open: a slow
+     scan down the open slots, as if someone is picking a time, and the dot
+     breathing. */
+  html:not([data-booking-open]) .mhts-book-stage[data-live] .mhts-book-tile:not(.mhts-book-picked)::after {
+    animation: mhts-book-scan 6.4s ease-in-out infinite;
+    animation-delay: calc(1.4s + var(--slot, 0) * 120ms);
+  }
+  html:not([data-booking-open]) .mhts-book-stage[data-live] .mhts-live-dot {
+    animation: mhts-live-dot 1.8s ease-out infinite;
+  }
+  html:not([data-booking-open]) .mhts-book-stage[data-live] .mhts-book-glow {
+    animation: mhts-book-breathe 4.8s ease-in-out infinite alternate;
+  }
+
+  /* The stop's own arrival (data-arrive="book" in stopMotion.ts): the card
+     rises and tips forward into place, the open days fill one after another,
+     the picked slot pops in and the arrow nudges. */
+  html[data-stops] [data-stop="armed"][data-stop-style="book"] .mhts-book-cardwrap[data-stop-item] {
+    translate: 0 28px;
+    scale: 0.96;
+  }
+  html[data-stops] [data-stop="armed"][data-stop-style="book"] .mhts-book-col {
+    clip-path: inset(0 0 100% 0 round 0.5rem);
+    opacity: 0.2;
+  }
+  html[data-stops] [data-stop="in"][data-stop-style="book"] .mhts-book-col {
+    transition:
+      clip-path 520ms var(--stop-ease) calc(380ms + var(--col, 0) * 70ms),
+      opacity 520ms var(--stop-ease) calc(380ms + var(--col, 0) * 70ms);
+  }
+  html[data-stops] [data-stop="armed"][data-stop-style="book"] .mhts-book-picked {
+    opacity: 0;
+    scale: 0.6;
+  }
+  html[data-stops] [data-stop="in"][data-stop-style="book"] .mhts-book-picked {
+    transition:
+      opacity 420ms ease 760ms,
+      scale 420ms cubic-bezier(0.34, 1.56, 0.64, 1) 760ms;
+  }
+  html[data-stops] [data-stop="armed"][data-stop-style="book"] .mhts-book-glow {
+    opacity: 0;
+  }
+  html[data-stops] [data-stop="in"][data-stop-style="book"] .mhts-book-glow {
+    transition: opacity 900ms ease-out;
+  }
+  html[data-stops] [data-stop="in"][data-stop-style="book"] .mhts-book-go {
+    animation: mhts-book-nudge 900ms ease-in-out 900ms 1;
+  }
+  @media (min-width: 1024px) {
+    html[data-stops] [data-stop="armed"][data-stop-style="book"] .mhts-book-cardwrap[data-stop-item] {
+      rotate: x 12deg;
+    }
+    html[data-stops] [data-stop][data-stop-style="book"] .mhts-book-cardwrap {
+      transform-origin: center bottom;
+    }
+    html[data-stops] [data-stop="in"][data-stop-style="book"] .mhts-book-cardwrap[data-stop-item] {
+      transition:
+        opacity var(--stop-fade) var(--stop-ease) var(--stop-delay),
+        translate var(--stop-move) var(--stop-ease) var(--stop-delay),
+        scale var(--stop-move) var(--stop-ease) var(--stop-delay),
+        rotate var(--stop-move) var(--stop-ease) var(--stop-delay);
+    }
+  }
+}
+html[data-snap-measuring] :is(.mhts-book-col, .mhts-book-picked, .mhts-book-cardwrap) {
+  translate: none !important;
+  scale: none !important;
+  rotate: none !important;
+  clip-path: none !important;
+  transition: none !important;
+}
+@keyframes mhts-book-scan {
+  0%, 100% { opacity: 0; }
+  3% { opacity: 1; }
+  9% { opacity: 0; }
+}
+@keyframes mhts-live-dot {
+  0% { box-shadow: 0 0 0 0 hsl(var(--mhts-red-light) / 0.6); }
+  100% { box-shadow: 0 0 0 10px hsl(var(--mhts-red-light) / 0); }
+}
+@keyframes mhts-book-breathe {
+  from { opacity: 0.75; }
+  to { opacity: 1; }
+}
+@keyframes mhts-book-nudge {
+  0%, 50%, 100% { translate: 0 0; }
+  25%, 75% { translate: 6px 0; }
 }

@@ -6,8 +6,8 @@ metaDescription: Nervous about booking? Exactly what happens at a free confident
 category: Expert Tips
 publishDate: 2026-08-31
 readTime: 8 min read
-heroImage: "@/assets/mhts-studio-wide-hero.jpg"
-heroImageAlt: The Men's Hair To Stay studio in Amersham, showing the chair, workstation and basin
+heroImage: "@/assets/mhts-svc-density-treatment-consultation.jpg"
+heroImageAlt: A specialist examining a client's scalp with a magnifying camera, the hair and scalp shown on a screen, during a hair loss consultation
 faqs:
   - q: Is the consultation really free, with no catch?
     a: Yes. It is free, there is no deposit, and there is no obligation to book anything. The purpose is to give you an accurate picture of your options so you can make a decision in your own time, without anyone selling to you.
