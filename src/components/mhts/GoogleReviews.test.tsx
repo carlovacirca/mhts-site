@@ -12,12 +12,13 @@ const REVIEW_OPENINGS = [
   "The salon is friendly and welcoming",
 ];
 
+let canHover = false;
 const setReducedMotion = (matches: boolean) => {
   Object.defineProperty(window, "matchMedia", {
     writable: true,
     configurable: true,
     value: (query: string) => ({
-      matches: query.includes("prefers-reduced-motion") ? matches : false,
+      matches: query.includes("prefers-reduced-motion") ? matches : query.includes("hover: hover") ? canHover : false,
       media: query,
       onchange: null,
       addListener: () => {},
@@ -30,16 +31,13 @@ const setReducedMotion = (matches: boolean) => {
 };
 
 // The reader scrolls the reviews onto the screen: the autoplay only runs
-// while they are there (src/test/setup.ts drives the observer by hand).
-type TestObserver = { root: Element | null; targets: Set<Element>; fire: (e: Partial<IntersectionObserverEntry>[]) => void };
+// while their middle is inside the window (jsdom has no layout, so the
+// track's position is set by hand).
 const scrollReviewsIntoView = (visible = true) => {
   const track = screen.getByTestId("reviews-track");
-  const all = (window.IntersectionObserver as unknown as { instances: TestObserver[] }).instances;
-  act(() => {
-    for (const o of all) {
-      if (o.root === null && o.targets.has(track)) o.fire([{ target: track, isIntersecting: visible }]);
-    }
-  });
+  const top = visible ? 200 : 2000;
+  track.getBoundingClientRect = () =>
+    ({ top, bottom: top + 300, left: 0, right: 390, width: 390, height: 300, x: 0, y: top, toJSON: () => ({}) }) as DOMRect;
 };
 
 describe("GoogleReviews carousel", () => {
@@ -53,6 +51,7 @@ describe("GoogleReviews carousel", () => {
   });
 
   afterEach(() => {
+    canHover = false;
     vi.useRealTimers();
   });
 
@@ -124,6 +123,7 @@ describe("GoogleReviews carousel", () => {
   });
 
   it("pauses on hover and starts again when the pointer leaves", () => {
+    canHover = true;
     render(<GoogleReviews />);
     scrollReviewsIntoView();
     const root = screen.getByTestId("reviews-carousel");
@@ -146,6 +146,7 @@ describe("GoogleReviews carousel", () => {
     scrollReviewsIntoView();
     const root = screen.getByTestId("reviews-carousel");
 
+    fireEvent.keyDown(window, { key: "Tab" });
     fireEvent.focus(screen.getByRole("link", { name: /See us on Google/ }));
     act(() => {
       vi.advanceTimersByTime(12000);
@@ -158,6 +159,35 @@ describe("GoogleReviews carousel", () => {
       vi.advanceTimersByTime(12000);
     });
     expect(scrollTo).not.toHaveBeenCalled();
+  });
+
+  it("on a phone a touch pauses only while the finger is down", () => {
+    render(<GoogleReviews />);
+    scrollReviewsIntoView();
+    const root = screen.getByTestId("reviews-carousel");
+    // A phone "hovers" on every tap and never leaves: that must not stop it.
+    fireEvent.mouseEnter(root);
+    fireEvent.touchStart(root);
+    act(() => {
+      vi.advanceTimersByTime(12000);
+    });
+    expect(scrollTo).not.toHaveBeenCalled();
+    fireEvent.touchEnd(root);
+    act(() => {
+      vi.advanceTimersByTime(6000);
+    });
+    expect(scrollTo).toHaveBeenCalledTimes(1);
+  });
+
+  it("a tap's focus does not stop it; only keyboard focus does", () => {
+    render(<GoogleReviews />);
+    scrollReviewsIntoView();
+    fireEvent.pointerDown(window);
+    fireEvent.focus(screen.getByRole("link", { name: /See us on Google/ }));
+    act(() => {
+      vi.advanceTimersByTime(6000);
+    });
+    expect(scrollTo).toHaveBeenCalledTimes(1);
   });
 
   it("never autoplays for a reader who has asked for reduced motion", () => {

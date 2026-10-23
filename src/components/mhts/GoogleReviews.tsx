@@ -101,7 +101,6 @@ const GoogleReviews = ({ compact = false }: { compact?: boolean } = {}) => {
   // It only runs while the reviews are on screen: until the reader gets to
   // them they stay on the first review (Carlo, Oct 2026: it had already moved
   // to the third by the time he scrolled down to it).
-  const inViewRef = useRef(false);
   useEffect(() => {
     if (reduced) return;
     // From md up the reviews are a plain row of three, so there is nothing to
@@ -109,23 +108,20 @@ const GoogleReviews = ({ compact = false }: { compact?: boolean } = {}) => {
     if (typeof window.matchMedia === "function" && window.matchMedia("(min-width: 768px)").matches) return;
     const track = trackRef.current;
     let last = Date.now();
-    let watcher: IntersectionObserver | null = null;
-    if (track && typeof IntersectionObserver !== "undefined") {
-      watcher = new IntersectionObserver(
-        ([entry]) => {
-          // Arriving starts the count again, so the first review gets its
-          // full time on screen.
-          if (entry.isIntersecting && !inViewRef.current) last = Date.now();
-          inViewRef.current = entry.isIntersecting;
-        },
-        { threshold: 0.6 },
-      );
-      watcher.observe(track);
-    } else {
-      inViewRef.current = true;
-    }
+    // On screen: the reviews' middle is inside the window. Worked out from
+    // their position on every tick rather than by an IntersectionObserver,
+    // which Safari can get wrong on a screen shrunk to fit (CSS zoom).
+    const onScreen = () => {
+      if (!track) return true;
+      const r = track.getBoundingClientRect();
+      const middle = (r.top + r.bottom) / 2;
+      return r.height > 0 && middle > 0 && middle < window.innerHeight;
+    };
     const timer = window.setInterval(() => {
-      if (pausedRef.current || !inViewRef.current) {
+      const seen = onScreen();
+      // Arriving starts the count again, so the first review gets its full
+      // time on screen.
+      if (!seen || pausedRef.current) {
         last = Date.now();
         return;
       }
@@ -137,18 +133,35 @@ const GoogleReviews = ({ compact = false }: { compact?: boolean } = {}) => {
         return next;
       });
     }, 250);
-    return () => {
-      window.clearInterval(timer);
-      watcher?.disconnect();
-    };
+    return () => window.clearInterval(timer);
   }, [reduced, scrollToIndex]);
 
+  // What pauses it (Carlo, Oct 2026: on his phone the reviews never moved,
+  // because the touch that scrolled the page down to them paused them for
+  // good). A touch pauses only while the finger is down: the count starts
+  // again when it lifts. Hovering pauses on a computer with a mouse only (a
+  // phone "hovers" on every tap and never leaves), and focus only when it
+  // comes from the keyboard.
   const pause = () => {
     pausedRef.current = true;
   };
   const resume = () => {
     pausedRef.current = false;
   };
+  const canHover = () => typeof window.matchMedia === "function" && window.matchMedia("(hover: hover)").matches;
+  const keyboardRef = useRef(false);
+  useEffect(() => {
+    const key = () => (keyboardRef.current = true);
+    const point = () => (keyboardRef.current = false);
+    window.addEventListener("keydown", key, true);
+    window.addEventListener("pointerdown", point, true);
+    window.addEventListener("touchstart", point, true);
+    return () => {
+      window.removeEventListener("keydown", key, true);
+      window.removeEventListener("pointerdown", point, true);
+      window.removeEventListener("touchstart", point, true);
+    };
+  }, []);
 
   const go = (delta: number) => {
     const next = (active + delta + reviews.length) % reviews.length;
@@ -159,12 +172,13 @@ const GoogleReviews = ({ compact = false }: { compact?: boolean } = {}) => {
   return (
     <div
       data-testid="reviews-carousel"
-      onMouseEnter={pause}
+      onMouseEnter={() => canHover() && pause()}
       onMouseLeave={resume}
-      onFocusCapture={pause}
+      onFocusCapture={() => keyboardRef.current && pause()}
       onBlurCapture={resume}
       onTouchStart={pause}
-      onPointerDown={pause}
+      onTouchEnd={resume}
+      onTouchCancel={resume}
     >
       {/* Header card: the Google logo, five stars, and the way out to the listing.
           It and each review arrive with their stop (data-stop-item,
