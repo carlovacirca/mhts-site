@@ -491,7 +491,8 @@
                     only the screen's own background ever sits under it
                     (batch 4b fixes, PR #8). None on a desktop.
      --mhts-cookie-h the cookie banner's live height, set by the banner while
-                    it is open and 0 otherwise. */
+                    it is open and 0 otherwise. Scroll snap does not use it:
+                    the banner sits over the foot of a stop while it is open. */
 :root {
   --snap-header: 81px;
   --snap-bottom: 4.5rem;
@@ -514,7 +515,12 @@
   html:has(.mhts-snap-page) {
     scroll-snap-type: y mandatory;
     scroll-padding-top: var(--snap-header);
-    scroll-padding-bottom: calc(var(--snap-bottom) + var(--mhts-cookie-h));
+    /* The cookie banner is not allowed for here or in the screens' borders:
+       it sits over the foot of the screen while it is open. Allowing for it
+       made every stop taller than the room between the header and the
+       banner, and a stop taller than that lets the page rest anywhere in it
+       (Carlo, Oct 2026: the stops "bugging" until cookies were answered). */
+    scroll-padding-bottom: var(--snap-bottom);
   }
 
   .mhts-snap-page .mhts-snap-section {
@@ -529,7 +535,7 @@
     /* The bottom bar's band and, while the cookie banner is open, its height
        too, so nothing sits under either. The border is transparent: the
        section's own background shows through it. */
-    border-bottom: calc(var(--snap-bottom) + var(--mhts-cookie-h)) solid transparent;
+    border-bottom: var(--snap-bottom) solid transparent;
   }
 
   /* The hero's snap point is the very top of the page and it fills the first
@@ -540,7 +546,7 @@
     min-height: var(--snap-first-screen);
     /* The hero is the whole first screen: the bar stays out of it (it carries
        its own Book and Call buttons, StickyMobileCTA). */
-    border-bottom-width: var(--mhts-cookie-h);
+    border-bottom-width: 0;
     justify-content: flex-start;
     align-items: stretch;
   }
@@ -569,7 +575,7 @@
     /* The bar's band is inside each screen (its bottom border), not padding
        on the page, so a stop aligned to its end (the footer, the end of a
        screen taller than the phone) rests on the bottom edge. */
-    scroll-padding-bottom: var(--mhts-cookie-h);
+    scroll-padding-bottom: 0;
   }
 
   /* A screen: a page's own top-level section, or any block marked
@@ -588,7 +594,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    border-bottom: calc(var(--snap-bottom) + var(--mhts-cookie-h)) solid transparent;
+    border-bottom: var(--snap-bottom) solid transparent;
   }
   /* The homepage's sections are screens at every width; on a phone they too
      start at the top. */
@@ -654,7 +660,7 @@
   .mhts-snap-site > :not(.mhts-snap-proximity) > .mhts-snap-phone:first-child {
     scroll-margin-top: 0;
     min-height: var(--snap-first-screen);
-    border-bottom-width: var(--mhts-cookie-h);
+    border-bottom-width: 0;
   }
 
   /* Anchors inside a screen, as on the homepage. */
