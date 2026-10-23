@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import { motion, Reveal } from "@/lib/motion";
+import { motion } from "@/lib/motion";
 import { BookButton, CallButton } from "@/components/mhts/CtaButtons";
 import { useSeo, breadcrumbSchema } from "@/lib/seo";
-import { SNAP_PHONE_CLASS, SNAP_SPLIT_CLASS } from "@/lib/sectionSnap";
+import { SNAP_PHONE_CLASS } from "@/lib/sectionSnap";
 import {
   Search,
   ChevronDown,
@@ -16,7 +16,6 @@ import {
   Mail,
   Phone,
   ChevronRight,
-  CalendarCheck,
   HelpCircle,
 } from "lucide-react";
 
@@ -134,66 +133,26 @@ const faqs: FAQ[] = [
 const categories: ("All" | Category)[] = ["All", "Hair Systems", "SMP", "General"];
 
 /**
- * Phone: the questions are split into screens. The split is worked out here,
- * before render, from each item's height on a 390px phone, so the
- * pre-rendered page and the live one agree. A closed question is two lines
- * tall at least on a phone (126px), the booking band after every fifth
- * question is a list item of its own (226px), the first answer is open on
- * arrival, and the last screen also holds the share and print row. Each
- * screen aims for about 90% of one phone screen and stays between about 72%
- * and 104%. From md up the split changes nothing: the screens are
- * display:contents and the list is one column, as before.
- *
- * Returns the screens as lists of units: a question's index, or -(i + 1) for
- * the booking band after question i.
+ * The questions in groups of four, each group one stop on every screen size
+ * (Carlo, Oct 2026: stops of 2, then 1, then 0, then 1 questions). The groups
+ * are balanced, so a filter that leaves 10 questions gives 4, 3 and 3, never a
+ * stop with one question left over.
  */
-// Aimed a little short of a full 844px phone, so a phone with its browser
-// bars showing (about 750px) still fits each screen (Carlo, Oct 2026).
-const SCREEN = 595;
-const MIN = 525;
-const MAX = 650;
-const GAP = 12;
-const SHARE = 107;
-const BAND = 226;
+const PER_STOP = 4;
 
-const questionHeight = (f: FAQ, open: boolean) =>
-  78 + 24 * Math.max(2, Math.ceil(f.q.length / 34)) + (open ? 24 + 26 * Math.ceil(f.a.length / 42) : 0);
-
-const screensFor = (items: FAQ[], openIdx: number | null): number[][] => {
-  const units: number[] = [];
-  const h: number[] = [];
-  items.forEach((f, i) => {
-    units.push(i);
-    h.push(questionHeight(f, i === openIdx));
-    if ((i + 1) % 5 === 0 && i !== items.length - 1) {
-      units.push(-(i + 1));
-      h.push(BAND);
-    }
-  });
-  h.push(SHARE);
-  const n = h.length;
-  // Best split into consecutive screens: each between MIN and MAX tall where
-  // possible, as close to SCREEN as possible.
-  const cost = (from: number, to: number) => {
-    const height = h.slice(from, to).reduce((a, b) => a + b, 0) + GAP * (to - from - 1);
-    const out = height < MIN ? MIN - height : height > MAX ? height - MAX : 0;
-    return (height - SCREEN) ** 2 + out * out * 100;
-  };
-  const best: number[] = [0];
-  const cut: number[] = [0];
-  for (let to = 1; to <= n; to++) {
-    best[to] = Infinity;
-    for (let from = 0; from < to; from++) {
-      const c = best[from] + cost(from, to);
-      if (c < best[to]) {
-        best[to] = c;
-        cut[to] = from;
-      }
-    }
+const groupsOf = <T,>(items: T[]): T[][] => {
+  if (!items.length) return [];
+  const count = Math.ceil(items.length / PER_STOP);
+  const base = Math.floor(items.length / count);
+  const extra = items.length % count;
+  const groups: T[][] = [];
+  let at = 0;
+  for (let g = 0; g < count; g++) {
+    const size = base + (g < extra ? 1 : 0);
+    groups.push(items.slice(at, at + size));
+    at += size;
   }
-  const screens: number[][] = [];
-  for (let to = n; to > 0; to = cut[to]) screens.unshift(units.slice(cut[to], Math.min(to, units.length)));
-  return screens;
+  return groups;
 };
 
 const slug = (s: string) =>
@@ -202,7 +161,7 @@ const slug = (s: string) =>
 const FAQPage = () => {
   const [query, setQuery] = useState("");
   const [activeCat, setActiveCat] = useState<"All" | Category>("All");
-  const [openIdx, setOpenIdx] = useState<number | null>(0);
+  const [openIdx, setOpenIdx] = useState<number | null>(null);
 
   // SEO
   useSeo({
@@ -245,9 +204,8 @@ const FAQPage = () => {
     });
   }, [activeCat, query]);
 
-  // Worked out with the first question open, as it is on arrival, so opening
-  // and closing questions never moves one to another screen.
-  const screens = useMemo(() => screensFor(filtered, 0), [filtered]);
+  // The questions' indexes in filtered, in groups of four (groupsOf above).
+  const groups = useMemo(() => groupsOf(filtered.map((_, i) => i)), [filtered]);
 
   const shareUrl = typeof window !== "undefined" ? window.location.href : "";
   const shareText = "Hair Systems & SMP FAQ, Men's Hair To Stay";
@@ -294,33 +252,6 @@ const FAQPage = () => {
             ))}
           </div>
             </div>
-  );
-
-  // The booking band after every fifth question, a list item of its own so a
-  // phone screen can start or end with it. From md up the margins put it the
-  // same 24px below its question and above the next, as before.
-  const bandItem = (after: number) => (
-    <li key={`band-${after}`} className="md:mb-3 md:mt-3">
-      <Reveal
-        from="scale"
-        className="relative flex flex-col items-center gap-3 overflow-hidden rounded-xl bg-mhts-deep p-5 text-white md:flex-row md:gap-6 md:p-8"
-      >
-        <CalendarCheck className="hidden h-10 w-10 flex-shrink-0 text-mhts-red-light md:block" />
-        <div className="flex-1 text-center md:text-left">
-          <h3 className="font-semibold text-lg">
-            Ready to take the next step?
-          </h3>
-          <p className="text-sm text-mhts-white/75">
-            Book a free, confidential consultation with our specialists.
-          </p>
-        </div>
-        {/* Call sits beside Book on every call to action. */}
-        <div className="flex flex-col sm:flex-row gap-2 shrink-0">
-          <BookButton size="md" href="/#mhts-book" />
-          <CallButton size="md" tone="dark" label="Call us" />
-        </div>
-      </Reveal>
-    </li>
   );
 
   const shareRow = (
@@ -452,118 +383,108 @@ const FAQPage = () => {
         </div>
       </section>
 
-      {/* FAQ list, with the search and filter rail beside it */}
-      <section className={`${SNAP_SPLIT_CLASS} container mx-auto px-4 md:pb-16 md:pt-10`}>
-        <div className="mx-auto grid max-w-6xl gap-8">
-          {/* Not sticky: with the desktop stops it would slide under the header
-              at the end of the list (Carlo, Oct 2026: nothing cut off). */}
-          <aside className="hidden md:block lg:self-start print:hidden">
-            {rail}
-          </aside>
-          <div>
-          {filtered.length === 0 ? (
-            <div className="text-center py-16 text-mhts-slate">
-              <HelpCircle className="w-12 h-12 mx-auto mb-4 opacity-40" />
-              <p className="text-lg">No questions match your search.</p>
-              <button
-                onClick={() => {
-                  setQuery("");
-                  setActiveCat("All");
-                }}
-                className="mt-4 text-mhts-red-deep hover:underline"
-              >
-                Clear filters
-              </button>
-            </div>
-          ) : (
-            // Phone: the questions in screens (screensFor above). From md up
-            // the screens and lists are display:contents, so the questions are
-            // one column 12px apart, as before.
-            <div className="flex flex-col gap-3">
-              {screens.map((ids, k) => (
-                <div key={k} className={`${SNAP_PHONE_CLASS} gap-3 py-4 md:contents`}>
-                  <ul className="flex flex-col gap-3 md:contents">
-                    {ids.map((unit) => {
-                      if (unit < 0) return bandItem(-unit - 1);
-                      const i = unit;
-                      const f = filtered[i];
-                      const id = slug(f.q);
-                      const isOpen = openIdx === i;
-                      return (
-                        // Each question is one <li>; the booking band every five
-                        // questions sits inside the same item, so the list holds only
-                        // list items (it held bare divs before, which Lighthouse flags).
-                        <li key={id}>
-                          <motion.div
-                            id={id}
-                            layout
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.3, delay: Math.min(i * 0.03, 0.3) }}
-                            className={`overflow-hidden rounded-xl border bg-mhts-white shadow-sm transition-all hover:shadow-md ${isOpen ? "border-mhts-red" : "border-mhts-stone"}`}
-                          >
-                            <button
-                              onClick={() => setOpenIdx(isOpen ? null : i)}
-                              className="w-full flex items-start justify-between gap-4 px-5 py-6 md:px-6 md:py-7 text-left"
-                              aria-expanded={isOpen}
-                              aria-controls={`${id}-content`}
-                            >
-                              <span className="mt-0.5 hidden w-8 shrink-0 font-body text-sm font-bold tabular-nums text-mhts-red-deep sm:block md:text-base" aria-hidden="true">
-                                {String(i + 1).padStart(2, "0")}
-                              </span>
-                              <div className="flex-1">
-                                <span className="mb-1.5 inline-block text-xs font-semibold uppercase tracking-wider text-mhts-red-deep">
-                                  {f.category}
-                                </span>
-                                {/* Two lines tall at least on a phone, so every closed
-                                    question is the same height and the screens below
-                                    divide evenly. */}
-                                <h2 className="min-h-12 text-base font-semibold text-mhts-charcoal md:min-h-0 md:text-xl">
-                                  {f.q}
-                                </h2>
-                              </div>
-                              <motion.div
-                                animate={{ rotate: isOpen ? 180 : 0 }}
-                                transition={{ duration: 0.2 }}
-                                className={`mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${isOpen ? "bg-mhts-red" : "bg-mhts-red-tint"}`}
-                              >
-                                <ChevronDown className={`h-4 w-4 ${isOpen ? "text-white" : "text-mhts-red-deep"}`} />
-                              </motion.div>
-                            </button>
-                            <AnimatePresence initial={false}>
-                              {isOpen && (
-                                <motion.div
-                                  id={`${id}-content`}
-                                  initial={{ height: 0, opacity: 0 }}
-                                  animate={{ height: "auto", opacity: 1 }}
-                                  exit={{ height: 0, opacity: 0 }}
-                                  transition={{ duration: 0.25 }}
-                                  className="overflow-hidden"
-                                >
-                                  <div className="px-5 pb-6 leading-relaxed text-mhts-slate sm:pl-[3.75rem] md:pr-10 md:text-lg">
-                                    {f.a}
-                                  </div>
-                                </motion.div>
-                              )}
-                            </AnimatePresence>
-                          </motion.div>
-
-                        </li>
-                      );
-                    })}
-                  </ul>
-                  {k === screens.length - 1 && shareRow}
-                </div>
-              ))}
-            </div>
-          )}
-
-          {filtered.length === 0 && shareRow}
-          </div>
-        </div>
+      {/* From md up the search and the category filter finish the first
+          stop, under the title. */}
+      <section className="hidden bg-mhts-sand px-4 pb-8 pt-6 md:block print:hidden">
+        <div className="mx-auto max-w-4xl">{rail}</div>
       </section>
-
       </div>
+
+      {/* The questions, four to a stop on every screen (groupsOf above). */}
+      {filtered.length === 0 && (
+        <section className="bg-mhts-sand px-4 py-10">
+          <div className="mx-auto max-w-4xl">
+            <div className="text-center py-16 text-mhts-slate">
+                <HelpCircle className="w-12 h-12 mx-auto mb-4 opacity-40" />
+                <p className="text-lg">No questions match your search.</p>
+                <button
+                  onClick={() => {
+                    setQuery("");
+                    setActiveCat("All");
+                  }}
+                  className="mt-4 text-mhts-red-deep hover:underline"
+                >
+                  Clear filters
+                </button>
+              </div>
+            {shareRow}
+          </div>
+        </section>
+      )}
+      {groups.map((ids, k) => (
+        <section key={k} className="flex flex-col justify-center bg-mhts-sand px-4 py-4 md:py-10">
+          <div className="mx-auto w-full max-w-4xl">
+            <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.18em] text-mhts-slate md:mb-4">
+              Questions {ids[0] + 1} to {ids[ids.length - 1] + 1} of {filtered.length}
+            </p>
+            <ul className="flex flex-col gap-2.5 [@media(min-height:760px)]:gap-4 md:gap-3">
+              {ids.map((i) => {
+                const f = filtered[i];
+                const id = slug(f.q);
+                const isOpen = openIdx === i;
+                return (
+                  <li key={id}>
+                    <motion.div
+                      id={id}
+                      layout
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: Math.min(i * 0.03, 0.3) }}
+                      className={`overflow-hidden rounded-xl border bg-mhts-white shadow-sm transition-all hover:shadow-md ${isOpen ? "border-mhts-red" : "border-mhts-stone"}`}
+                    >
+                      <button
+                        onClick={() => setOpenIdx(isOpen ? null : i)}
+                        className="w-full flex items-start justify-between gap-3 px-4 py-4 [@media(min-height:760px)]:py-6 md:gap-4 md:px-6 md:py-7 text-left"
+                        aria-expanded={isOpen}
+                        aria-controls={`${id}-content`}
+                      >
+                        <span className="mt-0.5 hidden w-8 shrink-0 font-body text-sm font-bold tabular-nums text-mhts-red-deep sm:block md:text-base" aria-hidden="true">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <div className="flex-1">
+                          <span className="mb-1 inline-block text-xs font-semibold uppercase tracking-wider text-mhts-red-deep md:mb-1.5">
+                            {f.category}
+                          </span>
+                          <h2 className="text-base font-semibold leading-snug text-mhts-charcoal [@media(min-height:760px)]:text-lg md:text-xl">
+                            {f.q}
+                          </h2>
+                        </div>
+                        <motion.div
+                          animate={{ rotate: isOpen ? 180 : 0 }}
+                          transition={{ duration: 0.2 }}
+                          className={`mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${isOpen ? "bg-mhts-red" : "bg-mhts-red-tint"}`}
+                        >
+                          <ChevronDown className={`h-4 w-4 ${isOpen ? "text-white" : "text-mhts-red-deep"}`} />
+                        </motion.div>
+                      </button>
+                      <AnimatePresence initial={false}>
+                        {isOpen && (
+                          <motion.div
+                            id={`${id}-content`}
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25 }}
+                            className="overflow-hidden"
+                          >
+                            <div className="px-5 pb-6 leading-relaxed text-mhts-slate sm:pl-[3.75rem] md:pr-10 md:text-lg">
+                              {f.a}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+
+                  </li>
+                );
+              })}
+            </ul>
+            {/* Share and print close the questions from md up; a phone has its
+                own share button, and nothing to print on. */}
+            {k === groups.length - 1 && <div className="mt-6 hidden md:block">{shareRow}</div>}
+          </div>
+        </section>
+      ))}
 
       {/* From md up still have questions and explore more are one stop, the
           page's last before the footer (Carlo, Oct 2026). On a phone this
