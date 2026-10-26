@@ -10,6 +10,10 @@ import before3 from "@/assets/mhts-before-3.jpg";
 import after1 from "@/assets/mhts-after-1.jpg";
 import after2 from "@/assets/mhts-after-2.jpg";
 import after3 from "@/assets/mhts-after-3.jpg";
+import before4 from "@/assets/mhts-before-4.jpg";
+import after4 from "@/assets/mhts-after-4.jpg";
+import before5 from "@/assets/mhts-before-5.jpg";
+import after5 from "@/assets/mhts-after-5.jpg";
 import studioWide from "@/assets/mhts-studio-wide-hero-v2.jpg";
 import consultationRoom from "@/assets/mhts-consultation-room-hero-v2.jpg";
 
@@ -21,9 +25,29 @@ interface GalleryItem {
   service: string;
   category: Exclude<Category, "all">;
   alt: string;
+  /** Overrides the category's line under the title. */
+  blurb?: string;
 }
 
+// The two newest results first (Carlo, Oct 2026), from the studio's own
+// Instagram: faces turned away or covered by the studio's mask.
 const items: GalleryItem[] = [
+  {
+    before: before4,
+    after: after4,
+    service: "Full Poly Base Hair System",
+    category: "hair-systems",
+    alt: "Before and after full poly base hair system fitting, Men's Hair To Stay Amersham",
+    blurb: "A full poly base hair system, fitted, then cut and blended into his own hair at the studio.",
+  },
+  {
+    before: before5,
+    after: after5,
+    service: "Hair System Fitting and Cut",
+    category: "hair-systems",
+    alt: "Before and after hair system fitting and cut, Men's Hair To Stay Amersham",
+    blurb: "A custom hair system, colour matched to his own hair, fitted and cut into a short, natural style.",
+  },
   {
     before: before1,
     after: after1,
@@ -96,7 +120,7 @@ const ClientStop = ({ item, n }: { item: GalleryItem; n: number }) => (
         </p>
         <h2 className="text-2xl leading-tight text-white md:text-4xl">{item.service}</h2>
         <div className="mx-auto mt-3 h-0.5 w-12 bg-mhts-red lg:mx-0" />
-        <p className="mx-auto mt-3 max-w-md font-body text-sm leading-relaxed text-white/70 md:text-lg">{blurbs[item.category]}</p>
+        <p className="mx-auto mt-3 max-w-md font-body text-sm leading-relaxed text-white/70 md:text-lg">{item.blurb ?? blurbs[item.category]}</p>
       </div>
       <div className="mx-auto grid w-full grid-cols-2 gap-2 md:max-w-[calc((var(--snap-screen)_-_15rem)*1.6_+_1.5rem)] md:gap-6 lg:mx-0 lg:max-w-[calc((var(--snap-screen)_-_5rem)*1.6_+_1.5rem)] lg:flex-1">
         <Shot src={item.before} alt={`Before, ${item.service}`} label="Before" />
